@@ -1,0 +1,157 @@
+bliss 0.1.2
+    unit out out 488 258
+voice voice0 0 127 294 258 {
+    unit out out 488 258
+    unit freq dummy 17 177
+    unit f0 funk2 105 285
+    setfn f0 1/x
+    unit delay0 delay 277 254
+    unit noise0 noise 47 61
+    unit seg0 seg 154 123
+    set seg0 t0 0.000000
+    set seg0 y0 1.000000
+    set seg0 t1 0.020000
+    set seg0 y1 1.000000
+    unit 1zero0 onezero 328 421
+    unit f1 funk2 99 389
+    setfn f1 -1
+    connect freq f0 0
+    connect f0 delay0 1
+    connect delay0 out 0
+    connect delay0 1zero0 0
+    connect 1zero0 delay0 0
+    connect f1 1zero0 1
+    connect noise0 seg0 0
+    connect seg0 delay0 0
+}
+    connect voice0 out 0
+track {
+  1112 noteon 60 55
+  233 noteon 64 52
+  230 noteon 67 48
+  208 noteon 72 48
+  94 noteoff 67
+  118 noteoff 72
+  7 noteon 76 45
+  194 noteoff 76
+  24 noteon 67 49
+  201 noteon 72 51
+  28 noteoff 67
+  193 noteon 76 58
+  0 noteoff 72
+  115 noteoff 64
+  0 noteoff 60
+  96 noteon 60 59
+  210 noteon 64 59
+  26 noteoff 76
+  205 noteon 67 47
+  183 noteoff 67
+  20 noteon 72 52
+  213 noteon 76 55
+  0 noteoff 72
+  154 noteoff 76
+  66 noteon 67 49
+  221 noteon 72 52
+  89 noteoff 67
+  111 noteon 76 55
+  17 noteoff 72
+  71 noteoff 60
+  1 noteoff 64
+  149 noteon 60 60
+  186 noteon 62 59
+  45 noteoff 76
+  209 noteon 69 47
+  176 noteoff 69
+  11 noteon 74 56
+  222 noteon 77 51
+  2 noteoff 74
+  206 noteoff 77
+  11 noteon 69 39
+  207 noteon 74 45
+  1 noteoff 69
+  247 noteon 77 47
+  9 noteoff 74
+  47 noteoff 62
+  16 noteoff 60
+  132 noteon 60 53
+  169 noteoff 77
+  28 noteon 62 52
+  205 noteon 69 41
+  208 noteon 74 51
+  7 noteoff 69
+  224 noteon 77 55
+  6 noteoff 74
+  181 noteon 69 39
+  63 noteoff 77
+  166 noteon 74 48
+  1 noteoff 69
+  214 noteon 77 53
+  46 noteoff 74
+  2 noteoff 60
+  54 noteoff 62
+  128 noteon 59 60
+  104 noteoff 77
+  118 noteon 62 47
+  236 noteon 67 52
+  210 noteon 74 48
+  17 noteoff 67
+  211 noteon 77 59
+  21 noteoff 74
+  188 noteon 67 53
+  64 noteoff 77
+  149 noteon 74 48
+  16 noteoff 67
+  198 noteoff 74
+  12 noteon 77 58
+  69 noteoff 59
+  34 noteoff 62
+  108 noteon 59 48
+  183 noteoff 77
+  22 noteon 62 54
+  223 noteon 67 46
+  202 noteon 74 49
+  10 noteoff 67
+  231 noteon 77 33
+  15 noteoff 74
+  159 noteoff 77
+  13 noteon 67 49
+  230 noteon 74 57
+  23 noteoff 67
+  187 noteon 77 48
+  35 noteoff 74
+  117 noteoff 59
+  40 noteoff 62
+  12 noteon 60 48
+  186 noteoff 77
+  42 noteon 64 51
+  226 noteon 67 46
+  211 noteon 72 49
+  13 noteoff 67
+  198 noteoff 72
+  8 noteon 76 55
+  189 noteoff 76
+  21 noteon 67 43
+  199 noteon 72 56
+  27 noteoff 67
+  189 noteoff 72
+  17 noteon 76 53
+  90 noteoff 60
+  56 noteoff 64
+  58 noteon 60 55
+  199 noteon 64 61
+  95 noteoff 76
+  148 noteon 67 54
+  221 noteon 72 48
+  1 noteoff 67
+  221 noteon 76 48
+  0 noteoff 72
+  196 noteoff 76
+  35 noteon 67 47
+  221 noteon 72 50
+  11 noteoff 67
+  198 noteon 76 57
+  0 noteoff 72
+  258 noteoff 76
+  23 noteoff 64
+  1 noteoff 60
+}

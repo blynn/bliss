@@ -19,7 +19,12 @@ enum {
 
 static int interrupted = 0;
 
-int state;
+enum {
+    state_normal,
+    state_quit
+};
+
+static int state;
 
 static widget_t root;
 static widget_t compan;
@@ -397,7 +402,7 @@ static void main_loop(void)
 			event->button.x, event->button.y);
 		break;
 	    case SDL_KEYDOWN:
-		root->handle_keydown(root, event->key.keysym.sym,
+		root_key_down(event->key.keysym.sym,
 			event->key.keysym.mod);
 		break;
 	    default:
@@ -405,25 +410,6 @@ static void main_loop(void)
 	}
 	SDL_Flip(screen);
 	SDL_Delay(10);
-    }
-}
-
-static void root_handle_mousebuttondown(widget_ptr w, int button, int x, int y)
-{
-    int i;
-
-    if (state == state_textbox) {
-	state = state_normal;
-	textbox_update(textbox_selection);
-	textbox_selection = NULL;
-    }
-
-    for (i=0; i<w->show_list->count; i++) {
-	widget_ptr w1 = (widget_ptr) w->show_list->item[i];
-	if (local_contains(w1, x, y)) {
-	    w1->handle_mousebuttondown(w1, button, x - w1->globalx, y - w1->globaly);
-	    return;
-	}
     }
 }
 
@@ -446,8 +432,7 @@ static void init_root()
     root->localy = 0;
     root->globalx = 0;
     root->globaly = 0;
-    root->handle_mousebuttondown = root_handle_mousebuttondown;
-    //root->handle_keydown = root_handle_keydown;
+    root->handle_mousebuttondown = root_button_down;
     root->update = root_update;
 }
 

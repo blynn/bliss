@@ -21,5 +21,6 @@ void htable_remove(htable_ptr h, void *key);
 void htable_put(htable_ptr h, void *data, void *key);
 void *htable_at(htable_ptr h, void *key);
 int htable_has(htable_ptr h, void *key);
+void htable_forall(htable_ptr h, void (*func)(void *));
 
 #endif //HTABLE_H

@@ -18,7 +18,7 @@ void button_update(button_ptr b)
     */
 }
 
-static void button_button_up(widget_ptr w, int button, int x, int y, void *data)
+static int button_button_up(widget_ptr w, int button, int x, int y, void *data)
 {
     button_ptr p = (button_ptr) w;
     p->pushed = 0;
@@ -27,6 +27,7 @@ static void button_button_up(widget_ptr w, int button, int x, int y, void *data)
     if (widget_contains(p->w, x, y)) {
 	p->callback(p->data);
     }
+    return 0;
 }
 
 void button_handle_mousebuttondown(widget_ptr w, int button, int x, int y)

@@ -1,27 +1,17 @@
-//TODO: make these static inline?
 #ifndef WIDGET_H
 #define WIDGET_H
 
 #include <SDL.h>
 #include <string.h>
 
+#include "util.h"
 #include "darray.h"
 #include "colour.h"
 
-static inline char *strclone(char *s)
-{
-    char *res = malloc(strlen(s) + 1);
-    strcpy(res, s);
-    return res;
-}
-
 enum {
-    state_normal,
-    state_textbox,
-    state_quit
+    code_interrupt,
+    code_motion,
 };
-
-extern int state;
 
 typedef SDL_Rect rect_t[1];
 typedef SDL_Rect *rect_ptr;
@@ -37,7 +27,6 @@ struct widget_s {
     darray_t show_list;
     darray_t child;
     void (*handle_mousebuttondown)(widget_ptr w, int button, int x, int y);
-    void (*handle_keydown)(widget_ptr w, int sym, int mod);
     void (*update)(widget_ptr w);
     void (*put_size)(widget_ptr w, int x, int y);
 };
@@ -45,6 +34,9 @@ struct widget_s {
 typedef SDL_Surface image_t[1];
 typedef SDL_Surface *image_ptr;
 typedef SDL_Surface image_s;
+
+void enable_key_repeat();
+void disable_key_repeat();
 
 image_ptr image_new(int w, int h);
 void image_free(image_ptr img);
@@ -109,7 +101,7 @@ static inline void request_update_rect(widget_ptr w, rect_ptr r)
 {
     append_request(r->x + w->globalx, r->y + w->globaly, r->w, r->h);
 }
-void request_process();
+void process_request();
 
 typedef void (*motioncb)(widget_ptr, int x0, int y0, int x1, int y1, void *);
 typedef int (*keydowncb)(widget_ptr w, int sym, int mod, void *data);
@@ -126,12 +118,20 @@ typedef struct widget_callback_s *widget_callback_ptr;
 void widget_bind_mouse_motion(widget_ptr w, motioncb func, void *data);
 void widget_unbind_mouse_motion(widget_ptr w);
 
-typedef void (*buttoncbfunc)(widget_ptr, int button, int x, int y, void *);
-void widget_on_next_button_up(widget_ptr w, buttoncbfunc func, void *data);
+typedef int (*buttoncb)(widget_ptr, int button, int x, int y, void *);
+void widget_on_next_button_up(widget_ptr w, buttoncb func, void *data);
 
 void root_mouse_motion(int x0, int y0, int x1, int y1);
 void root_button_up(widget_ptr w, int button, int x, int y);
+void root_button_down(widget_ptr w, int button, int x, int y);
 void root_key_down(int sym, int mod);
 void widget_push_keydowncb(widget_ptr w, keydowncb func, void *data);
 void widget_pop_keydowncb();
+void widget_push_buttondowncb(widget_ptr w, buttoncb func, void *data);
+void widget_pop_buttondowncb();
+void motion_notify();
+void widget_hide_all(widget_ptr w);
+void screen_blit(image_ptr img, rect_ptr imgr, rect_ptr screenr);
+void screen_capture(rect_ptr screenr, image_ptr img);
+
 #endif //WIDGET_H

@@ -11,6 +11,7 @@ struct note_s {
     struct voice_s *voice;
     int is_off;
     int alive;
+    int noteno;
     gen_data_ptr *gen_data;
 };
 

@@ -1,7 +1,7 @@
-VERSION := 0.1.1
+VERSION := 0.1.2
+DEMOFILES := demo.bl shepard.bl stomper.bl pluck.bl dist.bl
 ALLFILES := *.bmp *.[ch] Makefile linux/*.[ch] win32/*.[ch] \
-	LICENSE README NEWS \
-	demo.bl shepard.bl stomper.bl
+	LICENSE README NEWS $(DEMOFILES)
 PROJNAME := bliss
 DISTNAME := $(PROJNAME)-$(VERSION)
 OS ?= linux
@@ -19,18 +19,20 @@ LIBS := $(SDL_LIBS)
 
 .PHONY: target dist clean
 
-UNITS := out.o lpf.o butterhpf.o \
-	clipper.o \
+UNITS := out.o dummy.o \
+	funk.o \
+	osc.o noise.o shepard.o random_wave.o stomperosc.o \
+	adsr.o stomperenv.o seg.o \
+	butterlpf.o butterhpf.o \
+	lp4pole.o \
 	onezero.o onepole.o twopole.o \
-	dummy.o osc.o funk.o adsr.o delay.o seg.o noise.o \
-	shepard.o \
-	random_wave.o lp4pole.o 
+	delay.o clipper.o
 ADTOBJS := darray.o htable.o graph.o
 AUDIOOBJS := audio.o midi.o ins.o voice.o note.o gen.o
 GFXOBJS := SDL_gfxPrimitives.o colour.o \
 	widget.o menu.o checkbox.o button.o label.o textbox.o window.o
 BLISSOBJS := $(UNITS) $(ADTOBJS) $(AUDIOOBJS) $(GFXOBJS) \
-	layout.o about.o file_window.o
+	layout.o about.o file_window.o compan.o canvas.o config.o
 
 ifeq ("$(OS)", "win32")
 BINARIES := bliss test
@@ -53,6 +55,9 @@ version.h : Makefile
 bliss : bliss.c $(BLISSOBJS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
+sine :sine.c audio.o
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+
 test :test.c $(AUDIOOBJS) $(ADTOBJS) $(UNITS)
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
@@ -70,10 +75,11 @@ ifeq ("$(OS)", "win32")
 zip : target
 	-rm -rf $(DISTNAME)
 	mkdir $(DISTNAME)
-	cp -l demo.bl $(DISTNAME)
+	cp -l $(DEMOFILES) $(DISTNAME)
 	cp -l *.bmp $(DISTNAME)
 	cp -l bliss $(DISTNAME)/bliss.exe
-	cp -l /home/ben/cross/SDL/lib/SDL.dll $(DISTNAME)
+	cp -l /home/ben/cross/SDL/bin/SDL.dll $(DISTNAME)
+	echo "latency 2048" > $(DISTNAME)/config.txt
 	zip $(DISTNAME)-win.zip $(DISTNAME)/*
 	-rm -rf $(DISTNAME)
 endif

@@ -20,23 +20,31 @@
 
 #include "about.h"
 #include "file_window.h"
-#include "version.h"
+#include "compan.h"
+#include "canvas.h"
 
 #include "htable.h"
 
-#define SQRT3 1.732051
+#include "config.h"
 
-image_ptr conimg;
+#include "version.h"
 
-int lastmousex, lastmousey;
+
+enum {
+    nav_voice,
+    nav_ins,
+};
+
+int navtype;
+void *navdata;
+void (*navplacecb)(int x, int y);
 
 htable_t vltab;
 layout_t ilp;
-layout_ptr layout;
 
 ins_t ins;
 
-//TODO: hash table for this
+//TODO: hash table for this?
 vertex_ptr vertex_with_id(layout_ptr lp, char *id)
 {
     int i;
@@ -72,36 +80,31 @@ uentry_ptr utable_at(char *id)
     return NULL;
 }
 
-enum {
-    place_unit = 1,
-    place_voice,
-};
-
-static struct {
-    int type;
-    image_ptr img, old;
-    rect_t r;
-    int flag;
-    uentry_ptr uentry;
-} to_place;
-
-extern gen_info_t clipper_info;
-extern gen_info_t noise_info;
-extern gen_info_t seg_info;
-extern gen_info_t adsr_info;
-extern gen_info_t osc_info;
 extern gen_info_t out_info;
-extern gen_info_t lpf_info;
+extern gen_info_t dummy_info;
+
+extern gen_info_t osc_info;
+extern gen_info_t shepard_info;
+extern gen_info_t random_wave_info;
+extern gen_info_t noise_info;
+extern gen_info_t stomperosc_info;
+
+extern gen_info_t adsr_info;
+extern gen_info_t stomperenv_info;
+extern gen_info_t seg_info;
+
+extern gen_info_t butterlpf_info;
 extern gen_info_t butterhpf_info;
 extern gen_info_t onezero_info;
 extern gen_info_t onepole_info;
 extern gen_info_t twopole_info;
 extern gen_info_t lp4pole_info;
-extern gen_info_t dummy_info;
+
+extern gen_info_t clipper_info;
+extern gen_info_t delay_info;
+
 gen_info_ptr funk_info_table[8];
 extern gen_info_ptr funk_info_n(int);
-
-extern gen_info_t shepard_info;
 
 static void init_utable()
 {
@@ -119,86 +122,32 @@ static void init_utable()
 	p->img = img;
 	darray_append(utable, p);
     }
-    add_entry("shepard", shepard_info, SDL_LoadBMP("shepard.bmp"));
-    add_entry("osc", osc_info, SDL_LoadBMP("sine.bmp"));
-    add_entry("adsr", adsr_info, SDL_LoadBMP("adsr.bmp"));
-    add_entry("seg", seg_info, SDL_LoadBMP("seg.bmp"));
-    add_entry("f", funk_info_table[2], SDL_LoadBMP("fx.bmp"));
     add_entry("out", out_info, NULL);
     add_entry("dummy", dummy_info, NULL);
+
+    add_entry("osc", osc_info, SDL_LoadBMP("sine.bmp"));
+    add_entry("noise", noise_info, SDL_LoadBMP("noise.bmp"));
+    add_entry("random", random_wave_info, SDL_LoadBMP("noise.bmp"));
+    add_entry("shepard", shepard_info, SDL_LoadBMP("shepard.bmp"));
+
+    add_entry("adsr", adsr_info, SDL_LoadBMP("adsr.bmp"));
+    add_entry("env", stomperenv_info, SDL_LoadBMP("stomperenv.bmp"));
+    add_entry("osc", stomperosc_info, SDL_LoadBMP("sine.bmp"));
+    add_entry("seg", seg_info, SDL_LoadBMP("seg.bmp"));
+
+    add_entry("lpf", butterlpf_info, SDL_LoadBMP("lpf.bmp"));
     add_entry("hpf", butterhpf_info, SDL_LoadBMP("hpf.bmp"));
+    add_entry("lpf", lp4pole_info, SDL_LoadBMP("lpf.bmp"));
     add_entry("1zero", onezero_info, SDL_LoadBMP("zero.bmp"));
     add_entry("1pole", onepole_info, SDL_LoadBMP("pole.bmp"));
     add_entry("2pole", twopole_info, SDL_LoadBMP("twopole.bmp"));
-    add_entry("lpf", lpf_info, SDL_LoadBMP("lpf.bmp"));
-    add_entry("lpf", lp4pole_info, SDL_LoadBMP("lpf.bmp"));
-    add_entry("noise", noise_info, SDL_LoadBMP("noise.bmp"));
+
+    add_entry("f", funk_info_table[2], SDL_LoadBMP("fx.bmp"));
     add_entry("clip", clipper_info, SDL_LoadBMP("clipper.bmp"));
+    add_entry("delay", delay_info, SDL_LoadBMP("delay.bmp"));
 }
 
 static SDL_Surface *screen;
-
-struct saved_rect_s {
-    widget_ptr w;
-    rect_t r;
-    image_ptr img;
-};
-typedef struct saved_rect_s saved_rect_t[1];
-typedef struct saved_rect_s *saved_rect_ptr;
-
-void saved_rect_get_ready(saved_rect_ptr p)
-{
-    p->img = NULL;
-}
-
-void restore_rect(saved_rect_ptr p)
-{
-    if (p->img) {
-	SDL_BlitSurface(p->img, NULL, screen, p->r);
-	append_request(p->r->x, p->r->y, p->r->w, p->r->h);
-	image_free(p->img);
-	p->img = NULL;
-    }
-}
-
-void restore_and_save_rect(saved_rect_ptr p, widget_ptr w, rect_ptr r)
-{
-    if (p->img) restore_rect(p);
-    p->w = w;
-    p->r->x = w->globalx + r->x;
-    p->r->y = w->globaly + r->y;
-    p->r->w = r->w;
-    p->r->h = r->h;
-    p->img = image_new(r->w, r->h);
-    SDL_BlitSurface(screen, p->r, p->img, NULL);
-}
-
-static saved_rect_t srpotedge;
-
-enum {
-    //vd = "vertex distance" (in pixels)
-    //  +------+
-    //  |      |     +-+
-    //  | unit +-----| | <-- box representing output port
-    //  |      |     +-+ (input ports are similar but on the left side)
-    //  +------+
-    vd_h = 13,
-    vd_w = 80,
-    vd_textpad = 2,
-    vd_edgew = 4,
-    vd_edgey = 6, //distance from top to out edge
-    vd_porty = 3, //distance from top to box representing port
-    vd_portw = 7, //width of box representing port
-    vd_porth = 7, //height
-    vd_fudge = 2, //tolerance for error when user goes for a port with the mouse
-};
-
-static int interrupted = 0;
-
-//TODO: ought to use a union?
-vertex_ptr vertex_selection = NULL;
-connection_ptr connection_selection = NULL;
-int dragx, dragy;
 
 static widget_t canvas;
 
@@ -224,40 +173,72 @@ void unit_init(vertex_ptr v, node_ptr node, int x, int y)
     v->w->h = vd_h * (n + 1) + 4;
 }
 
-static void add_vertex(layout_ptr lp, node_ptr node, int x, int y)
+static void vertex_update(widget_ptr w0)
 {
-    vertex_ptr v = vertex_new(lp);
-    darray_append(lp->vertex_list, v);
-    unit_init(v, node, x, y);
+    int x0, x1, y0, y1;
+    int i, n;
+    vertex_ptr v = (vertex_ptr) w0;
+    node_data_ptr p = (node_data_ptr) v->node->data;
+
+    //draw box containing unit
+    widget_raised_border(w0);
+    widget_box(w0, 2, 2, w0->w - 3, w0->h - 3, c_unit);
+
+    if (p->type == node_type_funk || p->type == node_type_normal) {
+	gen_ptr g = p->gen;
+
+	//draw input ports
+	n = g->info->port_count;
+	y0 = 0;
+	for (i=0; i<n; i++) {
+	    y0 += vd_h;
+	    //write name of input port
+	    widget_string(w0, vd_textpad, y0 + vd_textpad, 
+		    g->info->port_name[i], c_porttext);
+
+	    //draw input "claw"
+	    widget_line(w0, -vd_edgew, y0 + vd_edgey, -1, y0 + vd_edgey, c_edge);
+	    x0 = -vd_edgew - vd_portw;
+	    x1 = -vd_edgew - 1;
+	    y1 = y0 + vd_porty + vd_porth - 1;
+	    widget_line(w0, x0, y0 + vd_porty,
+		    x1, y0 + vd_porty, c_edge);
+	    widget_line(w0, x0, y1, x1, y1, c_edge);
+	    widget_line(w0, x1, y0 + vd_porty, x1, y1, c_edge);
+	}
+
+	//write name of unit
+	widget_string(w0, 4, 4, p->id, c_emphasis);
+    } else {
+	widget_string(w0, 4, 4, p->voice->id, c_emphasis);
+    }
+
+    //draw output port
+    y0 = vd_edgey;
+    x0 = w0->w;
+    x1 = x0 + vd_edgew - 1;
+    widget_line(w0, x0, y0, x1, y0, c_edge);
+    x0 = x1 + 1;
+    x1 = x0 + vd_portw - 1;
+    widget_box(w0, x0, vd_porty,
+	    x1, vd_porty + vd_porth - 1, c_edge);
 }
 
-static node_ptr node_from_voice(voice_ptr voice)
+static vertex_ptr add_vertex(layout_ptr lp, node_ptr node, int x, int y)
 {
-    node_ptr node;
-    node_data_ptr p;
-
-    node = (node_ptr) malloc(sizeof(node_t));
-    node->data = malloc(sizeof(node_data_t));
-    p = (node_data_ptr) node->data;
-    p->type = node_type_voice;
-    p->voice = voice;
-    p->id = voice->id; //TODO: get rid of node->id? voice has it anyway
-
-    return node;
+    vertex_ptr v = vertex_new(lp);
+    v->w->update = vertex_update;
+    darray_append(lp->vertex_list, v);
+    unit_init(v, node, x, y);
+    return v;
 }
 
 static connection_ptr add_connection(layout_ptr lp,
 	vertex_ptr src, vertex_ptr dst, int port)
 {
-    connection_ptr c = (connection_ptr) malloc(sizeof(connection_t));
-
-    widget_init(c->w, canvas);
-    c->src = src;
-    c->dst = dst;
-
-    c->edge = voice_connect((voice_ptr) lp->data, src->node, dst->node, port);
-    darray_append(lp->connection_list, c);
-    return c;
+    int *ip = malloc(sizeof(int));
+    *ip = port;
+    return layout_add_connection(lp, src, dst, ip);
 }
 
 enum {
@@ -267,7 +248,12 @@ enum {
     defroot_h = 600,
 };
 
-int state;
+enum {
+    state_normal,
+    state_quit
+};
+
+static int state;
 
 static widget_t root;
 static widget_t compan;
@@ -282,21 +268,6 @@ button_ptr navupb;
 
 window_t about_window;
 file_window_t file_window;
-window_ptr displaywindow = NULL;
-
-void open_window(window_ptr w)
-{
-    displaywindow = w;
-    widget_update(w->w);
-    request_update(w->w);
-}
-
-void close_window()
-{
-    widget_update(root);
-    request_update(displaywindow->w);
-    displaywindow = NULL;
-}
 
 static textbox_t auxtb;
 static textbox_ptr tbpool[10];
@@ -304,14 +275,8 @@ static label_ptr lpool[10];
 static label_t auxid, auxname;
 static button_t auxdelb, auxenterb;
 
-static darray_ptr command_list;
-
-static void remove_connection(connection_ptr c)
-{
-    darray_remove(layout->connection_list, c);
-    voice_disconnect((voice_ptr) layout->data, c->edge);
-    free(c);
-}
+static darray_ptr command_list, inseditlist;
+static darray_ptr cancellist;
 
 static void put_size(int w, int h)
 {
@@ -358,6 +323,8 @@ static void init_libs(void)
 {
     int status;
     int flag;
+    char *s;
+    int n;
 
     status = SDL_Init(SDL_INIT_EVERYTHING);
     if (status) {
@@ -368,7 +335,9 @@ static void init_libs(void)
 
     //font_init();
 
-    audio_init();
+    s = config_at("latency");
+    n = s ? atoi(s) : 512;
+    audio_init(n);
 
     SDL_WM_SetCaption("Bliss", "Bliss");
     SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"), NULL);
@@ -379,7 +348,6 @@ static void init_libs(void)
 
     colour_init(screen->format);
 
-    SDL_EnableKeyRepeat(150, 50);
     /*
     {
 	static unsigned char fnt[2304];
@@ -412,424 +380,94 @@ void bliss_quit()
     state = state_quit;
 }
 
-int is_contained(int x, int y, int x0, int y0, int x1, int y1)
+static void place_node(node_ptr node, layout_ptr lp, int x, int y)
 {
-    if (x < x0) return 0;
-    if (x > x1) return 0;
-    if (y < y0) return 0;
-    if (y > y1) return 0;
-    return -1;
+    vertex_ptr v = add_vertex(lp, node, x, y);
+
+    switch (navtype) {
+	case nav_voice:
+	    compan_put(compan, command_list);
+	    break;
+	case nav_ins:
+	    compan_put(compan, inseditlist);
+	    break;
+    }
+
+    canvas_select_vertex(canvas, v);
 }
 
-static void compan_update(widget_ptr ignore)
+static void place_voice(void *data, layout_ptr lp, int x, int y)
 {
     int i;
+    char id[80];
+    voice_ptr voice;
+    node_ptr node;
+    node_data_ptr p;
+    layout_ptr lpv;
 
-    widget_raised_background(compan);
-    for (i=0; i<command_list->count; i++) {
-	button_ptr p = (button_ptr) command_list->item[i];
-	widget_ptr w = p->w;
-	widget_update(w);
-	if (global_contains(w, lastmousex, lastmousey)) {
-	    widget_rectangle(w, -1, -1,  w->w, w->h, c_select);
-	    widget_string(compan, 10, compan->h - 12, p->text, c_text);
-	}
+    for (i=0;;i++) {
+	sprintf(id, "voice%d", i);
+	if (!vertex_with_id(lp, id)) break;
     }
+//TODO: YUCK!
+    node = ins_add_voice(ins, id);
+p = node->data;
+voice = p->voice;
+lpv = layout_new(canvas, voice->graph);
+htable_put(vltab, lpv, voice);
+add_vertex(lpv, voice->out, canvas->w - 100, canvas->h / 2);
+add_vertex(lpv, voice->freq, 5, canvas->h / 2);
+    place_node(node, lp, x, y);
 }
 
-static darray_ptr mainlist, cancellist, inseditlist;
-
-static void put_command_list(darray_ptr a)
+static void place_unit(void *data, layout_ptr lp, int x, int y)
 {
-    command_list = a;
-    widget_update(compan);
-    request_update(compan);
-}
+    int i;
+    char id[80];
+    uentry_ptr u = data;
 
-static void draw_placement(widget_ptr w, int x0, int y0, int x1, int y1, void *data)
-{
-    int x, y;
-
-    if (to_place.flag) {
-	SDL_BlitSurface(to_place.old, NULL, screen, to_place.r);
-	to_place.flag = 0;
+    for (i=0;;i++) {
+	sprintf(id, "%s%d", u->namebase, i);
+	if (!vertex_with_id(lp, id)) break;
     }
-    x = x1 - to_place.r->w / 2;
-    y = y1 - to_place.r->h / 2;
-    if (widget_contains(canvas, x1, y1)) {
-	to_place.r->x = x + canvas->globalx;
-	to_place.r->y = y + canvas->globaly;
-	if (to_place.r->x < 0) to_place.r->x = 0;
-	if (to_place.r->x + to_place.r->w >= root->w) {
-	    to_place.r->x = root->w - to_place.r->w - 1;
-	}
-	SDL_BlitSurface(screen, to_place.r, to_place.old, NULL);
-	widget_clip(canvas);
-	widget_blit(canvas, x, y, to_place.img);
-	//TODO: only need to update the img
-	request_update(canvas);
-	widget_unclip();
-	to_place.flag = 1;
-    }
-}
-
-static void prepare_to_place(char *s)
-{
-    widget_string(canvas, canvas->w / 2 - 40, canvas->h - 20,
-	    s, c_emphasis);
-
-    to_place.img = image_new(to_place.r->w, to_place.r->h);
-    to_place.old = image_new(to_place.r->w, to_place.r->h);
-    image_box_rect(to_place.img, c_darkunit);
-    widget_bind_mouse_motion(canvas, draw_placement, NULL);
+    place_node(node_from_gen_info(lp->graph, u->info, id), lp, x, y);
 }
 
 static void prepare_to_place_unit(uentry_ptr u)
 {
-    to_place.type = place_unit;
-    to_place.uentry = u;
-
-    to_place.r->w = vd_w;
-    to_place.r->h = (to_place.uentry->info->port_count + 1) * vd_h;
-
-    prepare_to_place("Place Unit");
+    canvas_placement_start(canvas, place_unit, u,
+	    vd_w,
+	    (u->info->port_count + 1) * vd_h,
+	    "Place Unit");
 }
 
 static void prepare_to_place_voice()
 {
-    to_place.type = place_voice;
-
-    to_place.r->w = vd_w;
-    to_place.r->h = vd_h;
-
-    prepare_to_place("Place Voice");
-}
-
-static void done_to_place()
-{
-    to_place.type = 0;
-    if (to_place.flag) {
-	SDL_BlitSurface(to_place.old, NULL, screen, to_place.r);
-	to_place.flag = 0;
-    }
-    image_free(to_place.img);
-    image_free(to_place.old);
-    widget_unbind_mouse_motion(canvas);
+    canvas_placement_start(canvas, place_voice, NULL,
+	    vd_w, vd_h,
+	    "Place Voice");
 }
 
 static void new_unit(void *data)
 {
     prepare_to_place_unit((uentry_ptr) data);
-    put_command_list(cancellist);
+    compan_push(compan, cancellist);
 }
 
 static void cancelbuttoncb(void *data)
 {
-    done_to_place();
-    put_command_list(mainlist);
+    canvas_placement_finish(canvas);
+    compan_pop(compan);
+    //TODO: remove update "Place Unit" text
 }
 
 static void newvoicecb(void *data)
 {
     prepare_to_place_voice();
-    put_command_list(cancellist);
+    compan_push(compan, cancellist);
 }
 
 static void delconcb(void *data);
-
-static button_ptr new_command_button(int row, int col)
-{
-    button_ptr b;
-
-    b = button_new(compan);
-
-    widget_ptr w = b->w;
-    w->localx = col * (32 + 4 + 4) + 8;
-    w->localy = row * (32 + 4 + 4) + 8;
-    w->w = 32 + 4;
-    w->h = 32 + 4;
-
-    return b;
-}
-
-static void compan_handle_mousebuttondown(widget_ptr w,
-	int button, int x, int y)
-{
-    int i;
-    for (i=0; i<command_list->count; i++) {
-	button_ptr p = (button_ptr) command_list->item[i];
-	if (local_contains(p->w, x, y)) {
-	    p->w->handle_mousebuttondown(p->w, button, x - p->w->localx, y - p->w->localy);
-	    return;
-	}
-    }
-}
-
-static void compan_motion(widget_ptr w,
-	int x0, int y0, int x1, int y1,
-	void *data)
-{
-    widget_update(compan);
-    request_update(compan);
-}
-
-static void init_command()
-{
-    button_ptr b;
-
-    void button_from_unit(button_ptr b, char *id)
-    {
-	uentry_ptr p = utable_at(id);
-	b->img = p->img;
-	b->text = p->info->name;
-	b->callback = new_unit;
-	b->data = (void *) p;
-    }
-
-    widget_init(compan, root);
-    widget_show(compan);
-    compan->update = compan_update;
-    compan->handle_mousebuttondown = compan_handle_mousebuttondown;
-    widget_bind_mouse_motion(compan, compan_motion, NULL);
-
-    command_list = mainlist = darray_new();
-    b = new_command_button(0, 0);
-    button_from_unit(b, "osc");
-    darray_append(mainlist, b);
-
-    b = new_command_button(0, 1);
-    button_from_unit(b, "funk2");
-    darray_append(mainlist, b);
-
-    b = new_command_button(0, 2);
-    button_from_unit(b, "adsr");
-    darray_append(mainlist, b);
-
-    b = new_command_button(0, 3);
-    button_from_unit(b, "seg");
-    darray_append(mainlist, b);
-
-    b = new_command_button(0, 4);
-    button_from_unit(b, "blop4plpf");
-    darray_append(mainlist, b);
-
-    b = new_command_button(2, 0);
-    button_from_unit(b, "onezero");
-    darray_append(mainlist, b);
-
-    b = new_command_button(2, 1);
-    button_from_unit(b, "onepole");
-    darray_append(mainlist, b);
-
-    b = new_command_button(2, 2);
-    button_from_unit(b, "twopole");
-    darray_append(mainlist, b);
-
-    b = new_command_button(1, 3);
-    button_from_unit(b, "clipper");
-    darray_append(mainlist, b);
-
-    b = new_command_button(1, 1);
-    button_from_unit(b, "butterlpf");
-    darray_append(mainlist, b);
-
-    b = new_command_button(1, 2);
-    button_from_unit(b, "butterhpf");
-    darray_append(mainlist, b);
-
-    b = new_command_button(1, 0);
-    button_from_unit(b, "noise");
-    darray_append(mainlist, b);
-
-    b = new_command_button(1, 4);
-    button_from_unit(b, "shepard");
-    darray_append(mainlist, b);
-
-    cancellist = darray_new();
-    b = new_command_button(2, 4);
-    b->text = "Cancel";
-    b->img = SDL_LoadBMP("cancel.bmp");
-    b->callback = cancelbuttoncb;
-    b->data = NULL;
-    darray_append(cancellist, b);
-
-    inseditlist = darray_new();
-    b = new_command_button(1, 0);
-    b->text = "New Voice";
-    b->img = SDL_LoadBMP("voice.bmp");
-    b->callback = newvoicecb;
-    b->data = NULL;
-    darray_append(inseditlist, b);
-}
-
-static void draw_vertex(void *data)
-{
-    vertex_ptr v = data;
-    int x0, x1, y0, y1;
-    int i, n;
-    node_data_ptr p = (node_data_ptr) v->node->data;
-    widget_ptr w0 = v->w;
-
-    //draw box containing unit
-    widget_raised_border(w0);
-    widget_box(w0, 2, 2, w0->w - 3, w0->h - 3, c_unit);
-
-    if (p->type == node_type_funk || p->type == node_type_normal) {
-	gen_ptr g = p->gen;
-
-	//draw input ports
-	n = g->info->port_count;
-	y0 = 0;
-	for (i=0; i<n; i++) {
-	    y0 += vd_h;
-	    //write name of input port
-	    widget_string(w0, vd_textpad, y0 + vd_textpad, 
-		    g->info->port_name[i], c_porttext);
-
-	    //draw input "claw"
-	    widget_line(w0, -vd_edgew, y0 + vd_edgey, -1, y0 + vd_edgey, c_edge);
-	    x0 = -vd_edgew - vd_portw;
-	    x1 = -vd_edgew - 1;
-	    y1 = y0 + vd_porty + vd_porth - 1;
-	    widget_line(w0, x0, y0 + vd_porty,
-		    x1, y0 + vd_porty, c_edge);
-	    widget_line(w0, x0, y1, x1, y1, c_edge);
-	    widget_line(w0, x1, y0 + vd_porty, x1, y1, c_edge);
-	}
-
-	//write name of unit
-	widget_string(w0, 4, 4, p->id, c_emphasis);
-    } else {
-	widget_string(w0, 4, 4, p->voice->id, c_emphasis);
-    }
-
-    //draw output port
-    y0 = vd_edgey;
-    x0 = w0->w;
-    x1 = x0 + vd_edgew - 1;
-    widget_line(w0, x0, y0, x1, y0, c_edge);
-    x0 = x1 + 1;
-    x1 = x0 + vd_portw - 1;
-    widget_box(w0, x0, vd_porty,
-	    x1, vd_porty + vd_porth - 1, c_edge);
-}
-
-static void draw_selectioncursor()
-{
-    widget_ptr w;
-    if (vertex_selection) {
-	w = vertex_selection->w;
-	widget_rectangle(w, -1, -1, w->w, w->h, c_select);
-    } else if (connection_selection) {
-	w = connection_selection->w;
-	widget_rectangle(w, -1, -1, w->w, w->h, c_select);
-    }
-}
-
-static void draw_potentialedge(widget_ptr w,
-	int xignore, int yignore, int x, int y,
-	void *data)
-{
-    int x0, y0;
-    int x1, y1;
-    vertex_ptr v = vertex_selection;
-    rect_t r;
-
-    if (!widget_contains(w, x, y)) {
-	restore_rect(srpotedge);
-	return;
-    }
-    x0 = x - vd_portw / 2;
-    y0 = y - vd_porth / 2;
-
-    x1 = v->w->localx + v->w->w + vd_edgew + vd_portw / 2;
-    y1 = v->w->localy + vd_porty + vd_porth / 2;
-
-    if (x0 < x1) r->x = x0; else r->x = x1;
-    if (y0 < y1) r->y = y0; else r->y = y1;
-    r->w = abs(x - x1) + vd_portw;
-    r->h = abs(y - y1) + vd_porth;
-    restore_and_save_rect(srpotedge, canvas, r);
-    widget_box(canvas, x0, y0, x0 + vd_portw - 1, y0 + vd_porth - 1, c_darkedge);
-    widget_line(canvas, x, y, x1, y1, c_darkedge);
-    request_update_rect(canvas, r);
-}
-
-static void draw_connection(void *data)
-{
-    connection_ptr c = data;
-    edge_ptr e = c->edge;
-    int portno = *((int *) e->data);
-    widget_ptr w0, w1;
-    int x0, y0, x1, y1;
-    int x, y;
-    int dx, dy;
-
-    w0 = c->src->w;
-    w1 = c->dst->w;
-
-    //draw line connecting them
-    x0 = w0->localx + w0->w + vd_edgew + vd_portw / 2;
-    y0 = w0->localy + vd_porty + vd_porth / 2;
-    x1 = w1->localx - vd_edgew - vd_portw / 2;
-    y1 = w1->localy + vd_porty + vd_porth / 2 + (portno + 1) * vd_h;
-    widget_line(canvas, x0, y0, x1, y1, c_edge);
-
-    //compute midpoint for later
-    //and dx, dy
-    x = (x0 + x1) / 2;
-    y = (y0 + y1) / 2;
-    dx = x1 - x0;
-    dy = y1 - y0;
-    c->w->localx = x - 12;
-    c->w->localy = y - 12;
-    c->w->globalx = c->w->localx + canvas->globalx;
-    c->w->globaly = c->w->localy + canvas->globaly;
-    c->w->w = 25;
-    c->w->h = 25;
-
-    //draw closed port
-    x0 = - vd_edgew - vd_portw;
-    y0 = vd_porty + (portno + 1) * vd_h;
-    x1 = x0 + vd_portw - 1;
-    y1 = y0 + vd_porth - 1;
-    widget_box(w1, x0, y0, x1, y1, c_edge);
-
-    //draw thing in the middle
-    {
-	int p0x, p0y;
-	int p1x, p1y;
-	int p2x, p2y;
-	double hyp;
-	double ds, dc;
-	widget_blit(canvas, x - 12, y - 12, conimg);
-	if (!dx && !dy) return;
-	hyp = sqrt(dx * dx + dy * dy);
-	ds = dy / hyp;
-	dc = dx / hyp;
-	p0x = x - 10 * (dc - ds * SQRT3) / 2;
-	p0y = y - 10 * (ds + SQRT3 * dc) / 2;
-	p1x = x + 10 * dc;
-	p1y = y + 10 * ds;
-	p2x = p0x - 10 * ds * SQRT3;
-	p2y = p0y + 10 * dc * SQRT3;
-
-	widget_filled_trigon(canvas, p0x, p0y, p1x, p1y, p2x, p2y, c_emphasis);
-    }
-}
-
-static void canvas_update(widget_ptr wcanvas)
-{
-    widget_clip(canvas);
-    widget_box_rect(canvas, c_canvas);
-
-    //draw vertices and connections
-    darray_forall(layout->vertex_list, draw_vertex);
-    darray_forall(layout->connection_list, draw_connection);
-
-    draw_selectioncursor();
-    widget_unclip(canvas);
-}
 
 static checkbox_t keycheckbox;
 static label_t keycheckboxl;
@@ -864,24 +502,20 @@ static void param_set(void *data, char *s)
 {
     double d;
     int i = (int) data;
-    node_ptr node = vertex_selection->node;
+    node_ptr node = canvas_current_vertex(canvas)->node;
     sscanf(s, "%lf", &d);
     set_param(node, i, d);
 }
 
-static void select_nothing()
+static void select_nothing_cb()
 {
-    connection_selection = NULL;
-    vertex_selection = NULL;
     darray_remove_all(aux_rect->show_list);
     widget_update(aux_rect);
     request_update(aux_rect);
 }
 
-static void select_connection(connection_ptr c)
+static void select_connection_cb(connection_ptr c)
 {
-    vertex_selection = NULL;
-    connection_selection = c;
     node_data_ptr p0, p1;
     char s[80];
 
@@ -893,7 +527,6 @@ static void select_connection(connection_ptr c)
     label_put_text(auxname, s);
     widget_show(auxname->w);
     widget_show(auxdelb->w);
-    widget_update(auxdelb->w);
     widget_update(aux_rect);
     request_update(aux_rect);
     //TODO: only need to draw connection
@@ -901,26 +534,10 @@ static void select_connection(connection_ptr c)
     request_update(canvas);
 }
 
-static void navigate_voice(void *data);
+static void navigate_voice(voice_ptr voice);
 static void editvoicecb(void *data)
 {
-    layout_ptr lp = (layout_ptr) htable_at(vltab, data);
-    navigate_voice(lp);
-}
-
-static void delvoicecb(void *data)
-{
-    vertex_ptr v = data;
-    //TODO: free node
-    node_data_ptr p = (node_data_ptr) v->node->data;
-    layout_ptr lp = htable_at(vltab, p->voice);
-    layout_free(lp);
-    layout_remove_vertex(layout, v);
-    htable_remove(vltab, p->voice);
-    voice_free(p->voice);
-    select_nothing();
-    widget_update(canvas);
-    request_update(canvas);
+    navigate_voice((voice_ptr) data);
 }
 
 static void setnotemincb(void *data, char *s)
@@ -935,23 +552,27 @@ static void setnotemaxcb(void *data, char *s)
     voice->notemax = atoi(s);
 }
 
-static void delunitcb(void *data)
+static void delvertexcb(void *data)
 {
-    vertex_ptr v = data;
-    printf("Not implemented yet!\n");
-    /*
-    layout_remove_vertex(layout, v);
-    //TODO: free node, edges, gen
-    select_nothing();
-    widget_update(canvas);
-    request_update(canvas);
-    */
+    SDL_LockAudio();
+    canvas_remove_current_vertex(canvas);
+    SDL_UnlockAudio();
 }
 
-static void select_vertex(vertex_ptr v)
+static void delvoicevertexcb(void *data)
 {
-    connection_selection = NULL;
-    vertex_selection = v;
+    vertex_ptr v = canvas_current_vertex(canvas);
+    node_data_ptr p = (node_data_ptr) v->node->data;
+    layout_ptr lp = htable_at(vltab, p->voice);
+    SDL_LockAudio();
+    layout_free(lp);
+    htable_remove(vltab, p->voice);
+    delvertexcb(NULL);
+    SDL_UnlockAudio();
+}
+
+static void select_vertex_cb(vertex_ptr v)
+{
     int i, n;
     char s[80];
     gen_ptr g;
@@ -961,7 +582,7 @@ static void select_vertex(vertex_ptr v)
     textbox_ptr tb;
     button_ptr b;
 
-    darray_remove_all(aux_rect->show_list);
+    widget_hide_all(aux_rect);
     widget_string(aux_rect, 5, 5, p->id, c_text);
 
     switch (p->type) {
@@ -974,7 +595,7 @@ static void select_vertex(vertex_ptr v)
 
 	    b = auxdelb;
 	    widget_show(b->w);
-	    button_put_callback(b, delunitcb, (void *) v);
+	    button_put_callback(b, delvertexcb, NULL);
 	    break;
 	case node_type_normal:
 	    label_put_text(auxname, p->gen->info->name);
@@ -997,7 +618,7 @@ static void select_vertex(vertex_ptr v)
 
 	    b = auxdelb;
 	    widget_show(b->w);
-	    button_put_callback(b, delunitcb, (void *) v);
+	    button_put_callback(b, delvertexcb, (void *) v);
 	    break;
 	case node_type_voice:
 	    //label_put_text(auxid, p->voice->id);
@@ -1036,7 +657,7 @@ static void select_vertex(vertex_ptr v)
 
 	    b = auxdelb;
 	    widget_show(b->w);
-	    button_put_callback(b, delvoicecb, (void *) v);
+	    button_put_callback(b, delvoicevertexcb, NULL);
 	    break;
     }
     widget_update(aux_rect);
@@ -1048,41 +669,34 @@ static void select_vertex(vertex_ptr v)
 
 static void delconcb(void *data)
 {
-    remove_connection(connection_selection);
-    select_nothing();
-    widget_update(canvas);
-    request_update(canvas);
+    canvas_remove_current_connection(canvas);
 }
 
 static void track_clear();
 static void file_clear()
 {
-    void clear_vertex(void *data) {
-	vertex_ptr v = data;
-	node_data_ptr p = (node_data_ptr) v->node->data;
-	voice_ptr voice = p->voice;
-	layout_free(htable_at(vltab, voice));
+    void clear_vlp(void *data) {
+	layout_free((layout_ptr) data);
     }
 
-    //free layout information
-    darray_forall(ilp->vertex_list, clear_vertex);
+    SDL_LockAudio();
+    htable_forall(vltab, clear_vlp);
     layout_clear(ilp);
-    htable_remove_all(vltab);
-    track_clear();
-
-    vertex_selection = NULL;
-    connection_selection = NULL;
-
-    //free instrument which also frees the voices
+    //TODO: stop playing track
     ins_clear(ins);
+    track_clear();
+    SDL_UnlockAudio();
+    htable_remove_all(vltab);
 }
 
 static void navigate_ins(void *data)
 {
-    widget_hide(navupb->w);
-    layout = ilp;
-    select_nothing();
-    put_command_list(inseditlist);
+    navtype = nav_ins;
+    navdata = ins;
+    widget_hide_all(navbar);
+    canvas_put_layout(canvas, ilp);
+    canvas_select_nothing(canvas);
+    compan_put(compan, inseditlist);
     label_put_text(navlocation, "Instrument View");
     widget_show(navlocation->w);
     widget_update(navbar);
@@ -1091,15 +705,17 @@ static void navigate_ins(void *data)
     request_update(root);
 }
 
-static void navigate_voice(void *data)
+static void navigate_voice(voice_ptr voice)
 {
-    layout_ptr lp = data;
+    navtype = nav_voice;
+    navdata = voice;
     button_put_callback(navupb, navigate_ins, NULL);
+    widget_hide_all(navbar);
     widget_show(navupb->w);
-    put_command_list(mainlist);
-    select_nothing();
-    layout = (layout_ptr) data;
-    label_put_text(navlocation, ((voice_ptr) lp->data)->id);
+    compan_put(compan, command_list);
+    canvas_put_layout(canvas, (layout_ptr) htable_at(vltab, voice));
+    canvas_select_nothing(canvas);
+    label_put_text(navlocation, voice->id);
     widget_show(navlocation->w);
     widget_update(navbar);
     widget_update(canvas);
@@ -1109,24 +725,31 @@ static void navigate_voice(void *data)
 
 static void file_new()
 {
-    ins_init(ins);
     voice_ptr voice;
+    node_ptr node;
+    node_data_ptr p;
     layout_ptr lp;
+    vertex_ptr v0, v1;
 
-    layout_init(ilp, canvas, (void *) ins);
+    ins_init(ins, "ins0");
+    layout_init(ilp, canvas, ins->graph);
+    v1 = add_vertex(ilp, ins->out, canvas->w - 100, canvas->h / 2);
 
-    voice = ins_add_voice(ins, "voice0");
-    lp = layout_new(canvas, (void *) voice);
-    htable_put(vltab, lp, voice);
-    add_vertex(lp, voice->out, canvas->w - 100, canvas->h / 2);
-    add_vertex(lp, voice->freq, 5, canvas->h / 2);
+    node = ins_add_voice(ins, "voice0");
+p = node->data;
+voice = p->voice;
+lp = layout_new(canvas, voice->graph);
+htable_put(vltab, lp, voice);
+add_vertex(lp, voice->out, canvas->w - 100, canvas->h / 2);
+add_vertex(lp, voice->freq, 5, canvas->h / 2);
 
-    add_vertex(ilp, node_from_voice(voice), canvas->w / 2, canvas->h / 2);
+    v0 = add_vertex(ilp, node, 5, canvas->h / 2);
+    add_connection(ilp, v0, v1, 0);
 
-    navigate_voice(lp);
+    navigate_voice(voice);
 }
 
-static void write_vlp(FILE *fp, layout_ptr vlp)
+static void write_layout(FILE *fp, layout_ptr lp)
 {
     void write_vertex(void *data)
     {
@@ -1134,17 +757,35 @@ static void write_vlp(FILE *fp, layout_ptr vlp)
 	vertex_ptr v = data;
 	node_ptr node = v->node;
 	node_data_ptr p = (node_data_ptr) node->data;
-	gen_ptr g = p->gen;
 
-	fprintf(fp, "    unit %s %s ", p->id, g->info->id);
-	fprintf(fp, "%d %d\n", v->w->localx, v->w->localy);
-	if (p->type == node_type_funk) {
-	    fprintf(fp, "    setfn %s %s\n", p->id, get_funk_program(node));
-	} else if (p->type == node_type_normal) {
-	    for (j=0; j<g->info->param_count; j++) {
-		fprintf(fp, "    set %s %s %f\n", p->id,
-			g->info->param[j]->id, g->param[j]);
-	    }
+	switch(p->type) {
+	    gen_ptr g;
+	    voice_ptr voice;
+	    case node_type_normal:
+	    case node_type_funk:
+		g = p->gen;
+
+		fprintf(fp, "    unit %s %s ", p->id, g->info->id);
+		fprintf(fp, "%d %d\n", v->w->localx, v->w->localy);
+		if (p->type == node_type_funk) {
+		    fprintf(fp, "    setfn %s %s\n", p->id, get_funk_program(node));
+		} else if (p->type == node_type_normal) {
+		    for (j=0; j<g->info->param_count; j++) {
+			fprintf(fp, "    set %s %s %f\n", p->id,
+				g->info->param[j]->id, g->param[j]);
+		    }
+		}
+		break;
+	    case node_type_voice:
+		voice = p->voice;
+		layout_ptr vlp = htable_at(vltab, voice);
+	    
+		fprintf(fp, "voice %s %d %d %d %d {\n", voice->id,
+			voice->notemin, voice->notemax,
+			v->w->localx, v->w->localy);
+		write_layout(fp, vlp);
+		fprintf(fp, "}\n");
+		break;
 	}
     }
 
@@ -1158,28 +799,14 @@ static void write_vlp(FILE *fp, layout_ptr vlp)
 	fprintf(fp, "    connect %s %s %d\n", p0->id, p1->id, *((int *) e->data));
     }
 
-    darray_forall(vlp->vertex_list, write_vertex);
-    darray_forall(vlp->connection_list, write_connection);
+    darray_forall(lp->vertex_list, write_vertex);
+    darray_forall(lp->connection_list, write_connection);
 }
 
-static void savecb(void *data, char *s)
+static void savecb(char *filename)
 {
-    close_window();
     {
 	FILE *fp;
-
-	void write_voice(void *data) {
-	    vertex_ptr v = data;
-	    node_data_ptr p = (node_data_ptr) v->node->data;
-	    voice_ptr voice = p->voice;
-	    layout_ptr vlp = htable_at(vltab, voice);
-	
-	    fprintf(fp, "voice %s %d %d %d %d {\n", voice->id,
-		    voice->notemin, voice->notemax,
-		    v->w->localx, v->w->localy);
-	    write_vlp(fp, vlp);
-	    fprintf(fp, "}\n");
-	}
 
 	void write_track_event(void *data) {
 	    event_ptr e = data;
@@ -1195,33 +822,182 @@ static void savecb(void *data, char *s)
 	    fprintf(fp, "\n");
 	}
 
-	fp = fopen(s, "wb");
+	fp = fopen(filename, "wb");
 
 	fprintf(fp, "bliss %s\n", VERSION_STRING);
 
-	darray_forall(ilp->vertex_list, write_voice);
+	//fprintf(fp, "ins %s {\n", ins->id);
+	write_layout(fp, ilp);
 
 	fprintf(fp, "track {\n");
 
 	darray_forall(track, write_track_event);
 
 	fprintf(fp, "}\n");
+
+	//fprintf(fp, "}\n");
 	fclose(fp);
     }
 }
 
-static void loadcb(void *data, char *filename)
+static voice_ptr voice_kludge;
+static void read_layout(FILE *fp, layout_ptr lp)
+{
+    char s[256];
+    char s1[256];
+    void read_word() {
+	int i;
+	int c;
+	i = 0;
+	for(;;) {
+	    c = fgetc(fp);
+	    if (c == EOF) {
+		s[i] = 0;
+		return;
+	    }
+	    if (!strchr(" \t\r\n", c)) break;
+	}
+	s[i++] = c;
+	for(;;) {
+	    c = fgetc(fp);
+	    if (c == EOF) {
+		s[i] = 0;
+		return;
+	    }
+	    if (strchr(" \t\r\n", c)){
+		s[i] = 0;
+		return;
+	    }
+	    s[i++] = c;
+	}
+    }
+
+    for (;;) {
+	read_word();
+	if (!strcmp(s, "unit")) {
+	    uentry_ptr u;
+	    node_ptr node;
+	    int x, y;
+
+	    read_word();
+	    strcpy(s1, s);
+	    read_word();
+	    u = utable_at(s);
+	    if (!u) {
+		printf("Unknown unit type!\n");
+		break;
+	    }
+	    if (!strcmp(s1, "out")) {
+		if (voice_kludge) {
+		    node = voice_kludge->out;
+		} else  {
+		    node = ins->out;
+		}
+	    } else if (!strcmp(s1, "freq")) {
+		node = voice_kludge->freq;
+	    } else {
+		node = node_from_gen_info(lp->graph, u->info, s1);
+	    }
+	    read_word();
+	    x = atoi(s);
+	    read_word();
+	    y = atoi(s);
+	    add_vertex(lp, node, x, y);
+	} else if (!strcmp(s, "set")) {
+	    vertex_ptr v;
+	    int param;
+	    read_word();
+	    v = vertex_with_id(lp, s);
+	    read_word();
+	    param = no_of_param(v->node, s);
+	    if (param < 0) {
+		printf("No such parameter: %s\n", s);
+		read_word();
+	    } else {
+		read_word();
+		set_param(v->node, param, atof(s));
+	    }
+	} else if (!strcmp(s, "setfn")) {
+	    vertex_ptr v;
+	    read_word();
+	    v = vertex_with_id(lp, s);
+	    read_word();
+	    set_funk_program(v->node, s);
+	} else if (!strcmp(s, "connect")) {
+	    vertex_ptr v0, v1;
+	    int port;
+	    read_word();
+	    v0 = vertex_with_id(lp, s);
+	    read_word();
+	    v1 = vertex_with_id(lp, s);
+	    read_word();
+	    port = atoi(s);
+	    add_connection(lp, v0, v1, port);
+	} else if (!strcmp(s, "voice")) {
+	    int x, y;
+	    layout_ptr vlp;
+	    voice_ptr voice;
+	    node_ptr node;
+	    node_data_ptr p;
+
+	    read_word();
+	    node = ins_add_voice(ins, s);
+	    p = node->data;
+	    voice = p->voice;
+	    vlp = layout_new(canvas, voice->graph);
+	    htable_put(vltab, vlp, voice);
+	    read_word();
+	    voice->notemin = atoi(s);
+	    read_word();
+	    voice->notemax = atoi(s);
+	    read_word();
+	    x = atoi(s);
+	    read_word();
+	    y = atoi(s);
+	    add_vertex(lp, node, x, y);
+	    read_word();
+	    //TODO: check s is "{"
+	    voice_kludge = voice;
+	    read_layout(fp, vlp);
+	    voice_kludge = NULL;
+	    //TODO: check s is "}"
+	} else if (!strcmp(s, "track")) {
+	    read_word(); //TODO: check its '{'
+	    for(;;) {
+		event_ptr e;
+		read_word();
+		if (!strcmp(s, "}")) break;
+		e = malloc(sizeof(event_t));
+		e->delta = atoi(s);
+		read_word();
+		if (!strcmp(s, "noteon")) {
+		    e->type = ev_noteon;
+		    read_word();
+		    e->x1 = atoi(s);
+		    read_word();
+		    e->x2 = atoi(s);
+		} else if (!strcmp(s, "noteoff")) {
+		    e->type = ev_noteoff;
+		    read_word();
+		    e->x1 = atoi(s);
+		    e->x2 = 0;
+		}
+		darray_append(track, e);
+	    }
+	} else break;
+    }
+}
+
+static void loadcb(char *filename)
 {
     //TODO: error handling
-    close_window();
     SDL_PauseAudio(1);
     {
-	int i;
 	FILE *fp;
 	char s[256];
-	char s1[256];
 
 	void read_word() {
+	    int i;
 	    int c;
 	    i = 0;
 	    for(;;) {
@@ -1247,62 +1023,6 @@ static void loadcb(void *data, char *filename)
 	    }
 	}
 
-	void read_voice(layout_ptr vlp, voice_ptr voice) {
-	    for (;;) {
-		read_word();
-		if (!strcmp(s, "unit")) {
-		    uentry_ptr u;
-		    node_ptr node;
-		    int x, y;
-
-		    read_word();
-		    strcpy(s1, s);
-		    read_word();
-		    u = utable_at(s);
-		    if (!u) {
-			printf("Unknown unit type!\n");
-			break;
-		    }
-		    node = voice_add_gen(voice, u->info, s1);
-		    read_word();
-		    x = atoi(s);
-		    read_word();
-		    y = atoi(s);
-		    add_vertex(vlp, node, x, y);
-		    if (!strcmp(s1, "out")) {
-			voice->out = node;
-		    } else if (!strcmp(s1, "freq")) {
-			voice->freq = node;
-		    }
-		} else if (!strcmp(s, "set")) {
-		    vertex_ptr v;
-		    int param;
-		    read_word();
-		    v = vertex_with_id(vlp, s);
-		    read_word();
-		    param = no_of_param(v->node, s);
-		    read_word();
-		    set_param(v->node, param, atof(s));
-		} else if (!strcmp(s, "setfn")) {
-		    vertex_ptr v;
-		    read_word();
-		    v = vertex_with_id(vlp, s);
-		    read_word();
-		    set_funk_program(v->node, s);
-		} else if (!strcmp(s, "connect")) {
-		    vertex_ptr v0, v1;
-		    int port;
-		    read_word();
-		    v0 = vertex_with_id(vlp, s);
-		    read_word();
-		    v1 = vertex_with_id(vlp, s);
-		    read_word();
-		    port = atoi(s);
-		    add_connection(vlp, v0, v1, port);
-		} else break;
-	    }
-	}
-
 	fp = fopen(filename, "rb");
 	read_word();
 	//TODO: check it's "bliss"
@@ -1310,57 +1030,9 @@ static void loadcb(void *data, char *filename)
 	//TODO: check version
 
 	file_clear();
-	ins_init(ins);
-	layout_init(ilp, canvas, (void *) ins);
-	for (;;) {
-	    read_word();
-	    if (!strcmp(s, "voice")) {
-		int x, y;
-		layout_ptr vlp;
-		voice_ptr voice;
-
-		read_word();
-		voice = ins_add_voice(ins, s);
-		vlp = layout_new(canvas, (void *) voice);
-		htable_put(vltab, vlp, voice);
-		read_word();
-		voice->notemin = atoi(s);
-		read_word();
-		voice->notemax = atoi(s);
-		read_word();
-		x = atoi(s);
-		read_word();
-		y = atoi(s);
-		add_vertex(ilp, node_from_voice(voice), x, y);
-		read_word();
-		//TODO: check s is "{"
-		read_voice(vlp, voice);
-		//TODO: check s is "}"
-	    } else if (!strcmp(s, "track")) {
-		read_word(); //TODO: check its '{'
-		for(;;) {
-		    event_ptr e;
-		    read_word();
-		    if (!strcmp(s, "}")) break;
-		    e = malloc(sizeof(event_t));
-		    e->delta = atoi(s);
-		    read_word();
-		    if (!strcmp(s, "noteon")) {
-			e->type = ev_noteon;
-			read_word();
-			e->x1 = atoi(s);
-			read_word();
-			e->x2 = atoi(s);
-		    } else if (!strcmp(s, "noteoff")) {
-			e->type = ev_noteoff;
-			read_word();
-			e->x1 = atoi(s);
-			e->x2 = 0;
-		    }
-		    darray_append(track, e);
-		}
-	    } else break;
-	}
+	ins_init(ins, "ins0");
+	layout_init(ilp, canvas, ins->graph);
+	read_layout(fp, ilp);
 	fclose(fp);
 	navigate_ins(NULL);
 	widget_update(canvas);
@@ -1372,7 +1044,7 @@ static void loadcb(void *data, char *filename)
 static void savemenuitemcb(void *data)
 {
     file_window_setup(file_window, "Save File", "Save", savecb);
-    open_window(file_window->win);
+    window_open(file_window->win);
 }
 
 static void newmenuitemcb(void *data)
@@ -1380,6 +1052,7 @@ static void newmenuitemcb(void *data)
     file_clear();
     file_new();
     widget_update(root);
+    request_update(root);
 }
 
 static double ticker()
@@ -1470,7 +1143,7 @@ nomore:
 static void loadmenuitemcb(void *data)
 {
     file_window_setup(file_window, "Open File", "Open", loadcb);
-    open_window(file_window->win);
+    window_open(file_window->win);
 }
 
 static void quitcb(void *data)
@@ -1480,7 +1153,7 @@ static void quitcb(void *data)
 
 static void aboutcb(void *data)
 {
-    open_window(about_window);
+    window_open(about_window);
 }
 
 static void init_menu()
@@ -1501,24 +1174,9 @@ static void init_menu()
     menu_add_command(m, "About...", aboutcb, NULL);
 }
 
-static void root_handle_mousebuttondown(widget_ptr w, int button, int x, int y)
-{
-    int i;
-
-    if (button != 1) return;
-
-    for (i=0; i<w->show_list->count; i++) {
-	widget_ptr w1 = (widget_ptr) w->show_list->item[i];
-	if (global_contains(w1, x, y)) {
-	    w1->handle_mousebuttondown(w1, button, x - w1->globalx, y - w1->globaly);
-	    return;
-	}
-    }
-}
-
 static void aux_parseprog(void *data, char *s)
 {
-    set_funk_program(vertex_selection->node, s);
+    set_funk_program(canvas_current_vertex(canvas)->node, s);
 }
 
 static void aux_rect_update(widget_ptr w)
@@ -1648,7 +1306,7 @@ static void do_event(event_ptr e)
     }
 }
 
-static Uint32 play_thread(Uint32 ignore)
+static Uint32 play_thread(Uint32 ignore, void *data)
 {
     for (;;) {
 	event_ptr e;
@@ -1663,8 +1321,7 @@ static Uint32 play_thread(Uint32 ignore)
 	}
 	e = track->item[play_i];
 	if (e->delta) {
-	    SDL_SetTimer(e->delta, play_thread);
-	    return 0;
+	    return e->delta;
 	}
     }
 }
@@ -1682,7 +1339,7 @@ static void toggle_playcb(void *data)
 	if (track->count) {
 	    is_playing = 1;
 	    play_i = 0;
-	    SDL_SetTimer(((event_ptr) track->item[0])->delta, play_thread);
+	    SDL_AddTimer(((event_ptr) track->item[0])->delta, play_thread, NULL);
 	}
     }
 }
@@ -1712,10 +1369,8 @@ static void keyboardcb(void *data, int state)
     if (keyboardplayflag) {
 	//TODO: checkbox who called should also be sent?
 	widget_push_keydowncb(NULL, keyboard_midi_on, NULL);
-	SDL_EnableKeyRepeat(0, 0);
     } else {
 	widget_pop_keydowncb();
-	SDL_EnableKeyRepeat(150, 50);
     }
 }
 
@@ -1767,19 +1422,39 @@ static void root_update()
 
 static void main_loop(void)
 {
+    int lastmousex, lastmousey;
+    int newx = 0, newy = 0; //to get rid of compiler warning
+    int motiontimer = 0;
+
+    Uint32 motioncb(Uint32 interval, void *data)
+    {
+	motion_notify();
+	return 0;
+    }
+
     SDL_GetMouseState(&lastmousex, &lastmousey);
-    while (state != state_quit && !interrupted) {
-	widget_ptr w;
+    while (state != state_quit) {
 	SDL_Event event_;
 	SDL_Event *event = &event_;
 
-	if (!displaywindow) {
-	    w = root;
-	} else {
-	    w = displaywindow->w;
-	}
+	//TODO: error check
+	SDL_WaitEvent(event);
 
-	while (SDL_PollEvent(event)) switch (event->type) {
+	switch (event->type) {
+	    case SDL_USEREVENT:
+		switch(event->user.code) {
+		    case code_motion:
+			motiontimer = 0;
+			SDL_GetMouseState(&newx, &newy);
+			root_mouse_motion(lastmousex, lastmousey, newx, newy);
+			lastmousex = newx;
+			lastmousey = newy;
+			break;
+		    case code_interrupt:
+			bliss_quit();
+			break;
+		}
+		break;
 	    case SDL_QUIT:
 		bliss_quit();
 		break;
@@ -1789,19 +1464,15 @@ static void main_loop(void)
 		request_update(root);
 		break;
 	    case SDL_MOUSEBUTTONDOWN:
-		//TODO: how to get rid of this?
-		if (state == state_textbox) {
-		    state = state_normal;
-		    textbox_update(textbox_selection);
-		    request_update(textbox_selection->w);
-		    textbox_selection = NULL;
-		    widget_pop_keydowncb();
+		/*
+		if (!displaywindow) {
+		    w = root;
+		} else {
+		    w = displaywindow->w;
 		}
-
-		if (global_contains(w, event->button.x, event->button.y)) {
-		    w->handle_mousebuttondown(w, event->button.button,
-			    event->button.x, event->button.y);
-		}
+		*/
+		root_button_down(root, event->button.button,
+			event->button.x, event->button.y);
 		break;
 	    case SDL_MOUSEBUTTONUP:
 		if (event->button.button != 1) break;
@@ -1819,27 +1490,23 @@ static void main_loop(void)
 			    event->key.keysym.mod);
 		}
 		break;
+	    case SDL_MOUSEMOTION:
+		if (!motiontimer) {
+		    motiontimer = 1;
+		    SDL_AddTimer(10, motioncb, NULL);
+		}
+		break;
 	    default:
 		break;
 	}
-	{
-	    int newx, newy;
-	    SDL_GetMouseState(&newx, &newy);
-	    if (newx != lastmousex || newy != lastmousey) {
-		root_mouse_motion(lastmousex, lastmousey, newx, newy);
-		lastmousex = newx;
-		lastmousey = newy;
-	    }
-	}
-
-	request_process();
-	SDL_Delay(10);
     }
 }
 
+SDL_Event event_interrupt;
+
 static void interrupt(int i)
 {
-    interrupted = 1;
+    SDL_PushEvent(&event_interrupt);
 }
 
 static void init_root()
@@ -1850,152 +1517,8 @@ static void init_root()
     root->localy = 0;
     root->globalx = 0;
     root->globaly = 0;
-    root->handle_mousebuttondown = root_handle_mousebuttondown;
+    root->handle_mousebuttondown = root_button_down;
     root->update = root_update;
-}
-
-static void try_connect(widget_ptr w, int button, int x, int y, void *data)
-{
-    int i, j, n;
-
-    restore_rect(srpotedge);
-    widget_unbind_mouse_motion(canvas);
-
-    for (i=layout->vertex_list->count-1; i>=0; i--) {
-	int x0, y0;
-	vertex_ptr v = (vertex_ptr) layout->vertex_list->item[i];
-	//gen_ptr g = ((node_data_ptr) v->node->data)->gen;
-	//n = g->info->port_count;
-	n = v->inportcount;
-	y0 = v->w->localy + vd_h + vd_porty;
-	for (j=0; j<n; j++) {
-	    x0 = v->w->localx - vd_edgew - vd_portw;
-	    if (is_contained(x, y, x0 - vd_fudge, y0 - vd_fudge,
-			x0 + vd_portw - 1 + vd_fudge,
-			y0 + vd_porth - 1 + vd_fudge)) {
-		select_connection(add_connection(layout, vertex_selection, v, j));
-		widget_update(canvas);
-		request_update(canvas);
-		return;
-	    }
-	    y0 += vd_h;
-	}
-    }
-    widget_update(canvas);
-    request_update(canvas);
-}
-
-static void drag_vertex(widget_ptr w, int xold, int yold, int x, int y, void *data)
-{
-    if (widget_contains(w, x, y)) {
-	widget_translate(vertex_selection->w, x - dragx, y - dragy);
-	dragx = x;
-	dragy = y;
-    }
-    widget_update(w);
-    request_update(w);
-}
-
-static void finish_drag(widget_ptr w, int button, int x, int y, void *data)
-{
-    widget_unbind_mouse_motion(canvas);
-}
-
-static void canvas_handle_mousebuttondown(widget_ptr w, int button, int x, int y)
-{
-    int i;
-    char id[80];
-    int vx = x - vd_w / 2;
-    int vy = y - vd_h / 2;
-    voice_ptr voice;
-    layout_ptr lp;
-
-    if (to_place.type) {
-	switch (to_place.type) {
-	    case place_unit:
-		for (i=0;;i++) {
-		    sprintf(id, "%s%d", to_place.uentry->namebase, i);
-		    if (!vertex_with_id(layout, id)) break;
-		}
-		add_vertex(layout, voice_add_gen((voice_ptr) layout->data,
-			    to_place.uentry->info, id), vx, vy);
-		put_command_list(mainlist);
-		break;
-	    case place_voice:
-		for (i=0;;i++) {
-		    sprintf(id, "voice%d", i);
-		    if (!vertex_with_id(layout, id)) break;
-		}
-//TODO: YUCK!
-voice = ins_add_voice(ins, id);
-lp = layout_new(canvas, (void *) voice);
-htable_put(vltab, lp, voice);
-add_vertex(lp, voice->out, canvas->w - 100, canvas->h / 2);
-add_vertex(lp, voice->freq, 5, canvas->h / 2);
-add_vertex(layout, node_from_voice(voice), vx, vy);
-		put_command_list(inseditlist);
-		break;
-	}
-	done_to_place();
-	select_vertex(darray_last(layout->vertex_list));
-	widget_update(canvas);
-	request_update(canvas);
-	return;
-    }
-
-    for (i=layout->connection_list->count-1; i>=0; i--) {
-	connection_ptr c = (connection_ptr) layout->connection_list->item[i];
-	if (local_contains(c->w, x, y)) {
-	    select_connection(c);
-	    widget_update(canvas);
-	    return;
-	}
-    }
-
-    for (i=layout->vertex_list->count-1; i>=0; i--) {
-	int x0, y0;
-	//check if vertex was clicked on
-	vertex_ptr v = (vertex_ptr) layout->vertex_list->item[i];
-	if (local_contains(v->w, x, y)) {
-	    //change z-order
-	    darray_remove_index(layout->vertex_list, i);
-	    darray_append(layout->vertex_list, v);
-
-	    select_vertex(v);
-	    dragx = x;
-	    dragy = y;
-	    widget_bind_mouse_motion(canvas, drag_vertex, NULL);
-	    widget_on_next_button_up(canvas, finish_drag, NULL);
-	    return;
-	}
-
-	//check if output port was clicked on
-	x0 = v->w->localx + v->w->w + vd_edgew;
-	y0 = v->w->localy + vd_porty;
-	if (is_contained(x, y, x0, y0, x0 + vd_portw - 1, y0 + vd_porth)) {
-	    widget_bind_mouse_motion(canvas, draw_potentialedge, NULL);
-	    widget_on_next_button_up(canvas, try_connect, NULL);
-	    saved_rect_get_ready(srpotedge);
-	    select_vertex(v);
-	    return;
-	}
-    }
-    select_nothing();
-    widget_update(canvas);
-    request_update(canvas);
-}
-
-static void init_canvas()
-{
-    widget_init(canvas, root);
-    conimg = image_new(25, 25);
-    SDL_SetColorKey(conimg, SDL_SRCCOLORKEY, 0);
-    image_filled_circle(conimg, 12, 12, 12, c_shadow);
-    image_filled_circle(conimg, 12, 12, 11, c_highlight);
-    image_filled_circle(conimg, 12, 12, 10, c_unit);
-    widget_show(canvas);
-    canvas->update = canvas_update;
-    canvas->handle_mousebuttondown = canvas_handle_mousebuttondown;
 }
 
 static void navbar_update(widget_ptr w)
@@ -2016,6 +1539,115 @@ static void init_navbar()
     widget_show(navbar);
 }
 
+static void buttonmenubackcb(void *data)
+{
+    compan_pop(compan);
+}
+
+static void openbuttonmenucb(void *data)
+{
+    compan_push(compan, (darray_ptr) data);
+}
+
+static void init_command()
+{
+    button_ptr b;
+    darray_ptr l;
+    image_ptr imgcancel = SDL_LoadBMP("cancel.bmp");
+
+    void add_unit_button(darray_ptr target_list, int row, int col, char *id)
+    {
+	uentry_ptr p = utable_at(id);
+	b = compan_new_button(compan, row, col);
+	b->img = p->img;
+	b->text = p->info->name;
+	b->callback = new_unit;
+	b->data = (void *) p;
+	darray_append(target_list, b);
+    }
+
+    darray_ptr new_list_button(darray_ptr target_list, int row, int col,
+	    char *text, image_ptr image) {
+	darray_ptr res = darray_new();
+	b = compan_new_button(compan, 2, 4);
+	b->img = imgcancel;
+	b->text = "Cancel";
+	b->callback = buttonmenubackcb;
+	b->data = NULL;
+	darray_append(res, b);
+
+	b = compan_new_button(compan, row, col);
+	b->img = image;
+	b->text = text;
+	b->callback = openbuttonmenucb;
+	b->data = (void *) res;
+	darray_append(target_list, b);
+	return res;
+    }
+
+    void add_button(darray_ptr target_list, int row, int col,
+	    char *text, image_ptr image,
+	    void (*callback)(void *), void *data) {
+	b = compan_new_button(compan, row, col);
+	b->text = text;
+	b->img = image;
+	b->callback = callback;
+	b->data = data;
+	darray_append(target_list, b);
+    }
+
+    compan_init(compan, root);
+
+    command_list = darray_new();
+    inseditlist = darray_new();
+
+    l = new_list_button(command_list, 0, 0, "Oscillators", SDL_LoadBMP("sine.bmp"));
+    add_unit_button(l, 0, 0, "osc");
+    add_unit_button(l, 0, 1, "noise");
+    add_unit_button(l, 0, 2, "bloprandomwave");
+    add_unit_button(l, 0, 3, "stomperosc");
+    add_unit_button(l, 1, 0, "shepard");
+
+
+    l = new_list_button(command_list, 0, 1, "Envelopes", SDL_LoadBMP("adsr.bmp"));
+    add_unit_button(l, 0, 0, "adsr");
+    add_unit_button(l, 0, 1, "stomperenv");
+
+
+    l = new_list_button(command_list, 0, 2, "Filters", SDL_LoadBMP("lpf.bmp"));
+    add_unit_button(l, 0, 0, "butterlpf");
+    add_unit_button(l, 0, 1, "butterhpf");
+    add_unit_button(l, 1, 0, "blop4plpf");
+    add_unit_button(l, 2, 0, "onezero");
+    add_unit_button(l, 2, 1, "onepole");
+    add_unit_button(l, 2, 2, "twopole");
+
+    add_unit_button(command_list, 1, 0, "funk2");
+    add_unit_button(command_list, 1, 1, "seg");
+    add_unit_button(command_list, 1, 2, "clipper");
+
+    add_unit_button(command_list, 1, 3, "delay");
+
+    cancellist = darray_new();
+    add_button(cancellist, 2, 4, "Cancel", imgcancel,
+	    cancelbuttoncb, NULL);
+
+    add_button(inseditlist, 2, 0, "New Voice", SDL_LoadBMP("voice.bmp"),
+		    newvoicecb, NULL);
+    darray_append(inseditlist, command_list->item[0]);
+    darray_append(inseditlist, command_list->item[1]);
+    darray_append(inseditlist, command_list->item[2]);
+    darray_append(inseditlist, command_list->item[3]);
+    darray_append(inseditlist, command_list->item[4]);
+    darray_append(inseditlist, command_list->item[5]);
+    darray_append(inseditlist, command_list->item[6]);
+}
+
+static void connect_vertex_cb(layout_ptr lp, vertex_ptr v0, vertex_ptr v1, int j)
+{
+    canvas_select_connection(canvas, add_connection(lp, v0, v1, j));
+}
+
 int main(int argc, char **argv)
 {
     struct midi_cb_s midicbp = {
@@ -2023,8 +1655,12 @@ int main(int argc, char **argv)
 	midi_note_off
     };
 
+    event_interrupt.type = SDL_USEREVENT;
+    event_interrupt.user.code = code_interrupt;
     signal(SIGINT, interrupt);
     signal(SIGTERM, interrupt);
+
+    config_init();
 
     init_libs();
 
@@ -2054,7 +1690,11 @@ int main(int argc, char **argv)
 	}
     }
     init_info();
-    init_canvas();
+    canvas_init(canvas, root,
+	    select_nothing_cb,
+	    select_connection_cb,
+	    select_vertex_cb,
+	    connect_vertex_cb);
 
     about_init(about_window, root);
     file_window_init(file_window, root);
@@ -2068,11 +1708,10 @@ int main(int argc, char **argv)
     midi_start(&midicbp);
     widget_update(root);
     request_update(root);
-    SDL_PauseAudio(0);
-    SDL_PauseAudio(0);
+    audio_start();
     main_loop();
     midi_stop();
-    SDL_PauseAudio(1);
+    audio_stop();
     
     //TODO: free everything
     return 0;

@@ -2,8 +2,6 @@
 
 #include "textbox.h"
 
-textbox_ptr textbox_selection;
-
 void textbox_put_string(textbox_t tb, char *s)
 {
     //TODO: replace with dynamic version
@@ -21,7 +19,7 @@ void textbox_update(textbox_t tb)
 
     widget_string(tb->w, 4, 4, tb->s, c_text);
 
-    if (state == state_textbox && textbox_selection == tb) {
+    if (tb->active) {
 	//draw cursor
 	int x;
 	x = tb->cursor * 8 + 2;
@@ -74,24 +72,28 @@ static char shift_key(unsigned char ch)
 
 void textbox_ok(textbox_t tb)
 {
-    state = state_normal;
-    textbox_selection = NULL;
     strcpy(tb->savedcopy, tb->s);
     textbox_update(tb);
     request_update(tb->w);
-    tb->ok_cb(tb->ok_cb_data, tb->s);
+    if (tb->ok_cb) tb->ok_cb(tb->ok_cb_data, tb->s);
 }
 
 void textbox_cancel(textbox_t tb)
 {
-    state = state_normal;
-    textbox_selection = NULL;
     textbox_put_string(tb, tb->savedcopy);
     textbox_update(tb);
-    //tb->cancel_cb(tb->cancel_cb_data, tb->s);
+    request_update(tb->w);
 }
 
-void textbox_handlekey(widget_ptr w, int key, int mod)
+static void textbox_deactivate(textbox_ptr tb)
+{
+    disable_key_repeat();
+    widget_pop_keydowncb();
+    widget_pop_buttondowncb();
+    tb->active = 0;
+}
+
+static void textbox_handlekey(widget_ptr w, int key, int mod)
 {
     textbox_ptr tb = (textbox_ptr) w;
     if (key >= 32 && key <= 126) {
@@ -120,12 +122,12 @@ void textbox_handlekey(widget_ptr w, int key, int mod)
 	    textbox_delete(tb);
 	    break;
 	case SDLK_ESCAPE:
-	    widget_pop_keydowncb();
+	    textbox_deactivate(tb);
 	    textbox_cancel(tb);
 	    return;
 	    break;
 	case SDLK_RETURN:
-	    widget_pop_keydowncb();
+	    textbox_deactivate(tb);
 	    textbox_ok(tb);
 	    return;
 	    break;
@@ -134,21 +136,39 @@ void textbox_handlekey(widget_ptr w, int key, int mod)
     request_update(tb->w);
 }
 
-//TODO: get rid of handlekey in widget.h?
 static int textbox_key_down(widget_ptr w, int sym, int mod, void *data)
 {
     textbox_handlekey(w, sym, mod);
     return 0;
 }
 
+static int textbox_button_down(widget_ptr w, int button, int x, int y, void *data)
+{
+    textbox_ptr tb = (textbox_ptr) w;
+    if (widget_contains(w, x, y)) {
+	tb->cursor = x / 8;
+	if (tb->cursor > tb->len) tb->cursor = tb->len;
+	textbox_update(tb);
+	request_update(tb->w);
+	return 0;
+    } else {
+	textbox_deactivate(tb);
+	textbox_ok(tb);
+	return 1;
+    }
+}
+
 void textbox_handlembdown(widget_ptr w, int button, int x, int y)
 {
     textbox_ptr tb = (textbox_ptr) w;
-    state = state_textbox;
-    textbox_selection = tb;
+
     tb->cursor = x / 8;
     if (tb->cursor > tb->len) tb->cursor = tb->len;
+
     widget_push_keydowncb(w, textbox_key_down, NULL);
+    widget_push_buttondowncb(w, textbox_button_down, NULL);
+    enable_key_repeat();
+    tb->active = 1;
     textbox_update(tb);
     request_update(tb->w);
 }
@@ -158,8 +178,8 @@ void textbox_init(textbox_ptr tb, widget_ptr parent)
     widget_init(tb->w, parent);
     tb->w->update = (void (*)(widget_ptr)) textbox_update;
     tb->w->handle_mousebuttondown = textbox_handlembdown;
-    tb->w->handle_keydown = textbox_handlekey;
     textbox_put_string(tb, "");
+    tb->active = 0;
 }
 
 textbox_ptr textbox_new(widget_ptr parent)
@@ -177,12 +197,3 @@ void textbox_put_ok_callback(textbox_t tb,
     tb->ok_cb = func;
     tb->ok_cb_data = data;
 }
-
-/*
-void textbox_put_cancel_callback(textbox_t tb,
-	void (*func)(void *data, char *), void *data)
-{
-    tb->cancel_cb = func;
-    tb->cancel_cb_data = data;
-}
-*/

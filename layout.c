@@ -1,34 +1,32 @@
 #include <stdlib.h>
 #include "layout.h"
 
-void layout_init(layout_ptr p, widget_ptr parent, void *data)
+void layout_init(layout_ptr lp, widget_ptr parent, graph_ptr graph)
 {
-    p->parent = parent;
-    darray_init(p->vertex_list);
-    darray_init(p->connection_list);
-    p->data = data;
+    lp->parent = parent;
+    darray_init(lp->vertex_list);
+    darray_init(lp->connection_list);
+    lp->graph = graph;
+    htable_init(lp->etab);
 }
 
-void layout_clear(layout_ptr p)
+void layout_clear(layout_ptr lp)
 {
-    int i;
+    darray_ptr a = lp->vertex_list;
+    while (a->count) {
+	vertex_ptr v = darray_last(a);
+	layout_remove_vertex(lp, v);
+    }
 
-    for (i=0; i<p->vertex_list->count; i++) {
-	vertex_ptr v = (vertex_ptr) p->vertex_list->item[i];
-	vertex_free(v);
-    }
-    for (i=0; i<p->connection_list->count; i++) {
-	connection_ptr c = (connection_ptr) p->connection_list->item[i];
-	connection_free(c);
-    }
-    darray_clear(p->vertex_list);
-    darray_clear(p->connection_list);
+    darray_clear(lp->vertex_list);
+    darray_clear(lp->connection_list);
+    htable_clear(lp->etab);
 }
 
-layout_ptr layout_new(widget_ptr parent, void *data)
+layout_ptr layout_new(widget_ptr parent, graph_ptr graph)
 {
     layout_ptr res = (void *) malloc(sizeof(layout_t));
-    layout_init(res, parent, data);
+    layout_init(res, parent, graph);
     return res;
 }
 
@@ -46,21 +44,49 @@ vertex_ptr vertex_new(layout_ptr lp)
     return res;
 }
 
-void vertex_free(vertex_ptr v)
+void layout_remove_vertex(layout_ptr lp, vertex_ptr v)
 {
+    //remove in/out connections
+    darray_ptr a = v->node->in;
+    while (a->count) {
+	edge_ptr e = darray_last(a);
+	connection_ptr c = htable_at(lp->etab, e);
+	layout_remove_connection(lp, c);
+    }
+
+    a = v->node->out;
+    while (a->count) {
+	edge_ptr e = darray_last(a);
+	connection_ptr c = htable_at(lp->etab, e);
+	layout_remove_connection(lp, c);
+    }
+
+    //remove vertex
+    darray_remove(lp->vertex_list, v);
+    graph_remove_node(lp->graph, v->node);
     widget_clear(v->w);
     free(v);
 }
 
-void layout_remove_vertex(layout_ptr lp, vertex_ptr v)
+connection_ptr layout_add_connection(layout_ptr lp,
+	vertex_ptr src, vertex_ptr dst, void *data)
 {
-    //TODO: remove connections
-    darray_remove(lp->vertex_list, v);
-    vertex_free(v);
+    connection_ptr c = (connection_ptr) malloc(sizeof(connection_t));
+
+    widget_init(c->w, lp->parent);
+    c->src = src;
+    c->dst = dst;
+    c->edge = graph_add_edge(lp->graph, src->node, dst->node, data);
+    darray_append(lp->connection_list, c);
+    htable_put(lp->etab, c, c->edge);
+    return c;
 }
 
-void connection_free(connection_ptr c)
+void layout_remove_connection(layout_ptr lp, connection_ptr c)
 {
+    htable_remove(lp->etab, c->edge);
+    darray_remove(lp->connection_list, c);
     widget_clear(c->w);
+    graph_remove_edge(lp->graph, c->edge);
     free(c);
 }

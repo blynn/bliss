@@ -1,9 +1,24 @@
+#include <stdlib.h>
 #include "widget.h"
 #include "colour.h"
 
 #include "SDL_gfxPrimitives.h"
 
+enum {
+    update_interval = 10,
+};
+
 static SDL_Surface *screen;
+
+void enable_key_repeat()
+{
+    SDL_EnableKeyRepeat(150, 50);
+}
+
+void disable_key_repeat()
+{
+    SDL_EnableKeyRepeat(0, 0);
+}
 
 void widget_set_screen(SDL_Surface *s)
 {
@@ -203,10 +218,6 @@ void widget_move_children(widget_ptr w)
     }
 }
 
-void widget_handle_keydown(widget_ptr w, int sym, int mod)
-{
-}
-
 void widget_handle_mousebuttondown(widget_ptr w, int button, int x, int y)
 {
     int i;
@@ -254,7 +265,6 @@ void widget_init(widget_ptr w, widget_ptr parent)
     w->parent = parent;
     darray_append(parent->child, w);
     w->handle_mousebuttondown = widget_handle_mousebuttondown;
-    w->handle_keydown = widget_handle_keydown;
     w->update = widget_draw_children;
     w->put_size = widget_put_size;
 }
@@ -294,11 +304,29 @@ void widget_put_geometry(widget_ptr wid, int x, int y, int w, int h)
     wid->h = h;
 }
 
-SDL_Rect request[100];
-int requestcount = 0;
+static SDL_Rect request[100];
+static int requestcount = 0;
+static int requesttimer = 0;
+static SDL_mutex *requestmut;
+
+void process_request()
+{
+    SDL_UpdateRects(screen, requestcount, request);
+    requestcount = 0;
+}
+
+Uint32 requesttimercb(Uint32 interval, void *data)
+{
+    SDL_mutexP(requestmut);
+    process_request();
+    requesttimer = 0;
+    SDL_mutexV(requestmut);
+    return 0;
+}
 
 void append_request(int x, int y, int w, int h)
 {
+    SDL_mutexP(requestmut);
     request[requestcount].x = x;
     request[requestcount].y = y;
     if (x + w >= screen->w) request[requestcount].w = screen->w - x;
@@ -307,24 +335,31 @@ void append_request(int x, int y, int w, int h)
     else request[requestcount].h = h;
     requestcount++;
     if (requestcount >= 100) {
-	printf("request overflow!\n");
+	//shouldn't happen!
+	process_request();
 	requestcount = 0;
+	return;
     }
+    if (!requesttimer) {
+	requesttimer = 1;
+	SDL_AddTimer(update_interval, requesttimercb, NULL);
+    }
+    SDL_mutexV(requestmut);
 }
 
-void request_process()
-{
-    SDL_UpdateRects(screen, requestcount, request);
-    requestcount = 0;
-}
-
-static darray_t motioncblist; //TODO: use hash table + linked list instead?
+static darray_t motioncblist;
 static darray_t keydowncblist;
+static darray_t buttondowncblist;
 
+static SDL_Event event_motion;
 void widget_system_init()
 {
     darray_init(motioncblist);
     darray_init(keydowncblist);
+    darray_init(buttondowncblist);
+    requestmut = SDL_CreateMutex();
+    event_motion.type = SDL_USEREVENT;
+    event_motion.user.code = code_motion;
 }
 
 void widget_bind_mouse_motion(widget_ptr w, motioncb func, void *data)
@@ -360,11 +395,11 @@ void root_mouse_motion(int x0, int y0, int x1, int y1)
     darray_forall(motioncblist, check_item);
 }
 
-static buttoncbfunc buttonupcb = NULL;
+static buttoncb buttonupcb = NULL;
 static void *buttonupcbdata = NULL;
 static widget_ptr buttonupcbw = NULL;
 
-void widget_on_next_button_up(widget_ptr w, buttoncbfunc func, void *data)
+void widget_on_next_button_up(widget_ptr w, buttoncb func, void *data)
 {
     buttonupcbw = w;
     buttonupcb = func;
@@ -391,21 +426,84 @@ void root_key_down(int sym, int mod)
     }
 }
 
-void widget_push_keydowncb(widget_ptr w, keydowncb func, void *data)
+void root_button_down(widget_ptr w, int button, int x, int y)
+{
+    int i;
+
+    if (button != 1) return;
+
+    for (i=buttondowncblist->count-1; i>=0; i--) {
+	widget_callback_ptr p = buttondowncblist->item[i];
+	if (!((buttoncb) p->func)(p->w, button,
+		    x - p->w->globalx, y - p->w->globaly, p->data)) return;
+    }
+
+    for (i=0; i<w->show_list->count; i++) {
+	widget_ptr w1 = (widget_ptr) w->show_list->item[i];
+	if (global_contains(w1, x, y)) {
+	    w1->handle_mousebuttondown(w1, button, x - w1->globalx, y - w1->globaly);
+	    return;
+	}
+    }
+}
+
+static void widget_push_cb(darray_ptr list,
+	widget_ptr w, void *func, void *data)
 {
     widget_callback_ptr p
 	= (widget_callback_ptr) malloc(sizeof(widget_callback_t));
     p->w = w;
     p->func = (void *) func;
     p->data = data;
-    darray_append(keydowncblist, p);
+    darray_append(list, p);
+}
+
+static void widget_pop_cb(darray_ptr list)
+{
+    if (darray_is_empty(list)) {
+	printf("error: callback list is empty!\n");
+	return;
+    }
+    free(darray_last(list));
+    darray_remove_last(list);
+}
+
+void widget_push_keydowncb(widget_ptr w, keydowncb func, void *data)
+{
+    widget_push_cb(keydowncblist, w, func, data);
 }
 
 void widget_pop_keydowncb()
 {
-    if (darray_is_empty(keydowncblist)) {
-	printf("error: keydowncblist is empty!\n");
-	return;
-    }
-    darray_remove_last(keydowncblist);
+    widget_pop_cb(keydowncblist);
+}
+
+void widget_push_buttondowncb(widget_ptr w, buttoncb func, void *data)
+{
+    widget_push_cb(buttondowncblist, w, func, data);
+}
+
+void widget_pop_buttondowncb()
+{
+    widget_pop_cb(buttondowncblist);
+}
+
+void motion_notify()
+{
+    SDL_PushEvent(&event_motion);
+}
+
+void widget_hide_all(widget_ptr w)
+{
+    darray_remove_all(w->show_list);
+}
+
+void screen_blit(image_ptr img, rect_ptr imgr, rect_ptr screenr)
+{
+    SDL_BlitSurface(img, imgr, screen, screenr);
+}
+
+void screen_capture(rect_ptr screenr, image_ptr img)
+{
+    SDL_BlitSurface(screen, screenr, img, NULL);
 }

@@ -37,6 +37,12 @@ void gen_clear(gen_t g)
     free(g->param);
 }
 
+void gen_free(gen_ptr g)
+{
+    gen_clear(g);
+    free(g);
+}
+
 void *gen_note_on(gen_t g)
 {
     //perform any required per note initializations

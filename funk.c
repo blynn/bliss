@@ -5,6 +5,7 @@
 #include <math.h>
 
 #include "gen.h"
+#include "util.h"
 
 struct ftree_s {
     double (* eval)(struct ftree_s *, double *);
@@ -404,13 +405,6 @@ void funk_clear_program(gen_ptr g)
     free(p->program);
     ftree_clear(p->root);
     free(p->root);
-}
-
-static char *strclone(char *s)
-{
-    char *res = malloc(strlen(s) + 1);
-    strcpy(res, s);
-    return res;
 }
 
 void funk_init_program(gen_ptr g, char *s)

@@ -200,7 +200,7 @@ static void menubar_motion(widget_ptr w, int xold, int yold,
     }
 }
 
-static void menubar_mouse_button_up(widget_ptr w, int button, int x, int y, void *data)
+static int menubar_mouse_button_up(widget_ptr w, int button, int x, int y, void *data)
 {
     menubar_ptr m = (menubar_ptr) w;
     menubutton_ptr p = (menubutton_ptr) m->selected;
@@ -211,10 +211,11 @@ static void menubar_mouse_button_up(widget_ptr w, int button, int x, int y, void
 	    menu_entry_ptr e = (menu_entry_ptr) menu->selected;
 	    menubutton_close(p);
 	    e->callback(e->data);
-	    return;
+	    return 0;
 	}
     }
     menubutton_close(p);
+    return 0;
 }
 
 static void menubar_mouse_button_down(widget_ptr w, int button, int x, int y)

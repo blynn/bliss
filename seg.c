@@ -4,6 +4,7 @@
 
 struct seg_data_s {
     int t0, t1;
+    double deltat, deltay;
     double y0, y1;
 };
 
@@ -12,29 +13,27 @@ typedef struct seg_data_s *seg_data_ptr;
 
 struct seg_note_data_s {
     int age;
-    int dead;
 };
 
 typedef struct seg_note_data_s seg_note_data_t[1];
 typedef struct seg_note_data_s *seg_note_data_ptr;
 
-void *seg_note_on()
+static void *seg_note_on()
 {
     seg_note_data_ptr p;
     p = (seg_note_data_ptr) malloc(sizeof(seg_note_data_t));
 
     p->age = 0;
-    p->dead = 0;
 
     return (void *) p;
 }
 
-void seg_note_free(void *data)
+static void seg_note_free(void *data)
 {
     free(data);
 }
 
-double seg_tick(gen_t g, gen_data_ptr gd, double *value)
+static double seg_tick(gen_t g, gen_data_ptr gd, double *value)
 {
     seg_data_ptr sdp = (seg_data_ptr) g->data;
     seg_note_data_ptr p = (seg_note_data_ptr) gd->data;
@@ -49,72 +48,76 @@ double seg_tick(gen_t g, gen_data_ptr gd, double *value)
 	p->age++;
 	return 0.0;
     }
-    res = sdp->y0
-	+ (p->age - sdp->t0) * (sdp->y1 - sdp->y0) / ((double) (sdp->t1 - sdp->t0));
+    res = sdp->y0 + (p->age - sdp->t0) * sdp->deltay / sdp->deltat;
     p->age++;
     return res * value[0];
 }
 
-void seg_init(gen_ptr g)
+static void seg_init(gen_ptr g)
 {
     g->data = malloc(sizeof(seg_data_t));
 }
 
-void seg_clear(gen_ptr g)
+static void seg_clear(gen_ptr g)
 {
     free(g->data);
 }
 
-void t0_cb(gen_ptr g, double val)
+static void t0_cb(gen_ptr g, double val)
 {
     seg_data_ptr p = (seg_data_ptr) g->data;
     p->t0 = val * samprate;
+    p->deltat = p->t1 - p->t0;
 }
 
-void t1_cb(gen_ptr g, double val)
+static void t1_cb(gen_ptr g, double val)
 {
     seg_data_ptr p = (seg_data_ptr) g->data;
     p->t1 = val * samprate;
+    p->deltat = p->t1 - p->t0;
 }
 
-void y0_cb(gen_ptr g, double val)
+static void y0_cb(gen_ptr g, double val)
 {
     seg_data_ptr p = (seg_data_ptr) g->data;
     p->y0 = val;
+    p->deltay = p->y1 - p->y0;
 }
 
-void y1_cb(gen_ptr g, double val)
+static void y1_cb(gen_ptr g, double val)
 {
     seg_data_ptr p = (seg_data_ptr) g->data;
     p->y1 = val;
+    p->deltay = p->y1 - p->y0;
 }
 
-struct param_s param_t0 = {
+static struct param_s param_t0 = {
     "t0",
     0.0,
     t0_cb
 };
 
-struct param_s param_y0 = {
+static struct param_s param_y0 = {
     "y0",
     1.0,
     y0_cb
 };
 
-struct param_s param_t1 = {
+static struct param_s param_t1 = {
     "t1",
     1.0,
     t1_cb
 };
 
-struct param_s param_y1 = {
+static struct param_s param_y1 = {
     "y1",
     0.0,
     y1_cb
 };
 
-char *seg_port_list[] = { "input" };
-param_ptr seg_param_list[] = { &param_t0, &param_y0, &param_t1, &param_y1 };
+static char *seg_port_list[] = { "input" };
+static param_ptr seg_param_list[]
+	= { &param_t0, &param_y0, &param_t1, &param_y1 };
 
 struct gen_info_s seg_info = {
     "seg",

@@ -1,3 +1,75 @@
+Mon Aug  2 11:45:08 PDT 2004
+
+Minor cleanup.
+
+[bliss-0.1.2.tgz]
+
+Sun Aug  1 20:18:30 PDT 2004
+
+Implemented unit/voice deletion.
+
+Moved canvas code to canvas.c.
+
+Added very basic configuration file code.
+It loads "config.txt" and parses strings (assuming the input is nice).
+Can change audio latency.
+
+Sat Jul 31 14:26:40 PDT 2004
+
+Can have effects at the instrument level.
+
+Changed file format so save and load work with them.
+
+Thu Jul 29 11:56:55 PDT 2004
+
+Added graph_s structure. Modified voice.c to use it.
+
+Sat Jul 24 14:00:47 PDT 2004
+
+Wrote a proper delay unit. Can do feedback, hence basic digital waveguide
+synthesis, e.g.  Karplus-Strong string sound, but since the "output"
+variable is shared by all notes, it only works when one note is played
+at a time.
+
+Changed it so that each note has a dedicated output per node, allowing
+polyphonic voices that use feedback. (Old code is still in file.)
+
+Fri Jul 23 12:44:51 PDT 2004
+
+Cleaned up GUI code some more. No longer have "textbox_selection"
+or "display_window" kludges.
+
+Thu Jul 22 13:01:40 PDT 2004
+
+I tried my cross-compiled program on Windows (98 and XP) and audio dropouts
+occur all the time. To get bearable audio output, I had to set the latency
+in audio.c to at least 2048.
+
+Wed Jul 21 15:45:24 PDT 2004
+
+Moved command panel code to compan.c.
+Changed nature of main loop. Polling no longer done.
+Instead, timers are used to update the screen and mouse motions.
+
+Tue Jul 20 23:03:57 PDT 2004
+
+Added much-needed hierarchical button structure, i.e. click on "Oscillators"
+first and then pick an oscillator.
+
+Added Stomper Hyperion envelopes, found optimizations for "seg" unit.
+
+"osc" unit: reversed sawtooth and found slight optimization,
+added triangle wave. Renamed "shape" to "waveform".
+
+Added Stomper Hyperion oscillators. Works just like it, with its various
+quirks, except it doesn't do WAVs yet.
+
+My guess is that Stomper uses a two-pole Butterworth filter.
+However I don't know what scale the resonance uses.
+A cutoff of 1.0 appears to cause the Stomper filter to be a pure resonator
+which corresponds with Q = infinity in my code, and 0.0 seems to give zero
+resonance, corresponding with Q = 1/sqrt(2) in my code.
+
 Tue Jul 20 14:21:27 PDT 2004
 
 Added "pow" function to "funk".

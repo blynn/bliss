@@ -14,5 +14,7 @@ struct window_s {
 };
 
 void window_init(window_ptr win, widget_ptr parent);
+void window_open(window_ptr w);
+void window_close(window_ptr w);
 
 #endif //WINDOW_H

@@ -68,3 +68,8 @@ void htable_remove(htable_ptr h, void *key)
     }
 
 }
+
+void htable_forall(htable_ptr h, void (*func)(void *))
+{
+    darray_forall(h->d, func);
+}

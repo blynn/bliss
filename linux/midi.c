@@ -99,6 +99,11 @@ static void *read_loop(void *data)
 {
     fd = open("/dev/midi00", O_RDONLY);
 
+    if (fd == -1) {
+	printf("Unable to open MIDI device\n");
+	return NULL;
+    }
+
     while (!stopflag) {
 	read(fd, buf, 1);
 	if (buf[0] & 0x80) {

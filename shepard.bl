@@ -1,4 +1,5 @@
-bliss 0.1.1
+bliss 0.1.2
+    unit out out 488 258
 voice voice0 0 127 294 258 {
     unit out out 488 258
     unit freq dummy 5 258
@@ -30,3 +31,4 @@ track {
   293 noteon 72 64
   142 noteoff 72
 }
+connect voice0 out 0

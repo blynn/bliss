@@ -71,7 +71,7 @@ void random_wave_clear(gen_ptr g)
 char *random_wave_port_list[] = { "freq", "smooth" };
 
 struct gen_info_s random_wave_info = {
-    "blop_random_wave",
+    "bloprandomwave",
     "Random Wave",
     random_wave_init,
     random_wave_clear,

@@ -18,6 +18,7 @@ struct note_s;
 struct gen_data_s {
     void *data;
     int alive;
+    double output; //one output per note (per node)
     struct note_s *note; //TODO: remove and add more builtins?
 };
 
@@ -63,6 +64,7 @@ void *gen_note_on(gen_t g);
 void gen_note_free(gen_t g, void *data);
 double gen_tick(gen_t g, gen_data_ptr gd, double *value);
 void gen_clear(gen_t g);
+void gen_free(gen_ptr g);
 
 static inline double double_clip(double d, double min, double max)
 {

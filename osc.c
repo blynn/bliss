@@ -10,21 +10,23 @@ struct osc_data_s {
 typedef struct osc_data_s osc_data_t[1];
 typedef struct osc_data_s *osc_data_ptr;
 
-void *osc_note_on()
+static void *osc_note_on()
 {
     double *res = (double *) malloc(sizeof(double));
     *res = 0.0;
     return (void *) res;
 }
 
-void osc_note_free(void *data)
+static void osc_note_free(void *data)
 {
     free(data);
 }
 
+//the waveform is positive in the first half
+//and negative in the second half for consistency,
 static double sawfn(gen_t g, double d)
 {
-    return 2 * (d - 0.5);
+    return 1.0 - 2.0 * d;
 }
 
 static double pulsefn(gen_t g, double d)
@@ -40,32 +42,39 @@ static double sinfn(gen_t g, double d)
     return res;
 }
 
-double osc_tick(gen_t g, gen_data_ptr gd, double *value)
+static double trifn(gen_t g, double d)
+{
+    if (d < 0.25) return d * 4.0;
+    if (d < 0.75) return 2.0 - 4.0 * d;
+    return 4.0 * (d - 1.0);
+}
+
+static double osc_tick(gen_t g, gen_data_ptr gd, double *value)
 {
     double res;
     osc_data_ptr p;
-    double *dp;
+    double phase;
 
-    dp = (double *) gd->data;
-    *dp = (*dp) + value[0] * inv_samprate;
-    if (*dp > 1.0) *dp -= 1.0;
-    //else if (*dp < 0.0) *dp += 1.0;
+    phase = *((double *) gd->data);
+    phase += double_clip(value[0], 0.0, nyquist) * inv_samprate;
+    if (phase > 1.0) phase -= 1.0;
     p = (osc_data_ptr) g->data;
-    res = p->oscfn(g, *dp);
+    res = p->oscfn(g, phase);
+    *((double *) gd->data) = phase;
     return res;
 }
 
-void osc_init(gen_ptr g)
+static void osc_init(gen_ptr g)
 {
     g->data = malloc(sizeof(osc_data_t));
 }
 
-void osc_clear(gen_ptr g)
+static void osc_clear(gen_ptr g)
 {
     free(g->data);
 }
 
-void shape_cb(gen_ptr g, double d)
+static void waveform_cb(gen_ptr g, double d)
 {
     int n = (int) d;
     osc_data_ptr p;
@@ -81,17 +90,20 @@ void shape_cb(gen_ptr g, double d)
 	case 2:
 	    p->oscfn = pulsefn;
 	    break;
+	case 3:
+	    p->oscfn = trifn;
+	    break;
     }
 }
 
-struct param_s param_shape = {
-    "shape",
+static struct param_s param_waveform = {
+    "waveform",
     0,
-    shape_cb
+    waveform_cb
 };
 
 static char *osc_port_list[] = { "freq" };
-static param_ptr osc_param_list[] = { &param_shape };
+static param_ptr osc_param_list[] = { &param_waveform };
 
 struct gen_info_s osc_info = {
     "osc",

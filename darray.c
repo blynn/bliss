@@ -1,7 +1,10 @@
 //TODO: use memmove for remove routines?
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "darray.h"
+
+#include <assert.h>
 
 enum {
     max_init = 8
@@ -31,6 +34,7 @@ void darray_remove_all(darray_ptr a)
 
 void darray_remove_last(darray_ptr a)
 {
+    assert(a->count > 0);
     a->count--;
 }
 
@@ -82,11 +86,9 @@ void darray_show(darray_ptr a)
 
 void darray_remove_index(darray_ptr a, int n)
 {
-    int i;
-    for (i=n; i<a->count; i++) {
-	a->item[i] = a->item[i+1];
-    }
+    assert(a->count >= n-1);
     a->count--;
+    memmove(&a->item[n], &a->item[n+1], sizeof(void *) * (a->count - n));
 }
 
 void darray_remove(darray_ptr a, void *p)
@@ -94,12 +96,12 @@ void darray_remove(darray_ptr a, void *p)
     int i;
     for (i=0; i<a->count; i++) {
 	if (a->item[i] == p) {
-	    for (;i<a->count; i++) {
-		a->item[i] = a->item[i+1];
-	    }
 	    a->count--;
+	    memmove(&a->item[i], &a->item[i+1], sizeof(void *) * (a->count - i));
+	    return;
 	}
     }
+    assert(0);
 }
 
 void darray_remove_with_test(darray_ptr a, int (*test)(void *))
@@ -117,12 +119,15 @@ void darray_remove_with_test(darray_ptr a, int (*test)(void *))
 
 void darray_copy(darray_ptr dst, darray_ptr src)
 {
-    int i;
     darray_realloc(dst, src->count);
+    /*
     //TODO: memcpy instead?
+    int i;
     for (i=0; i<src->count; i++) {
 	dst->item[i] = src->item[i];
     }
+    */
+    memcpy(dst->item, src->item, src->count * sizeof(void *));
     dst->count = src->count;
 }
 

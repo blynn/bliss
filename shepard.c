@@ -1,3 +1,5 @@
+//Based on description given in
+//"Elements of Computer Music" (Moore 1990)
 #include <stdlib.h>
 #include <math.h>
 

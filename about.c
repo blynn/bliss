@@ -3,12 +3,10 @@
 #include "label.h"
 #include "button.h"
 
-extern void close_window();
-
 void okcb(void *data)
 {
-    //window_ptr win = (window_ptr) data;
-    close_window();
+    window_ptr win = (window_ptr) data;
+    window_close(win);
 }
 
 void about_init(window_ptr win, widget_ptr parent)

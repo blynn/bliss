@@ -1,0 +1,45 @@
+bliss 0.1.2
+voice voice0 0 127 26 59 {
+    unit out out 488 258
+    unit freq dummy 17 177
+    unit f0 funk2 105 285
+    setfn f0 1/x
+    unit delay0 delay 277 254
+    unit noise0 noise 47 61
+    unit seg0 seg 154 123
+    set seg0 t0 0.000000
+    set seg0 y0 1.000000
+    set seg0 t1 0.020000
+    set seg0 y1 1.000000
+    unit 1zero0 onezero 328 421
+    unit f1 funk2 99 389
+    setfn f1 -1
+    connect freq f0 0
+    connect f0 delay0 1
+    connect delay0 out 0
+    connect delay0 1zero0 0
+    connect 1zero0 delay0 0
+    connect f1 1zero0 1
+    connect noise0 seg0 0
+    connect seg0 delay0 0
+}
+    unit clip0 clipper 149 89
+    set clip0 min -0.100000
+    set clip0 max 0.100000
+    unit f2 funk2 266 28
+    setfn f2 x*10.0
+    unit f0 funk2 31 259
+    setfn f0 0.2
+    unit out out 444 168
+    unit delay0 delay 257 314
+    unit f1 funk2 383 314
+    setfn f1 x*0.3
+    connect f0 delay0 1
+    connect delay0 f1 0
+    connect voice0 clip0 0
+    connect clip0 f2 0
+    connect f2 out 0
+    connect f1 out 0
+    connect out delay0 0
+track {
+}

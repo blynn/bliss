@@ -1,30 +1,29 @@
 #include "file_window.h"
 
-extern void close_window();
-
 void button_ok(void *data)
 {
-    textbox_ok((textbox_ptr) data);
+    file_window_ptr fw = data;
+    window_close(fw->win);
+    fw->callback(fw->tbfilename->s);
 }
 
 void button_cancel(void *data)
 {
-    close_window();
+    file_window_ptr fw = data;
+    window_close(fw->win);
 }
 
 void file_window_setup(file_window_ptr fw, char *title, char *buttontext,
-	void (*callback)(void *, char *))
+	void (*callback)(char *))
 {
     button_ptr b;
-    textbox_ptr tb;
 
     fw->win->title = title;
     
     b = fw->bok;
-    tb = fw->tbfilename;
     image_free(b->img);
     button_make_text_image(b, buttontext);
-    tb->ok_cb = callback;
+    fw->callback = callback;
 }
 
 void file_window_init(file_window_ptr fw, widget_ptr parent)
@@ -48,6 +47,7 @@ void file_window_init(file_window_ptr fw, widget_ptr parent)
     //tb->w->w = win->body->w - 10;
     tb->w->w = 300 - 10 - 4;
     tb->w->h = 16;
+    textbox_put_ok_callback(tb, NULL, NULL);
     widget_show(tb->w);
 
     b = fw->bok;
@@ -57,7 +57,7 @@ void file_window_init(file_window_ptr fw, widget_ptr parent)
     w->localy = 55;
     b->text = "Ok";
     button_make_text_image(b, "Ok");
-    button_put_callback(b, button_ok, (void *) tb);
+    button_put_callback(b, button_ok, (void *) fw);
     widget_show(b->w);
 
     b = fw->bcancel;
@@ -67,7 +67,7 @@ void file_window_init(file_window_ptr fw, widget_ptr parent)
     w->localy = 55;
     b->text = "Cancel";
     button_make_text_image(b, b->text);
-    button_put_callback(b, button_cancel, (void *) tb);
+    button_put_callback(b, button_cancel, (void *) fw);
     widget_show(b->w);
 
     l = label_new(win->body);

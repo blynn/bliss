@@ -8,11 +8,10 @@
 
 struct voice_s {
     char *id;
-    darray_t node_list;
+    graph_t graph;
     darray_t note_list;
     node_ptr out;
     node_ptr freq;
-    int maxport;
     int ref_count;
     note_ptr keyboard[128];
     int notemin;
@@ -32,7 +31,7 @@ struct node_data_s {
     char *id;
     int type;
     int visited;
-    double output;
+    double output; //one output per node; polyphony + feedback doesn't work
     int gen_index;
     gen_ptr gen;
     voice_ptr voice;
@@ -41,16 +40,16 @@ struct node_data_s {
 typedef struct node_data_s node_data_t[1];
 typedef struct node_data_s *node_data_ptr;
 
-edge_ptr voice_connect(voice_t ins, node_ptr src, node_ptr dst, int dstport);
-void voice_init(voice_t ins, char *id);
+edge_ptr voice_connect(voice_ptr voice, node_ptr src, node_ptr dst, int dstport);
+void voice_init(voice_t, char *id);
 voice_ptr voice_new(char *s);
-void voice_clear(voice_ptr ins);
+void voice_clear(voice_ptr);
 void voice_free(voice_ptr voice);
-node_ptr voice_add_gen(voice_t ins, gen_info_t gi, char *id);
-double voice_tick(voice_t ins);
-note_ptr voice_note_on(voice_t ins, int noteno, double volume);
+node_ptr node_from_gen_info(graph_ptr graph, gen_info_t gi, char *id);
+node_ptr voice_add_gen(voice_t, gen_info_t gi, char *id);
+double voice_tick(voice_t);
+note_ptr voice_note_on(voice_t, int noteno, double volume);
 void voice_note_off(voice_t voice, int noteno);
-void voice_disconnect(voice_t ins, edge_ptr e);
 
 void set_param(node_ptr node, int n, double val);
 int no_of_param(node_ptr node, char *id);

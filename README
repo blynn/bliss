@@ -1,4 +1,4 @@
-Bliss 0.1.1
+Bliss 0.1.2
 
 Ben Lynn
 
@@ -14,8 +14,7 @@ DEMOS
 
 stomper.bl
     Stomper Hyperion (http://www.master-zap.com/) comes with some demo sounds.
-    I ported a few of them to Bliss. The track has a simple
-    drum pattern.
+    I ported a few of them to Bliss.
 
 demo.bl
     Uses a very simple instrument. The track has a line from "Armani Showers",
@@ -24,6 +23,24 @@ demo.bl
 shepard.bl
     Produces an acoustical illusion. The scale that seems to go up an octave
     but it has actually ended up where it started.
+
+pluck.bl
+    Uses the Karplus-Strong algorithm to sound like a plucked string.
+
+dist.bl
+    A distorted plucked string with echo. Sounds a bit like an electric guitar.
+    Shows how effects can be used at the instrument level.
+
+CONFIGURATION
+
+bliss can be configured using the file "config.txt". There is only one
+option at the moment:
+
+latency <n>
+    Open the audio driver with latency n. n should be a power of 2. The
+    larger n is, the larger the delay between input and audio output,
+    but if n is too small, audio dropouts become frequent (especially
+    on Windows)
 
 NOTES
 
