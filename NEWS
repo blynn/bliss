@@ -1,0 +1,153 @@
+Fri Mar 28 12:16:54 PST 2003
+    Plugins: instead of machine_info struct, now provide machine_info_init
+    function. More flexible, and easier to debug.
+
+    Added machine->tick(): this is called at the end of every row in a pattern.
+    Handy for porting buzz machines.
+
+Sat Mar 22 19:24:08 PST 2003
+    Added screenshot function.
+
+    bugfix: was using pattern->id before it was initialized
+    during machine_pattern_new_auto_id()
+
+    [bliss-0.01.tgz]
+
+Sat Mar 22 11:39:32 PST 2003
+    bugfix: new_pattern_name: wasn't cloning string.
+
+Fri Mar 21 20:53:21 PST 2003
+    Added window widgets, very kludgy but they appear to work.
+
+    Added about window, filename textbox window.
+
+    Cleaned up mlist.c, pl.c, so that pl.c is barebones platform-dependent
+    code, while mlist is higher-level list of machine info.
+
+    New machine brings up list of available machines.
+
+    Implemented rename. Just realized the machine names don't have to be
+    unique, which means I shouldn't have called them ID's, and additionally
+    I'll have to change the file format (edges and master selector).
+
+    Wavedata save/loads correctly. (Uses base64.)
+
+    Added menuitem highlight.
+
+Fri Mar 21 10:58:26 PST 2003
+    Spreadsheet editing is much better.
+
+    Code cleanup: moved audio code and root window code out of main.c
+
+    Not sure how much to rely on signals, and how much to rely on builtin
+    function pointers. (e.g. for moving/resizing?) I'll experiment with
+    resize events = signal. I could change update, move, etc. as well,
+    perhaps even the event handler.
+
+    Can handle window resizes now.
+
+Thu Mar 20 19:23:00 PST 2003
+    Plays bass track of demo.
+
+    Now old problems are coming back to haunt me. The trouble with the
+    column-independent way of doing things is that it makes it tricky to do
+    several tracks. Last time I had a "t" command for track select.
+    MIDI doesn't have this problem because a particular note is either playing
+    or not playing (unlike trackers, where the same note can play against
+    itself).
+
+    This time, I'll won't have the t command. Instead, I'll use the column
+    number of the spreadsheet to determine the action.
+
+    All this parsing code is annoying. Perhaps it should be done as soon
+    as it is entered in the spreadsheet.
+
+    Rudimentary tracker works (no effects yet).
+
+    Basic textbox works.
+
+Thu Mar 20 12:36:18 PST 2003
+    Bugfix: forgot that pattern data contains 0's, which means no ASCIIZ.
+    
+Wed Mar 19 21:28:25 PST 2003
+    Save/load works.
+
+    Found bug in read_word, read_dword: problem with << on char which is
+    signed (fixed by using unsigned char).
+
+    Buzz conversion prorgessing well.
+
+Wed Mar 19 18:37:57 PST 2003
+    Fixed stupid bug in blbass2.c, sine.c: I had swapped two lines so
+    variable declarations were before statements, but then I forgot to
+    move the malloc.
+
+Wed Mar 19 14:34:03 PST 2003
+    Added New Song, Save Song, Load Song menu items, started work on
+    save/load routines. Have to think about how to handle plugin filenames.
+
+Wed Mar 19 00:19:25 PST 2003
+    Functional (but practically unusable): can edit patterns and tracks
+    such that sine wave changes frequency during playback.
+    
+    Fixed z-ordering problem (it was affecting machine orders globally;
+    need to create separate z-order list).
+
+    Added buttons, program is more usable now.
+
+    Started work on buzz conversion code.
+
+Tue Mar 18 00:57:11 PST 2003
+    Having trouble with include files depending on each other.
+    Will think about this later.
+
+    Coded grid widget, used by pattern window and song window.
+
+    Added tracks, can edit patterns/tracks, but still not quite enough
+    for a complete song.
+ 
+Mon Mar 17 17:32:37 PST 2003
+    First version of pattern will use linked lists.
+
+Mon Mar 17 14:03:50 PST 2003
+    Spreadsheet coming along nicely.
+
+    Added Action menu. Draws edges, with arrow in a circle.
+
+Mon Mar 17 01:32:18 PST 2003
+    Can delete machines via popup menu accessed with RMB.
+
+    Started pattern windows.
+
+    Modified SDL_gfx header file: DLLINTERFACE has to be empty otherwise
+    it won't compile for Windows.
+
+    Wrote winpl.? so it compiles for Windows now. Binary untested.
+
+Sun Mar 16 16:54:00 PST 2003
+    Lost old NEWS file and machine.c due to LUFS bug (I think) :(
+    Could be worse: only lost about 10mins work.
+    (I had stopped working on this and only restarted a few days ago.)
+    Since last entry: added (messy) GUI code.
+
+    Copied SDL_gfx code into directory.
+
+    Can connect machines.
+
+    Old code looks crufty. fillcount variable seems unnecessary,
+    clearing buf_ready should not require an additional test.
+
+    Removed audio buffer, and it seems to work better in general,
+    though now underruns occur when the program window just loses focus
+    for example. Might introduce thread for GUI stuff, and have a separate
+    sound buffering thread.
+
+Wed Jan 22 08:25:27 PST 2003
+    Experimented with dlopen et al. Seems pretty easy to use. Makefile will
+    need changing though.
+
+Tue Jan 21 02:43:59 PST 2003
+    Slow progress. Can drag machines on screen.
+
+Thu Jan  9 03:06:03 PST 2003
+    Restarted (again) in C, because previous attempt seemed too slow.

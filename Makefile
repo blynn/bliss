@@ -1,45 +1,75 @@
+ALLFILES = *.[ch] Makefile LICENSE README NEWS helmetr.ttf
+DYNOS = version.o util.o darray.o
+PLUGINS = sine.so master.so nop.so bbass2.so atracker.so
+PROJNAME = bliss
+VERSION = 0.01
+
+ifdef WIN32
+CC = i586-mingw32msvc-gcc
+EFLAGS=-boost -O2 -I /home/ben/cross/SDL/include/SDL
+CFLAGS=-O2 -Wall -I /home/ben/cross/SDL/include/SDL -mwindows
+SDL_LIBS=-L /home/ben/cross/SDL/lib -lmingw32 -lSDLmain -lSDL
+LIBS = $(SDL_LIBS) -lSDL_ttf
+PLAT=win32
+else
 CC = gcc
-CFLAGS=-O2 -Wall `sdl-config --cflags`
+CFLAGS=-Wall -O2 -fomit-frame-pointer `sdl-config --cflags`
 SDL_LIBS=`sdl-config --libs`
 LIBS = $(SDL_LIBS) -lSDL_ttf 
-NOSE_SDL_LIBS=\`sdl-config --libs\` -lSDL_ttf
+PLAT=linux
+endif
 
-ALLFILES=buzz/*.e *.e *.c *.h Makefile HISTORY version.h loadpath.se README LICENSE
+OBJS= audio.o main.o \
+    mlist.o \
+    base64.o \
+    machine.o pattern.o track.o song.o wave.o \
+    root.o machine_area.o pattern_area.o song_area.o \
+    about.o filewin.o tbwin.o \
+    convert_buzz.o \
+    colour.o font.o \
+    widget.o label.o listbox.o textbox.o button.o \
+    container.o grid.o spreadsheet.o menu.o window.o \
+    SDL_gfxPrimitives.o pl.o
 
-EXTCLIBS=speed.o external.o SDL_gfxPrimitives.o SDL_rotozoom.o
+TARGET: $(PROJNAME) $(PLUGINS)
 
-.PHONY : target clean
+pl.c : pl.$(PLAT).c
+	cp $^ $@
 
-target : bliss
+$(OBJS): %.o: %.c 
+	$(CC) $(CFLAGS) -c $^
 
-speed.o : speed.c
-external.o : external.c
-SDL_gfxPrimitives.o : SDL_gfxPrimitives.c
-SDL_rotozoom.o : SDL_rotozoom.c
+$(DYNOS): %.o: %.c 
+	$(CC) $(CFLAGS) -fPIC -c $^
 
-bliss.make : *.e buzz/*.e
-	compile_to_c -boost -O2 -o bliss bliss $(EXTCLIBS) $(LIBS)
+$(PLUGINS): %.so: %.c $(DYNOS)
+	$(CC) $(CFLAGS) -fPIC -shared -o $@ $^
 
-bliss : bliss.make $(EXTCLIBS)
-	. bliss.make
+$(PROJNAME) : $(OBJS) $(DYNOS)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-noboost : *.e $(EXTCLIBS)
-	compile_to_c -O2 -o slow bliss $(EXTCLIBS) $(LIBS)
-	. bliss.make
+DISTNAME=$(PROJNAME)-$(VERSION)
 
-nose: *.e
-	compile_to_c -boost -O2 -o bliss bliss.e $(EXTCLIBS) \
-$(NOSE_SDL_LIBS)
+dist: $(ALLFILES)
+	-rm -rf $(DISTNAME)
+	mkdir $(DISTNAME)
+	cp -rl --parents $(ALLFILES) $(DISTNAME)
+	tar chfz $(DISTNAME).tgz $(DISTNAME)
+	-rm -rf $(DISTNAME)
 
-projname := $(shell awk '/BLISS_VERSION/ { print $$3 }' version.h )
-
-dist: $(ALLFILES) clean nose
-	-rm -rf $(projname)
-	mkdir $(projname)
-	cp -rl --parents $(ALLFILES) $(projname)
-	tar chfz $(projname).tgz $(projname)
-	-rm -rf $(projname)
+ifdef WIN32
+zip : $(PROJNAME) $(PLUGINS)
+	-rm -rf $(DISTNAME)
+	mkdir $(DISTNAME)
+	cp -l $(PROJNAME) $(DISTNAME)/$(PROJNAME).exe
+	cp -l $(PLUGINS) $(DISTNAME)
+	cp -l LICENSE $(DISTNAME)
+	cp -l *.ttf $(DISTNAME)
+	cp -l /home/ben/cross/SDL/lib/SDL.dll $(DISTNAME)
+	cp -l /home/ben/cross/SDL/lib/SDL_ttf.dll $(DISTNAME)
+	zip $(DISTNAME)-win.zip $(DISTNAME)/*
+	-rm -rf $(DISTNAME)
+endif
 
 clean :
-	clean bliss
-	-rm *.o
+	-rm $(PROJNAME) $(PLUGINS) *.o pl.c
