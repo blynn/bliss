@@ -28,4 +28,5 @@ void pattern_remove(pattern_ptr p, int x, int y);
 void pattern_print(pattern_ptr p, FILE *fp);
 void pattern_insert(pattern_ptr p, int x, int y);
 void pattern_delete(pattern_ptr p, int x, int y);
+cell_ptr pattern_cell_at(pattern_ptr p, int x, int y);
 #endif //PATTERN_H

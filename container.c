@@ -14,8 +14,31 @@ void container_moved(widget_ptr w, void *data)
     }
 }
 
-int container_handle_event(widget_ptr w, event_ptr e)
+static int container_handle_click(widget_ptr w, event_ptr e)
 {
+    int i, n;
+    container_ptr c = (container_ptr) w;
+
+    n = c->child->count;
+    for(i=0; i<n; i++) {
+	widget_ptr wi = (widget_ptr) c->child->item[i];
+	if (widget_has_mouse(wi)) {
+	    if (e->type == SDL_MOUSEBUTTONDOWN) widget_focus(wi);
+	    if (widget_handle_event(wi, e)) {
+		return 1;
+	    }
+	}
+    }
+    return 0;
+}
+
+static int container_handle_event(widget_ptr w, event_ptr e)
+{
+    if (e->type == SDL_MOUSEBUTTONDOWN || e->type == SDL_MOUSEBUTTONUP) {
+	return container_handle_click(w, e);
+    }
+    return 0;
+    /*
     int i, n;
     container_ptr c = (container_ptr) w;
 
@@ -27,9 +50,10 @@ int container_handle_event(widget_ptr w, event_ptr e)
 	}
     }
     return 0;
+    */
 }
 
-void container_update(widget_ptr w)
+static void container_update(widget_ptr w)
 {
     int i, n;
     container_ptr c = (container_ptr) w;

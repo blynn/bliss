@@ -6,6 +6,7 @@
 #include "darray.h"
 #include "pattern.h"
 #include "cell.h"
+#include "unit.h"
 
 #include "audio.h" //TODO: get rid of this
 
@@ -15,6 +16,7 @@ enum {
     machine_generator = machine_out,
     machine_master = machine_in,
     machine_effect = machine_in | machine_out,
+    machine_bliss = 32 | machine_effect,
 };
 
 struct edge_s;
@@ -54,6 +56,7 @@ typedef struct machine_s machine_t[1];
 
 struct edge_s {
     machine_ptr src, dst;
+    int srcport, dstport;
 };
 
 struct buzz_machine_info_s;
@@ -63,17 +66,25 @@ struct machine_info_s {
     int type;
     char *id;
     char *name;
+    int is_bliss;
     void (* init)(machine_ptr);
     void (* clear)(machine_ptr);
     void (* work)(struct machine_s *, double *, double *);
     void (* parse)(machine_t, cell_t, int col);
     void (* tick)(machine_t);
+
     void (* cell_init)(cell_t c, machine_t, char *text, int col);
     void (* print_state)(machine_t, FILE *fp);
     struct buzz_machine_info_s* buzzmi;
+
     //this stuff gets filled in later:
     char *plugin;
     void *dlptr;
+
+    //for b-machines:
+    int btype;
+    darray_t unit;
+    darray_t unit_edge;
 };
 
 void machine_init(machine_t m, machine_info_t mi, struct song_s *s, char *id);
@@ -90,5 +101,6 @@ pattern_ptr machine_create_pattern(machine_ptr m, char *id);
 void machine_cell_init(cell_ptr c, machine_ptr m, char *text, int col);
 void machine_print_state(machine_ptr m, FILE *fp);
 pattern_ptr machine_pattern_at(machine_ptr m, char *id);
+machine_info_ptr machine_info_new();
 
 #endif //MACHINE_H

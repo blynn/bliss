@@ -6,6 +6,7 @@ struct wave_s {
     double volume;
     int sample_count;
     int data_length;
+    int sample_rate;
     unsigned char *data;
     int root_note;
     double freq, recipfreq;

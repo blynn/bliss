@@ -5,7 +5,7 @@
 #include "widget.h"
 
 enum {
-    menubar_h = 16,
+    menubar_h = 20,
 };
 
 struct menuitem_s {
@@ -33,8 +33,8 @@ typedef struct menubar_s menubar_t[1];
 
 void menuitem_put_text(menuitem_ptr m, char *s);
 void menuitem_init(menuitem_ptr m);
+void menuitem_clear(menuitem_ptr m);
 void menuitem_set_submenu(menuitem_ptr it, menu_ptr m);
-
 menuitem_ptr menuitem_new();
 
 void menubar_init(menubar_ptr);
@@ -43,6 +43,7 @@ void menubar_add(menubar_t m, menuitem_t it);
 
 void menu_init(menu_ptr m);
 void menu_clear(menu_ptr m);
+void menu_remove_all(menu_ptr m);
 void menu_add(menu_ptr m, menuitem_t it);
 menu_ptr menu_new();
 void menu_popup(menu_ptr);

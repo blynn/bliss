@@ -32,6 +32,7 @@ void machine_clear(machine_t m)
     track_clear(m->track);
     free(m->track);
     m->mi->clear(m);
+    free(m->id);
 }
 
 machine_ptr machine_new(machine_info_t mi, song_ptr s, char *id)
@@ -143,4 +144,54 @@ void machine_cell_init(cell_ptr c, machine_ptr m, char *text, int col)
 void machine_print_state(machine_ptr m, FILE *fp)
 {
     m->mi->print_state(m, fp);
+}
+
+//default callbacks: do nothing
+static void nop_work(machine_t m, double *l, double *r)
+{
+}
+
+static void nop_init(machine_t m)
+{
+}
+
+static void nop_clear(machine_t m)
+{
+}
+
+static void nop_parse(machine_t m, cell_t c, int col)
+{
+}
+
+static void nop_print_state(machine_t m, FILE *fp)
+{
+}
+
+static void nop_tick(machine_t m)
+{
+}
+
+static void nop_text_cell_init(cell_t c, machine_t m, char *text, int col)
+{
+    cell_init_string(c, text);
+}
+
+static void machine_info_assign_default(machine_info_ptr mi)
+{
+    mi->init = nop_init;
+    mi->clear = nop_clear;
+    mi->work = nop_work;
+    mi->parse = nop_parse;
+    mi->tick = nop_tick;
+    mi->print_state = nop_print_state;
+    mi->cell_init = nop_text_cell_init;
+    mi->buzzmi = NULL;
+    mi->is_bliss = 0;
+}
+
+machine_info_ptr machine_info_new()
+{
+    machine_info_ptr mi = (machine_info_ptr) malloc(sizeof(machine_info_t));
+    machine_info_assign_default(mi);
+    return mi;
 }

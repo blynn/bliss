@@ -8,7 +8,7 @@ char *strclone(char *s)
 {
     char *r;
 
-    r = malloc(strlen(s) + 1);
+    r = (char *) malloc(strlen(s) + 1);
     strcpy(r, s);
     return r;
 }
@@ -124,7 +124,7 @@ char *note_to_text(int note)
 int hex_to_int(char c)
 {
     if (c >= '0' && c <= '9') return c - '0';
-    return (c | 32) - 'a';
+    return (c | 32) - 'a' + 10;
 }
 
 char shift_key(unsigned char ch)

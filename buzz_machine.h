@@ -2,7 +2,7 @@
 #define BUZZ_MACHINE_H
 
 #include "darray.h"
-#include "machine.h"
+#include "machine_plugin.h"
 
 enum {
     pt_note = 0,

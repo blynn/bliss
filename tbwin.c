@@ -47,6 +47,8 @@ void tbwin_init(tbwin_ptr t)
     widget_put_size((widget_ptr) t->tb, 196, 16);
     window_put_widget(win, (widget_ptr) t->tb, 5, 2);
 
+    window_focus(win, (widget_ptr) t->tb);
+
     widget_connect((widget_ptr) t->tb, signal_activate, ok_cb, win);
 
     widget_hide(w);

@@ -14,6 +14,13 @@ void cell_init_note(cell_ptr c, int i)
     c->data.i = i;
 }
 
+void cell_init_assign(cell_ptr c, char *text, double arg)
+{
+    c->type = t_assign;
+    c->data.s = strclone(text);
+    c->arg = arg;
+}
+
 void cell_init_string(cell_ptr c, char *text)
 {
     c->type = t_string;
@@ -38,6 +45,9 @@ char *cell_to_text(cell_ptr c)
 	    return note_to_text(c->data.i);
 	case t_int:
 	    sprintf(buf, "%02X", c->data.i);
+	    return buf;
+	case t_assign:
+	    sprintf(buf, "%s=%f", c->data.s, c->arg);
 	    return buf;
 	default:
 	    printf("unhandled cell type\n");

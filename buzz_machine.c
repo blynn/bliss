@@ -102,13 +102,13 @@ static void buzz_machine_work(machine_t m, double *l, double *r)
 {
     double bl, br;
 
-    bl = *l * 8192;
-    br = *r * 8192;
+    bl = *l * 32768;
+    br = *r * 32768;
 
     m->mi->buzzmi->work(m, &bl, &br);
 
-    *l = bl / 8192;
-    *r = br / 8192;
+    *l = bl / 32768;
+    *r = br / 32768;
 }
 
 static void buzz_machine_clear(machine_t m)

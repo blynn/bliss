@@ -190,6 +190,11 @@ void menu_repack(menu_ptr m)
 	    wmax + 2 * menu_border, y + 2 * menu_border);
 }
 
+void menu_remove_all(menu_ptr m)
+{
+    darray_remove_all(m->item);
+}
+
 void menu_add(menu_ptr m, menuitem_t it)
 {
     darray_append(m->item, it);

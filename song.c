@@ -191,7 +191,7 @@ void song_next_sample(song_ptr s, double *l, double *r)
 	s->tickcount++;
 	s->tickmod++;
 	s->tickmod %= s->tpb;
-	if (s->tickcount == s->song_end) {
+	if (s->tickcount >= s->song_end) {
 	    song_rewind(s);
 	    return;
 	}

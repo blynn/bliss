@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include "listbox.h"
+#include "combobox.h"
 
 int listmenu_handle_event(widget_ptr w, event_ptr e)
 {
@@ -13,8 +13,8 @@ int listmenu_handle_event(widget_ptr w, event_ptr e)
 		widget_focus(NULL);
 		widget_getmousexy((widget_ptr) lm, &x, &y);
 		i = y / 16;
-		listbox_put_text(lm->listbox, (char *) lm->listbox->choice->item[i]);
-		widget_raise_signal((widget_ptr) lm->listbox, signal_activate);
+		combobox_put_text(lm->combobox, (char *) lm->combobox->choice->item[i]);
+		widget_raise_signal((widget_ptr) lm->combobox, signal_activate);
 		return 1;
 	    }
 	    break;
@@ -33,7 +33,7 @@ void listmenu_popup(listmenu_ptr lm)
     int i, n;
     int y;
     int wmax = 0;
-    darray_ptr a = lm->listbox->choice;
+    darray_ptr a = lm->combobox->choice;
     SDL_Surface *imgchoice;
     SDL_Rect dst;
 
@@ -62,13 +62,13 @@ void listmenu_popup(listmenu_ptr lm)
     }
 
     widget_put_size((widget_ptr) lm, lm->image->w, lm->image->h);
-    widget_put_local((widget_ptr) lm, ((widget_ptr) lm->listbox)->x, ((widget_ptr) lm->listbox)->y);
+    widget_put_local((widget_ptr) lm, ((widget_ptr) lm->combobox)->x, ((widget_ptr) lm->combobox)->y);
     widget_focus((widget_ptr) lm);
 }
 
-void listbox_update(widget_ptr w)
+void combobox_update(widget_ptr w)
 {
-    listbox_ptr b = (listbox_ptr) w;
+    combobox_ptr b = (combobox_ptr) w;
     SDL_Rect rect;
     widget_draw_inverse_border(w);
     rect.x = 2;
@@ -83,9 +83,9 @@ void listbox_update(widget_ptr w)
     }
 }
 
-int listbox_handle_event(widget_ptr w, event_ptr e)
+int combobox_handle_event(widget_ptr w, event_ptr e)
 {
-    listbox_ptr b = (listbox_ptr) w;
+    combobox_ptr b = (combobox_ptr) w;
     switch (e->type) {
 	case SDL_MOUSEBUTTONDOWN:
 	    if (widget_has_mouse(w)) {
@@ -99,47 +99,47 @@ int listbox_handle_event(widget_ptr w, event_ptr e)
     return 0;
 }
 
-void listmenu_init(listmenu_ptr lm, listbox_ptr b)
+void listmenu_init(listmenu_ptr lm, combobox_ptr b)
 {
     widget_ptr w = (widget_ptr) lm;
 
     widget_init(w);
     w->can_focus = 1;
-    lm->listbox = b;
+    lm->combobox = b;
     lm->image = NULL;
     w->update = listmenu_update;
     w->handle_event = listmenu_handle_event;
     w->can_focus = 1;
 }
 
-void listbox_init(listbox_ptr b)
+void combobox_init(combobox_ptr b)
 {
     widget_ptr w = (widget_ptr) b;
     widget_init(w);
-    w->update = listbox_update;
-    w->handle_event = listbox_handle_event;
+    w->update = combobox_update;
+    w->handle_event = combobox_handle_event;
     b->image = NULL;
     b->text = NULL;
 
     listmenu_init(b->listmenu, b);
 }
 
-listbox_ptr listbox_new()
+combobox_ptr combobox_new()
 {
-    listbox_ptr b;
-    b = (listbox_ptr) malloc(sizeof(struct listbox_s));
-    listbox_init(b);
+    combobox_ptr b;
+    b = (combobox_ptr) malloc(sizeof(struct combobox_s));
+    combobox_init(b);
     return b;
 }
 
-void listbox_put_text(listbox_ptr b, char *s)
+void combobox_put_text(combobox_ptr b, char *s)
 {
     if (b->image) SDL_FreeSurface(b->image);
     if (s) b->image = font_rendertext(s);
     b->text = s;
 }
 
-void listbox_clear(listbox_ptr b)
+void combobox_clear(combobox_ptr b)
 {
     widget_ptr w = (widget_ptr) b;
     if (b->image) SDL_FreeSurface(b->image);

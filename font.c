@@ -17,7 +17,7 @@ void font_init()
     atexit(TTF_Quit);
 
     //font = TTF_OpenFont("/usr/share/fonts/truetype/Arial.ttf", 12);
-    font = TTF_OpenFont("helmetr.ttf", 12);
+    font = TTF_OpenFont("font.ttf", 12);
     if (!font) {
 	fprintf(stderr, "init: TTF_OpenFont failed: %s\n", SDL_GetError());
 	exit(-1);

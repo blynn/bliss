@@ -5,8 +5,9 @@
 #include "spreadsheet.h"
 #include "machine.h"
 #include "button.h"
-#include "listbox.h"
+#include "combobox.h"
 #include "song.h"
+#include "cell_area.h"
 
 struct pattern_area_s {
     widget_t widget;
@@ -15,8 +16,8 @@ struct pattern_area_s {
     song_ptr song;
     machine_ptr machine;
     pattern_ptr pattern;
-    listbox_t lbmachine;
-    listbox_t lbpattern;
+    combobox_t cbmachine;
+    combobox_t cbpattern;
     button_t bmback;
     button_t bmforward;
     button_t bpback;
@@ -24,6 +25,7 @@ struct pattern_area_s {
     button_t bpnew;
     button_t bpdelete;
     darray_t pattern_list;
+    cell_area_t ca;
 };
 
 typedef struct pattern_area_s *pattern_area_ptr;

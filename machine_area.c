@@ -55,7 +55,7 @@ static machine_ptr machine_at(machine_area_ptr ma, int x, int y)
     darray_ptr a = ma->zorder;
 
     n = a->count;
-    for (i=0; i<n; i++) {
+    for (i=n-1; i>=0; i--) {
 	m = (machine_ptr) a->item[i];
 	if (in_machine(x, y, m)) {
 	    //change z-orders
@@ -75,21 +75,285 @@ static void (*update_hook)(void *data);
 static void* update_hook_data;
 
 */
+
+static void context_command_list_init(context_command_ptr cc,
+	int key, char *name, char *desc)
+{
+    cc->hotkey = key;
+    cc->name = strclone(name);
+    cc->desc = strclone(desc);
+    cc->type = cc_list;
+    darray_init(cc->list);
+}
+
+static void context_command_list_add(context_command_ptr cc, context_command_ptr c)
+{
+    //assert(cc->type == cc_list);
+    darray_append(cc->list, c);
+}
+
+static void context_command_node_init(context_command_ptr cc,
+	int key, char *name, char *desc, cc_callback_f f, void *data)
+{
+    cc->hotkey = key;
+    cc->name = strclone(name);
+    cc->desc = strclone(desc);
+    cc->type = cc_node;
+    cc->func = f;
+    cc->data = data;
+    darray_init(cc->list);
+}
+
+static void context_command_clear(context_command_ptr cc)
+{
+    switch(cc->type) {
+	case cc_node:
+	    free(cc->name);
+	    free(cc->desc);
+	    break;
+	case cc_list:
+	    free(cc->name);
+	    free(cc->desc);
+	    darray_clear(cc->list);
+	    break;
+	default:
+	    fprintf(stderr, "unhandled CC type\n");
+	    exit(1);
+	    break;
+    }
+}
+
+static void context_menu_clear(menu_ptr menu, darray_ptr ml, darray_ptr mil)
+{
+    int i;
+    for (i=0; i<mil->count; i++) {
+	menuitem_ptr it = (menuitem_ptr) mil->item[i];
+	menuitem_clear(it);
+	free(it);
+    }
+
+    for (i=0; i<ml->count; i++) {
+	menu_ptr m = (menu_ptr) ml->item[i];
+	menu_clear(m);
+	free(m);
+    }
+    menu_remove_all(menu);
+    darray_remove_all(ml);
+    darray_remove_all(mil);
+}
+
+static void menu_cb(widget_ptr caller, void *data)
+{
+    context_command_ptr cc = (context_command_ptr) data;
+    switch(cc->type) {
+	case cc_node:
+	    cc->func(cc->data);
+	    break;
+	case cc_list:
+	    //submenu
+	    break;
+    }
+}
+
+static void context_menu_convert(menu_ptr menu, context_command_ptr cc,
+	darray_ptr ml, darray_ptr mil)
+{
+    darray_ptr a;
+    int i, n;
+    menuitem_ptr it;
+    menu_ptr m1;
+
+    a = cc->list;
+    n = a->count;
+
+    for (i=0; i<n; i++) {
+	context_command_ptr c = (context_command_ptr) cc->list->item[i];
+	it = menuitem_new();
+	darray_append(mil, it);
+	menuitem_put_text(it, c->name);
+	menu_add(menu, it);
+	switch(c->type) {
+	    case cc_node:
+		widget_connect((widget_ptr) it, signal_activate, menu_cb, c);
+		break;
+	    case cc_list:
+		m1 = menu_new();
+		darray_append(ml, m1);
+		context_menu_convert(m1, c, ml, mil);
+		menuitem_set_submenu(it, m1);
+		break;
+	}
+    }
+}
+
+static void set_current_menu(machine_area_ptr ma, context_command_ptr cc) {
+    context_menu_clear(ma->menu, ma->menu_list, ma->menuitem_list);
+    ma->cc_current = cc;
+    context_menu_convert(ma->menu, cc, ma->menu_list, ma->menuitem_list);
+}
+
 static void clear_selection(machine_area_ptr ma)
 {
     ma->sel_machine = NULL;
     ma->sel_edge = NULL;
+    set_current_menu(ma, ma->cc_song);
 }
 
 static void update_selection(machine_area_ptr ma, int x, int y)
 {
     ma->sel_machine = machine_at(ma, x, y);
     ma->sel_edge = edge_at(ma, x, y);
+
+    // update context menus
+    if (ma->sel_machine) {
+	machine_ptr m = ma->sel_machine;
+	if (m == ma->song->master) set_current_menu(ma, ma->cc_master);
+	else set_current_menu(ma, ma->cc_machine);
+    } else if (ma->sel_edge) {
+	set_current_menu(ma, ma->cc_edge);
+    } else {
+	set_current_menu(ma, ma->cc_song);
+    }
     /*
     if (update_hook) {
 	update_hook(update_hook_data);
     }
     */
+}
+
+static void rename_sel_machine(void *data)
+{
+    machine_area_ptr ma = (machine_area_ptr) data;
+    machine_ptr m = ma->sel_machine;
+    widget_ptr wt;
+    textbox_put_text(ma->tbwin->tb, m->id);
+    tbwin_open(ma->tbwin);
+    wt = (widget_ptr) ma->tbwin;
+    widget_put_local(wt, m->x - wt->x / 2, m->y);
+    tbwin_put_title(ma->tbwin, "Rename");
+}
+
+static void delete_sel_machine(void *data)
+{
+    machine_area_ptr ma = (machine_area_ptr) data;
+    machine_ptr m = ma->sel_machine;
+    clear_selection(ma);
+    /*
+    if (m == ma->song->master) {
+	fprintf(stderr, "delete master request\n");
+	exit(1);
+    }
+    */
+    darray_remove(ma->zorder, m);
+    song_del_machine(ma->song, m);
+}
+
+static void new_pattern_sel_machine(void *data)
+{
+    machine_area_ptr ma = (machine_area_ptr) data;
+    machine_ptr m = ma->sel_machine;
+    pattern_ptr p;
+
+    p = machine_create_pattern_auto_id(m);
+    root_edit_pattern(p);
+    show_pattern_window_cb((widget_ptr) ma, NULL);
+}
+
+static void disconnect_sel_edge(void *data)
+{
+    machine_area_ptr ma = (machine_area_ptr) data;
+    edge_ptr e = ma->sel_edge;
+    song_del_edge(ma->song, e);
+    clear_selection(ma);
+}
+
+static void machine_area_new_machine(machine_area_ptr ma, char *id)
+{
+    machine_ptr m;
+    m = song_create_machine_auto_id(ma->song, id);
+    if (!m) return; //TODO: handle error
+    darray_append(ma->zorder, m);
+    widget_getmousexy((widget_ptr) ma, &m->x, &m->y);
+}
+
+struct nm_s {
+    machine_area_ptr ma;
+    char *id;
+};
+
+struct nm_s *new_nm_s(machine_area_ptr ma, char *id)
+{
+    struct nm_s *r = (struct nm_s *) malloc(sizeof(struct nm_s));
+    r->ma = ma;
+    r->id = id;
+    return r;
+}
+
+static void new_machine(void *data)
+{
+    struct nm_s *r = (struct nm_s *) data;
+    machine_area_ptr ma = r->ma;
+    machine_area_new_machine(ma, r->id);
+}
+
+static void init_menu(machine_area_ptr ma) {
+    int i;
+
+    menu_init(ma->menu);
+    darray_init(ma->menu_list);
+    darray_init(ma->menuitem_list);
+
+    context_command_node_init(ma->cc_rename,
+	    SDLK_r,
+	    "Rename",
+	    "Rename Selected Machine",
+	    rename_sel_machine, ma);
+    context_command_node_init(ma->cc_delete,
+	    SDLK_DELETE,
+	    "Delete",
+	    "Delete Selected Machine",
+	    delete_sel_machine, ma);
+    context_command_node_init(ma->cc_new_pattern,
+	    SDLK_p,
+	    "New Pattern",
+	    "Create New Pattern",
+	    new_pattern_sel_machine, ma);
+    context_command_node_init(ma->cc_disconnect,
+	    SDLK_DELETE,
+	    "Disconnect",
+	    "Delete Connection",
+	    disconnect_sel_edge, ma);
+    context_command_list_init(ma->cc_new_machine,
+	    SDLK_b,
+	    "New Machine",
+	    "New Machine");
+
+    //list of all machines
+    for (i=0; i<mlist->count; i++) {
+	context_command_ptr cc;
+	machine_info_ptr mi = (machine_info_ptr) mlist->item[i];
+	if (mi->type == machine_master) continue;
+	cc = (context_command_ptr) malloc(sizeof(context_command_t));
+
+	context_command_node_init(cc,
+		0,
+		mi->id,
+		mi->id,
+		new_machine, new_nm_s(ma, mi->id));
+	context_command_list_add(ma->cc_new_machine, cc);
+    }
+
+    context_command_list_init(ma->cc_song, 0, "Song", "Song Menu");
+    context_command_list_add(ma->cc_song, ma->cc_new_machine);
+    context_command_list_init(ma->cc_edge, 0, "Edge", "Edge Menu");
+    context_command_list_add(ma->cc_edge, ma->cc_disconnect);
+    context_command_list_init(ma->cc_machine, 0, "Machine", "Machine Menu");
+    context_command_list_add(ma->cc_machine, ma->cc_rename);
+    context_command_list_add(ma->cc_machine, ma->cc_delete);
+    context_command_list_add(ma->cc_machine, ma->cc_new_pattern);
+    context_command_list_init(ma->cc_master, 0, "Master", "Master Menu");
+    context_command_list_add(ma->cc_master, ma->cc_rename);
+    context_command_list_add(ma->cc_master, ma->cc_new_pattern);
 }
 
 /*
@@ -103,6 +367,7 @@ void machine_area_add_update_hook(void (*f)(void *), void *data)
 static void try_connect(machine_area_ptr ma, machine_ptr dst)
 {
     machine_ptr src = ma->sel_machine;
+    if (dst == src) return;
     if ((src->mi->type & machine_out) && (dst->mi->type & machine_in)) {
 	if (song_is_connected(ma->song, src, dst)) return;
 	song_create_edge(ma->song, src, dst);
@@ -136,40 +401,32 @@ static void stop_drag(widget_ptr w)
     ma->drag_flag = drag_none;
 }
 
-static void new_machine(machine_area_ptr ma, char *id)
-{
-    machine_ptr m;
-    m = song_create_machine_auto_id(ma->song, id);
-    if (!m) return; //TODO: handle error
-    darray_append(ma->zorder, m);
-    widget_getmousexy((widget_ptr) ma, &m->x, &m->y);
-}
-
 static void popup_menu(widget_ptr w)
 {
-    machine_ptr m;
-    edge_ptr e;
     machine_area_ptr ma = (machine_area_ptr) w;
     int x, y;
 
     stop_drag(w);
     widget_getmousexy(w, &x, &y);
     update_selection(ma, x, y);
-    m = ma->sel_machine;
-    if (m) {
-	widget_put_local((widget_ptr) ma->machmenu, w->x + x, w->y + y);
-	menu_popup(ma->machmenu);
-	return;
-    }
-    e = ma->sel_edge;
-    if (e) {
-	widget_put_local((widget_ptr) ma->edgemenu, w->x + x, w->y + y);
-	menu_popup(ma->edgemenu);
-	return;
-    }
+    widget_put_local((widget_ptr) ma->menu, w->x + x, w->y + y);
+    menu_popup(ma->menu);
+}
 
-    widget_put_local((widget_ptr) ma->rootmenu, w->x + x, w->y + y);
-    menu_popup(ma->rootmenu);
+static int machine_area_handle_key(widget_ptr w, int key)
+{
+    machine_area_ptr ma = (machine_area_ptr) w;
+    darray_ptr a = ma->cc_current->list;
+    int i;
+
+    for (i=0; i<a->count; i++) {
+	context_command_ptr p = (context_command_ptr) a->item[i];
+	if (key == p->hotkey) {
+	    p->func(p->data);
+	    return 1;
+	}
+    }
+    return 0;
 }
 
 static int machine_area_handle_event(widget_ptr w, event_ptr e)
@@ -189,6 +446,9 @@ static int machine_area_handle_event(widget_ptr w, event_ptr e)
 	    break;
 	case SDL_MOUSEBUTTONUP:
 	    if (ma->drag_flag) stop_drag(w);
+	    break;
+	case SDL_KEYDOWN:
+	    return machine_area_handle_key(w, e->key.keysym.sym);
 	    break;
     }
     return 1;
@@ -308,7 +568,8 @@ static void draw_machine(widget_ptr w, machine_ptr m)
 	    c = c_effect;
 	    break;
 	default:
-	    c = c_master;
+	    //ought to be a Bliss machine
+	    c = c_bliss;
 	    break;
     }
 
@@ -349,146 +610,44 @@ static void machine_area_update(widget_ptr w)
     }
 }
 
-static void del_edge_cb(widget_ptr w, void *data)
-{
-    machine_area_ptr ma = (machine_area_ptr) data;
-    edge_ptr e = ma->sel_edge;
-    song_del_edge(ma->song, e);
-    clear_selection(ma);
-}
-
 static void rename_cb2(widget_ptr w, void *data)
 {
-    machine_ptr m = (machine_ptr) data;
+    machine_area_ptr ma = (machine_area_ptr) data;
+    machine_ptr m = ma->sel_machine;
     char *s = ((tbwin_ptr) w)->tb->text;
-    free(m->id);
-    m->id = strclone(s);
-}
-
-static void rename_machine_cb(widget_ptr caller, void *data)
-{
-    machine_area_ptr ma = (machine_area_ptr) data;
-    machine_ptr m = ma->sel_machine;
-    widget_ptr wt;
-    clear_selection(ma);
-    textbox_put_text(ma->tbwin->tb, m->id);
-    tbwin_open(ma->tbwin);
-    wt = (widget_ptr) ma->tbwin;
-    widget_put_local(wt, m->x - wt->x / 2, m->y);
-    tbwin_put_title(ma->tbwin, "Rename");
-    widget_connect(wt, signal_activate, rename_cb2, m);
-}
-
-static void del_machine_cb(widget_ptr w, void *data)
-{
-    machine_area_ptr ma = (machine_area_ptr) data;
-    machine_ptr m = ma->sel_machine;
-    clear_selection(ma);
-    if (m == ma->song->master) {
-	printf("can't delete master\n");
-	return;
+    if (!song_machine_at(ma->song, s)) {
+	free(m->id);
+	m->id = strclone(s);
+	root_status_text("Machine renamed");
+    } else {
+	root_status_text("Cannot rename: machine ID exists");
     }
-    darray_remove(ma->zorder, m);
-    song_del_machine(ma->song, m);
-}
-
-struct nm_s {
-    machine_area_ptr ma;
-    char *id;
-};
-
-struct nm_s *new_nm_s(machine_area_ptr ma, char *id)
-{
-    struct nm_s *r = (struct nm_s *) malloc(sizeof(struct nm_s));
-    r->ma = ma;
-    r->id = id;
-    return r;
-}
-
-static void new_machine_cb(widget_ptr w, void *data)
-{
-    struct nm_s *r = (struct nm_s *) data;
-    machine_area_ptr ma = r->ma;
-    new_machine(ma, r->id);
-}
-
-static void new_pattern_cb(widget_ptr w, void *data)
-{
-    machine_area_ptr ma = (machine_area_ptr) data;
-    machine_ptr m = ma->sel_machine;
-    pattern_ptr p;
-
-    p = machine_create_pattern_auto_id(m);
-    root_edit_pattern(p);
-    show_pattern_window_cb(w, NULL);
 }
 
 void machine_area_init(machine_area_ptr ma)
 {
     widget_ptr w = (widget_ptr) ma;
-    menuitem_ptr it;
-    int i;
 
     widget_init(w);
     w->handle_event = machine_area_handle_event;
     w->update = machine_area_update;
     darray_init(ma->zorder);
+
     clear_selection(ma);
 
-    //popup menu for right click on machine
-    menu_init(ma->machmenu);
-    it = menuitem_new();
-    menuitem_put_text(it, "Rename");
-    menu_add(ma->machmenu, it);
-    widget_connect((widget_ptr) it, signal_activate, rename_machine_cb, w);
-    it = menuitem_new();
-    menuitem_put_text(it, "Delete");
-    menu_add(ma->machmenu, it);
-    widget_connect((widget_ptr) it, signal_activate, del_machine_cb, w);
-    it = menuitem_new();
-    menuitem_put_text(it, "New Pattern");
-    menu_add(ma->machmenu, it);
-    widget_connect((widget_ptr) it, signal_activate, new_pattern_cb, w);
-
-    //popup menu for right click on edge
-    menu_init(ma->edgemenu);
-    it = menuitem_new();
-    menuitem_put_text(it, "Disconnect");
-    menu_add(ma->edgemenu, it);
-    widget_connect((widget_ptr) it, signal_activate, del_edge_cb, w);
-
-    //popup menu for right click on background
-    menu_init(ma->rootmenu);
-    it = menuitem_new();
-    menuitem_put_text(it, "New Machine");
-    menu_add(ma->rootmenu, it);
-
-    //list of all machines
-    menu_init(ma->listmenu);
-    menuitem_set_submenu(it, ma->listmenu);
-
-    for (i=0; i<mlist->count; i++) {
-	machine_info_ptr mi = (machine_info_ptr) mlist->item[i];
-	if (mi->type == machine_master) continue;
-	it = menuitem_new();
-	menuitem_put_text(it, mi->id);
-	menu_add(ma->listmenu, it);
-	widget_connect((widget_ptr) it, signal_activate, new_machine_cb,
-		new_nm_s(ma, mi->id));
-    }
+    init_menu(ma);
 
     //window for inputing single string
     tbwin_init(ma->tbwin);
+    widget_connect((widget_ptr) ma->tbwin, signal_activate, rename_cb2, ma);
 }
 
 void machine_area_clear(machine_area_ptr ma)
 {
     widget_ptr w = (widget_ptr) ma;
-    //TODO clear menu items
-    //(use pool of menu items instead of dyn allocs)
-    menu_clear(ma->edgemenu);
-    menu_clear(ma->machmenu);
-    menu_clear(ma->rootmenu);
+    context_menu_clear(ma->menu, ma->menu_list, ma->menuitem_list);
+    //TODO: clear context_commands
+    menu_clear(ma->menu);
     darray_clear(ma->zorder);
     widget_clear(w);
 }

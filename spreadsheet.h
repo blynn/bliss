@@ -18,4 +18,7 @@ void spreadsheet_clear(spreadsheet_ptr);
 
 spreadsheet_ptr spreadsheet_new();
 
+cell_ptr spreadsheet_current_cell(spreadsheet_ptr ss);
+int spreadsheet_current_col(spreadsheet_ptr ss);
+
 #endif //SPREADSHEET_H

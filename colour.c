@@ -16,11 +16,12 @@ void init_colour(SDL_PixelFormat *format)
     int i;
 
     put_colour(c_background, 96, 96, 96);
-    put_colour(c_textbg, 0, 0, 0);
+    put_colour(c_textbg, 32, 32, 32);
     put_colour(c_menuborder, 127, 127, 191);
     put_colour(c_menubg, 0, 0, 127);
     put_colour(c_menubghi, 63, 127, 127);
     put_colour(c_generator, 0, 0, 127);
+    put_colour(c_bliss, 127, 0, 127);
     put_colour(c_master, 0, 127, 0);
     put_colour(c_effect, 127, 0, 0);
     put_colour(c_border, 255, 255, 255);

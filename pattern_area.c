@@ -3,37 +3,44 @@
 
 enum {
     padding = 5,
-    header_h = 16,
+    header_h = 18,
     button_w = 13,
     button_h = 13,
+    cell_area_h = 64,
 };
 
-void pattern_area_sized(widget_ptr w, void *data)
+static void pattern_area_sized(widget_ptr w, void *data)
 {
     pattern_area_ptr p = (pattern_area_ptr) w;
 
     widget_put_size((widget_ptr) p->con, w->w, w->h);
-    widget_put_size((widget_ptr) p->ss, w->w, w->h - header_h - padding);
+    widget_put_size((widget_ptr) p->ss, w->w, w->h - header_h - padding - cell_area_h);
+    widget_put_size((widget_ptr) p->ca, w->w, cell_area_h);
+    widget_put_local((widget_ptr) p->ca, 0, w->h - cell_area_h);
 }
 
-void pattern_area_moved(widget_ptr w, void *data)
+static void pattern_area_moved(widget_ptr w, void *data)
 {
     pattern_area_ptr p = (pattern_area_ptr) w;
 
     widget_notify_move((widget_ptr) p->con);
 }
 
-void pattern_area_update(widget_ptr w)
+static void pattern_area_update(widget_ptr w)
 {
     pattern_area_ptr p = (pattern_area_ptr) w;
     widget_update((widget_ptr) p->con);
 }
 
-int pattern_area_handle_event(widget_ptr w, event_ptr e)
+static int pattern_area_handle_event(widget_ptr w, event_ptr e)
 {
     pattern_area_ptr p = (pattern_area_ptr) w;
 
-    return widget_handle_event((widget_ptr) p->con, e);
+    if (e->type == SDL_KEYDOWN) {
+	return widget_handle_event((widget_ptr) p->ss, e);
+    } else {
+	return widget_handle_event((widget_ptr) p->con, e);
+    }
 }
 
 static void workout_pattern_list(pattern_area_ptr pa)
@@ -55,7 +62,7 @@ static void workout_pattern_list(pattern_area_ptr pa)
 void pattern_area_put_machine(pattern_area_t pa, machine_ptr m)
 {
     pa->machine = m;
-    listbox_put_text(pa->lbmachine, pa->machine->id);
+    combobox_put_text(pa->cbmachine, pa->machine->id);
     if (m->pattern->count) {
 	pattern_area_put_pattern(pa, (pattern_ptr) m->pattern->item[0]);
     } else {
@@ -69,13 +76,15 @@ void pattern_area_put_pattern(pattern_area_t pa, pattern_ptr p)
     pa->pattern = p;
     if (p) {
 	pa->machine = p->machine;
-	listbox_put_text(pa->lbmachine, pa->machine->id);
+	combobox_put_text(pa->cbmachine, pa->machine->id);
 	pa->ss->pattern = p;
 	widget_show((widget_ptr) pa->ss);
-	listbox_put_text(pa->lbpattern, p->id);
+	widget_show((widget_ptr) pa->ca);
+	combobox_put_text(pa->cbpattern, p->id);
     } else {
 	widget_hide((widget_ptr) pa->ss);
-	listbox_put_text(pa->lbpattern, "--none--");
+	widget_hide((widget_ptr) pa->ca);
+	combobox_put_text(pa->cbpattern, "--none--");
     }
     workout_pattern_list(pa);
 }
@@ -84,7 +93,7 @@ void pattern_area_edit(pattern_area_t pa, song_ptr song)
 {
     pa->song = song;
     pattern_area_put_machine(pa, song->master);
-    pa->lbmachine->choice = song->mid_list;
+    pa->cbmachine->choice = song->mid_list;
 }
 
 SDL_Surface *make_arrow(int dir)
@@ -190,7 +199,7 @@ static void del_pat_cb(widget_ptr caller, void *data)
 
 static void put_machine_cb(widget_ptr w, void *data)
 {
-    listbox_ptr b = (listbox_ptr) w;
+    combobox_ptr b = (combobox_ptr) w;
     pattern_area_ptr pa = (pattern_area_ptr) data;
     machine_ptr m = song_machine_at(pa->song, b->text);
     pattern_area_put_machine(pa, m);
@@ -198,7 +207,7 @@ static void put_machine_cb(widget_ptr w, void *data)
 
 static void put_pattern_cb(widget_ptr w, void *data)
 {
-    listbox_ptr b = (listbox_ptr) w;
+    combobox_ptr b = (combobox_ptr) w;
     pattern_area_ptr pa = (pattern_area_ptr) data;
     pattern_ptr p = machine_pattern_at(pa->machine, b->text);
     pattern_area_put_pattern(pa, p);
@@ -246,10 +255,6 @@ void pattern_area_init(pattern_area_t p)
     button_shrinkwrap(p->bpforward);
     widget_connect((widget_ptr) p->bpforward, signal_activate, next_pat, w);
 
-    button_put_image(p->bpforward, image_right_arrow);
-    button_shrinkwrap(p->bpforward);
-    widget_connect((widget_ptr) p->bpforward, signal_activate, next_pat, w);
-
     image_newpattern = font_rendertext("New");
     button_put_image(p->bpnew, image_newpattern);
     button_shrinkwrap(p->bpnew);
@@ -260,24 +265,29 @@ void pattern_area_init(pattern_area_t p)
     button_shrinkwrap(p->bpdelete);
     widget_connect((widget_ptr) p->bpdelete, signal_activate, del_pat_cb, w);
 
-    listbox_init(p->lbmachine);
-    widget_put_size((widget_ptr) p->lbmachine, 100 - 15, 18);
-    widget_connect((widget_ptr) p->lbmachine, signal_activate, put_machine_cb, w);
+    combobox_init(p->cbmachine);
+    widget_put_size((widget_ptr) p->cbmachine, 100 - 15, 18);
+    widget_connect((widget_ptr) p->cbmachine, signal_activate, put_machine_cb, w);
 
-    listbox_init(p->lbpattern);
-    widget_put_size((widget_ptr) p->lbpattern, 100 - 15, 18);
-    p->lbpattern->choice = p->pattern_list;
-    widget_connect((widget_ptr) p->lbpattern, signal_activate, put_pattern_cb, w);
+    combobox_init(p->cbpattern);
+    widget_put_size((widget_ptr) p->cbpattern, 100 - 15, 18);
+    p->cbpattern->choice = p->pattern_list;
+    widget_connect((widget_ptr) p->cbpattern, signal_activate, put_pattern_cb, w);
+
+    cell_area_init(p->ca, p->ss);
 
     container_put_widget(p->con, (widget_ptr) p->bmback, 0, 0);
-    container_put_widget(p->con, (widget_ptr) p->lbmachine, 22, 0);
+    container_put_widget(p->con, (widget_ptr) p->cbmachine, 22, 0);
     container_put_widget(p->con, (widget_ptr) p->bmforward, 110, 0);
     container_put_widget(p->con, (widget_ptr) p->bpback, 200, 0);
-    container_put_widget(p->con, (widget_ptr) p->lbpattern, 222, 0);
+    container_put_widget(p->con, (widget_ptr) p->cbpattern, 222, 0);
     container_put_widget(p->con, (widget_ptr) p->bpforward, 310, 0);
     container_put_widget(p->con, (widget_ptr) p->bpnew, 340, 0);
-    container_put_widget(p->con, (widget_ptr) p->bpdelete, 370, 0);
+    container_put_widget(p->con, (widget_ptr) p->bpdelete, 380, 0);
     container_put_widget(p->con, (widget_ptr) p->ss, 0, header_h + padding);
+
+    //relocated during sizing:
+    container_put_widget(p->con, (widget_ptr) p->ca, 0, 0);
     w1 = (widget_ptr) p->con;
     w1->parent = w;
 
@@ -292,8 +302,9 @@ void pattern_area_clear(pattern_area_t p)
     button_clear(p->bmforward);
     button_clear(p->bpback);
     button_clear(p->bpforward);
-    listbox_clear(p->lbmachine);
-    listbox_clear(p->lbpattern);
+    combobox_clear(p->cbmachine);
+    combobox_clear(p->cbpattern);
+    cell_area_clear(p->ca);
     widget_clear((widget_ptr) p);
 
     darray_clear(p->pattern_list);

@@ -12,6 +12,25 @@ enum {
     m_h = 32
 };
 
+enum {
+    cc_list,
+    cc_node,
+};
+
+typedef void (*cc_callback_f)(void *);
+
+struct context_command_s {
+    int hotkey;
+    char *name;
+    char *desc;
+    int type;
+    darray_t list;
+    cc_callback_f func;
+    void *data;
+};
+typedef struct context_command_s *context_command_ptr;
+typedef struct context_command_s context_command_t[1];
+
 struct machine_area_s {
     widget_t widget;
     int drag_flag;
@@ -20,12 +39,15 @@ struct machine_area_s {
     song_ptr song;
     machine_ptr sel_machine;
     edge_ptr sel_edge;
-    menu_t machmenu;
-    menu_t edgemenu;
-    menu_t rootmenu;
-    menu_t listmenu;
     darray_t zorder;
     tbwin_t tbwin;
+    menu_t menu;
+    darray_t menu_list;
+    darray_t menuitem_list;
+    context_command_t cc_new_machine;
+    context_command_t cc_rename, cc_delete, cc_new_pattern, cc_disconnect;
+    context_command_t cc_edge, cc_machine, cc_song, cc_master;
+    context_command_ptr cc_current;
 };
 
 typedef struct machine_area_s *machine_area_ptr;

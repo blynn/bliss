@@ -4,6 +4,9 @@
 static int machine_window_handle_event(widget_ptr w, event_ptr e)
 {
     machine_window_ptr mw = (machine_window_ptr) w;
+    if (e->type == SDL_KEYDOWN) {
+	return widget_handle_event((widget_ptr) mw->ma, e);
+    }
     return widget_handle_event((widget_ptr) mw->con, e);
 }
 
@@ -23,8 +26,8 @@ static void machine_window_resize(widget_ptr w, void *data)
 {
     machine_window_ptr mw = (machine_window_ptr) w;
     widget_put_size((widget_ptr) mw->con, w->w, w->h);
-    widget_put_size((widget_ptr) mw->sb, 128 - 2, w->h);
-    widget_put_size((widget_ptr) mw->ma, w->w - 128, w->h);
+    widget_put_size((widget_ptr) mw->sb, 150 - 2, w->h);
+    widget_put_size((widget_ptr) mw->ma, w->w - 150, w->h);
 }
 
 void machine_window_init(machine_window_ptr mw)
@@ -36,7 +39,7 @@ void machine_window_init(machine_window_ptr mw)
     machine_area_init(mw->ma);
     sidebar_init(mw->sb, mw->ma);
     container_put_widget(mw->con, (widget_ptr) mw->sb, 0, 0);
-    container_put_widget(mw->con, (widget_ptr) mw->ma, 128, 0);
+    container_put_widget(mw->con, (widget_ptr) mw->ma, 150, 0);
     ((widget_ptr) mw->con)->parent = w;
     w->handle_event = machine_window_handle_event;
     w->update = machine_window_update;

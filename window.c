@@ -31,6 +31,21 @@ void window_moved(widget_ptr w, void *data)
     window_compute_geometry(win);
 }
 
+void window_focus(window_ptr win, widget_ptr w)
+{
+    if (win->focus_widget) widget_lose_focus(win->focus_widget);
+    if (w) {
+	if (w->can_focus) {
+	    win->focus_widget = w;
+	    w->has_focus = 1;
+	} else {
+	    win->focus_widget = NULL;
+	}
+    } else {
+	win->focus_widget = NULL;
+    }
+}
+
 static void window_handle_click(window_ptr win, event_ptr event)
 {
     int i, n;
@@ -67,7 +82,7 @@ static void window_handle_key(window_ptr win, event_ptr event)
 	widget_handle_event(win->focus_widget, event);
     } else {
 	if (win->handle_key) {
-	    if (win->handle_key((widget_ptr) win, event->key.keysym.sym)) {
+	    if (win->handle_key((widget_ptr) win, event)) {
 		widget_focus(NULL);
 		return;
 	    }

@@ -76,7 +76,7 @@ void pattern_tick(pattern_ptr p, int tick)
     if (rp) play_row(p, rp);
 }
 
-char *pattern_at(pattern_ptr p, int x, int y)
+cell_ptr pattern_cell_at(pattern_ptr p, int x, int y)
 {
     rowlist_ptr rp;
     celllist_ptr c;
@@ -86,8 +86,15 @@ char *pattern_at(pattern_ptr p, int x, int y)
     if (!rp) return NULL;
 
     for (c=rp->first->next; c; c=c->next) {
-	if (x == c->x) return cell_to_text(c->cell);
+	if (x == c->x) return c->cell;
     }
+    return NULL;
+}
+
+char *pattern_at(pattern_ptr p, int x, int y)
+{
+    cell_ptr c = pattern_cell_at(p, x, y);
+    if (c) return cell_to_text(c);
     return NULL;
 }
 

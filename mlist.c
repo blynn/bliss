@@ -7,10 +7,13 @@
 #include "mlist.h"
 #include "util.h"
 #include "master.h"
+#include "plugin.h"
+#include "bmachine.h"
 
 darray_t mlist;
+darray_t ulist;
 
-machine_info_t master_mi;
+machine_info_ptr master_mi;
 
 static int right_form(char *filename)
 {
@@ -22,72 +25,60 @@ static int right_form(char *filename)
     return 1;
 }
 
-//default callbacks: do nothing
-static void nop_work(machine_t m, double *l, double *r)
-{
-}
-
-static void nop_init(machine_t m)
-{
-}
-
-static void nop_clear(machine_t m)
-{
-}
-
-static void nop_parse(machine_t m, cell_t c, int col)
-{
-}
-
-static void nop_print_state(machine_t m, FILE *fp)
-{
-}
-
-static void nop_tick(machine_t m)
-{
-}
-
-static void text_cell_init(cell_t c, machine_t m, char *text, int col)
-{
-    cell_init_string(c, text);
-}
-
-void machine_info_assign_default(machine_info_ptr mi)
-{
-    mi->init = nop_init;
-    mi->clear = nop_clear;
-    mi->work = nop_work;
-    mi->parse = nop_parse;
-    mi->tick = nop_tick;
-    mi->print_state = nop_print_state;
-    mi->cell_init = text_cell_init;
-    mi->buzzmi = NULL;
-}
-
 static void try_load(char *filename)
 {
     void *p;
+    int (*typefunc)();
     void (*func)(machine_info_ptr);
+    void (*ufunc)(unit_info_ptr);
     machine_info_ptr mi;
+    unit_info_ptr ui;
 
     p = pl_load(filename);
     if (!p) return;
 
-    func = pl_sym(p, "machine_info_init");
-    if (!func) {
-	//plugin is missing symbol
-	printf("plugin is missing symbol!\n");
+    typefunc = pl_sym(p, "bliss_plugin_type");
+    if (!typefunc) {
+	printf("%s: can't get symbol bliss_plugin_type\n", filename);
 	pl_clear(p);
 	return;
     }
 
-    //printf("loaded '%s': %s\n", filename, mi->id);
-    mi = (machine_info_ptr) malloc(sizeof(machine_info_t));
-    machine_info_assign_default(mi);
-    func(mi);
-    mi->dlptr = p;
-    mi->plugin = strclone(filename);
-    darray_append(mlist, mi);
+    switch(typefunc()) {
+	case unit_plugin:
+	    ufunc = pl_sym(p, "unit_info_init");
+	    if (!ufunc) {
+		//plugin is missing symbol
+		printf("plugin is missing symbol!\n");
+		pl_clear(p);
+		return;
+	    }
+	    ui = (unit_info_ptr) malloc(sizeof(unit_info_t));
+	    ufunc(ui);
+	    ui->dlptr = p;
+	    ui->plugin = strclone(filename);
+	    darray_append(ulist, ui);
+	    break;
+	case machine_plugin:
+	    func = pl_sym(p, "machine_info_init");
+	    if (!func) {
+		//plugin is missing symbol
+		printf("plugin is missing symbol!\n");
+		pl_clear(p);
+		return;
+	    }
+
+	    //printf("loaded '%s': %s\n", filename, mi->id);
+	    mi = machine_info_new();
+	    func(mi);
+	    mi->dlptr = p;
+	    mi->plugin = strclone(filename);
+	    darray_append(mlist, mi);
+	    break;
+	default:
+	    pl_clear(p);
+	    break;
+    }
 }
 
 machine_info_ptr machine_info_at(char *id)
@@ -102,12 +93,30 @@ machine_info_ptr machine_info_at(char *id)
     return NULL;
 }
 
+unit_info_ptr unit_info_at(char *id)
+{
+    int i, n;
+
+    n = ulist->count;
+    for (i=0; i<n; i++) {
+	unit_info_ptr mi = (unit_info_ptr) ulist->item[i];
+	if (!strcmp(mi->id, id)) return mi;
+    }
+    return NULL;
+}
+
 void mlist_init()
 {
-    machine_info_assign_default(master_mi);
+    master_mi = machine_info_new();
     master_machine_info_init(master_mi);
     darray_init(mlist);
+    darray_init(ulist);
     darray_append(mlist, master_mi);
+}
+
+void mlist_clear()
+{
+    //TODO
 }
 
 void load_plugin_dir(char *dirname)
@@ -142,4 +151,15 @@ void load_plugin_dir(char *dirname)
     closedir(dp);
 
     qsort(mlist->item, mlist->count, sizeof(machine_info_ptr), micmp);
+}
+
+machine_info_ptr new_bmachine(char *id, char *name)
+{
+    machine_info_ptr mi = machine_info_new();
+    bmachine_info_init(mi);
+    mi->type = machine_bliss;
+    mi->id = strclone(id);
+    mi->name = strclone(name);
+    darray_append(mlist, mi);
+    return mi;
 }

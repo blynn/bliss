@@ -8,6 +8,7 @@ enum {
     c_textbg,
     c_generator,
     c_effect,
+    c_bliss,
     c_master,
     c_border,
     c_menuborder,

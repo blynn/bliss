@@ -10,6 +10,7 @@
 #include "main.h"
 #include "about.h"
 #include "filewin.h"
+#include "unit_window.h"
 
 enum {
     op_open,
@@ -29,6 +30,7 @@ static window_ptr aboutwin;
 static window_ptr filewin;
 
 static widget_ptr pattern_window, machine_window, song_window;
+static widget_ptr unit_window;
 static widget_ptr now_showing;
 static label_t statuslabel;
 
@@ -83,6 +85,7 @@ void root_resize(widget_ptr w, void *data)
     root_arena_h = root_h - menubar_h - statusbar_h - bar1_h - padding_h;
     widget_put_size(pattern_window, root_arena_w, root_arena_h);
     widget_put_size(machine_window, root_arena_w, root_arena_h);
+    widget_put_size(unit_window, root_arena_w, root_arena_h);
     widget_put_size(song_window, root_arena_w, root_arena_h);
     widget_put_size((widget_ptr) mb, root_w, menubar_h);
     song->x = root_arena_w;
@@ -91,7 +94,7 @@ void root_resize(widget_ptr w, void *data)
     widget_put_local((widget_ptr) statuslabel, 0, root_h - statusbar_h);
 }
 
-void put_status_text(char *s)
+void root_status_text(char *s)
 {
     label_put_text(statuslabel, s);
 }
@@ -125,23 +128,23 @@ void perform_file_op(char *filename)
 	case op_open:
 	    audio_pause();
 	    if (song_load(song, filename)) {
-		put_status_text("Open failed");
+		root_status_text("Open failed");
 	    } else {
 		root_edit_song(song);
-		put_status_text("Opened");
+		root_status_text("Opened");
 	    }
 	    break;
 	case op_saveas:
 	    song_save(song, filename);
-	    put_status_text("Saved");
+	    root_status_text("Saved");
 	    break;
 	case op_import:
 	    audio_pause();
 	    if (song_import_buzz(song, filename)) {
-		put_status_text("Import failed");
+		root_status_text("Import failed");
 	     } else {
 		root_edit_song(song);
-		put_status_text("Imported");
+		root_status_text("Imported");
 	     }
 	    break;
 	default:
@@ -169,7 +172,7 @@ void root_new_song()
     machine_window_center((machine_window_ptr) machine_window, song->master);
     song_rewind(song);
     root_edit_song(song);
-    put_status_text("New Song");
+    root_status_text("New Song");
 }
 
 static void new_song_cb(widget_ptr w, void *data)
@@ -222,7 +225,7 @@ static void add_area(widget_ptr w)
 static void play_cb(widget_ptr w, void *data)
 {
     audio_play();
-    put_status_text("Playing");
+    root_status_text("Playing");
 }
 
 static void rewind_cb(widget_ptr w, void *data)
@@ -233,7 +236,7 @@ static void rewind_cb(widget_ptr w, void *data)
 static void pause_cb(widget_ptr w, void *data)
 {
     audio_pause();
-    put_status_text("Paused");
+    root_status_text("Paused");
 }
 
 static void about_cb(widget_ptr caller, void *data)
@@ -281,11 +284,14 @@ static void edittpb_cb(widget_ptr caller, void *data)
     canceltpb_cb(caller, data);
 }
 
-static int handle_key(widget_ptr w, int key)
+static int handle_key(widget_ptr w, event_ptr e)
 {
     int status = 1;
 
-    switch(key) {
+    switch(e->key.keysym.sym) {
+	case SDLK_F1:
+	    show_area(unit_window);
+	    break;
 	case SDLK_F2:
 	    show_area(pattern_window);
 	    break;
@@ -306,7 +312,7 @@ static int handle_key(widget_ptr w, int key)
 	    break;
 	case SDLK_F12:
 	    main_screenshot();
-	    put_status_text("Screenshot Taken");
+	    root_status_text("Screenshot Taken");
 	    break;
 	case SDLK_q:
 	    if (widget_getmod((widget_ptr) rootwin) & KMOD_CTRL) {
@@ -314,7 +320,7 @@ static int handle_key(widget_ptr w, int key)
 	    } else status = 0;
 	    break;
 	default:
-	    status = 0;
+	    status = widget_handle_event(now_showing, e);
 	    break;
     }
     return status;
@@ -330,6 +336,8 @@ window_ptr root_new(int w, int h)
     window_ptr win = rootwin;
 
     window_init(win);
+    unit_window = (widget_ptr) unit_window_new();
+unit_window_edit((unit_window_ptr) unit_window, new_bmachine("Bliss Machine", "Bliss"));
     machine_window = (widget_ptr) machine_window_new();
     song_window = (widget_ptr) song_area_new();
     pattern_window = (widget_ptr) pattern_area_new();
@@ -338,6 +346,7 @@ window_ptr root_new(int w, int h)
 
     window_put_widget(win, (widget_ptr) mb, 0, 0);
 
+    add_area(unit_window);
     add_area(machine_window);
     add_area(song_window);
     add_area(pattern_window);
@@ -462,7 +471,7 @@ window_ptr root_new(int w, int h)
 
     widget_put_size((widget_ptr) win, w, h);
     root_new_song();
-    put_status_text("Welcome to Bliss");
+    root_status_text("Welcome to Bliss");
 
     return win;
 }

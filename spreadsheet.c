@@ -96,3 +96,15 @@ spreadsheet_ptr spreadsheet_new()
     spreadsheet_init(r);
     return r;
 }
+
+cell_ptr spreadsheet_current_cell(spreadsheet_ptr ss)
+{
+    grid_ptr g = (grid_ptr) ss;
+    return pattern_cell_at(ss->pattern, g->cc + g->oc, g->cr + g->or);
+}
+
+int spreadsheet_current_col(spreadsheet_ptr ss)
+{
+    grid_ptr g = (grid_ptr) ss;
+    return g->cc + g->oc;
+}

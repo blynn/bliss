@@ -973,6 +973,7 @@ void song_convert_buzz(song_ptr s, buzz_song_ptr bs)
 	w->id = strclone(bw->name);
 	w->volume = bw->volume;
 	w->sample_count = bw->level[0].sample_count;
+	w->sample_rate = bw->level[0].sample_per_sec;
 	w->data_length = w->sample_count * 2;
 	w->data = bw->level[0].data;
 	bw->level[0].data = NULL;

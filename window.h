@@ -21,7 +21,7 @@ struct window_s {
     int has_titlebar;
     SDL_Surface *titleimage;
     //TODO: remove this kludge:
-    int (* handle_key)(widget_ptr w, int key);
+    int (* handle_key)(widget_ptr w, event_ptr e);
 };
 
 void window_init(window_ptr);
@@ -35,5 +35,6 @@ int window_titlebar_has_mouse(window_ptr win);
 void window_close(window_ptr win);
 void window_put_title(window_ptr win, char *s);
 void window_modal_open(window_ptr win);
+void window_focus(window_ptr win, widget_ptr w);
 
 #endif //WINDOW_H

@@ -254,6 +254,7 @@ static void bbass2_tick(machine_t m)
 static void bbass2_work(machine_t m, double *l, double *r)
 {
     double x;
+    double d;
     int i, j;
 
     for (i=0; i<track_max; i++) {
@@ -263,12 +264,13 @@ static void bbass2_work(machine_t m, double *l, double *r)
 	    switch (p->type) {
 		case type_sine:
 		    j = resolution * x / samprate;
-		    *l = sintable[j];
+		    d = sintable[j];
 		    break;
 		case type_saw:
-		    *l = 0.5 - x / samprate;
+		    d = 0.5 - x / samprate;
 		    break;
 		default:
+		    d = 0;
 		    break;
 	    }
 	    x += p->f;
@@ -276,16 +278,15 @@ static void bbass2_work(machine_t m, double *l, double *r)
 	    p->x = x;
 	    //very simple decay
 	    if (p->ttl < 5000) {
-		*l *= (double) p->ttl / 5000;
+		d *= (double) p->ttl / 5000;
 	    }
 	    p->ttl--;
-	    *l = lowpass(p, *l);
-	    *r = *l;
+	    d = lowpass(p, d);
+	    d *= 32768 / 4;
+	    *l += d;
+	    *r += d;
 	}
     }
-    //TODO: no idea what scale buzz uses
-    *l *= 8192;
-    *r *= 8192;
 }
 
 void buzz_machine_info_init(buzz_machine_info_ptr mi) {

@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include "machine.h"
+#include "machine_plugin.h"
 #include "song.h"
 #include "util.h"
 
@@ -29,7 +29,7 @@ static void atracker_work(machine_t m, double *l, double *r)
 	    d = sample_at(w->data, p->i);
 	    d /= 1 << 15;
 	    d *= 0.5 * w->volume;
-	    p->i += p->freq * w->recipfreq;
+	    p->i += p->freq * w->recipfreq * w->sample_rate / samprate;
 	    if (p->i >= w->sample_count) p->playing = 0;
 	    *l += d;
 	    *r += d;
