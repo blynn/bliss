@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "machine.h"
 #include "song.h"
 #include "util.h"
@@ -70,16 +71,20 @@ static void atracker_parse(machine_t m, cell_t c, int col)
     if (!*s) return;
     switch(j) {
 	case 0:
-	    n = notechar_to_int(*s);
-	    s++; if (!*s) return;
-	    if (*s == '#') {
-		n++;
+	    if (!strcmp(s, "off")) {
+		p->playing = 0;
+	    } else {
+		n = notechar_to_int(*s);
 		s++; if (!*s) return;
+		if (*s == '#') {
+		    n++;
+		    s++; if (!*s) return;
+		}
+		n += 12 * (*s - '0');
+		p->freq = note_to_freq(n);
+		p->i = 0;
+		p->playing = 1;
 	    }
-	    n += 12 * (*s - '0');
-	    p->freq = note_to_freq(n);
-	    p->i = 0;
-	    p->playing = 1;
 	    break;
 	case 1:
 	    n = hex_to_int(*s);

@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "widget.h"
 #include "SDL_gfxPrimitives.h"
 
@@ -14,7 +15,7 @@ int widget_handle_event(widget_ptr w, event_ptr e)
 
 void widget_notify_move(widget_ptr w)
 {
-    w->moved(w);
+    widget_raise_signal(w, signal_move);
 }
 
 void widget_notify_resize(widget_ptr w)
@@ -22,7 +23,7 @@ void widget_notify_resize(widget_ptr w)
     widget_raise_signal(w, signal_resize);
 }
 
-void widget_moved(widget_ptr w)
+static void widget_moved(widget_ptr w, void *data)
 {
     if (w->parent) {
 	w->x = w->localx + w->parent->x;
@@ -44,6 +45,7 @@ void widget_update(widget_ptr w)
 
 void widget_clear(widget_ptr w)
 {
+    //TODO: clear signal handlers
 }
 
 void widget_show(widget_ptr w)
@@ -58,20 +60,23 @@ void widget_hide(widget_ptr w)
 
 void widget_init(widget_ptr w)
 {
-    int i;
-
     w->has_focus = 0;
     w->can_focus = 0;
     w->handle_event = default_widget_handle_event;
     w->update = default_widget_update;
-    w->moved = widget_moved;
     w->parent = NULL;
     w->localx = 0; w->localy = 0;
     w->x = 0; w->y = 0; w->w = 0; w->h = 0;
+    darray_init(w->handler);
+    /*
+    int i;
+
     for (i=0; i<signal_count; i++) {
 	w->handler[i].function = NULL;
 	w->handler[i].data = NULL;
     }
+    */
+    widget_connect(w, signal_move, widget_moved, NULL);
     widget_show(w);
 }
 
@@ -79,7 +84,7 @@ void widget_put_local(widget_ptr wid, int x, int y)
 {
     wid->localx = x;
     wid->localy = y;
-    wid->moved(wid);
+    widget_notify_move(wid);
 }
 
 void widget_put_size(widget_ptr wid, int w, int h)
@@ -115,11 +120,13 @@ void widget_fillrect(widget_ptr wid, SDL_Rect *r, int c)
 
 void widget_raise_signal(widget_ptr w, int sig)
 {
-    void (*f)(widget_ptr, void *);
+    int i;
 
-    f = w->handler[sig].function;
-    if (f) {
-	f(w, w->handler[sig].data);
+    for (i=0; i<w->handler->count; i++) {
+	struct handler_s *p = (struct handler_s *) w->handler->item[i];
+	if (p->sig == sig) {
+	    p->function(w, p->data);
+	}
     }
 }
 
@@ -152,8 +159,11 @@ void widget_blit(void *p, SDL_Surface *s, SDL_Rect *src, SDL_Rect *dst)
 
 void widget_connect(widget_ptr w, int sig, callback_f f, void *data)
 {
-    w->handler[sig].function = f;
-    w->handler[sig].data = data;
+    struct handler_s *p = (struct handler_s *) malloc(sizeof(struct handler_s));
+    darray_append(w->handler, p);
+    p->sig = sig;
+    p->function = f;
+    p->data = data;
 }
 
 static int lastmousex, lastmousey;
@@ -257,4 +267,84 @@ SDL_Surface *new_image(int w, int h)
 	    fmt->BitsPerPixel,
 	    fmt->Rmask, fmt->Gmask, fmt->Bmask, fmt->Amask);
     return img;
+}
+
+void widget_draw_border(widget_ptr w)
+{
+    SDL_Rect r;
+
+    //draw top and left
+    r.x = 0;
+    r.y = 0;
+    r.w = w->w;
+    r.h = 1;
+    widget_fillrect(w, &r, c_light);
+    r.w = 1;
+    r.h = w->h;
+    widget_fillrect(w, &r, c_light);
+    r.x = 1;
+    r.y = 1;
+    r.h -= 2;
+    widget_fillrect(w, &r, c_lighter);
+    r.w = w->w - 2;
+    r.h = 1;
+    widget_fillrect(w, &r, c_lighter);
+    //draw right and bottom
+    r.x = 0;
+    r.y = w->h - 1;
+    r.w = w->w;
+    r.h = 1;
+    widget_fillrect(w, &r, c_darker);
+    r.x = 1;
+    r.y--;
+    r.w -= 2;
+    widget_fillrect(w, &r, c_dark);
+    r.x = w->w - 1;
+    r.y = 0;
+    r.w = 1;
+    r.h = w->h;
+    widget_fillrect(w, &r, c_darker);
+    r.x--;
+    r.y = 1;
+    r.h -= 2;
+    widget_fillrect(w, &r, c_dark);
+}
+
+void widget_draw_inverse_border(widget_ptr w)
+{
+    SDL_Rect r;
+
+    r.x = 0;
+    r.y = 0;
+    r.w = w->w;
+    r.h = 1;
+    widget_fillrect(w, &r, c_dark);
+    r.w = 1;
+    r.h = w->h;
+    widget_fillrect(w, &r, c_dark);
+    r.x = 1;
+    r.y = 1;
+    r.h -= 2;
+    widget_fillrect(w, &r, c_darker);
+    r.w = w->w - 2;
+    r.h = 1;
+    widget_fillrect(w, &r, c_darker);
+    r.x = 0;
+    r.y = w->h - 1;
+    r.w = w->w;
+    r.h = 1;
+    widget_fillrect(w, &r, c_lighter);
+    r.x = 1;
+    r.y--;
+    r.w -= 2;
+    widget_fillrect(w, &r, c_light);
+    r.x = w->w - 1;
+    r.y = 0;
+    r.w = 1;
+    r.h = w->h;
+    widget_fillrect(w, &r, c_lighter);
+    r.x--;
+    r.y = 1;
+    r.h -= 2;
+    widget_fillrect(w, &r, c_light);
 }

@@ -1,3 +1,82 @@
+Fri Apr  4 09:53:30 PST 2003
+    Added 3D borders.
+
+    Added sidebar.
+
+    [bliss-0.03.tgz]
+
+Thu Apr  3 10:25:41 PST 2003
+    Better Buzz machine loading, plugged some memory leaks.
+
+    ...
+
+    Converted widget_moved() stuff into signals.
+    Changed signal handling code: now all attached signals are called.
+
+Thu Apr  3 00:04:27 PST 2003
+    Modified dumpbuzz.c in preparation for better Buzz parameter loading.
+
+    Machine dump looks like this now:
+
+begin machine
+	dll MASTER.dll
+	type 0
+	begin gparam
+		type 3
+		id Volume
+		desc Master Volume
+		min 0
+		max 0x4000
+		no 0xFFFF
+		flags 2
+		default 0x2000
+	end gparam
+	begin gparam
+		type 3
+		id bpm
+		desc Beats Per Minute
+		min 0x10
+		max 0x200
+		no 0xFFFF
+		flags 2
+		default 126
+	end gparam
+	begin gparam
+		type 2
+		id tpb
+		desc Ticks Per Beat
+		min 1
+		max 0x20
+		no 0xFF
+		flags 2
+		default 4
+	end gparam
+end machine
+
+    Moved parsing code to parse.c
+
+Mon Mar 31 10:09:40 PST 2003
+    Disassembly is a little cumbersome.
+    For now, will just settle with being able to read parameter information.
+
+    ...
+
+    With the help of dumpbuzz.c, added conversion info for many buzz
+    machines.
+    Will rewrite so that it has proper pattern/init_state information.
+
+    Added envelope parsing code.
+
+    Note value = 0xFF means note off. This was crashing convert_buzz.c.
+
+    Jeskola Reverb 2.dll contains a naming bug.
+
+Mon Mar 31 01:48:58 PST 2003
+    Been looking into loading native Buzz DLL's.
+
+    Wrote dumpbuzz.c which can get Buzz parameter information out of a
+    Buzz DLL.
+
 Sun Mar 30 12:20:20 PST 2003
     Listboxes work.
 

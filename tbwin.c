@@ -27,25 +27,25 @@ void tbwin_init(tbwin_ptr t)
 
     window_init(win);
 
-    widget_put_size(w, 210, 60);
+    widget_put_size(w, 210, 70);
 
     b = button_new();
     img = font_rendertext("Cancel");
     button_put_image(b, img);
     button_shrinkwrap(b);
-    window_put_widget(win, (widget_ptr) b, 164, 24);
+    window_put_widget(win, (widget_ptr) b, 156, 24);
     widget_connect((widget_ptr) b, signal_activate, cancel_cb, win);
 
     b = button_new();
     img = font_rendertext("Ok");
     button_put_image(b, img);
     button_shrinkwrap(b);
-    window_put_widget(win, (widget_ptr) b, 140, 24);
+    window_put_widget(win, (widget_ptr) b, 132, 24);
     widget_connect((widget_ptr) b, signal_activate, ok_cb, win);
 
     textbox_init(t->tb);
-    widget_put_size((widget_ptr) t->tb, 200, 16);
-    window_put_widget(win, (widget_ptr) t->tb, 5, 1);
+    widget_put_size((widget_ptr) t->tb, 196, 16);
+    window_put_widget(win, (widget_ptr) t->tb, 5, 2);
 
     widget_connect((widget_ptr) t->tb, signal_activate, ok_cb, win);
 

@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #include "container.h"
 
-void container_moved(widget_ptr w)
+void container_moved(widget_ptr w, void *data)
 {
     container_ptr c = (container_ptr) w;
     int i, n;
 
-    widget_moved(w);
     n = c->child->count;
     for(i=0; i<n; i++) {
 	widget_ptr wi = (widget_ptr) c->child->item[i];
@@ -56,7 +55,7 @@ void container_init(container_ptr c)
     darray_init(c->child);
     w->handle_event = container_handle_event;
     w->update = container_update;
-    w->moved = container_moved;
+    widget_connect(w, signal_move, container_moved, NULL);
 }
 
 void container_clear(container_ptr w)

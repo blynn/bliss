@@ -16,11 +16,10 @@ void pattern_area_sized(widget_ptr w, void *data)
     widget_put_size((widget_ptr) p->ss, w->w, w->h - header_h - padding);
 }
 
-void pattern_area_moved(widget_ptr w)
+void pattern_area_moved(widget_ptr w, void *data)
 {
     pattern_area_ptr p = (pattern_area_ptr) w;
 
-    widget_moved(w);
     widget_notify_move((widget_ptr) p->con);
 }
 
@@ -229,7 +228,7 @@ void pattern_area_init(pattern_area_t p)
     w->update = pattern_area_update;
     w->handle_event = pattern_area_handle_event;
     widget_connect(w, signal_resize, pattern_area_sized, NULL);
-    w->moved = pattern_area_moved;
+    widget_connect(w, signal_move, pattern_area_moved, NULL);
 
     button_put_image(p->bmback, image_left_arrow);
     button_shrinkwrap(p->bmback);
@@ -262,22 +261,22 @@ void pattern_area_init(pattern_area_t p)
     widget_connect((widget_ptr) p->bpdelete, signal_activate, del_pat_cb, w);
 
     listbox_init(p->lbmachine);
-    widget_put_size((widget_ptr) p->lbmachine, 100 - 17, 15);
+    widget_put_size((widget_ptr) p->lbmachine, 100 - 15, 18);
     widget_connect((widget_ptr) p->lbmachine, signal_activate, put_machine_cb, w);
 
     listbox_init(p->lbpattern);
-    widget_put_size((widget_ptr) p->lbpattern, 100 - 17, 15);
+    widget_put_size((widget_ptr) p->lbpattern, 100 - 15, 18);
     p->lbpattern->choice = p->pattern_list;
     widget_connect((widget_ptr) p->lbpattern, signal_activate, put_pattern_cb, w);
 
     container_put_widget(p->con, (widget_ptr) p->bmback, 0, 0);
-    container_put_widget(p->con, (widget_ptr) p->lbmachine, 16, 0);
-    container_put_widget(p->con, (widget_ptr) p->lbpattern, 216, 0);
-    container_put_widget(p->con, (widget_ptr) p->bmforward, 100, 0);
+    container_put_widget(p->con, (widget_ptr) p->lbmachine, 22, 0);
+    container_put_widget(p->con, (widget_ptr) p->bmforward, 110, 0);
     container_put_widget(p->con, (widget_ptr) p->bpback, 200, 0);
-    container_put_widget(p->con, (widget_ptr) p->bpforward, 300, 0);
-    container_put_widget(p->con, (widget_ptr) p->bpnew, 320, 0);
-    container_put_widget(p->con, (widget_ptr) p->bpdelete, 350, 0);
+    container_put_widget(p->con, (widget_ptr) p->lbpattern, 222, 0);
+    container_put_widget(p->con, (widget_ptr) p->bpforward, 310, 0);
+    container_put_widget(p->con, (widget_ptr) p->bpnew, 340, 0);
+    container_put_widget(p->con, (widget_ptr) p->bpdelete, 370, 0);
     container_put_widget(p->con, (widget_ptr) p->ss, 0, header_h + padding);
     w1 = (widget_ptr) p->con;
     w1->parent = w;

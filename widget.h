@@ -5,6 +5,7 @@
 #include "event.h"
 #include "colour.h"
 #include "font.h"
+#include "darray.h"
 
 enum {
     signal_activate,
@@ -12,6 +13,7 @@ enum {
     signal_lose_focus,
     signal_gain_focus,
     signal_resize,
+    signal_move,
     signal_count
 };
 
@@ -22,6 +24,7 @@ struct widget_s;
 typedef void (*callback_f)(struct widget_s *, void *);
 
 struct handler_s {
+    int sig;
     callback_f function;
     void *data;
 };
@@ -30,16 +33,15 @@ typedef struct widget_s *widget_ptr;
 
 struct widget_s {
     int (*handle_event)(widget_ptr, event_ptr);
-    void (*moved)(widget_ptr);
     void (*update)(widget_ptr);
     int x, y;
     int localx, localy;
     int w, h;
     struct widget_s *parent;
-    struct handler_s handler[signal_count];
     int visible;
     int can_focus;
     int has_focus;
+    darray_t handler;
 };
 
 typedef struct widget_s widget_t[1];
@@ -49,7 +51,6 @@ void widget_notify_move(widget_ptr w);
 
 void widget_init(widget_ptr);
 void widget_clear(widget_ptr);
-void widget_moved(widget_ptr);
 void widget_update(widget_ptr w);
 
 void widget_put_size(widget_ptr wid, int w, int h);
@@ -83,4 +84,7 @@ void widget_rectangle(widget_ptr w, int x1, int y1, int x2, int y2, int c);
 SDL_Surface *new_image(int w, int h);
 
 void widget_lose_focus(widget_ptr w);
+void widget_draw_border(widget_ptr w);
+void widget_draw_inverse_border(widget_ptr w);
+
 #endif //WIDGET_H

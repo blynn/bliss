@@ -1,7 +1,7 @@
 #include "audio.h"
 #include "window.h"
 #include "container.h"
-#include "machine_area.h"
+#include "machine_window.h"
 #include "pattern_area.h"
 #include "song_area.h"
 #include "convert_buzz.h"
@@ -18,13 +18,12 @@ enum {
 };
 
 enum {
-    bar1_h = 18,
+    bar1_h = 20,
     statusbar_h = 16,
     padding_h = 5,
 };
 
-int root_arena_w, root_arena_h;
-
+static int root_arena_w, root_arena_h;
 static window_t rootwin;
 static window_ptr aboutwin;
 static window_ptr filewin;
@@ -45,7 +44,7 @@ void root_edit_song(song_ptr s)
     char buf[30];
 
     song_area_edit((song_area_ptr) song_window, song);
-    machine_area_edit((machine_area_ptr) machine_window, song);
+    machine_window_edit((machine_window_ptr) machine_window, song);
     pattern_area_edit((pattern_area_ptr) pattern_window, song);
     audio_put_song(song);
     sprintf(buf, "%d", song->bpm);
@@ -54,12 +53,17 @@ void root_edit_song(song_ptr s)
     textbox_put_text(tpbtb, buf);
 }
 
+void root_put_buzz_coord(machine_ptr m, double x, double y)
+{
+    machine_window_put_buzz_coord((machine_window_ptr) machine_window, m, x, y);
+}
+
 void root_pattern_check(machine_ptr m)
     //m is about to be deleted
     //if editing a pattern belonging to m, change to NULL
 {
     pattern_area_ptr pa = (pattern_area_ptr) pattern_window;
-    if (pa->pattern->machine == m) {
+    if (pa->pattern && pa->pattern->machine == m) {
 	pattern_area_put_machine(pa, song->master);
     }
 }
@@ -119,6 +123,7 @@ void perform_file_op(char *filename)
 {
     switch (file_op) {
 	case op_open:
+	    audio_pause();
 	    if (song_load(song, filename)) {
 		put_status_text("Open failed");
 	    } else {
@@ -131,6 +136,7 @@ void perform_file_op(char *filename)
 	    put_status_text("Saved");
 	    break;
 	case op_import:
+	    audio_pause();
 	    if (song_import_buzz(song, filename)) {
 		put_status_text("Import failed");
 	     } else {
@@ -160,8 +166,8 @@ void root_new_song()
     song->master = song_create_machine_auto_id(song, "Master");
     song->x = root_arena_w;
     song->y = root_arena_h;
-    song->master->x = (root_arena_w - m_w) / 2;
-    song->master->y = (root_arena_h - m_h) / 2;
+    machine_window_center((machine_window_ptr) machine_window, song->master);
+    song_rewind(song);
     root_edit_song(song);
     put_status_text("New Song");
 }
@@ -169,6 +175,7 @@ void root_new_song()
 static void new_song_cb(widget_ptr w, void *data)
 {
     song_clear(song);
+    audio_pause();
     root_new_song();
 }
 
@@ -323,7 +330,7 @@ window_ptr root_new(int w, int h)
     window_ptr win = rootwin;
 
     window_init(win);
-    machine_window = (widget_ptr) machine_area_new();
+    machine_window = (widget_ptr) machine_window_new();
     song_window = (widget_ptr) song_area_new();
     pattern_window = (widget_ptr) pattern_area_new();
     menubar_init(mb);

@@ -33,20 +33,20 @@ window_ptr filewin_new()
     button_ptr b;
     SDL_Surface *img;
 
-    widget_put_size(w, 210, 80);
+    widget_put_size(w, 210, 90);
 
     b = button_new();
     img = font_rendertext("Cancel");
     button_put_image(b, img);
     button_shrinkwrap(b);
-    window_put_widget(win, (widget_ptr) b, 164, 44);
+    window_put_widget(win, (widget_ptr) b, 156, 44);
     widget_connect((widget_ptr) b, signal_activate, cancel_cb, win);
 
     b = button_new();
     img = font_rendertext("Ok");
     button_put_image(b, img);
     button_shrinkwrap(b);
-    window_put_widget(win, (widget_ptr) b, 140, 44);
+    window_put_widget(win, (widget_ptr) b, 132, 44);
     widget_connect((widget_ptr) b, signal_activate, ok_cb, win);
 
     l = label_new();

@@ -8,8 +8,8 @@
 #include "tbwin.h"
 
 enum {
-    m_w = 80,
-    m_h = 40
+    m_w = 64,
+    m_h = 32
 };
 
 struct machine_area_s {
@@ -18,7 +18,7 @@ struct machine_area_s {
     int drag_startx;
     int drag_starty;
     song_ptr song;
-    machine_ptr drag_machine;
+    machine_ptr sel_machine;
     edge_ptr sel_edge;
     menu_t machmenu;
     menu_t edgemenu;
@@ -35,5 +35,6 @@ void machine_area_init(machine_area_ptr);
 void machine_area_clear(machine_area_ptr ma);
 machine_area_ptr machine_area_new();
 void machine_area_edit(machine_area_ptr ma, song_ptr song);
+void machine_area_center(machine_area_ptr ma, machine_ptr m);
 
 #endif //MACHINE_AREA_H

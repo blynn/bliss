@@ -70,9 +70,14 @@ void listbox_update(widget_ptr w)
 {
     listbox_ptr b = (listbox_ptr) w;
     SDL_Rect rect;
-    widget_rectangle(w, 0, 0, w->w - 1, w->h - 1, c_border);
-    rect.x = 3;
+    widget_draw_inverse_border(w);
+    rect.x = 2;
     rect.y = 2;
+    rect.w = w->w - 4;
+    rect.h = w->h - 4;
+    widget_fillrect(w, &rect, c_textbg);
+    rect.x = 3;
+    rect.y = 3;
     if (b->image) {
 	widget_blit(w, b->image, NULL, &rect);
     }

@@ -6,6 +6,7 @@
 #include "mlist.h"
 #include "util.h"
 #include "base64.h"
+#include "parse.h"
 
 static void calcsamptick(song_ptr s)
 {
@@ -239,145 +240,6 @@ void song_init(song_ptr s)
 
 // TODO: move to separate file
 // Song I/O functions
-// Inefficient, but easy to code
-
-struct node_s {
-    int leaf_flag;
-    char *id;
-    char *text;
-    darray_t child;
-    //for waves and such:
-    unsigned char *data;
-    int len;
-};
-
-typedef struct node_s *node_ptr;
-typedef struct node_s node_t[1];
-
-static char *argsplit(char *buf)
-{
-    char *arg;
-
-    arg = strchr(buf, ' ');
-    if (arg) {
-	*arg = 0;
-	arg++;
-    }
-    return arg;
-}
-
-static void node_init(node_ptr n, char *id)
-{
-    n->leaf_flag = 0;
-    n->id = strclone(id);
-    darray_init(n->child);
-    n->data = NULL;
-    n->len = 0;
-}
-
-static node_ptr node_new(char *id)
-{
-    node_ptr n;
-    n = (node_ptr) malloc(sizeof(struct node_s));
-    node_init(n, id);
-    return n;
-}
-
-static void node_init_leaf(node_ptr n, char *id, char *text)
-{
-    n->leaf_flag = 1;
-    n->id = strclone(id);
-    if (text) n->text = strclone(text);
-    else n->text = NULL;
-    n->data = NULL;
-    n->len = 0;
-}
-
-static node_ptr node_new_leaf(char *id, char *text)
-{
-    node_ptr n;
-    n = (node_ptr) malloc(sizeof(struct node_s));
-    node_init_leaf(n, id, text);
-    return n;
-}
-
-static void node_add(node_ptr n, node_ptr child)
-{
-    if (n->leaf_flag) {
-	//BUG!
-    }
-    darray_append(n->child, child);
-}
-
-static void node_clear(node_ptr n)
-{
-    if (n->leaf_flag) free(n->text);
-    else darray_clear(n->child);
-    if (n->data) free(n->data);
-    free(n->id);
-}
-
-static node_ptr node_at(node_ptr n, char *id)
-{
-    node_ptr n1;
-    darray_ptr a = n->child;
-    int i;
-    for (i=0; i<a->count; i++) {
-	n1 = (node_ptr) a->item[i];
-	if (!strcmp(n1->id, id)) {
-	    return n1;
-	}
-    }
-    return NULL;
-}
-
-static char *node_leaf_at(node_ptr n, char *id)
-{
-    node_ptr n1;
-    darray_ptr a = n->child;
-    int i;
-    for (i=0; i<a->count; i++) {
-	n1 = (node_ptr) a->item[i];
-	if (!strcmp(n1->id, id)) {
-	    if (n1->leaf_flag) {
-		return n1->text;
-	    }
-	}
-    }
-    return NULL;
-}
-
-static void tree_print(node_ptr n)
-{
-    if (n->leaf_flag) {
-	printf("leaf %s: %s\n", n->id, n->text);
-    } else {
-	darray_ptr a = n->child;
-	int i;
-	printf("block %s:\n", n->id);
-	for (i=0; i<a->count; i++) {
-	    tree_print((node_ptr) a->item[i]);
-	}
-	printf("end block %s:\n", n->id);
-    }
-}
-
-static void tree_free(node_ptr n)
-{
-    node_ptr n1;
-    darray_ptr a = n->child;
-    int i;
-
-    if (n->leaf_flag) {
-	for (i=0; i<a->count; i++) {
-	    n1 = (node_ptr) a->item[i];
-	    tree_free(n1);
-	}
-    }
-
-    node_clear(n);
-    free(n);
-}
 
 void track_print(track_ptr t, FILE *fp)
 {
@@ -476,23 +338,11 @@ int song_save(song_ptr s, char *filename)
     return 0;
 }
 
-void skip_whitespace(FILE *fp)
-{
-    char c;
-    for (;;) {
-	c = fgetc(fp);
-	if (!strchr(" \t\n", c)) {
-	    ungetc(c, fp);
-	    return;
-	}
-    }
-}
-
 static void parse_pattern(pattern_ptr p, node_ptr root)
 {
     int i;
     darray_ptr a = root->child;
-    char *id = node_leaf_at(root, "id");
+    char *id = node_text_at(root, "id");
 
     p->id = strclone(id);
 
@@ -529,14 +379,14 @@ static void parse_track(track_ptr t, node_ptr root)
 static void parse_machine(song_ptr s, node_ptr root)
 {
     int x, y;
-    char *id = node_leaf_at(root, "id");
-    char *plugin = node_leaf_at(root, "plugin");
+    char *id = node_text_at(root, "id");
+    char *plugin = node_text_at(root, "plugin");
     machine_ptr m;
     int i;
     darray_ptr a = root->child;
 
-    x = atoi(node_leaf_at(root, "x"));
-    y = atoi(node_leaf_at(root, "y"));
+    x = atoi(node_text_at(root, "x"));
+    y = atoi(node_text_at(root, "y"));
     m = song_create_machine(s, plugin, id);
     m->x = x;
     m->y = y;
@@ -577,8 +427,8 @@ static void parse_machine(song_ptr s, node_ptr root)
 
 static void parse_connection(song_ptr s, node_ptr n)
 {
-    char *s1 = node_leaf_at(n, "from");
-    char *s2 = node_leaf_at(n, "to");
+    char *s1 = node_text_at(n, "from");
+    char *s2 = node_text_at(n, "to");
     machine_ptr src, dst;
 
     src = song_machine_at(s, s1);
@@ -593,17 +443,17 @@ static void parse_wave(song_ptr s, node_ptr n)
     wave_ptr w = wave_new();
     int index;
 
-    w->volume = atof(node_leaf_at(n, "volume"));
-    w->sample_count = atof(node_leaf_at(n, "sample_count"));
-    wave_put_root_note(w, atoi(node_leaf_at(n, "root_note")));
-    index = atoi(node_leaf_at(n, "index"));
+    w->volume = atof(node_text_at(n, "volume"));
+    w->sample_count = atof(node_text_at(n, "sample_count"));
+    wave_put_root_note(w, atoi(node_text_at(n, "root_note")));
+    index = atoi(node_text_at(n, "index"));
 
     s->wave[index] = w;
 }
 
 static void parse_wavedata(song_ptr s, node_ptr n)
 {
-    int index = atoi(node_leaf_at(n, "index"));
+    int index = atoi(node_text_at(n, "index"));
     wave_ptr w = s->wave[index];
     node_ptr n1;
     if (!w) {
@@ -611,7 +461,7 @@ static void parse_wavedata(song_ptr s, node_ptr n)
 	return;
     }
 
-    n1 = node_at(n, "data");
+    n1 = node_list_at(n, "data");
     if (!n1) {
 	fprintf(stderr, "no data field\n");
 	return;
@@ -635,7 +485,7 @@ static void parse_tree(song_ptr s, node_ptr root)
 	    parse_machine(s, n);
 	}
     }
-    s->master = song_machine_at(s, node_leaf_at(root, "master"));
+    s->master = song_machine_at(s, node_text_at(root, "master"));
     //create edges
     for (i=0; i<a->count; i++) {
 	node_ptr n = a->item[i];
@@ -659,60 +509,23 @@ static void parse_tree(song_ptr s, node_ptr root)
     }
 }
 
-void song_scan(song_ptr s, FILE *fp)
-{
-    char buf[1024];
-    char *arg;
-    node_ptr root;
-    node_ptr nodestack[32];
-    int sp;
-
-    song_clear(s);
-    song_init(s);
-
-    //read into tree
-    root = node_new("root");
-    sp = 0;
-    nodestack[sp] = root;
-    for (;;) {
-	skip_whitespace(fp);
-	fgets(buf, 1024, fp);
-	if (feof(fp)) break;
-	buf[strlen(buf) - 1] = 0;
-	arg = argsplit(buf);
-
-	if (!strcmp(buf, "begin")) {
-	    node_ptr n;
-	    if (sp == 32) return;
-	    n = node_new(arg);
-	    node_add(nodestack[sp], n);
-	    sp++;
-	    nodestack[sp] = n;
-	} else if (!strcmp(buf, "base64")) {
-	    node_ptr n = node_new_leaf(arg, NULL);
-	    node_add(nodestack[sp], n);
-	    base64_decode(&n->data, &n->len, fp);
-	} else if (!strcmp(buf, "end")) {
-	    sp--;
-	    if (sp < 0) return;
-	} else {
-	    node_ptr n;
-	    n = node_new_leaf(buf, arg);
-	    node_add(nodestack[sp], n);
-	}
-    }
-
-    parse_tree(s, root);
-    tree_free(root);
-}
-
 int song_load(song_ptr s, char *filename)
 {
+    node_ptr root;
     FILE *fp;
 
     fp = fopen(filename, "r");
     if (!fp) return 1;
-    song_scan(s, fp);
+
+    root = node_new("root");
+    tree_read(root, fp);
     fclose(fp);
+
+    song_clear(s);
+    song_init(s);
+    song_rewind(s);
+
+    parse_tree(s, root);
+    tree_free(root);
     return 0;
 }

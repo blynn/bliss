@@ -197,12 +197,11 @@ void menu_add(menu_ptr m, menuitem_t it)
     menu_repack(m);
 }
 
-void menu_moved(widget_ptr w)
+static void menu_moved(widget_ptr w, void *data)
 {
     menu_ptr m = (menu_ptr) w;
     int i, n;
 
-    widget_moved(w);
     n = m->item->count;
     for (i=0; i<n; i++) {
 	menuitem_ptr it;
@@ -263,9 +262,9 @@ void menu_init(menu_ptr m)
     widget_ptr w = (widget_ptr) m;
     widget_init(w);
     w->can_focus = 1;
-    w->moved = menu_moved;
     w->update = menu_update;
     w->handle_event = menu_handle_event;
+    widget_connect(w, signal_move, menu_moved, NULL);
     darray_init(m->item);
 }
 

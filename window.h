@@ -5,7 +5,7 @@
 #include "container.h"
 
 enum {
-    window_border = 1,
+    window_border = 2,
     window_title_h = 16,
 };
 

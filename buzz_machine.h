@@ -5,10 +5,10 @@
 #include "machine.h"
 
 enum {
-    pt_switch = 0,
+    pt_note = 0,
+    pt_switch,
     pt_byte,
     pt_word,
-    pt_note,
     NOTE_MIN = 0,
     NOTE_MAX = 127,
     NOTE_NO = 0,

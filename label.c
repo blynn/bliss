@@ -4,7 +4,7 @@
 void label_shrinkwrap(label_ptr l)
 {
     widget_ptr w = (widget_ptr) l;
-    widget_put_size(w, l->image->w + 2, l->image->h + 2);
+    widget_put_size(w, l->image->w + 6, l->image->h + 6);
 }
 
 void label_update(widget_ptr w)
@@ -12,7 +12,7 @@ void label_update(widget_ptr w)
     SDL_Rect rect;
     label_ptr b = (label_ptr) w;
     rect.x = 3;
-    rect.y = 2;
+    rect.y = 3;
     if (b->image) {
 	widget_blit(w, b->image, NULL, &rect);
     }

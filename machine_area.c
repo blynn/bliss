@@ -70,9 +70,39 @@ static machine_ptr machine_at(machine_area_ptr ma, int x, int y)
     return NULL;
 }
 
+/*
+static void (*update_hook)(void *data);
+static void* update_hook_data;
+
+*/
+static void clear_selection(machine_area_ptr ma)
+{
+    ma->sel_machine = NULL;
+    ma->sel_edge = NULL;
+}
+
+static void update_selection(machine_area_ptr ma, int x, int y)
+{
+    ma->sel_machine = machine_at(ma, x, y);
+    ma->sel_edge = edge_at(ma, x, y);
+    /*
+    if (update_hook) {
+	update_hook(update_hook_data);
+    }
+    */
+}
+
+/*
+void machine_area_add_update_hook(void (*f)(void *), void *data)
+{
+    update_hook = f;
+    update_hook_data = data;
+}
+*/
+
 static void try_connect(machine_area_ptr ma, machine_ptr dst)
 {
-    machine_ptr src = ma->drag_machine;
+    machine_ptr src = ma->sel_machine;
     if ((src->mi->type & machine_out) && (dst->mi->type & machine_in)) {
 	if (song_is_connected(ma->song, src, dst)) return;
 	song_create_edge(ma->song, src, dst);
@@ -82,9 +112,10 @@ static void try_connect(machine_area_ptr ma, machine_ptr dst)
 static void start_drag(widget_ptr w, int drag_type)
 {
     machine_area_ptr ma = (machine_area_ptr) w;
+
     widget_getmousexy(w, &ma->drag_startx, &ma->drag_starty);
-    ma->drag_machine = machine_at(ma, ma->drag_startx, ma->drag_starty);
-    if (ma->drag_machine) {
+    update_selection(ma, ma->drag_startx, ma->drag_starty);
+    if (ma->sel_machine) {
 	ma->drag_flag = drag_type;
     }
 }
@@ -103,7 +134,6 @@ static void stop_drag(widget_ptr w)
 	}
     }
     ma->drag_flag = drag_none;
-    ma->drag_machine = NULL;
 }
 
 static void new_machine(machine_area_ptr ma, char *id)
@@ -124,26 +154,25 @@ static void popup_menu(widget_ptr w)
 
     stop_drag(w);
     widget_getmousexy(w, &x, &y);
-    m = machine_at(ma, x, y);
+    update_selection(ma, x, y);
+    m = ma->sel_machine;
     if (m) {
-	widget_put_local((widget_ptr) ma->machmenu, x, y);
-	ma->drag_machine = m;
+	widget_put_local((widget_ptr) ma->machmenu, w->x + x, w->y + y);
 	menu_popup(ma->machmenu);
 	return;
     }
-    e = edge_at(ma, x, y);
+    e = ma->sel_edge;
     if (e) {
-	ma->sel_edge = e;
-	widget_put_local((widget_ptr) ma->edgemenu, x, y);
+	widget_put_local((widget_ptr) ma->edgemenu, w->x + x, w->y + y);
 	menu_popup(ma->edgemenu);
 	return;
     }
 
-    widget_put_local((widget_ptr) ma->rootmenu, x, y);
+    widget_put_local((widget_ptr) ma->rootmenu, w->x + x, w->y + y);
     menu_popup(ma->rootmenu);
 }
 
-int machine_area_handle_event(widget_ptr w, event_ptr e)
+static int machine_area_handle_event(widget_ptr w, event_ptr e)
 {
     machine_area_ptr ma = (machine_area_ptr) w;
     switch (e->type) {
@@ -173,6 +202,7 @@ static void draw_edge(widget_ptr w, edge_ptr e)
     double a;
     int xc, yc;
     int xtri[3], ytri[3];
+    machine_area_ptr ma = (machine_area_ptr) w;
 
     x1 = e->src->x;
     y1 = e->src->y;
@@ -196,6 +226,9 @@ static void draw_edge(widget_ptr w, edge_ptr e)
     xc = (x1 + x2) / 2;
     yc = (y1 + y2) / 2;
 
+    if (e == ma->sel_edge) {
+	widget_filled_circle(w, xc, yc, 12, c_machine_cursor);
+    }
     widget_filled_circle(w, xc, yc, disc_r, c_edgedisc);
     widget_circle(w, xc, yc, 9, c_edge);
 
@@ -216,19 +249,43 @@ static void draw_edge(widget_ptr w, edge_ptr e)
     widget_filled_polygon(w, xtri, ytri, 3, c_arrow);
 }
 
+static int xclip(widget_ptr w, int x)
+{
+    if (x < 0) return 0;
+    if (x + m_w > w->w) return w->w - m_w;
+    return x;
+}
+
+static int yclip(widget_ptr w, int y)
+{
+    if (y < 0) return 0;
+    if (y + m_h > w->h) return w->h - m_h;
+    return y;
+}
+
 static void draw_machine(widget_ptr w, machine_ptr m)
 {
     machine_area_ptr ma = (machine_area_ptr) w;
     SDL_Rect r;
     int c;
 
-    if (m == ma->drag_machine && ma->drag_flag == drag_move) {
+    if (m == ma->sel_machine && ma->drag_flag == drag_move) {
 	int x, y;
 	widget_getmousexy(w, &x, &y);
 	m->x += x - ma->drag_startx;
 	m->y += y - ma->drag_starty;
+	m->x = xclip(w, m->x);
+	m->y = yclip(w, m->y);
 	ma->drag_startx = x;
 	ma->drag_starty = y;
+    }
+
+    if (m == ma->sel_machine) {
+	r.x = m->x - 2;
+	r.y = m->y - 2;
+	r.w = m_w + 4;
+	r.h = m_h + 4;
+	widget_fillrect(w, &r, c_machine_cursor);
     }
 
     r.x = m->x;
@@ -259,7 +316,7 @@ static void draw_machine(widget_ptr w, machine_ptr m)
     widget_write(w, m->x + 4, m->y + 4, m->id);
 }
 
-void machine_area_update(widget_ptr w)
+static void machine_area_update(widget_ptr w)
 {
     darray_ptr a;
     int i, n;
@@ -267,6 +324,8 @@ void machine_area_update(widget_ptr w)
     edge_ptr e;
     machine_area_ptr ma = (machine_area_ptr) w;
 
+    //widget_fill(w, c_mabg);
+    widget_draw_inverse_border(w);
     a = ma->song->edge;
     n = a->count;
     for (i=0; i<n; i++) {
@@ -283,7 +342,7 @@ void machine_area_update(widget_ptr w)
 
     if (ma->drag_flag == drag_edge) {
 	int x, y;
-	m = ma->drag_machine;
+	m = ma->sel_machine;
 	widget_getmousexy(w, &x, &y);
 	widget_line(w, m->x + m_w / 2,
 		m->y + m_h / 2, x, y, c_liveedge);
@@ -295,6 +354,7 @@ static void del_edge_cb(widget_ptr w, void *data)
     machine_area_ptr ma = (machine_area_ptr) data;
     edge_ptr e = ma->sel_edge;
     song_del_edge(ma->song, e);
+    clear_selection(ma);
 }
 
 static void rename_cb2(widget_ptr w, void *data)
@@ -308,9 +368,9 @@ static void rename_cb2(widget_ptr w, void *data)
 static void rename_machine_cb(widget_ptr caller, void *data)
 {
     machine_area_ptr ma = (machine_area_ptr) data;
-    machine_ptr m = ma->drag_machine;
+    machine_ptr m = ma->sel_machine;
     widget_ptr wt;
-    ma->drag_machine = NULL;
+    clear_selection(ma);
     textbox_put_text(ma->tbwin->tb, m->id);
     tbwin_open(ma->tbwin);
     wt = (widget_ptr) ma->tbwin;
@@ -322,8 +382,8 @@ static void rename_machine_cb(widget_ptr caller, void *data)
 static void del_machine_cb(widget_ptr w, void *data)
 {
     machine_area_ptr ma = (machine_area_ptr) data;
-    machine_ptr m = ma->drag_machine;
-    ma->drag_machine = NULL;
+    machine_ptr m = ma->sel_machine;
+    clear_selection(ma);
     if (m == ma->song->master) {
 	printf("can't delete master\n");
 	return;
@@ -355,7 +415,7 @@ static void new_machine_cb(widget_ptr w, void *data)
 static void new_pattern_cb(widget_ptr w, void *data)
 {
     machine_area_ptr ma = (machine_area_ptr) data;
-    machine_ptr m = ma->drag_machine;
+    machine_ptr m = ma->sel_machine;
     pattern_ptr p;
 
     p = machine_create_pattern_auto_id(m);
@@ -373,6 +433,7 @@ void machine_area_init(machine_area_ptr ma)
     w->handle_event = machine_area_handle_event;
     w->update = machine_area_update;
     darray_init(ma->zorder);
+    clear_selection(ma);
 
     //popup menu for right click on machine
     menu_init(ma->machmenu);
@@ -443,4 +504,20 @@ void machine_area_edit(machine_area_ptr ma, song_ptr song)
 {
     ma->song = song;
     darray_copy(ma->zorder, song->machine);
+    clear_selection(ma);
+}
+
+void machine_area_center(machine_area_ptr ma, machine_ptr m)
+{
+    widget_ptr w = (widget_ptr) ma;
+    m->x = (w->w - m_w) / 2;
+    m->y = (w->h - m_h) / 2;
+}
+
+void machine_area_put_buzz_coord(machine_area_ptr ma, machine_ptr m, double x, double y)
+{
+    widget_ptr w = (widget_ptr) ma;
+
+    m->x = w->w * (x + 1) * 0.5;
+    m->y = w->h * (y + 1) * 0.5;
 }

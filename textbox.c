@@ -11,12 +11,17 @@ void textbox_update(widget_ptr w)
 {
     textbox_ptr b = (textbox_ptr) w;
     SDL_Rect rect;
-    widget_rectangle(w, 0, 0, w->w - 1, w->h - 1, c_border);
-    rect.x = 3;
-    rect.y = 1;
+    widget_draw_inverse_border(w);
+    rect.x = 2;
+    rect.y = 2;
+    rect.w = w->w - 4;
+    rect.h = w->h - 4;
+    widget_fillrect(w, &rect, c_textbg);
     if (b->image) {
 	widget_blit(w, b->image, NULL, &rect);
     }
+    rect.x = 3;
+    rect.y = 3;
     if (w->has_focus || b->appear_active) {
 	rect.x += b->cursorx;
 	rect.y = 0;

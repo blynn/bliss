@@ -51,15 +51,18 @@ int notechar_to_int(char c)
 int strtonote(char *s)
 {
     int n;
+    if (!strcmp(s, "off")) {
+	return 255;
+    }
     n = notechar_to_int(*s);
-    s++; if (!*s) return 57;
+    s++; if (!*s) return 255;
     if (*s == '#') {
 	n++;
-	s++; if (!*s) return 57;
+	s++; if (!*s) return 255;
     }
     n = n + 12 * (*s - '0');
-    if (n >= 127) return 57;
-    if (n < 0) return 57;
+    if (n >= 127) return 255;
+    if (n < 0) return 255;
     return n;
 }
 
@@ -114,6 +117,7 @@ char *note_to_text(int note)
 	first = 0;
     }
 
+    if (note >= 127) return "off";
     return table[note];
 }
 

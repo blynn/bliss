@@ -23,11 +23,10 @@ static void window_compute_geometry(window_ptr win)
     widget_put_size((widget_ptr) win->con, w, h);
 }
 
-void window_moved(widget_ptr w)
+void window_moved(widget_ptr w, void *data)
 {
     window_ptr win = (window_ptr) w;
     container_ptr con = win->con;
-    widget_moved(w);
     widget_notify_move((widget_ptr) con);
     window_compute_geometry(win);
 }
@@ -105,16 +104,16 @@ void window_update(widget_ptr w)
 
     widget_fill(w, c_background);
     if (win->has_border) {
-	widget_rectangle(w, 0, 0, w->w - 1, w->h - 1, c_border);
+	widget_draw_border(w);
     }
     if (win->has_titlebar) {
-	r.x = 1;
-	r.y = 1;
-	r.w = w->w - 2;
+	r.x = 3;
+	r.y = 3;
+	r.w = w->w - 6;
 	r.h = window_title_h;
 	widget_fillrect(w, &r, c_titlebar);
 	r.x = 10;
-	r.y = 2;
+	r.y = 3;
 	if (win->titleimage) widget_blit(w, win->titleimage, NULL, &r);
     }
 
@@ -145,7 +144,7 @@ void window_init(window_ptr win)
     widget_init(w);
     container_init(con);
     ((widget_ptr) con)->parent = w;
-    w->moved = window_moved;
+    widget_connect(w, signal_move, window_moved, NULL);
     w->update = window_update;
     w->handle_event = window_handle_event;
     win->focus_widget = NULL;

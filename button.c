@@ -4,18 +4,20 @@
 void button_shrinkwrap(button_ptr b)
 {
     widget_ptr w = (widget_ptr) b;
-    widget_put_size(w, b->image->w + 2, b->image->h + 2);
+    widget_put_size(w, b->image->w + 6, b->image->h + 6);
 }
 
 void button_update(widget_ptr w)
 {
     button_ptr b = (button_ptr) w;
-    SDL_Rect rect;
-    rect.x = 1;
-    rect.y = 1;
-    widget_rectangle(w, 0, 0, w->w - 1, w->h - 1, c_border);
+    SDL_Rect r;
+
+    widget_draw_border(w);
+
     if (b->image) {
-	widget_blit(w, b->image, NULL, &rect);
+	r.x = 3;
+	r.y = 3;
+	widget_blit(w, b->image, NULL, &r);
     }
 }
 

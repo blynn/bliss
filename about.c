@@ -22,7 +22,7 @@ window_ptr about_new()
     img = font_rendertext("Ok");
     button_put_image(b, img);
     button_shrinkwrap(b);
-    window_put_widget(win, (widget_ptr) b, 70, 60);
+    window_put_widget(win, (widget_ptr) b, 70, 56);
     widget_connect((widget_ptr) b, signal_activate, hide_cb, win);
 
     l = label_new();

@@ -5,6 +5,7 @@
 
 enum {
     c_background = 0,
+    c_textbg,
     c_generator,
     c_effect,
     c_master,
@@ -20,6 +21,12 @@ enum {
     c_cursor,
     c_titlebar,
     c_gridline,
+    c_machine_cursor,
+    c_mabg,
+    c_light,
+    c_lighter,
+    c_dark,
+    c_darker,
     c_max
 };
 

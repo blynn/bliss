@@ -1,10 +1,12 @@
-ALLFILES = *.[ch] Makefile LICENSE README NEWS helmetr.ttf
+SOURCEFILES = *.[ch] Makefile
+OTHERFILES = LICENSE README NEWS helmetr.ttf bminfo.txt
+ALLFILES = $(SOURCEFILES) $(OTHERFILES)
 DYNOS = version.o util.o darray.o cell.o
 BLISSPLUGINS = sine.so nop.so atracker.so
 BUZZPLUGINS = bbass2.so bdelay.so bdistortion.so bnoise.so
 PLUGINS = $(BLISSPLUGINS) $(BUZZPLUGINS)
 PROJNAME = bliss
-VERSION = 0.02
+VERSION = 0.03
 
 ifdef WIN32
 CC = i586-mingw32msvc-gcc
@@ -22,11 +24,13 @@ PLAT=linux
 endif
 
 OBJS= audio.o main.o \
+    parse.o \
     master.o \
     mlist.o \
     base64.o \
     machine.o pattern.o track.o song.o wave.o \
-    root.o machine_area.o pattern_area.o song_area.o \
+    sidebar.o machine_area.o \
+    root.o machine_window.o pattern_area.o song_area.o \
     about.o filewin.o tbwin.o \
     convert_buzz.o \
     colour.o font.o \
@@ -34,7 +38,10 @@ OBJS= audio.o main.o \
     container.o grid.o spreadsheet.o menu.o window.o \
     SDL_gfxPrimitives.o pl.o
 
-TARGET: $(PROJNAME) $(PLUGINS)
+TARGET: $(PROJNAME) $(PLUGINS) dumpbuzz
+
+dumpbuzz : dumpbuzz.c
+	$(CC) $(CFLAGS) -o $@ $<
 
 pl.c : pl.$(PLAT).c
 	cp $^ $@
@@ -67,12 +74,12 @@ dist: $(ALLFILES)
 	-rm -rf $(DISTNAME)
 
 ifdef WIN32
-zip : $(PROJNAME) $(PLUGINS)
+zip : $(PROJNAME) $(PLUGINS) $(OTHERFILES)
 	-rm -rf $(DISTNAME)
 	mkdir $(DISTNAME)
 	cp -l $(PROJNAME) $(DISTNAME)/$(PROJNAME).exe
 	cp -l $(PLUGINS) $(DISTNAME)
-	cp -l LICENSE $(DISTNAME)
+	cp -l $(OTHERFILES) $(DISTNAME)
 	cp -l *.ttf $(DISTNAME)
 	cp -l /home/ben/cross/SDL/lib/SDL.dll $(DISTNAME)
 	cp -l /home/ben/cross/SDL/lib/SDL_ttf.dll $(DISTNAME)
