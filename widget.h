@@ -38,6 +38,8 @@ struct widget_s {
     struct widget_s *parent;
     struct handler_s handler[signal_count];
     int visible;
+    int can_focus;
+    int has_focus;
 };
 
 typedef struct widget_s widget_t[1];

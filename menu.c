@@ -42,8 +42,8 @@ int menuitem_handle_event(widget_ptr w, event_ptr e)
 
     switch (e->type) {
 	case SDL_MOUSEBUTTONDOWN:
-	    widget_focus(NULL);
 	    if (widget_has_mouse((widget_ptr) it)) {
+		widget_focus(NULL);
 		widget_raise_signal((widget_ptr) it, signal_activate);
 		return 1;
 	    }
@@ -98,7 +98,7 @@ int menubar_handle_event(widget_ptr p, event_ptr e)
 		it = m->item->item[i];
 		w = (widget_ptr) it;
 
-		if (widget_handle_event(w, e)) {
+		if (widget_has_mouse(w)) if (widget_handle_event(w, e)) {
 		    return 1;
 		}
 	    }
@@ -262,6 +262,7 @@ void menu_init(menu_ptr m)
 {
     widget_ptr w = (widget_ptr) m;
     widget_init(w);
+    w->can_focus = 1;
     w->moved = menu_moved;
     w->update = menu_update;
     w->handle_event = menu_handle_event;

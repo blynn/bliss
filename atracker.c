@@ -38,9 +38,9 @@ static void atracker_work(machine_t m, double *l, double *r)
 
 static void atracker_init(machine_t m)
 {
+    atracker_data_ptr p;
     int i;
     m->data = malloc(track_max * sizeof(struct atracker_data_s));
-    atracker_data_ptr p;
 
     for (i=0; i<track_max; i++) {
 	p = &((atracker_data_ptr) m->data)[i];
@@ -53,7 +53,7 @@ static void atracker_clear(machine_t m)
 {
 }
 
-static void atracker_parse(machine_t m, char *cmd, int col)
+static void atracker_parse(machine_t m, cell_t c, int col)
 {
     int i, j;
     atracker_data_ptr p;
@@ -66,7 +66,7 @@ static void atracker_parse(machine_t m, char *cmd, int col)
 
     p = &((atracker_data_ptr) m->data)[i];
 
-    s = cmd;
+    s = c->data.s;
     if (!*s) return;
     switch(j) {
 	case 0:

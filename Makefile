@@ -1,8 +1,10 @@
 ALLFILES = *.[ch] Makefile LICENSE README NEWS helmetr.ttf
-DYNOS = version.o util.o darray.o
-PLUGINS = sine.so master.so nop.so bbass2.so atracker.so
+DYNOS = version.o util.o darray.o cell.o
+BLISSPLUGINS = sine.so nop.so atracker.so
+BUZZPLUGINS = bbass2.so bdelay.so bdistortion.so bnoise.so
+PLUGINS = $(BLISSPLUGINS) $(BUZZPLUGINS)
 PROJNAME = bliss
-VERSION = 0.01
+VERSION = 0.02
 
 ifdef WIN32
 CC = i586-mingw32msvc-gcc
@@ -20,6 +22,7 @@ PLAT=linux
 endif
 
 OBJS= audio.o main.o \
+    master.o \
     mlist.o \
     base64.o \
     machine.o pattern.o track.o song.o wave.o \
@@ -39,10 +42,16 @@ pl.c : pl.$(PLAT).c
 $(OBJS): %.o: %.c 
 	$(CC) $(CFLAGS) -c $^
 
+buzz_machine.o: buzz_machine.c
+	$(CC) $(CFLAGS) -fPIC -c $^
+
 $(DYNOS): %.o: %.c 
 	$(CC) $(CFLAGS) -fPIC -c $^
 
-$(PLUGINS): %.so: %.c $(DYNOS)
+$(BUZZPLUGINS): %.so: %.c $(DYNOS) buzz_machine.o
+	$(CC) $(CFLAGS) -fPIC -shared -o $@ $^
+
+$(BLISSPLUGINS): %.so: %.c $(DYNOS)
 	$(CC) $(CFLAGS) -fPIC -shared -o $@ $^
 
 $(PROJNAME) : $(OBJS) $(DYNOS)

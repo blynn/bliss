@@ -6,7 +6,7 @@
 #include "textbox.h"
 
 enum {
-    cell_w = 64,
+    cell_w = 50,
     cell_h = 16,
     rowlabel_w = 40,
     border = 1,
@@ -76,12 +76,15 @@ inline static void move_cursor_down(grid_ptr g)
     move_cursor(g, 0, 1);
 }
 
-/* unneeded?
-static char *text_at_cursor(grid_ptr g)
+inline static void insert_at_cursor(grid_ptr g)
 {
-    return g->at(g, g->cr + g->or, g->cc + g->oc);
+    g->insert(g, g->cr + g->or, g->cc + g->oc);
 }
-*/
+
+inline static void delete_at_cursor(grid_ptr g)
+{
+    g->delete(g, g->cr + g->or, g->cc + g->oc);
+}
 
 static void text_put_cursor(grid_ptr g, char *text)
 {
@@ -134,6 +137,9 @@ static void handle_key(widget_ptr w, int key)
 	}
     } else {
 	switch (key) {
+	    case SDLK_INSERT:
+		insert_at_cursor(g);
+		break;
 	    case SDLK_LEFT:
 		move_cursor(g, -1, 0);
 		break;
@@ -147,7 +153,7 @@ static void handle_key(widget_ptr w, int key)
 		move_cursor_down(g);
 		break;
 	    case SDLK_DELETE:
-		text_put_cursor(g, NULL);
+		delete_at_cursor(g);
 		break;
 	    default:
 		if (key < 32) break;
@@ -162,9 +168,15 @@ static void handle_key(widget_ptr w, int key)
 static int handle_left_click(widget_ptr w)
 {
     int x, y;
-    widget_getmousexy(w, &x, &y);
     grid_ptr g = (grid_ptr) w;
-    if (x > rowlabel_w && x < g->xmax && y > cell_h && y < g->ymax) {
+
+    widget_getmousexy(w, &x, &y);
+    if (x <= rowlabel_w && y > cell_h && y < g->ymax) {
+	int r;
+	r = y - cell_h - border;
+	r /= cell_h + border;
+	g->row_click(g, r + g->or);
+    } else if (x > rowlabel_w && x < g->xmax && y > cell_h && y < g->ymax) {
 	int r, c;
 	c = x - rowlabel_w - border;
 	c /= cell_w + border;
@@ -239,7 +251,7 @@ static char *grid_at(grid_ptr g, int r, int c)
     return NULL;
 }
 
-static void grid_update(widget_ptr w)
+void grid_update(widget_ptr w)
 {
     grid_ptr g = (grid_ptr) w;
     int r, c;
@@ -261,7 +273,7 @@ static void grid_update(widget_ptr w)
 	y += border + cell_h;
 	rect.y += cell_h + border;
 	if (!(g->flag & flag_hide_row_borders)) {
-	    widget_fillrect(w, &rect, c_text);
+	    widget_fillrect(w, &rect, c_gridline);
 	}
     }
     rect.x = rowlabel_w;
@@ -319,6 +331,20 @@ static void grid_update(widget_ptr w)
     }
 }
 
+void grid_draw_hline(grid_ptr g, int row, int p, int q)
+{
+    widget_ptr w = (widget_ptr) g;
+    SDL_Rect r;
+    r.y = row - g->or;
+    if (r.y < 0) return;
+    r.y = r2y(r.y);
+    r.y += cell_h * p / q;
+    r.x = 0;
+    r.w = w->w;
+    r.h = 1;
+    if (r.y < g->ymax) widget_fillrect(w, &r, c_border);
+}
+
 void grid_init(grid_ptr g)
 {
     widget_init(g->widget);
@@ -334,6 +360,7 @@ void grid_init(grid_ptr g)
     g->at = grid_at;
     g->put = grid_put;
     textbox_init(g->editbox);
+    g->editbox->appear_active = 1;
     g->is_edit = 0;
     ((widget_ptr) g->editbox)->parent = (widget_ptr) g;
 }

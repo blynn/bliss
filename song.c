@@ -45,6 +45,8 @@ void song_clear(song_ptr s)
 	    free(s->wave[i]);
 	}
     }
+
+    darray_clear(s->mid_list);
 }
 
 machine_ptr song_machine_at(song_ptr s, char *id)
@@ -62,12 +64,6 @@ machine_ptr song_machine_at(song_ptr s, char *id)
 	}
     }
     return NULL;
-}
-
-void song_add_machine(song_ptr s, machine_ptr m)
-{
-    darray_append(s->machine, m);
-    m->song = s;
 }
 
 void song_put_wave(song_ptr s, wave_ptr w, int i)
@@ -100,8 +96,10 @@ machine_ptr song_create_machine_auto_id(song_ptr s, char *gearid)
 	count++;
     }
 
-    m = machine_new(mi, id);
-    song_add_machine(s, m);
+    m = machine_new(mi, s, id);
+    darray_append(s->machine, m);
+
+    darray_append(s->mid_list, m->id);
     return m;
 }
 
@@ -113,8 +111,10 @@ machine_ptr song_create_machine(song_ptr s, char *gearid, char *id)
     mi = machine_info_at(gearid);
     if (!mi) return NULL;
 
-    m = machine_new(mi, id);
-    song_add_machine(s, m);
+    m = machine_new(mi, s, id);
+    darray_append(s->machine, m);
+
+    darray_append(s->mid_list, m->id);
     return m;
 }
 
@@ -122,6 +122,7 @@ void song_del_machine(song_ptr s, machine_ptr m)
 {
     int i, n;
     darray_remove(s->machine, m);
+    darray_remove(s->mid_list, m->id);
     n = m->in->count;
     for (i=0; i<n; i++) {
 	edge_ptr e = m->in->item[i];
@@ -136,6 +137,7 @@ void song_del_machine(song_ptr s, machine_ptr m)
 	darray_remove(s->edge, e);
 	edge_clear(e);
     }
+    root_pattern_check(m);
     machine_clear(m);
     free(m);
 }
@@ -147,6 +149,7 @@ edge_ptr song_create_edge(song_ptr s, machine_ptr src, machine_ptr dst)
     darray_append(e->dst->in, e);
     darray_append(e->src->out, e);
     darray_append(s->edge, e);
+    return e;
 }
 
 void song_del_edge(song_ptr s, edge_ptr e)
@@ -187,6 +190,10 @@ void song_next_sample(song_ptr s, double *l, double *r)
 	s->tickcount++;
 	s->tickmod++;
 	s->tickmod %= s->tpb;
+	if (s->tickcount == s->song_end) {
+	    song_rewind(s);
+	    return;
+	}
     }
     s->sampcount++;
     s->sampmod++;
@@ -210,6 +217,12 @@ void song_rewind(song_ptr s)
     }
 }
 
+void song_jump_to_tick(song_ptr s, int tick)
+{
+    s->tickmod = 0;
+    s->tickcount = tick;
+}
+
 void song_init(song_ptr s)
 {
     int i;
@@ -217,6 +230,11 @@ void song_init(song_ptr s)
     darray_init(s->machine);
     darray_init(s->edge);
     for (i=0; i<wave_max; i++) s->wave[i] = NULL;
+    s->song_end = 16;
+    s->loop_end = 16;
+    s->loop_begin = 0;
+
+    darray_init(s->mid_list);
 }
 
 // TODO: move to separate file
@@ -270,6 +288,7 @@ static void node_init_leaf(node_ptr n, char *id, char *text)
     n->leaf_flag = 1;
     n->id = strclone(id);
     if (text) n->text = strclone(text);
+    else n->text = NULL;
     n->data = NULL;
     n->len = 0;
 }
@@ -360,16 +379,6 @@ static void tree_free(node_ptr n)
     free(n);
 }
 
-void pattern_print(pattern_ptr p, FILE *fp)
-{
-    cell_ptr c;
-
-    fprintf(fp, "\t\tid %s\n", p->id);
-    for (c=p->first->next; c; c=c->next) {
-	fprintf(fp, "\t\tcell %d %d %s\n", c->x, c->y, c->text);
-    }
-}
-
 void track_print(track_ptr t, FILE *fp)
 {
     tcell_ptr c;
@@ -390,12 +399,16 @@ void machine_print(machine_ptr m, FILE *fp)
     fprintf(fp, "\tx %d\n", m->x);
     fprintf(fp, "\ty %d\n", m->y);
     fprintf(fp, "\tplugin %s\n", m->mi->id);
+    fprintf(fp, "\tbegin init_state\n");
+    machine_print_state(m, fp);
+    fprintf(fp, "\tend\n");
     fprintf(fp, "\tbegin sequence\n");
     track_print(m->track, fp);
     fprintf(fp, "\tend\n");
     for (i=0; i<n; i++) {
+	pattern_ptr p;
 	fprintf(fp, "\tbegin pattern\n");
-	pattern_ptr p = (pattern_ptr) a->item[i];
+	p = (pattern_ptr) a->item[i];
 	pattern_print(p, fp);
 	fprintf(fp, "\tend\n");
     }
@@ -407,11 +420,12 @@ void song_print(song_ptr s, FILE *fp)
     int i, n;
     darray_ptr a;
 
-    fprintf(fp, "bpm %d\n", s->bpm);
-    fprintf(fp, "tpb %d\n", s->tpb);
-    fprintf(fp, "master %s\n", s->master->id);
+    fprintf(fp, "song_end %d\n", s->song_end);
+    fprintf(fp, "loop_begin %d\n", s->loop_begin);
+    fprintf(fp, "loop_end %d\n", s->loop_end);
     fprintf(fp, "x %d\n", s->x);
     fprintf(fp, "y %d\n", s->y);
+    fprintf(fp, "master %s\n", s->master->id);
     a = s->machine;
     n = a->count;
     for (i=0; i<n; i++) {
@@ -544,6 +558,21 @@ static void parse_machine(song_ptr s, node_ptr root)
 	    parse_pattern(p, n);
 	}
     }
+
+    //initialize machine state
+    for (i=0; i<a->count; i++) {
+	node_ptr n = a->item[i];
+	if (!n->leaf_flag && !strcmp(n->id, "init_state")) {
+	    int j;
+	    for (j=0; j<n->child->count; j++) {
+		node_ptr n1 = n->child->item[j];
+		cell_t c;
+		machine_cell_init(c, m, n1->id, j);
+		machine_parse(m, c, j);
+		cell_clear(c);
+	    }
+	}
+    }
 }
 
 static void parse_connection(song_ptr s, node_ptr n)
@@ -562,11 +591,12 @@ static void parse_connection(song_ptr s, node_ptr n)
 static void parse_wave(song_ptr s, node_ptr n)
 {
     wave_ptr w = wave_new();
+    int index;
 
     w->volume = atof(node_leaf_at(n, "volume"));
     w->sample_count = atof(node_leaf_at(n, "sample_count"));
     wave_put_root_note(w, atoi(node_leaf_at(n, "root_note")));
-    int index = atoi(node_leaf_at(n, "index"));
+    index = atoi(node_leaf_at(n, "index"));
 
     s->wave[index] = w;
 }
@@ -594,13 +624,9 @@ static void parse_wavedata(song_ptr s, node_ptr n)
 
 static void parse_tree(song_ptr s, node_ptr root)
 {
-    int bpm, tpb;
     darray_ptr a;
     int i;
     
-    bpm = atoi(node_leaf_at(root, "bpm"));
-    tpb = atoi(node_leaf_at(root, "tpb"));
-    song_put_bpm_tpb(s, bpm, tpb);
     a = root->child;
     //create machines
     for (i=0; i<a->count; i++) {
@@ -670,10 +696,12 @@ void song_scan(song_ptr s, FILE *fp)
 	    sp--;
 	    if (sp < 0) return;
 	} else {
-	    node_ptr n = node_new_leaf(buf, arg);
+	    node_ptr n;
+	    n = node_new_leaf(buf, arg);
 	    node_add(nodestack[sp], n);
 	}
     }
+
     parse_tree(s, root);
     tree_free(root);
 }

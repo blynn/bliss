@@ -4,8 +4,9 @@
 #include "machine.h"
 #include "util.h"
 
-void machine_init(machine_t m, machine_info_ptr mi, char *id)
+void machine_init(machine_t m, machine_info_ptr mi, song_ptr s, char *id)
 {
+    m->song = s;
     m->mi = mi;
     mi->init(m);
     m->id = strclone(id);
@@ -33,10 +34,10 @@ void machine_clear(machine_t m)
     m->mi->clear(m);
 }
 
-machine_ptr machine_new(machine_info_t mi, char *id)
+machine_ptr machine_new(machine_info_t mi, song_ptr s, char *id)
 {
     machine_ptr m = (machine_ptr) malloc(sizeof(struct machine_s));
-    machine_init(m, mi, id);
+    machine_init(m, mi, s, id);
     return m;
 }
 
@@ -93,9 +94,9 @@ void machine_next_sample(machine_ptr m, double *l, double *r)
     *r = m->r;
 }
 
-void machine_parse(machine_t m, char *cmd, int col)
+void machine_parse(machine_t m, cell_t c, int col)
 {
-    m->mi->parse(m, cmd, col);
+    m->mi->parse(m, c, col);
 }
 
 void machine_tick(machine_t m)
@@ -132,4 +133,14 @@ pattern_ptr machine_create_pattern(machine_ptr m, char *id)
     p = pattern_new(m);
     p->id = strclone(id);
     return p;
+}
+
+void machine_cell_init(cell_ptr c, machine_ptr m, char *text, int col)
+{
+    m->mi->cell_init(c, m, text, col);
+}
+
+void machine_print_state(machine_ptr m, FILE *fp)
+{
+    m->mi->print_state(m, fp);
 }

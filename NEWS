@@ -1,9 +1,81 @@
+Sun Mar 30 12:20:20 PST 2003
+    Listboxes work.
+
+    Yet another kludge: appear_active flag in textbox.c
+    Will clean GUI code when program has more functionality.
+
+    Converted Jeskola Distortion.
+
+    Converted Jeskola Noise Generator.
+
+    Need to convert Buzz's amplitude scale properly before it'll sound
+    the same.
+
+    Made a master a built-in machine, not a plugin, to avoid problems
+    involving shared libraries.
+
+    ...
+
+    Changed the "sine" plugin so it can do an arbitrary number of notes.
+
+    [bliss-0.02.tgz]
+
+Sat Mar 29 22:40:57 PST 2003
+    Added int *buzz_state to struct machine_s to make it easier for me.
+
+    Can click to move playline.
+
+    Added song_end
+
+    Decided against changing song file format, will require machines to
+    have unique names.
+
+Sat Mar 29 10:10:31 PST 2003
+    Improved GUI focus code.
+
+    Added status bar.
+
+    Added BPM, TPB textboxes.
+
+    BPM and TPB are done correctly. (i.e. they are parameters of Master.)
+
+    Changed pattern data structure to a linked list of linked lists.
+
+    Implemented insert/delete for pattern, song windows.
+
+    Doesn't crash when loading nonexistent files.
+
+Fri Mar 28 17:50:31 PST 2003
+    Converting buzz machines is troublesome enough as it is, will try and
+    make it as easy as possible.
+
+    Bugfix: pattern_tick() wasn't returning after a play_row_at() call,
+    causing extraneous machine_parse() and machine_tick() calls.
+
+    ...
+
+    Rewrote bass2 code, a bit cleaner now.
+
+    ...
+
+    Converted Jeskola Delay. Not too much trouble.
+    Original code seems a little strange e.g. "3" is
+    hardcoded twice. Why isn't initialization with default values done
+    automatically?
+
+    Headache: Buzz words take twice the room of bytes, have to handle them
+    somehow.
+
+    Added playlines.
+
 Fri Mar 28 12:16:54 PST 2003
     Plugins: instead of machine_info struct, now provide machine_info_init
     function. More flexible, and easier to debug.
 
     Added machine->tick(): this is called at the end of every row in a pattern.
     Handy for porting buzz machines.
+
+    Changing cells so that the parsing happens during data entry, not playback.
 
 Sat Mar 22 19:24:08 PST 2003
     Added screenshot function.

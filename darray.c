@@ -13,6 +13,14 @@ void darray_init(darray_ptr a)
     a->item = malloc(sizeof(void *) * a->max);
 }
 
+void darray_remove_all(darray_ptr a)
+{
+    a->max = max_init;
+    a->count = 0;
+    free(a->item);
+    a->item = malloc(sizeof(void *) * a->max);
+}
+
 void darray_realloc(darray_ptr a, int size)
 {
     a->max = size;
@@ -81,4 +89,9 @@ void darray_copy(darray_ptr dst, darray_ptr src)
 	dst->item[i] = src->item[i];
     }
     dst->count = src->count;
+}
+
+int darray_is_empty(darray_ptr d)
+{
+    return !d->count;
 }

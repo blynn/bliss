@@ -30,6 +30,7 @@ void init_colour(SDL_PixelFormat *format)
     put_colour(c_edgedisc, 191, 0, 0);
     put_colour(c_cursor, 127, 127, 255);
     put_colour(c_titlebar, 0, 127, 127);
+    put_colour(c_gridline, 127, 127, 127);
 
     for (i=0; i<c_max; i++) {
 	colour[i] = SDL_MapRGB(format, rgb[i].r, rgb[i].g, rgb[i].b);

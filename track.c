@@ -57,7 +57,7 @@ char *track_at(track_ptr t, int tick)
     return c->text;
 }
 
-void track_delete(track_ptr t, int tick)
+void track_remove(track_ptr t, int tick)
 {
     tcell_ptr c, cn;
     c = t->first;
@@ -71,6 +71,40 @@ void track_delete(track_ptr t, int tick)
 	    break;
 	}
 	c = cn;
+    }
+}
+
+void track_insert(track_ptr t, int tick, int step)
+{
+    tcell_ptr c, cn;
+    c = t->first;
+    for(;;) {
+	cn = c->next;
+	if (!cn) break;
+	if (tick <= cn->tick) {
+	    cn->tick+=step;
+	}
+	c = cn;
+    }
+}
+
+void track_delete(track_ptr t, int tick, int step)
+{
+    tcell_ptr c, cn;
+    c = t->first;
+    for(;;) {
+	cn = c->next;
+	if (!cn) break;
+	if (tick <= cn->tick && tick + step > cn->tick) {
+	    c->next = cn->next;
+	    tcell_clear(cn);
+	    free(cn);
+	} else {
+	    if (tick < cn->tick) {
+		cn->tick-=step;
+	    }
+	    c = cn;
+	}
     }
 }
 

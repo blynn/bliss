@@ -6,8 +6,11 @@
 #include "pl.h"
 #include "mlist.h"
 #include "util.h"
+#include "master.h"
 
 darray_t mlist;
+
+machine_info_t master_mi;
 
 static int right_form(char *filename)
 {
@@ -32,12 +35,33 @@ static void nop_clear(machine_t m)
 {
 }
 
-static void nop_parse(machine_t m, char *cmd, int col)
+static void nop_parse(machine_t m, cell_t c, int col)
+{
+}
+
+static void nop_print_state(machine_t m, FILE *fp)
 {
 }
 
 static void nop_tick(machine_t m)
 {
+}
+
+static void text_cell_init(cell_t c, machine_t m, char *text, int col)
+{
+    cell_init_string(c, text);
+}
+
+void machine_info_assign_default(machine_info_ptr mi)
+{
+    mi->init = nop_init;
+    mi->clear = nop_clear;
+    mi->work = nop_work;
+    mi->parse = nop_parse;
+    mi->tick = nop_tick;
+    mi->print_state = nop_print_state;
+    mi->cell_init = text_cell_init;
+    mi->buzzmi = NULL;
 }
 
 static void try_load(char *filename)
@@ -59,11 +83,7 @@ static void try_load(char *filename)
 
     //printf("loaded '%s': %s\n", filename, mi->id);
     mi = (machine_info_ptr) malloc(sizeof(machine_info_t));
-    mi->init = nop_init;
-    mi->clear = nop_clear;
-    mi->work = nop_work;
-    mi->parse = nop_parse;
-    mi->tick = nop_tick;
+    machine_info_assign_default(mi);
     func(mi);
     mi->dlptr = p;
     mi->plugin = strclone(filename);
@@ -82,13 +102,25 @@ machine_info_ptr machine_info_at(char *id)
     return NULL;
 }
 
+void mlist_init()
+{
+    machine_info_assign_default(master_mi);
+    master_machine_info_init(master_mi);
+    darray_init(mlist);
+    darray_append(mlist, master_mi);
+}
+
 void load_plugin_dir(char *dirname)
 {
+    //sort list alphabetically
+    int micmp(const void *e1, const void *e2) {
+	machine_info_ptr m1 = *((machine_info_ptr *) e1);
+	machine_info_ptr m2 = *((machine_info_ptr *) e2);
+	return strcmp(m1->id, m2->id);
+    }
     DIR *dp;
     struct dirent *de;
     char *s;
-
-    darray_init(mlist);
 
     dp = opendir(dirname);
 
@@ -109,11 +141,5 @@ void load_plugin_dir(char *dirname)
 
     closedir(dp);
 
-    //sort list alphabetically
-    int micmp(const void *e1, const void *e2) {
-	machine_info_ptr m1 = *((machine_info_ptr *) e1);
-	machine_info_ptr m2 = *((machine_info_ptr *) e2);
-	return strcmp(m1->id, m2->id);
-    }
     qsort(mlist->item, mlist->count, sizeof(machine_info_ptr), micmp);
 }

@@ -7,6 +7,5 @@ int bliss_version()
 
 char *bliss_version_string()
 {
-    static char *s = "0.01";
-    return s;
+    return BLISS_VERSION_STRING;
 }

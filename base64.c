@@ -93,6 +93,22 @@ void base64_decode(unsigned char **data, int *len, FILE *fp)
     static int table[256];
     int n = 0;
 
+    void add_buf(int n)
+    {
+	buf[i++] = n;
+	if (i >= buf_max) {
+	    buf_max *= 2;
+	    buf = (unsigned char *) realloc(buf, buf_max);
+	}
+    }
+
+    int cmp(char *s)
+    {
+	char buf[8];
+	fread(buf, 1, strlen(s), fp);
+	return strncmp(buf, s, strlen(s));
+    }
+
     if (first) {
 	first = 0;
 	for (i=0; i<256; i++) table[i] = -1;
@@ -110,15 +126,6 @@ void base64_decode(unsigned char **data, int *len, FILE *fp)
 	table[c] = i++;
 	c = '/';
 	table[c] = i++;
-    }
-
-    void add_buf(int n)
-    {
-	buf[i++] = n;
-	if (i >= buf_max) {
-	    buf_max *= 2;
-	    buf = (unsigned char *) realloc(buf, buf_max);
-	}
     }
 
     i = 0;
@@ -155,13 +162,6 @@ void base64_decode(unsigned char **data, int *len, FILE *fp)
 	    }
 	    j = (j + 1) % 4;
 	}
-    }
-
-    int cmp(char *s)
-    {
-	char buf[8];
-	fread(buf, 1, strlen(s), fp);
-	return strncmp(buf, s, strlen(s));
     }
 
     switch (j) {

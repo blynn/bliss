@@ -17,5 +17,7 @@ void darray_clear(darray_t a);
 int darray_index_of(darray_ptr a, void *p);
 void darray_remove(darray_ptr a, void *p);
 void darray_copy(darray_ptr dst, darray_ptr src);
+int darray_is_empty(darray_ptr d);
+void darray_remove_all(darray_ptr d);
 
 #endif //DARRAY_H

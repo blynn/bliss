@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <assert.h>
 #include <SDL.h>
 #include <signal.h>
 #include "root.h"
@@ -192,15 +190,14 @@ int main(int argc, char **argv)
 
     init_libs();
     init_colour(screen->format);
-    convert_buzz_init();
+    mlist_init();
     load_plugin_dir(".");
+    convert_buzz_init();
 
     darray_init(window_list);
-    rootwin = root_new();
+    rootwin = root_new(root_w, root_h);
     root = (widget_ptr) rootwin;
     active_window = rootwin;
-    widget_put_size(root, root_w, root_h);
-    root_new_song();
 
     SDL_PauseAudio(0);
     main_loop();
@@ -214,7 +211,14 @@ void widget_focus(widget_ptr w)
 {
     window_ptr win = active_window;
     if (win->focus_widget) widget_lose_focus(win->focus_widget);
-    win->focus_widget = w;
+    win->focus_widget = NULL;
+    if (w) {
+	if (w->can_focus) {
+	    w->has_focus = 1;
+	    win->focus_widget = w;
+	}
+    }
+
 }
 
 void main_add_window(window_ptr win)

@@ -37,6 +37,22 @@ int pattern_area_handle_event(widget_ptr w, event_ptr e)
     return widget_handle_event((widget_ptr) p->con, e);
 }
 
+static void workout_pattern_list(pattern_area_ptr pa)
+{
+    darray_ptr a;
+    int i, n;
+
+    a = pa->machine->pattern;
+
+    darray_remove_all(pa->pattern_list);
+
+    n = a->count;
+    for (i=0; i<n; i++) {
+	pattern_ptr p = (pattern_ptr) a->item[i];
+	darray_append(pa->pattern_list, p->id);
+    }
+}
+
 void pattern_area_put_machine(pattern_area_t pa, machine_ptr m)
 {
     pa->machine = m;
@@ -46,6 +62,7 @@ void pattern_area_put_machine(pattern_area_t pa, machine_ptr m)
     } else {
 	pattern_area_put_pattern(pa, NULL);
     }
+    workout_pattern_list(pa);
 }
 
 void pattern_area_put_pattern(pattern_area_t pa, pattern_ptr p)
@@ -61,12 +78,14 @@ void pattern_area_put_pattern(pattern_area_t pa, pattern_ptr p)
 	widget_hide((widget_ptr) pa->ss);
 	listbox_put_text(pa->lbpattern, "--none--");
     }
+    workout_pattern_list(pa);
 }
 
 void pattern_area_edit(pattern_area_t pa, song_ptr song)
 {
     pa->song = song;
     pattern_area_put_machine(pa, song->master);
+    pa->lbmachine->choice = song->mid_list;
 }
 
 SDL_Surface *make_arrow(int dir)
@@ -139,6 +158,53 @@ static void next_pat(widget_ptr caller, void *data)
     pattern_area_put_pattern(p, (pattern_ptr) a->item[i]);
 }
 
+static void new_pat_cb(widget_ptr caller, void *data)
+{
+    widget_ptr w = (widget_ptr) data;
+    pattern_area_ptr pa = (pattern_area_ptr) w;
+    pattern_ptr p;
+    p = machine_create_pattern_auto_id(pa->machine);
+    root_edit_pattern(p);
+}
+
+static void del_pat_cb(widget_ptr caller, void *data)
+{
+    widget_ptr w = (widget_ptr) data;
+    pattern_area_ptr pa = (pattern_area_ptr) w;
+    machine_ptr m = pa->machine;
+    int i, n;
+    n = m->pattern->count;
+    for (i=0; i<n; i++) {
+	pattern_ptr p = (pattern_ptr) m->pattern->item[i];
+	if (p == pa->pattern) {
+	    darray_remove(m->pattern, p);
+	    pattern_clear(p);
+	    free(p);
+	    if (i >= n - 1) i--;
+	    if (i < 0) p = NULL;
+	    else p = (pattern_ptr) m->pattern->item[i];
+	    root_edit_pattern(p);
+	    break;
+	}
+    }
+}
+
+static void put_machine_cb(widget_ptr w, void *data)
+{
+    listbox_ptr b = (listbox_ptr) w;
+    pattern_area_ptr pa = (pattern_area_ptr) data;
+    machine_ptr m = song_machine_at(pa->song, b->text);
+    pattern_area_put_machine(pa, m);
+}
+
+static void put_pattern_cb(widget_ptr w, void *data)
+{
+    listbox_ptr b = (listbox_ptr) w;
+    pattern_area_ptr pa = (pattern_area_ptr) data;
+    pattern_ptr p = machine_pattern_at(pa->machine, b->text);
+    pattern_area_put_pattern(pa, p);
+}
+
 void pattern_area_init(pattern_area_t p)
 {
     widget_ptr w = (widget_ptr) p;
@@ -147,6 +213,8 @@ void pattern_area_init(pattern_area_t p)
     //TODO: put this somewhere global
     SDL_Surface *image_left_arrow = make_arrow(-1);
     SDL_Surface *image_right_arrow = make_arrow(1);
+    SDL_Surface *image_newpattern;
+    SDL_Surface *image_deletepattern;
 
     widget_init(w);
     container_init(p->con);
@@ -155,6 +223,8 @@ void pattern_area_init(pattern_area_t p)
     button_init(p->bmforward);
     button_init(p->bpback);
     button_init(p->bpforward);
+    button_init(p->bpnew);
+    button_init(p->bpdelete);
 
     w->update = pattern_area_update;
     w->handle_event = pattern_area_handle_event;
@@ -177,11 +247,28 @@ void pattern_area_init(pattern_area_t p)
     button_shrinkwrap(p->bpforward);
     widget_connect((widget_ptr) p->bpforward, signal_activate, next_pat, w);
 
+    button_put_image(p->bpforward, image_right_arrow);
+    button_shrinkwrap(p->bpforward);
+    widget_connect((widget_ptr) p->bpforward, signal_activate, next_pat, w);
+
+    image_newpattern = font_rendertext("New");
+    button_put_image(p->bpnew, image_newpattern);
+    button_shrinkwrap(p->bpnew);
+    widget_connect((widget_ptr) p->bpnew, signal_activate, new_pat_cb, w);
+
+    image_deletepattern = font_rendertext("Delete");
+    button_put_image(p->bpdelete, image_deletepattern);
+    button_shrinkwrap(p->bpdelete);
+    widget_connect((widget_ptr) p->bpdelete, signal_activate, del_pat_cb, w);
+
     listbox_init(p->lbmachine);
     widget_put_size((widget_ptr) p->lbmachine, 100 - 17, 15);
+    widget_connect((widget_ptr) p->lbmachine, signal_activate, put_machine_cb, w);
 
     listbox_init(p->lbpattern);
     widget_put_size((widget_ptr) p->lbpattern, 100 - 17, 15);
+    p->lbpattern->choice = p->pattern_list;
+    widget_connect((widget_ptr) p->lbpattern, signal_activate, put_pattern_cb, w);
 
     container_put_widget(p->con, (widget_ptr) p->bmback, 0, 0);
     container_put_widget(p->con, (widget_ptr) p->lbmachine, 16, 0);
@@ -189,10 +276,13 @@ void pattern_area_init(pattern_area_t p)
     container_put_widget(p->con, (widget_ptr) p->bmforward, 100, 0);
     container_put_widget(p->con, (widget_ptr) p->bpback, 200, 0);
     container_put_widget(p->con, (widget_ptr) p->bpforward, 300, 0);
+    container_put_widget(p->con, (widget_ptr) p->bpnew, 320, 0);
+    container_put_widget(p->con, (widget_ptr) p->bpdelete, 350, 0);
     container_put_widget(p->con, (widget_ptr) p->ss, 0, header_h + padding);
     w1 = (widget_ptr) p->con;
     w1->parent = w;
-    pattern_area_put_pattern(p, NULL);
+
+    darray_init(p->pattern_list);
 }
 
 void pattern_area_clear(pattern_area_t p)
@@ -206,6 +296,8 @@ void pattern_area_clear(pattern_area_t p)
     listbox_clear(p->lbmachine);
     listbox_clear(p->lbpattern);
     widget_clear((widget_ptr) p);
+
+    darray_clear(p->pattern_list);
 }
 
 pattern_area_ptr pattern_area_new()

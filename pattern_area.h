@@ -21,6 +21,9 @@ struct pattern_area_s {
     button_t bmforward;
     button_t bpback;
     button_t bpforward;
+    button_t bpnew;
+    button_t bpdelete;
+    darray_t pattern_list;
 };
 
 typedef struct pattern_area_s *pattern_area_ptr;

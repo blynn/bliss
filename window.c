@@ -33,21 +33,31 @@ void window_moved(widget_ptr w)
 }
 
 static void window_handle_click(window_ptr win, event_ptr event)
-//the widget with focus only gets the click
-//only if it has the mouse
-//otherwise it loses focus and event is up for grabs
 {
-    widget_ptr w = (widget_ptr) win->con;
+    int i, n;
+    container_ptr c = win->con;
+    widget_ptr w = (widget_ptr) c;
+
+    //focus widget must be handled separately
+    //it might not be a child of the window (TODO: fix this?)
     if (win->focus_widget) {
 	if (widget_has_mouse(win->focus_widget)) {
 	    widget_handle_event(win->focus_widget, event);
-	} else {
-	    widget_focus(NULL);
-	    widget_handle_event(w, event);
+	    return;
 	}
-    } else {
-	widget_handle_event(w, event);
     }
+    n = c->child->count;
+    for(i=0; i<n; i++) {
+	widget_ptr wi = (widget_ptr) c->child->item[i];
+	if (widget_has_mouse(wi)) {
+	    widget_focus(wi);
+
+	    widget_handle_event(wi, event);
+	    return;
+	}
+    }
+    widget_focus(NULL);
+    widget_handle_event(w, event);
 }
 
 static void window_handle_key(window_ptr win, event_ptr event)
@@ -58,7 +68,10 @@ static void window_handle_key(window_ptr win, event_ptr event)
 	widget_handle_event(win->focus_widget, event);
     } else {
 	if (win->handle_key) {
-	    if (win->handle_key((widget_ptr) win, event->key.keysym.sym)) return;
+	    if (win->handle_key((widget_ptr) win, event->key.keysym.sym)) {
+		widget_focus(NULL);
+		return;
+	    }
 	}
 	widget_handle_event(w, event);
     }

@@ -13,15 +13,17 @@ void textbox_update(widget_ptr w)
     SDL_Rect rect;
     widget_rectangle(w, 0, 0, w->w - 1, w->h - 1, c_border);
     rect.x = 3;
-    rect.y = 2;
+    rect.y = 1;
     if (b->image) {
 	widget_blit(w, b->image, NULL, &rect);
     }
-    rect.x += b->cursorx;
-    rect.y = 0;
-    rect.w = 1;
-    rect.h = w->h;
-    widget_fillrect(w, &rect, c_text);
+    if (w->has_focus || b->appear_active) {
+	rect.x += b->cursorx;
+	rect.y = 0;
+	rect.w = 1;
+	rect.h = w->h;
+	widget_fillrect(w, &rect, c_text);
+    }
 }
 
 static void updatecursor(textbox_ptr b)
@@ -137,12 +139,14 @@ void textbox_init(textbox_ptr b)
     widget_init(w);
     w->update = textbox_update;
     w->handle_event = textbox_handle_event;
+    w->can_focus = 1;
     b->image = NULL;
     b->textmax = init_textmax;
     b->text = (char *) malloc(b->textmax);
     b->text[0] = 0;
     b->textlen = 0;
     b->cursor = 0;
+    b->appear_active = 0;
     updateimg(b);
 }
 

@@ -21,6 +21,9 @@ struct song_s {
     int tickcount;
     int tickmod;
     int x, y; //width, height
+    int song_end, loop_begin, loop_end;
+
+    darray_t mid_list; //kludge for pattern_area listbox
 };
 
 typedef struct song_s *song_ptr;
@@ -35,10 +38,15 @@ void song_del_machine(song_ptr s, machine_ptr m);
 int song_is_connected(song_ptr s, machine_ptr src, machine_ptr dst);
 void song_next_sample(song_ptr s, double *l, double *r);
 void song_rewind(song_ptr s);
+void song_jump_to_tick(song_ptr s, int tick);
 int song_load(song_ptr s, char *filename);
 int song_save(song_ptr s, char *filename);
 machine_ptr song_create_machine_auto_id(song_ptr s, char *file);
 machine_ptr song_create_machine(song_ptr s, char *gearid, char *id);
 void song_put_bpm_tpb(song_ptr, int, int);
 void song_put_wave(song_ptr s, wave_ptr w, int i);
+void song_put_bpm(song_ptr s, int bpm);
+void song_put_tpb(song_ptr s, int bpm);
+machine_ptr song_machine_at(song_ptr s, char *id);
+
 #endif //SONG_H

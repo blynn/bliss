@@ -5,6 +5,8 @@
 #include "song.h"
 #include "util.h"
 #include "root.h"
+#include "mlist.h"
+#include "buzz_machine.h"
 
 enum {
     track_max = 16,
@@ -37,9 +39,10 @@ typedef struct buzz_pattern_s buzz_pattern_t[1];
 struct buzz_machine_s {
     char *dll;
     char *id;
-    int global_parm_count;
-    int track_parm_count;
+    int global_parm_size;
+    int track_parm_size;
     int type;
+    unsigned char *init_gp; //initial global parameters
     float x, y;
     machine_ptr blmachine; //bliss counterpart
 	//gets assigned during conversion
@@ -116,8 +119,8 @@ static int buzz_note_to_note(unsigned char c)
 typedef void (*convertfn)(pattern_ptr p, buzz_machine_ptr bm, buzz_pattern_ptr bp);
 struct conv_info_s {
     char *dll;
-    int global_parm_count;
-    int track_parm_count;
+    int global_parm_size;
+    int track_parm_size;
     char *bliss_machine;
     void (*convert_pattern)(pattern_ptr p, buzz_machine_ptr bm, buzz_pattern_ptr bp);
 };
@@ -127,14 +130,14 @@ typedef struct conv_info_s conv_info_t[1];
 static struct conv_info_s cinfo[1024];
 static int cinfo_count = 0;
 
-static void add_conv_info(char *dll, int gpc, int tpc, char *m, convertfn f)
+static void add_conv_info(char *dll, int gps, int tps, char *m, convertfn f)
 
 {
     conv_info_ptr c = &cinfo[cinfo_count];
 
     c->dll = strclone(dll);
-    c->global_parm_count = gpc;
-    c->track_parm_count = tpc;
+    c->global_parm_size = gps;
+    c->track_parm_size = tps;
     c->bliss_machine = m;
     c->convert_pattern = f;
 
@@ -233,13 +236,13 @@ static void put_parm_count(buzz_machine_ptr m, char *dll)
     conv_info_ptr c = cinfo_at(dll);
 
     if (c) {
-	m->global_parm_count = c->global_parm_count;
-	m->track_parm_count = c->track_parm_count;
+	m->global_parm_size = c->global_parm_size;
+	m->track_parm_size = c->track_parm_size;
 	return;
     }
     //guess 0
-    m->global_parm_count = 0;
-    m->track_parm_count = 0;
+    m->global_parm_size = 0;
+    m->track_parm_size = 0;
 }
 
 static void parse_machine(buzz_song_ptr bs, buzz_machine_ptr m, FILE *fp)
@@ -304,18 +307,18 @@ static void parse_machine(buzz_song_ptr bs, buzz_machine_ptr m, FILE *fp)
     }
 
     //read global parameters
-    n = m->global_parm_count;
+    n = m->global_parm_size;
     if (n) {
 	s = (char *) malloc(n);
 	fread(s, 1, n, fp);
-	free(s);
-    }
+	m->init_gp = s;
+    } else m->init_gp = NULL;
 
     //read track count
     n = read_word(fp);
 
     //read track parameters
-    tpsize = m->track_parm_count;
+    tpsize = m->track_parm_size;
     if (tpsize) {
 	for (i=0; i<n; i++) {
 	    s = (char *) malloc(tpsize);
@@ -354,8 +357,8 @@ static void parse_pattern_data(buzz_pattern_ptr p, buzz_machine_ptr m, FILE *fp)
     for (i=0; i<m->track_count; i++) {
 	p->tdata[i] = (char **) malloc(p->rows * sizeof(char *));
     }
-    glen = m->global_parm_count;
-    tlen = m->track_parm_count;
+    glen = m->global_parm_size;
+    tlen = m->track_parm_size;
     buf = (char *) alloca(glen + tlen);
 
     for (i=0; i<m->indegree; i++) {
@@ -514,7 +517,7 @@ static void parse_wave_section(buzz_song_ptr bs, FILE *fp)
     }
 }
 
-static void parse(buzz_song_ptr bs, FILE *fp)
+static int parse(buzz_song_ptr bs, FILE *fp)
 {
     char buf[5];
     int i;
@@ -526,7 +529,8 @@ static void parse(buzz_song_ptr bs, FILE *fp)
 
     //read marker
     if (strcmp(buf, "Buzz")) {
-	fprintf(stderr, "warning: first 4 bytes not 'Buzz'\n");
+	fprintf(stderr, "error: first 4 bytes not 'Buzz'\n");
+	return 1;
     }
 
     //read direntries (up to 31 of these)
@@ -554,16 +558,19 @@ static void parse(buzz_song_ptr bs, FILE *fp)
 	    parse_wave_section(bs, fp);
 	}
     }
+    return 0;
 }
 
-static void load(buzz_song_ptr bs, char *filename)
+static int load(buzz_song_ptr bs, char *filename)
 {
     FILE *fp;
+    int status;
 
     fp = fopen(filename, "rb");
-    if (!fp) return;
-    parse(bs, fp);
+    if (!fp) return 1;
+    status = parse(bs, fp);
     fclose(fp);
+    return status;
 }
 
 static char hexdigit(unsigned char c)
@@ -594,8 +601,8 @@ static void default_convert(pattern_ptr p,
 {
     int i, j;
     char *str;
-    int glen = bm->global_parm_count;
-    int tlen = bm->track_parm_count;
+    int glen = bm->global_parm_size;
+    int tlen = bm->track_parm_size;
 
     if (glen) for (j=0; j<bp->rows; j++) {
 	str = hexshow(bp->gdata[j], glen);
@@ -612,12 +619,43 @@ static void default_convert(pattern_ptr p,
     }
 }
 
+static void master_init_state(machine_ptr m, buzz_machine_ptr bm)
+{
+    int vol;
+    int bpm;
+    int tpb;
+    char buf[8];
+
+    vol = bm->init_gp[0] + 256 * bm->init_gp[1];
+    bpm = bm->init_gp[2] + 256 * bm->init_gp[3];
+    tpb = bm->init_gp[4];
+    if (bpm != 0xFFFF) {
+	cell_t c;
+	sprintf(buf, "b%x", bpm);
+	machine_cell_init(c, m, buf, -1);
+	machine_parse(m, c, -1);
+	cell_clear(c);
+    }
+    if (tpb != 0xFF) {
+	cell_t c;
+	sprintf(buf, "t%x", tpb);
+	machine_cell_init(c, m, buf, -1);
+	machine_parse(m, c, -1);
+	cell_clear(c);
+    }
+}
+
 void song_convert_buzz(song_ptr s, buzz_song_ptr bs)
 {
     int i;
 
     song_clear(s);
     song_init(s);
+
+    //convert some global data
+    s->song_end = bs->song_end;
+    s->loop_end = bs->loop_end;
+    s->loop_begin = bs->loop_begin;
 
     //convert machines
     for (i=0; i<bs->machine_count; i++) {
@@ -634,7 +672,7 @@ void song_convert_buzz(song_ptr s, buzz_song_ptr bs)
 		    m = song_create_machine(s, "No Effect", bm->id);
 		    break;
 		case machine_generator:
-		    m = song_create_machine(s, "Alpha Bass 2", bm->id);
+		    m = song_create_machine(s, "No Effect", bm->id);
 		    break;
 		default: //bug!
 		    m = song_create_machine(s, "No Effect", bm->id);
@@ -648,6 +686,11 @@ void song_convert_buzz(song_ptr s, buzz_song_ptr bs)
 	bm->blmachine = m;
 	if (bm->type == machine_master) {
 	    s->master = m;
+	}
+	//convert and apply init state
+	//TODO: replace this kludge with real code
+	if (bm->type == machine_master) {
+	    master_init_state(m, bm);
 	}
     }
 
@@ -722,6 +765,7 @@ void buzz_machine_clear(buzz_machine_ptr bm)
     int i, j;
     free(bm->id);
     free(bm->dll);
+    free(bm->init_gp);
     for (i=0; i<bm->pattern_count; i++) {
 	buzz_pattern_ptr p = &bm->pattern[i];
 	for (j=0; j<bm->track_count; j++) {
@@ -763,7 +807,8 @@ int song_import_buzz(song_ptr s, char *filename)
 {
     buzz_song_t buzz_song;
 
-    load(buzz_song, filename);
+    if (load(buzz_song, filename)) return 1;
+
     song_convert_buzz(s, buzz_song);
 
     buzz_song_clear(buzz_song);
@@ -796,16 +841,6 @@ static char *to_note(unsigned char c)
     return buf;
 }
 
-static char *to_nnote(unsigned char c)
-{
-    static char buf[5];
-
-    buf[0] = 'n';
-    buf[1] = 0;
-    strcat(buf, to_note(c));
-    return buf;
-}
-
 static void convertevent(pattern_ptr p, int zerovalue,
 	char *cmd, unsigned char c, int x, int y)
 {
@@ -817,29 +852,48 @@ static void convertevent(pattern_ptr p, int zerovalue,
     }
 }
 
-static void cp_Jeskola_Bass_2(pattern_ptr p,
+static char *buzz_convert_raw_param_data(buzz_param_ptr par, int c)
+{
+    static char buf[8];
+    int i;
+    if (par->noval == c) return NULL;
+    switch(par->type) {
+	case pt_byte:
+	    sprintf(buf, "%X", c);
+	    break;
+	case pt_note:
+	    if (!c) return NULL;
+	    i = (c % 16) + 12 * (c / 16) - 1;
+	    return note_to_text(i);
+	    break;
+    }
+    return buf;
+}
+
+static void buzz_convert_pattern(pattern_ptr p,
 	buzz_machine_ptr bm, buzz_pattern_ptr bp)
 {
-    int i, j;
+    int i, j, k;
+    int col;
+    //TODO: this is not a good way to get at buzzmi
+    buzz_machine_info_ptr buzzmi = p->machine->mi->buzzmi;
 
     for (i=0; i<bm->track_count; i++) {
 	for (j=0; j<bp->rows; j++) {
-	    unsigned char c;
-	    //col 0 = cutoff
-	    c = bp->tdata[i][j][0];
-	    convertevent(p, 255, "c", c, 9 * i + 0 + 1, j);
-	    //col 1 = resonance
-	    c = bp->tdata[i][j][1];
-	    convertevent(p, 255, "r", c, 9 * i + 1 + 1, j);
-	    //col 5 = note
-	    c = bp->tdata[i][j][5];
-	    if (c) pattern_put(p, to_nnote(c), 9 * i + 5 + 1, j);
-	    //col 6 = volume
-	    c = bp->tdata[i][j][6];
-	    convertevent(p, 255, "v", c, 9 * i + 7 + 1, j);
-	    //col 7 = length
-	    c = bp->tdata[i][j][7];
-	    convertevent(p, 0, "l", c, 9 * i + 7 + 1, j);
+	    col = bm->global_parm_size;
+	    for (k=0; k<bm->track_parm_size; k++) {
+		unsigned char c;
+		char *text;
+		buzz_param_ptr par;
+
+		c = bp->tdata[i][j][k];
+		par = buzzmi->tparam->item[k];
+		text = buzz_convert_raw_param_data(par, c);
+		if (text) {
+		    pattern_put(p, text, col, j);
+		}
+		col++;
+	    }
 	}
     }
 }
@@ -879,12 +933,22 @@ static void cp_Jeskola_Tracker(pattern_ptr p,
 
 void convert_buzz_init()
 {
+    int i;
+    int n;
+
+    n = mlist->count;
+
+    for (i=0; i<n; i++) {
+	machine_info_ptr mi = (machine_info_ptr) mlist->item[i];
+	buzz_machine_info_ptr buzzmi = mi->buzzmi;
+	if (buzzmi) {
+	    add_conv_info(buzzmi->id, buzzmi->gpsize,
+		    buzzmi->tpsize, mi->id, buzz_convert_pattern);
+	}
+    }
     //init conversion tables
     add_conv_info("MASTER", 5, 0, "Master", NULL);
-    add_conv_info("Jeskola Bass 2", 0, 9, "Alpha Bass 2", cp_Jeskola_Bass_2);
     add_conv_info("Jeskola EQ-3", 11, 0, NULL, NULL);
     add_conv_info("Jeskola Reverb", 10, 0, NULL, NULL);
     add_conv_info("Jeskola Tracker", 1, 5, "Alpha Tracker", cp_Jeskola_Tracker);
-    add_conv_info("Jeskola Delay", 1, 5, NULL, NULL);
-    add_conv_info("Jeskola Distortion", 9, 0, NULL, NULL);
 }

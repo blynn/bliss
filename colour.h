@@ -19,6 +19,7 @@ enum {
     c_edgedisc,
     c_cursor,
     c_titlebar,
+    c_gridline,
     c_max
 };
 

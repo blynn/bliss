@@ -1,12 +1,95 @@
-#include "machine.h"
+#include <stdlib.h>
+#include <math.h>
 #include "buzz_machine.h"
+#include "util.h"
 
-static void handle_cutoff(int track, int val)
+enum {
+    track_max = 16,
+    resolution = 1024,
+    type_saw = 0,
+    type_sine,
+};
+
+struct bbass2_data_s {
+    int ttl;
+    int type;
+    double f;
+    double x;
+
+    double x1, x2, y1, y2;
+    double a0, a1, a2, b1, b2;
+
+    double cutoff;
+    double recipq;
+};
+typedef struct bbass2_data_s *bbass2_data_ptr;
+
+static bbass2_data_ptr data_at(machine_ptr m, int track)
 {
-    printf("%d cutoff = %d\n", track, val);
+    return &((bbass2_data_ptr) m->data)[track];
 }
 
-static void handle_unknown(int track, int val)
+static int first = 1;
+static double sintable[resolution];
+
+static double lowpass(bbass2_data_ptr p, double x)
+{
+    double y;
+
+    y = x * p->a0 + p->x1 * p->a1 + p->x2 * p->a2
+	+ p->y1 * p->b1 + p->y2 * p->b2;
+    p->x2 = p->x1;
+    p->x1 = x;
+    p->y2 = p->y1;
+    p->y1 = y;
+    return y;
+}
+
+static void computetaps(bbass2_data_ptr p)
+{
+    double b2, b1, bd;
+
+    b2 = 1.0 / tan(M_PI * p->cutoff);
+    b1 = p->recipq * b2;
+    b2 = b2 * b2;
+    bd = 1.0 / (b1 + b2 + 1.0);
+
+    p->b1 = -(2.0 - 2.0 * b2) * bd;
+    p->b2 = -(b2 - b1 + 1.0) * bd;
+    p->a0 = bd;
+    p->a1 = 2 * bd;
+    p->a2 = bd;
+}
+
+static void handle_cutoff(machine_ptr m, int track, int val)
+{
+    bbass2_data_ptr p = data_at(m, track);
+    p->cutoff = ((double) (val + 1)) / 256;
+    computetaps(p);
+}
+
+static void handle_resonance(machine_ptr m, int track, int val)
+{
+    bbass2_data_ptr p = data_at(m, track);
+    p->recipq = 1.0 - ((double) val) / 256;
+    computetaps(p);
+}
+
+static void handle_note(machine_ptr m, int track, int val)
+{
+    bbass2_data_ptr p = data_at(m, track);
+    p->f = note_to_freq(val);
+    p->x = 0;
+    p->ttl = m->song->samptick;
+}
+
+static void handle_length(machine_ptr m, int track, int val)
+{
+    bbass2_data_ptr p = data_at(m, track);
+    p->ttl = val * m->song->samptick;
+}
+
+static void handle_unknown(machine_ptr m, int track, int val)
 {
 }
 
@@ -15,104 +98,203 @@ static struct buzz_param_s param_cutoff = {
     "Cutoff",
     "Cutoff",
     1,
-    255,
-    0,
-    0,
+    0x80,
+    0xFF,
+    MPF_STATE,
     0,
     handle_cutoff,
 };
 
-static struct buzz_param_s param_unk = {
+static struct buzz_param_s param_resonance = {
     pt_byte,
-    "Unknown",
-    "Unknown",
+    "Resonance",
+    "Resonance",
+    1,
+    0x80,
+    0xFF,
+    MPF_STATE,
     0,
-    0,
-    0,
-    0,
+    handle_resonance,
+};
+
+static struct buzz_param_s param_cem = {
+    pt_byte,
+    "CEM",
+    "Cutoff Envelope Modulation",
+    1,
+    0x80,
+    0xFF,
+    MPF_STATE,
     0,
     handle_unknown,
 };
 
-static buzz_machine_info_t buzzm;
+static struct buzz_param_s param_ced = {
+    pt_byte,
+    "CED",
+    "Cutoff Envelope Decay",
+    1,
+    0x80,
+    0xFF,
+    MPF_STATE,
+    0,
+    handle_unknown,
+};
 
-void add_track_param(buzz_param_ptr bp)
-{
-    darray_append(buzzm->tparam, bp);
-}
+static struct buzz_param_s param_waveform = {
+    pt_byte,
+    "Waveform",
+    "Waveform",
+    0,
+    4,
+    0xFF,
+    MPF_STATE,
+    1,
+    handle_unknown,
+};
 
-void buzz_machine_init()
-{
-    darray_init(buzzm->tparam);
-    darray_init(buzzm->gparam);
-}
+static struct buzz_param_s param_note = {
+    pt_note,
+    "Note",
+    "Note",
+    NOTE_MIN,
+    NOTE_MAX,
+    NOTE_NO,
+    0,
+    NOTE_NO,
+    handle_note,
+};
+
+static struct buzz_param_s param_slide = {
+    pt_note,
+    "Slide",
+    "Slide End Note",
+    NOTE_MIN,
+    NOTE_MAX,
+    NOTE_NO,
+    0,
+    NOTE_NO,
+    handle_unknown,
+};
+
+static struct buzz_param_s param_vol = {
+    pt_byte,
+    "Vol",
+    "Volume",
+    1,
+    0xFE,
+    0xFF,
+    MPF_STATE,
+    0,
+    handle_unknown,
+};
+
+static struct buzz_param_s param_len = {
+    pt_byte,
+    "Len",
+    "Length of note in ticks",
+    1,
+    0xFF,
+    0,
+    MPF_STATE,
+    0,
+    handle_length,
+};
 
 void buzz_param_init()
 {
-    add_track_param(&param_cutoff);
-    add_track_param(&param_unk);
-    add_track_param(&param_unk);
-    add_track_param(&param_unk);
-    add_track_param(&param_unk);
-    add_track_param(&param_unk);
-    add_track_param(&param_unk);
-    add_track_param(&param_unk);
-    add_track_param(&param_unk);
-    /*
-    add_track_param(pt_byte, "Resonance", "Resonance", 1, 255, 0, 0, 0);
-    add_track_param(pt_byte, "Unknown", "Unknown", 0, 0, 0, 0, 0);
-    add_track_param(pt_byte, "Unknown", "Unknown", 0, 0, 0, 0, 0);
-    add_track_param(pt_byte, "Unknown", "Unknown", 0, 0, 0, 0, 0);
-    add_track_param(pt_note, "Note", "Note", NOTE_MIN, NOTE_MAX, NOTE_NO, 0, 0);
-    add_track_param(pt_byte, "Volume", "Volume Level", 0, 254, 255, 0, 255);
-    add_track_param(pt_byte, "Length", "Length in ticks", 1, 128, 0, 0, 0);
-    add_track_param(pt_byte, "Unknown", "Unknown", 0, 0, 0, 0, 0);
-    */
+    track_param(&param_cutoff);
+    track_param(&param_resonance);
+    track_param(&param_cem);
+    track_param(&param_ced);
+    track_param(&param_waveform);
+    track_param(&param_note);
+    track_param(&param_vol);
+    track_param(&param_len);
+    track_param(&param_slide);
 }
 
-static void abass2_init(machine_t m)
+static void bbass2_static_init()
 {
-}
-
-static void abass2_clear(machine_t m)
-{
-}
-
-static void abass2_tick(machine_t m)
-{
-}
-
-static void abass2_work(machine_t m, double *l, double *r)
-{
-}
-
-static void buzz_machine_parse(machine_t m, char *cmd, int col)
-{
-    if (col < buzzm->gparam->count) {
-    } else {
-	buzz_param_ptr bp;
-	int track;
-	int i;
-
-	i = col - buzzm->gparam->count;
-	track = i / buzzm->tparam->count;
-	i = i % buzzm->tparam->count;
-	bp = (buzz_param_ptr) buzzm->tparam->item[i];
-
-	bp->func(track, 5);
+    int i;
+    for (i=0; i<resolution; i++) {
+	sintable[i] = 0.5 * sin(((double) i / (double) resolution) * M_PI * 2);
     }
 }
 
-void machine_info_init(machine_info_ptr mi)
+static void bbass2_init(machine_t m)
 {
-    buzz_machine_init();
-    buzz_param_init();
+    int i;
+    m->data = malloc(track_max * sizeof(struct bbass2_data_s));
+    if (first) {
+	first = 0;
+	bbass2_static_init();
+    }
+    for (i=0; i<track_max; i++) {
+	bbass2_data_ptr p = data_at(m, i);
+	p->ttl = 0;
+	p->type = type_saw;
+	p->x1 = p->x2 = 0;
+	p->y1 = p->y2 = 0;
+	handle_cutoff(m, i, 16);
+	handle_resonance(m, i, 16);
+	computetaps(p);
+    }
+}
+
+static void bbass2_clear(machine_t m)
+{
+    free(m->data);
+}
+
+static void bbass2_tick(machine_t m)
+{
+}
+
+static void bbass2_work(machine_t m, double *l, double *r)
+{
+    double x;
+    int i, j;
+
+    for (i=0; i<track_max; i++) {
+	bbass2_data_ptr p = &((bbass2_data_ptr) m->data)[i];
+	if (p->ttl) {
+	    x = p->x;
+	    switch (p->type) {
+		case type_sine:
+		    j = resolution * x / samprate;
+		    *l = sintable[j];
+		    break;
+		case type_saw:
+		    *l = 0.5 - x / samprate;
+		    break;
+		default:
+		    break;
+	    }
+	    x += p->f;
+	    if (x >= samprate) x -= samprate;
+	    p->x = x;
+	    //very simple decay
+	    if (p->ttl < 5000) {
+		*l *= (double) p->ttl / 5000;
+	    }
+	    p->ttl--;
+	    *l = lowpass(p, *l);
+	    *r = *l;
+	}
+    }
+    //TODO: no idea what scale buzz uses
+    *l *= 8192;
+    *r *= 8192;
+}
+
+void buzz_machine_info_init(buzz_machine_info_ptr mi) {
+    mi->name = "Bass2";
+    mi->id = "Jeskola Bass 2";
     mi->type = machine_generator;
-    mi->id = "Alpha Bass 2";
-    mi->name = "aBass2";
-    mi->init = abass2_init;
-    mi->clear = abass2_clear;
-    mi->work = abass2_work;
-    mi->parse = buzz_machine_parse;
-    mi->tick = abass2_tick;
+    mi->init = bbass2_init;
+    mi->clear = bbass2_clear;
+    mi->work = bbass2_work;
+    mi->tick = bbass2_tick;
+    mi->track_max = track_max;
 }

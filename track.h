@@ -36,7 +36,9 @@ track_ptr track_new(struct machine_s *m);
 
 void track_put(track_ptr t, char *text, int tick);
 char *track_at(track_ptr t, int tick);
-void track_delete(track_ptr t, int tick);
+void track_remove(track_ptr t, int tick);
 void track_tick(track_ptr t, int tick);
 void track_rewind(track_ptr t);
+void track_insert(track_ptr t, int tick, int step);
+void track_delete(track_ptr t, int tick, int step);
 #endif //TRACK_H

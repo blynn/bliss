@@ -60,6 +60,8 @@ void widget_init(widget_ptr w)
 {
     int i;
 
+    w->has_focus = 0;
+    w->can_focus = 0;
     w->handle_event = default_widget_handle_event;
     w->update = default_widget_update;
     w->moved = widget_moved;
@@ -123,6 +125,7 @@ void widget_raise_signal(widget_ptr w, int sig)
 
 void widget_lose_focus(widget_ptr w)
 {
+    w->has_focus = 0;
     widget_raise_signal(w, signal_lose_focus);
 }
 
@@ -174,6 +177,7 @@ void widget_getmousexy(widget_ptr w, int *x, int *y)
 
 int widget_has_mouse(widget_ptr wid)
 {
+    if (!wid->visible) return 0;
     return in_widget(wid, lastmousex, lastmousey);
 }
 

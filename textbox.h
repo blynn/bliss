@@ -11,6 +11,7 @@ struct textbox_s {
     int cursor;
     int cursorx;
     SDL_Surface *image;
+    int appear_active;
 };
 
 typedef struct textbox_s *textbox_ptr;

@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "util.h"
 
 char *strclone(char *s)
@@ -47,6 +48,21 @@ int notechar_to_int(char c)
     return table[(int) c];
 }
 
+int strtonote(char *s)
+{
+    int n;
+    n = notechar_to_int(*s);
+    s++; if (!*s) return 57;
+    if (*s == '#') {
+	n++;
+	s++; if (!*s) return 57;
+    }
+    n = n + 12 * (*s - '0');
+    if (n >= 127) return 57;
+    if (n < 0) return 57;
+    return n;
+}
+
 double note_to_freq(int n)
 {
     static double n2ftable[127];
@@ -60,6 +76,45 @@ double note_to_freq(int n)
 	}
     }
     return n2ftable[n];
+}
+
+char *note_to_text(int note)
+{
+    static int first = 1;
+    static char *table[127];
+    if (first) {
+	char buf[8];
+	int i, j;
+	char c = 'C';
+	int octave = 0;
+	for (i=0; i<127; i++) {
+	    buf[0] = c;
+	    j = 1;
+	    switch (i % 12) {
+		case 1:
+		case 3:
+		case 6:
+		case 8:
+		case 10:
+		    buf[j++] = '#';
+		    c++;
+		    if (c > 'G') c = 'A';
+		    break;
+		case 4:
+		case 11:
+		    c++;
+		    if (c > 'G') c = 'A';
+		default:
+		    break;
+	    }
+	    sprintf(&buf[j], "%X", octave);
+	    table[i] = strclone(buf);
+	    if (i % 12 == 11) octave++;
+	}
+	first = 0;
+    }
+
+    return table[note];
 }
 
 int hex_to_int(char c)
