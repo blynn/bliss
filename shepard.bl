@@ -1,4 +1,5 @@
-bliss 0.1.2
+bliss 0.1.3
+ins ins0 100 200 {
     unit out out 488 258
 voice voice0 0 127 294 258 {
     unit out out 488 258
@@ -13,6 +14,7 @@ voice voice0 0 127 294 258 {
     connect shepard0 adsr0 0
     connect adsr0 out 0
 }
+connect voice0 out 0
 track {
   433 noteon 60 64
   173 noteoff 60
@@ -31,4 +33,4 @@ track {
   293 noteon 72 64
   142 noteoff 72
 }
-connect voice0 out 0
+}

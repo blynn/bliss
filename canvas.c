@@ -1,10 +1,31 @@
+//graph editor
 #include <SDL.h> //for SDL_ColorKey
 #include <stdlib.h>
 #include <math.h>
 
-#include "canvas.h"
+#include "gui.h"
+#include "compan.h"
+#include "orch.h"
 
-//many globals; can only have one canvas
+widget_t canvas;
+
+enum {
+    //vd = "vertex distance" (in pixels)
+    //  +------+
+    //  |      |     +-+
+    //  | unit +-----| | <-- box representing output port
+    //  |      |     +-+ (input ports are similar but on the left side)
+    //  +------+
+    vd_h = 13,
+    vd_w = 80,
+    vd_textpad = 2,
+    vd_edgew = 4,
+    vd_edgey = 6, //distance from top to out edge
+    vd_porty = 3, //distance from top to box representing port
+    vd_portw = 7, //width of box representing port
+    vd_porth = 7, //height
+    vd_fudge = 2, //tolerance for error when user goes for a port with the mouse
+};
 
 struct saved_rect_s {
     widget_ptr w;
@@ -41,16 +62,58 @@ void restore_and_save_rect(saved_rect_ptr p, widget_ptr w, rect_ptr r)
     screen_capture(p->r, p->img);
 }
 
+static int node_inport_count(node_ptr node)
+{
+    node_data_ptr p = node->data;
+    int n = 0;
+
+    //TODO: cumbersome. add inport count to node_data_ptr?
+    if (p->type == node_type_normal || p->type == node_type_funk) {
+	n = p->gen->info->port_count;
+    }
+    return n;
+}
+
+static int height_of_node(node_ptr node)
+{
+    return (node_inport_count(node) + 1) * vd_h;
+}
+
+//TODO: this is inefficient? midpoint already computed during update
+static void compute_edge_midpoint(int *x, int *y, edge_ptr e)
+{
+    int x0, x1, y0, y1;
+    node_ptr n0, n1;
+    int portno = *((int *) e->data);
+
+    n0 = e->src;
+    n1 = e->dst;
+
+    x0 = n0->x + vd_w + vd_edgew + vd_portw / 2;
+    y0 = n0->y + vd_porty + vd_porth / 2;
+    x1 = n1->x - vd_edgew - vd_portw / 2;
+    y1 = n1->y + vd_porty + vd_porth / 2 + (portno + 1) * vd_h;
+
+    *x = (x0 + x1) / 2;
+    *y = (y0 + y1) / 2;
+}
+
+static int edge_contains(edge_ptr e, int x, int y)
+{
+    int dx, dy;
+
+    compute_edge_midpoint(&dx, &dy, e);
+
+    dx -= x;
+    dy -= y;
+    return dx * dx + dy * dy <= 12 * 12;
+}
+
 //TODO: ought to use a union?
-static vertex_ptr vertex_selection = NULL;
-static connection_ptr connection_selection = NULL;
+static node_ptr node_selection = NULL;
+static edge_ptr edge_selection = NULL;
 
-static void (*select_nothing_cb)();
-static void (*select_connection_cb)(connection_ptr);
-static void (*select_vertex_cb)(vertex_ptr);
-static void (*connection_cb)(layout_ptr, vertex_ptr, vertex_ptr, int);
-
-static layout_ptr layout;
+static graph_ptr graph;
 
 static int dragx, dragy;
 
@@ -59,7 +122,7 @@ static int dragx, dragy;
 static image_ptr conimg;
 
 static struct {
-    void (*callback)(void *, layout_ptr lp, int x, int y);
+    void (*callback)(widget_ptr, void *, int x, int y);
     void *callback_data;
     image_ptr img, old;
     rect_t r;
@@ -77,30 +140,39 @@ static int is_contained(int x, int y, int x0, int y0, int x1, int y1)
     return -1;
 }
 
-void canvas_put_layout(widget_ptr canvas, layout_ptr lp)
+void canvas_put_graph(widget_ptr canvas, graph_ptr g)
 {
-    layout = lp;
+    graph = g;
 }
 
 void canvas_select_nothing(widget_ptr canvas)
 {
-    connection_selection = NULL;
-    vertex_selection = NULL;
-    select_nothing_cb();
+    edge_selection = NULL;
+    node_selection = NULL;
+    aux_show_nothing();
+    //TODO: just need to move the selection cursor
+    widget_update(canvas);
+    request_update(canvas);
 }
 
-void canvas_select_connection(widget_ptr canvas, connection_ptr c)
+void canvas_select_edge(widget_ptr canvas, edge_ptr c)
 {
-    vertex_selection = NULL;
-    connection_selection = c;
-    select_connection_cb(c);
+    node_selection = NULL;
+    edge_selection = c;
+    aux_show_edge(c);
+    //TODO: just need to move the selection cursor
+    widget_update(canvas);
+    request_update(canvas);
 }
 
-void canvas_select_vertex(widget_ptr canvas, vertex_ptr v)
+void canvas_select_node(widget_ptr canvas, node_ptr v)
 {
-    connection_selection = NULL;
-    vertex_selection = v;
-    select_vertex_cb(v);
+    edge_selection = NULL;
+    node_selection = v;
+    //TODO: just need to move the selection cursor
+    widget_update(canvas);
+    request_update(canvas);
+    aux_show_node(v);
 }
 
 static void draw_placement(widget_ptr canvas, int x0, int y0, int x1, int y1, void *data)
@@ -142,19 +214,18 @@ static int try_connect(widget_ptr canvas, int button, int x, int y, void *data)
     restore_rect(srpotedge);
     widget_unbind_mouse_motion(canvas);
 
-    for (i=layout->vertex_list->count-1; i>=0; i--) {
+    for (i=graph->node_list->count-1; i>=0; i--) {
 	int x0, y0;
-	vertex_ptr v = (vertex_ptr) layout->vertex_list->item[i];
-	//gen_ptr g = ((node_data_ptr) v->node->data)->gen;
-	//n = g->info->port_count;
-	n = v->inportcount;
-	y0 = v->w->localy + vd_h + vd_porty;
+	node_ptr v = (node_ptr) graph->node_list->item[i];
+	n = node_inport_count(v);
+
+	y0 = v->y + vd_h + vd_porty;
 	for (j=0; j<n; j++) {
-	    x0 = v->w->localx - vd_edgew - vd_portw;
+	    x0 = v->x - vd_edgew - vd_portw;
 	    if (is_contained(x, y, x0 - vd_fudge, y0 - vd_fudge,
 			x0 + vd_portw - 1 + vd_fudge,
 			y0 + vd_porth - 1 + vd_fudge)) {
-		connection_cb(layout, vertex_selection, v, j);
+		canvas_select_edge(canvas, add_edge(graph, node_selection, v, j));
 		return 0;
 	    }
 	    y0 += vd_h;
@@ -163,10 +234,11 @@ static int try_connect(widget_ptr canvas, int button, int x, int y, void *data)
     return 0;
 }
 
-static void drag_vertex(widget_ptr w, int xold, int yold, int x, int y, void *data)
+static void drag_node(widget_ptr w, int xold, int yold, int x, int y, void *data)
 {
     if (widget_contains(w, x, y)) {
-	widget_translate(vertex_selection->w, x - dragx, y - dragy);
+	node_selection->x += x - dragx;
+	node_selection->y += y - dragy;
 	dragx = x;
 	dragy = y;
     }
@@ -186,7 +258,7 @@ static void draw_potentialedge(widget_ptr canvas,
 {
     int x0, y0;
     int x1, y1;
-    vertex_ptr v = vertex_selection;
+    node_ptr v = node_selection;
     rect_t r;
 
     if (!widget_contains(canvas, x, y)) {
@@ -196,8 +268,8 @@ static void draw_potentialedge(widget_ptr canvas,
     x0 = x - vd_portw / 2;
     y0 = y - vd_porth / 2;
 
-    x1 = v->w->localx + v->w->w + vd_edgew + vd_portw / 2;
-    y1 = v->w->localy + vd_porty + vd_porth / 2;
+    x1 = v->x + vd_w + vd_edgew + vd_portw / 2;
+    y1 = v->y + vd_porty + vd_porth / 2;
 
     if (x0 < x1) r->x = x0; else r->x = x1;
     if (y0 < y1) r->y = y0; else r->y = y1;
@@ -229,46 +301,70 @@ static void canvas_handle_mousebuttondown(widget_ptr canvas, int button, int x, 
     int i;
     int vx = x - vd_w / 2;
     int vy = y - vd_h / 2;
+    static int last_down_tick;
 
     if (to_place.callback) {
-	to_place.callback(to_place.callback_data, layout, vx, vy);
+	to_place.callback(canvas, to_place.callback_data, vx, vy);
+	compan_pop_all_but_one(compan);
 	canvas_placement_finish(canvas);
 	return;
     }
 
-    for (i=layout->connection_list->count-1; i>=0; i--) {
-	connection_ptr c = (connection_ptr) layout->connection_list->item[i];
-	if (local_contains(c->w, x, y)) {
-	    canvas_select_connection(canvas, c);
+    for (i=graph->edge_list->count-1; i>=0; i--) {
+	edge_ptr c = (edge_ptr) graph->edge_list->item[i];
+	if (edge_contains(c, x, y)) {
+	    canvas_select_edge(canvas, c);
 	    return;
 	}
     }
 
-    for (i=layout->vertex_list->count-1; i>=0; i--) {
+    for (i=graph->node_list->count-1; i>=0; i--) {
 	int x0, y0;
-	//check if vertex was clicked on
-	vertex_ptr v = (vertex_ptr) layout->vertex_list->item[i];
-	if (local_contains(v->w, x, y)) {
-	    //change z-order
-	    darray_remove_index(layout->vertex_list, i);
-	    darray_append(layout->vertex_list, v);
+	//check if node was clicked on
+	node_ptr v = (node_ptr) graph->node_list->item[i];
+	if (is_contained(x, y, v->x, v->y, v->x + vd_w - 1, v->y + height_of_node(v) - 1)) {
+	    int now;
+	    now = SDL_GetTicks();
 
-	    canvas_select_vertex(canvas, v);
-	    dragx = x;
-	    dragy = y;
-	    widget_bind_mouse_motion(canvas, drag_vertex, NULL);
-	    widget_on_next_button_up(canvas, finish_drag, NULL);
+	    if (v == node_selection && now - last_down_tick <= 250) {
+		//double click on a node
+		if (v == navoutnode) {
+		    gui_back();
+		    return;
+		}
+		node_data_ptr p = v->data;
+		switch (p->type) {
+		    case node_type_voice:
+			gui_edit_voice(p->voice);
+			break;
+		    case node_type_ins:
+			gui_edit_ins(p->ins);
+			break;
+		}
+		return;
+	    } else {
+		//change z-order
+		darray_remove_index(graph->node_list, i);
+		darray_append(graph->node_list, v);
+
+		canvas_select_node(canvas, v);
+		dragx = x;
+		dragy = y;
+		widget_bind_mouse_motion(canvas, drag_node, NULL);
+		widget_on_next_button_up(canvas, finish_drag, NULL);
+	    }
+	    last_down_tick = now;
 	    return;
 	}
 
 	//check if output port was clicked on
-	x0 = v->w->localx + v->w->w + vd_edgew;
-	y0 = v->w->localy + vd_porty;
+	x0 = v->x + vd_w + vd_edgew;
+	y0 = v->y + vd_porty;
 	if (is_contained(x, y, x0, y0, x0 + vd_portw - 1, y0 + vd_porth)) {
 	    widget_bind_mouse_motion(canvas, draw_potentialedge, NULL);
 	    widget_on_next_button_up(canvas, try_connect, NULL);
 	    saved_rect_get_ready(srpotedge);
-	    canvas_select_vertex(canvas, v);
+	    canvas_select_node(canvas, v);
 	    return;
 	}
     }
@@ -279,13 +375,17 @@ static void canvas_handle_mousebuttondown(widget_ptr canvas, int button, int x, 
 
 static void draw_selectioncursor(widget_ptr canvas)
 {
-    widget_ptr w;
-    if (vertex_selection) {
-	w = vertex_selection->w;
-	widget_rectangle(w, -1, -1, w->w, w->h, c_select);
-    } else if (connection_selection) {
-	w = connection_selection->w;
-	widget_rectangle(w, -1, -1, w->w, w->h, c_select);
+    if (node_selection) {
+	int x0, y0, x1, y1;
+	x0 = node_selection->x - 1;
+	y0 = node_selection->y - 1;
+	x1 = x0 + vd_w + 1;
+	y1 = y0 + height_of_node(node_selection) + 1;
+	widget_rectangle(canvas, x0, y0, x1, y1, c_select);
+    } else if (edge_selection) {
+	int x, y;
+	compute_edge_midpoint(&x, &y, edge_selection);
+	widget_circle(canvas, x, y, 13, c_select);
     }
 }
 
@@ -294,24 +394,23 @@ static void canvas_update(widget_ptr canvas)
     widget_clip(canvas);
     widget_box_rect(canvas, c_canvas);
 
-    static void draw_connection(void *data)
+    static void draw_edge(void *data)
     {
-	connection_ptr c = data;
-	edge_ptr e = c->edge;
+	edge_ptr e = data;
 	int portno = *((int *) e->data);
-	widget_ptr w0, w1;
+	node_ptr n0, n1;
 	int x0, y0, x1, y1;
 	int x, y;
 	int dx, dy;
 
-	w0 = c->src->w;
-	w1 = c->dst->w;
+	n0 = e->src;
+	n1 = e->dst;
 
 	//draw line connecting them
-	x0 = w0->localx + w0->w + vd_edgew + vd_portw / 2;
-	y0 = w0->localy + vd_porty + vd_porth / 2;
-	x1 = w1->localx - vd_edgew - vd_portw / 2;
-	y1 = w1->localy + vd_porty + vd_porth / 2 + (portno + 1) * vd_h;
+	x0 = n0->x + vd_w + vd_edgew + vd_portw / 2;
+	y0 = n0->y + vd_porty + vd_porth / 2;
+	x1 = n1->x - vd_edgew - vd_portw / 2;
+	y1 = n1->y + vd_porty + vd_porth / 2 + (portno + 1) * vd_h;
 	widget_line(canvas, x0, y0, x1, y1, c_edge);
 
 	//compute midpoint for later
@@ -320,19 +419,13 @@ static void canvas_update(widget_ptr canvas)
 	y = (y0 + y1) / 2;
 	dx = x1 - x0;
 	dy = y1 - y0;
-	c->w->localx = x - 12;
-	c->w->localy = y - 12;
-	c->w->globalx = c->w->localx + canvas->globalx;
-	c->w->globaly = c->w->localy + canvas->globaly;
-	c->w->w = 25;
-	c->w->h = 25;
 
 	//draw closed port
-	x0 = - vd_edgew - vd_portw;
-	y0 = vd_porty + (portno + 1) * vd_h;
+	x0 = n1->x - vd_edgew - vd_portw;
+	y0 = n1->y + vd_porty + (portno + 1) * vd_h;
 	x1 = x0 + vd_portw - 1;
 	y1 = y0 + vd_porth - 1;
-	widget_box(w1, x0, y0, x1, y1, c_edge);
+	widget_box(canvas, x0, y0, x1, y1, c_edge);
 
 	//draw thing in the middle
 	{
@@ -357,22 +450,90 @@ static void canvas_update(widget_ptr canvas)
 	}
     }
 
-    static void draw_vertex(void *data)
+    static void draw_node(void *data)
     {
-	vertex_ptr v = data;
-	widget_update(v->w);
+	int x0, x1, y0, y1;
+	node_ptr v = data;
+	node_data_ptr p = v->data;
+
+	void draw_box(int c) {
+	    widget_raised_border_box(canvas, x0, y0, x1, y1);
+	    widget_box(canvas, x0 + 2, y0 + 2, x1 - 2, y1 - 2, c);
+	}
+
+	void draw_output_port() {
+	    int y;
+	    y = v->y + vd_edgey;
+	    x0 = v->x + vd_w;
+	    x1 = x0 + vd_edgew - 1;
+	    widget_line(canvas, x0, y, x1, y, c_edge);
+	    y = v->y + vd_porty;
+	    x0 = x1 + 1;
+	    x1 = x0 + vd_portw - 1;
+	    widget_box(canvas, x0, y,
+		    x1, y + vd_porth - 1, c_edge);
+	}
+	void draw_unit() {
+	    int i, n;
+	    gen_ptr g = p->gen;
+	    n = g->info->port_count;
+
+	    //draw input ports
+	    y0 = v->y;
+	    for (i=0; i<n; i++) {
+		x0 = v->x;
+		y0 += vd_h;
+		//write name of input port
+		widget_string(canvas, x0 + vd_textpad, y0 + vd_textpad, 
+			g->info->port_name[i], c_porttext);
+
+		//draw input "claw"
+		widget_line(canvas, x0 - vd_edgew, y0 + vd_edgey,
+			x0 - 1, y0 + vd_edgey, c_edge);
+		x1 = x0 - vd_edgew - 1;
+		x0 -= vd_edgew + vd_portw;
+		y1 = y0 + vd_porty + vd_porth - 1;
+		widget_line(canvas, x0, y0 + vd_porty,
+			x1, y0 + vd_porty, c_edge);
+		widget_line(canvas, x0, y1, x1, y1, c_edge);
+		widget_line(canvas, x1, y0 + vd_porty, x1, y1, c_edge);
+	    }
+	}
+	x0 = v->x;
+	x1 = x0 + vd_w - 1;
+	y0 = v->y;
+	y1 = y0 + height_of_node(v) - 1;
+
+	switch(p->type) {
+	    case node_type_voice:
+		draw_box(c_voice);
+		break;
+	    case node_type_ins:
+		draw_box(c_ins);
+		break;
+	    default:
+		if (v == navoutnode) {
+		    draw_box(c_output);
+		} else {
+		    draw_box(c_unit);
+		}
+		draw_unit();
+		break;
+	}
+	widget_string(canvas, v->x + 3, v->y + 2, p->id, c_emphasis);
+	draw_output_port();
     }
 
-    //draw vertices and connections
-    darray_forall(layout->vertex_list, draw_vertex);
-    darray_forall(layout->connection_list, draw_connection);
+    //draw vertices and edges
+    darray_forall(graph->node_list, draw_node);
+    darray_forall(graph->edge_list, draw_edge);
 
     draw_selectioncursor(canvas);
     widget_unclip(canvas);
 }
 
-void canvas_placement_start(widget_ptr canvas,
-	void (*callback)(void *, layout_ptr, int, int), void *data,
+static void canvas_placement_start(widget_ptr canvas,
+	void (*callback)(widget_ptr, void *, int, int), void *data,
 	int w, int h, char *s)
 {
     widget_string(canvas, canvas->w / 2 - 40, canvas->h - 20,
@@ -389,11 +550,99 @@ void canvas_placement_start(widget_ptr canvas,
     widget_bind_mouse_motion(canvas, draw_placement, NULL);
 }
 
-void canvas_init(widget_ptr canvas, widget_ptr parent,
-	void (*select_nothing_func)(),
-	void (*select_connection_func)(connection_ptr),
-	void (*select_vertex_func)(vertex_ptr),
-	void (*connection_func)(layout_ptr, vertex_ptr, vertex_ptr, int))
+//TODO: put this function somewhere
+static node_ptr node_with_id(graph_ptr g, char *id)
+{
+    int i;
+    for (i=0; i<g->node_list->count; i++) {
+	node_ptr node = (node_ptr) g->node_list->item[i];
+	node_data_ptr p = (node_data_ptr) node->data;
+	if (!strcmp(p->id, id)) {
+	    return node;
+	}
+    }
+    return NULL;
+}
+
+static void place_ins(widget_ptr canvas, void *unused, int x, int y)
+{
+    int i;
+    char id[80];
+    node_data_ptr p;
+    node_ptr v;
+
+    for (i=0;;i++) {
+	sprintf(id, "ins%d", i);
+	if (!node_with_id(graph, id)) break;
+    }
+
+    v = orch_add_ins(orch, id, x, y);
+    p = v->data;
+    p->ins->out = add_ins_unit("out", out_uentry, p->ins,
+	    canvas->w - 100, canvas->h / 2);
+    canvas_select_node(canvas, v);
+}
+
+void canvas_place_ins_start(widget_ptr canvas)
+{
+    canvas_placement_start(canvas, place_ins, NULL,
+	    vd_w, vd_h,
+	    "Place Instrument");
+}
+
+static void place_voice(widget_ptr canvas, void *unused, int x, int y)
+{
+    int i;
+    char id[80];
+    node_ptr v;
+    node_data_ptr p;
+
+    for (i=0;;i++) {
+	sprintf(id, "voice%d", i);
+	if (!node_with_id(graph, id)) break;
+    }
+
+    v = add_voice(id, navthing, x, y);
+    p = v->data;
+    p->voice->out = add_voice_unit("out", out_uentry, p->voice,
+	    canvas->w - 100, canvas->h / 2);
+    add_voice_unit("freq", utable_at("dummy"), p->voice, 5, canvas->h / 2);
+}
+
+void canvas_place_voice_start(widget_ptr canvas)
+{
+    canvas_placement_start(canvas, place_voice, NULL,
+	    vd_w, vd_h,
+	    "Place Voice");
+}
+
+static void place_unit(widget_ptr canvas, void *data, int x, int y)
+{
+    int i;
+    char id[80];
+    uentry_ptr u = data;
+    node_ptr v;
+
+    for (i=0;;i++) {
+	sprintf(id, "%s%d", u->namebase, i);
+	if (!node_with_id(graph, id)) break;
+    }
+    if (navtype == nav_ins) {
+	v = add_ins_unit(id, u, navthing, x, y);
+    } else { //navtype == nav_voice
+	v = add_voice_unit(id, u, navthing, x, y);
+    }
+}
+
+void canvas_place_unit_start(widget_ptr canvas, uentry_ptr u)
+{
+    canvas_placement_start(canvas, place_unit, u,
+	    vd_w,
+	    (u->info->port_count + 1) * vd_h,
+	    "Place Unit");
+}
+
+void canvas_init(widget_ptr canvas, widget_ptr parent)
 {
     widget_init(canvas, parent);
     conimg = image_new(25, 25);
@@ -404,33 +653,31 @@ void canvas_init(widget_ptr canvas, widget_ptr parent,
     widget_show(canvas);
     canvas->update = canvas_update;
     canvas->handle_mousebuttondown = canvas_handle_mousebuttondown;
-    select_nothing_cb = select_nothing_func;
-    select_connection_cb = select_connection_func;
-    select_vertex_cb = select_vertex_func;
-    connection_cb = connection_func;
 }
 
-vertex_ptr canvas_current_vertex(widget_ptr canvas)
+node_ptr canvas_current_node(widget_ptr canvas)
 {
-    return vertex_selection;
+    return node_selection;
 }
 
-connection_ptr canvas_current_connection(widget_ptr canvas)
+edge_ptr canvas_current_edge(widget_ptr canvas)
 {
-    return connection_selection;
+    return edge_selection;
 }
 
-void canvas_remove_current_vertex(widget_ptr canvas)
+void canvas_remove_current_node(widget_ptr canvas)
 {
-    layout_remove_vertex(layout, vertex_selection);
+    node_data_ptr p = node_selection->data;
+    p->clear(node_selection, p->clear_data);
+    graph_remove_node(graph, node_selection);
     canvas_select_nothing(canvas);
     widget_update(canvas);
     request_update(canvas);
 }
 
-void canvas_remove_current_connection(widget_ptr canvas)
+void canvas_remove_current_edge(widget_ptr canvas)
 {
-    layout_remove_connection(layout, connection_selection);
+    graph_remove_edge(graph, edge_selection);
     canvas_select_nothing(canvas);
     widget_update(canvas);
     request_update(canvas);

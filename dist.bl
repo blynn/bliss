@@ -1,4 +1,5 @@
-bliss 0.1.2
+bliss 0.1.3
+ins ins0 100 200 {
 voice voice0 0 127 26 59 {
     unit out out 488 258
     unit freq dummy 17 177
@@ -42,4 +43,5 @@ voice voice0 0 127 26 59 {
     connect f1 out 0
     connect out delay0 0
 track {
+}
 }

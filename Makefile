@@ -1,7 +1,7 @@
-VERSION := 0.1.2
+VERSION := 0.1.3
 DEMOFILES := demo.bl shepard.bl stomper.bl pluck.bl dist.bl
-ALLFILES := *.bmp *.[ch] Makefile linux/*.[ch] win32/*.[ch] \
-	LICENSE README NEWS $(DEMOFILES)
+ALLFILES := *.bmp *.[ch] linux/*.[ch] win32/*.[ch] \
+	LICENSE README NEWS $(DEMOFILES) Makefile SConstruct
 PROJNAME := bliss
 DISTNAME := $(PROJNAME)-$(VERSION)
 OS ?= linux
@@ -11,8 +11,8 @@ CC := i586-mingw32msvc-gcc
 CFLAGS=-O2 -pipe -Wall -I /home/ben/cross/SDL/include/SDL -mwindows
 SDL_LIBS=-L /home/ben/cross/SDL/lib -lmingw32 -lSDLmain -lSDL
 else
-CC := gcc
-CFLAGS := -O2 -pipe -Wall -fomit-frame-pointer `sdl-config --cflags`
+CC := gcc-3.4
+CFLAGS := -O2 -pipe -Wall -ffast-math -fomit-frame-pointer `sdl-config --cflags`
 SDL_LIBS:=`sdl-config --libs`
 endif
 LIBS := $(SDL_LIBS)
@@ -28,16 +28,17 @@ UNITS := out.o dummy.o \
 	onezero.o onepole.o twopole.o \
 	delay.o clipper.o
 ADTOBJS := darray.o htable.o graph.o
-AUDIOOBJS := audio.o midi.o ins.o voice.o note.o gen.o
+AUDIOOBJS := audio.o midi.o orch.o ins.o voice.o note.o gen.o track.o
 GFXOBJS := SDL_gfxPrimitives.o colour.o \
 	widget.o menu.o checkbox.o button.o label.o textbox.o window.o
 BLISSOBJS := $(UNITS) $(ADTOBJS) $(AUDIOOBJS) $(GFXOBJS) \
-	layout.o about.o file_window.o compan.o canvas.o config.o
+	about.o file_window.o compan.o aux.o canvas.o config.o utable.o \
+	file.o gui.o
 
 ifeq ("$(OS)", "win32")
 BINARIES := bliss test
 else
-BINARIES := bliss test diffy
+BINARIES := bliss diffy test
 endif
 
 target : version.h $(BINARIES)
@@ -53,9 +54,6 @@ version.h : Makefile
 	echo '#define VERSION_STRING "'$(VERSION)'"' > version.h
 
 bliss : bliss.c $(BLISSOBJS)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
-
-sine :sine.c audio.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
 test :test.c $(AUDIOOBJS) $(ADTOBJS) $(UNITS)

@@ -10,11 +10,12 @@ static void voice_note_free(voice_t voice, note_ptr note)
 //doesn't update note_list
 {
     int i;
-    darray_ptr l = voice->graph->node_list;
+    darray_ptr l = voice->gen_index_table;
     int gencount = l->count;
     darray_remove(voice->note_list, note);
     for (i=0; i<gencount; i++) {
-	gen_ptr g = ((node_data_ptr) ((node_ptr) l->item[i])->data)->gen;
+	node_ptr node = l->item[i];
+	gen_ptr g = ((node_data_ptr) node->data)->gen;
 	gen_note_free(g, note->gen_data[i]->data);
 	free(note->gen_data[i]);
     }
@@ -26,7 +27,7 @@ static void voice_note_free(voice_t voice, note_ptr note)
 note_ptr voice_note_on(voice_t voice, int noteno, double volume)
 {
     int i;
-    darray_ptr l = voice->graph->node_list;
+    darray_ptr l = voice->gen_index_table;
     int gencount = l->count;
     double freq = note_to_freq(noteno);
     note_ptr res;
@@ -46,7 +47,8 @@ note_ptr voice_note_on(voice_t voice, int noteno, double volume)
     res->gen_data = malloc(sizeof(gen_data_ptr) * gencount);
 
     for (i=0; i<gencount; i++) {
-	gen_ptr g = ((node_data_ptr) ((node_ptr) l->item[i])->data)->gen;
+	node_ptr node = l->item[i];
+	gen_ptr g = ((node_data_ptr) (node->data))->gen;
 	res->gen_data[i] = malloc(sizeof(gen_data_t));
 	res->gen_data[i]->data = gen_note_on(g);
 	res->gen_data[i]->alive = 0;
@@ -86,7 +88,7 @@ static void per_node_recurse_tick(voice_t voice, node_ptr node, note_ptr note)
 
 	//the `freq' node is special: it always
 	//outputs the frequency of the note
-	if (n1 == voice->freq) {
+	if (!strcmp(p1->id, "freq")) {
 	    p1->output = note->freq;
 	//otherwise compute node's output if we haven't already
 	} else if (!p1->visited) {
@@ -123,7 +125,7 @@ static void recurse_tick(voice_t voice, node_ptr node, note_ptr note)
 
 	//the `freq' node is special: it always
 	//outputs the frequency of the note
-	if (n1 == voice->freq) {
+	if (!strcmp(p1->id, "freq")) {
 	    invalue[portno] += note->freq;
 	//otherwise compute node's output if we haven't already
 	} else {
@@ -155,7 +157,6 @@ double voice_tick(voice_t voice)
 	    }
 
 	    graph_forall_node(voice->graph, clear_visited);
-	    ((node_data_ptr) voice->freq->data)->visited = 1;
 
 	    note->alive = 0;
 	    if (0) {
@@ -172,6 +173,36 @@ double voice_tick(voice_t voice)
     return res;
 }
 
+void voice_remove_all_notes(voice_t voice)
+{
+    void remove_note(void *data) {
+	voice_note_free(voice, (note_ptr) data);
+    }
+    darray_forall(voice->note_list, remove_note);
+    darray_remove_all(voice->note_list);
+}
+
+static void del_node_cb(node_ptr node, void *data)
+{
+    voice_ptr voice = data;
+    node_data_ptr p = node->data;
+    node_ptr last_node = darray_last(voice->gen_index_table);
+    int i = p->gen_index;
+
+    //TODO: if it's a voice node then isn't it automatically a unit?
+    if (p->type == node_type_funk || p->type == node_type_normal) {
+	gen_free(p->gen);
+	if (node != last_node) {
+	    node_data_ptr lndp = last_node->data;
+	    darray_put(voice->gen_index_table, last_node, i);
+	    lndp->gen_index = i;
+	}
+	darray_remove_last(voice->gen_index_table);
+    }
+    free(p->id);
+    free(p);
+}
+
 node_ptr node_from_gen_info(graph_ptr graph, gen_info_t gi, char *id)
 {
     gen_ptr g;
@@ -186,40 +217,21 @@ node_ptr node_from_gen_info(graph_ptr graph, gen_info_t gi, char *id)
     }
     p->id = strclone(id);
     p->gen = g;
-    //TODO: hackish:
-    p->gen_index = graph->node_list->count;
     p->output = 0.0;
     return graph_add_node(graph, p);
 }
 
-node_ptr voice_add_gen(voice_t voice, gen_info_t gi, char *id)
+node_ptr add_voice_unit(char *id, uentry_ptr u, voice_ptr voice, int x, int y)
 {
-    return node_from_gen_info(voice->graph, gi, id);
-}
-
-extern struct gen_info_s out_info;
-extern struct gen_info_s dummy_info;
-
-void voice_remove_all_notes(voice_t voice)
-{
-    void remove_note(void *data) {
-	voice_note_free(voice, (note_ptr) data);
-    }
-    darray_forall(voice->note_list, remove_note);
-    darray_remove_all(voice->note_list);
-}
-
-static void del_node_cb(node_ptr node, void *data)
-{
-    voice_ptr voice = data;
+    node_ptr node = node_from_gen_info(voice->graph, u->info, id);
     node_data_ptr p = node->data;
-
-    //TODO: lock audio
-    voice_remove_all_notes(voice);
-    if (p->type == node_type_funk || p->type == node_type_normal) {
-	gen_free(p->gen);
-    }
-    free(p);
+    node->x = x;
+    node->y = y;
+    p->clear = del_node_cb;
+    p->clear_data = voice;
+    p->gen_index = voice->gen_index_table->count;
+    darray_append(voice->gen_index_table, node);
+    return node;
 }
 
 void voice_init(voice_t voice, char *s)
@@ -229,12 +241,10 @@ void voice_init(voice_t voice, char *s)
     voice->notemin = 0;
     voice->notemax = 127;
     graph_init(voice->graph);
-    graph_put_delete_node_cb(voice->graph, del_node_cb, voice);
     darray_init(voice->note_list);
     voice->id = strclone(s);
-
-    voice->out = voice_add_gen(voice, &out_info, "out");
-    voice->freq = voice_add_gen(voice, &dummy_info, "freq");
+    voice->out = NULL;
+    darray_init(voice->gen_index_table);
 }
 
 voice_ptr voice_new(char *s)
@@ -245,11 +255,17 @@ voice_ptr voice_new(char *s)
     return res;
 }
 
+void node_self_clear(node_ptr node) {
+    node_data_ptr p = node->data;
+    p->clear(node, p->clear_data);
+}
+
 void voice_clear(voice_ptr voice)
 {
     free(voice->id);
     voice_remove_all_notes(voice);
 
+    graph_forall_node(voice->graph, node_self_clear);
     graph_clear(voice->graph);
 }
 
@@ -325,4 +341,11 @@ void set_funk_program(node_ptr node, char *s)
     g = inp->gen;
     funk_clear_program(g);
     funk_init_program(g, s);
+}
+
+edge_ptr add_edge(graph_ptr g, node_ptr src, node_ptr dst, int port)
+{
+    int *ip = malloc(sizeof(int));
+    *ip = port;
+    return graph_add_edge(g, src, dst, ip);
 }

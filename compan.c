@@ -3,6 +3,8 @@
 //can only have one instance:
 static darray_t buttonmenustack;
 
+widget_t compan;
+
 static void compan_update(widget_ptr compan)
 {
     int i;
@@ -19,6 +21,14 @@ static void compan_update(widget_ptr compan)
 void compan_pop(widget_ptr compan)
 {
     darray_remove_last(buttonmenustack);
+    widget_update(compan);
+    request_update(compan);
+    motion_notify();
+}
+
+void compan_pop_all_but_one(widget_ptr compan)
+{
+    buttonmenustack->count = 1;
     widget_update(compan);
     request_update(compan);
     motion_notify();

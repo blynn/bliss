@@ -1,8 +1,94 @@
+Tue Apr  5 14:58:45 PDT 2005
+
+Modified play_thread() to allow for variations in SDL's timer functions,
+so that timing errors don't build up.
+
+[bliss-0.1.3.tgz]
+
+Tue Apr  5 03:28:44 PDT 2005
+
+Moved code from gui.c to bliss.c (play_state stuff mostly), cleaned
+render function slightly.
+
+Mon Apr  4 13:45:41 PDT 2005
+
+Changed gen_index behaviour in voice.c to the better ins.c one.
+
+Double-click on the output node now goes up a level. Output nodes now
+have a different colour.
+
+Mon Apr  4 05:12:54 PDT 2005
+
+Added gen_index_table to ins.c too and successfully reenabled z-order changing
+in canvas.c
+
+Sun Apr  3 23:20:54 PDT 2005
+
+Corrected malloc bugs in funk.c: had sizeof(char) instead of sizeof(char *),
+also seems to be some off-by-one errors. No longer crashes on exit.
+
+Had to disable z-order change on node selection in canvas.c because it
+messes with the gen_index order in voice.c. gen_index needs revamping
+in general e.g. it is not updated on node deletion in voice.c.
+
+Started using scons instead of make for Linux builds at least.
+It appears better, intend to migrate to it completely.
+
+Changed the way gen_index works in voice.c. Once I do the same in ins.c,
+I can reinstate z-order changing in canvas.c
+
+Sat Apr  2 21:27:47 PST 2005
+
+Double-click on a ins/voice enters it.
+Plays the other tracks while recording.
+
+Fri Apr  1 12:39:13 PST 2005
+
+Got rid of graph callbacks. Render works again.
+
+Fri Apr  1 02:33:14 PST 2005
+
+One track per instrument finally works.
+
+Thu Mar 31 16:37:21 PST 2005
+
+Implementing one track per instrument.
+
+Mon Mar 28 01:21:02 PST 2005
+
+I no longer like using callbacks for communication between
+the "canvas", "aux_rect" and "command panel".
+
+...
+
+More cleanup. Instruments no longer get an "out" unit during initialization.
+Graph ADT didn't maintain edge_lists properly and had some vestigial code
+that needed removing.
+
+Sun Mar 27 05:33:18 PST 2005
+
+Decided to get rid of layout.[ch] and have the node data structure
+store x, y coordinates.
+
+Wed Sep  8 15:47:15 PDT 2004
+
+Fixed menu entry bug (pushed flag not initialized).
+
+Wed Aug  4 14:11:55 PDT 2004
+
+More cleanup.
+
+Tue Aug  3 13:09:34 PDT 2004
+
+Changed code to allow for multiple instruments.
+
 Mon Aug  2 11:45:08 PDT 2004
 
 Minor cleanup.
 
 [bliss-0.1.2.tgz]
+
+Added screenshot taker (press F12).
 
 Sun Aug  1 20:18:30 PDT 2004
 

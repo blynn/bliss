@@ -1,4 +1,5 @@
-bliss 0.1.2
+bliss 0.1.3
+ins ins0 100 200 {
     unit out out 488 258
 voice voice0 0 127 294 258 {
     unit out out 488 258
@@ -154,4 +155,5 @@ track {
   258 noteoff 76
   23 noteoff 64
   1 noteoff 60
+}
 }

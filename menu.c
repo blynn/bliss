@@ -39,6 +39,7 @@ menu_entry_ptr menu_entry_new(menu_ptr m,
     it->w->w = strlen(it->text) * 8 + 2 * md_padx;
     it->w->h = md_h;
     it->w->update = menu_entry_update;
+    it->pushed = 0;
     return it;
 }
 

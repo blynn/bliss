@@ -7,58 +7,48 @@
 
 extern gen_info_t out_info;
 
-static void ins_new_node(node_ptr node, void *data)
-{
-    node_data_ptr p = node->data;
-    ins_ptr ins = data;
-
-    if (p->type == node_type_funk || p->type == node_type_normal) {
-	gen_data_ptr gdp = malloc(sizeof(gen_data_t));
-	darray_append(ins->gdlist, gdp);
-	gdp->data = gen_note_on(p->gen);
-    } else {
-	//TODO: very messy: can't I avoid?
-	darray_append(ins->gdlist, NULL);
-    }
-}
-
-static void ins_delete_node(node_ptr node, void *data)
+static void ins_del_node(node_ptr node, void *data)
 {
     node_data_ptr p = node->data;
     ins_ptr ins = data;
     int i = p->gen_index;
+    node_ptr last_node;
 
-    if (p->type == node_type_funk || p->type == node_type_normal) {
-	gen_data_ptr gdp = ins->gdlist->item[i];
-	gen_note_free(p->gen, gdp->data);
-	free(gdp);
-    } else if (p->type == node_type_voice) {
-	darray_remove(ins->voicenode, node);
-	voice_free(p->voice);
-    }
+    gen_data_ptr gdp = ins->gdlist->item[i];
+    gen_note_free(p->gen, gdp->data);
+    free(gdp);
     free(p);
 
-    {
-	//TODO: move last to i instead?
-	void adjust_index(node_ptr node) {
-	    node_data_ptr ndp = node->data;
-	    if (ndp->gen_index > i) ndp->gen_index--;
-	}
-
-	graph_forall_node(ins->graph, adjust_index);
-	darray_remove_index(ins->gdlist, i);
+    last_node = darray_last(ins->gen_index_table);
+    if (node != last_node) {
+	node_data_ptr lndp = last_node->data;
+	darray_put(ins->gen_index_table, last_node, i);
+	lndp->gen_index = i;
+	darray_put(ins->gdlist, darray_last(ins->gdlist), i);
     }
+    darray_remove_last(ins->gen_index_table);
+    darray_remove_last(ins->gdlist);
+}
+
+static void ins_del_voice(node_ptr node, void *data)
+{
+    node_data_ptr p = node->data;
+    ins_ptr ins = data;
+
+    darray_remove(ins->voicenode, node);
+    voice_free(p->voice);
+    free(p);
 }
 
 void ins_init(ins_ptr ins, char *id)
 {
     darray_init(ins->voicenode);
     darray_init(ins->gdlist);
+    darray_init(ins->gen_index_table);
     graph_init(ins->graph);
-    graph_put_new_node_cb(ins->graph, ins_new_node, ins);
-    graph_put_delete_node_cb(ins->graph, ins_delete_node, ins);
-    ins->out = node_from_gen_info(ins->graph, out_info, "out");
     ins->id = strclone(id);
+    ins->out = NULL;
+    track_init(ins->track, "track0");
 }
 
 ins_ptr ins_new(char *id)
@@ -71,33 +61,55 @@ ins_ptr ins_new(char *id)
 void ins_clear(ins_ptr ins)
 {
     free(ins->id);
+    graph_forall_node(ins->graph, node_self_clear);
     graph_clear(ins->graph);
 
-    //voicenode and gdlist are freed during ins_delete_node() callbacks
     assert(darray_is_empty(ins->voicenode));
     assert(darray_is_empty(ins->gdlist));
     darray_clear(ins->voicenode);
     darray_clear(ins->gdlist);
-
+    track_clear(ins->track);
 }
 
-static node_ptr node_from_voice(ins_ptr ins, voice_ptr voice)
+node_ptr add_ins_unit(char *id, uentry_ptr u, ins_ptr ins, int x, int y)
+{
+    node_ptr node = node_from_gen_info(ins->graph, u->info, id);
+    node_data_ptr p = node->data;
+    node->x = x;
+    node->y = y;
+
+    p->gen_index = ins->gen_index_table->count;
+    gen_data_ptr gdp = malloc(sizeof(gen_data_t));
+    darray_append(ins->gdlist, gdp);
+    darray_append(ins->gen_index_table, node);
+    gdp->data = gen_note_on(p->gen);
+
+    p->clear = ins_del_node;
+    p->clear_data = ins;
+    return node;
+}
+
+node_ptr add_voice(char *id, ins_ptr ins, int x, int y)
 {
     node_data_ptr p;
+    voice_ptr voice;
+    node_ptr node;
+
+    voice = voice_new(id);
 
     p = malloc(sizeof(node_data_t));
     p->type = node_type_voice;
     p->voice = voice;
-    p->id = voice->id; //TODO: get rid of node->id? voice has it anyway
-    //TODO: hackish:
-    p->gen_index = ins->graph->node_list->count;
-    return graph_add_node(ins->graph, p);
-}
+    p->id = voice->id;
 
-node_ptr ins_add_voice(ins_ptr ins, char *id)
-{
-    node_ptr node = node_from_voice(ins, voice_new(id));
+    p->clear = ins_del_voice;
+    p->clear_data = ins;
+    node = graph_add_node(ins->graph, p);
+    node->x = x;
+    node->y = y;
+
     darray_append(ins->voicenode, node);
+
     return node;
 }
 

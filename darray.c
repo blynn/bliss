@@ -71,11 +71,6 @@ void darray_clear(darray_t a)
     a->count = 0;
 }
 
-void *darray_at(darray_t a, int i)
-{
-    return a->item[i];
-}
-
 void darray_show(darray_ptr a)
 {
     int i;
@@ -129,16 +124,6 @@ void darray_copy(darray_ptr dst, darray_ptr src)
     */
     memcpy(dst->item, src->item, src->count * sizeof(void *));
     dst->count = src->count;
-}
-
-int darray_is_empty(darray_ptr d)
-{
-    return !d->count;
-}
-
-void *darray_last(darray_t a)
-{
-    return a->item[a->count - 1];
 }
 
 void darray_forall(darray_t a, void (*func)(void *))

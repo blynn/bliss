@@ -30,7 +30,6 @@ gen_ptr gen_new(gen_info_t gi)
     return res;
 }
 
-
 void gen_clear(gen_t g)
 {
     g->info->clear(g);

@@ -4,7 +4,7 @@
 #include "gen.h"
 
 struct osc_data_s {
-    double (*oscfn)(gen_t g, double d);
+    double (*oscfn)(double d);
 };
 
 typedef struct osc_data_s osc_data_t[1];
@@ -24,25 +24,25 @@ static void osc_note_free(void *data)
 
 //the waveform is positive in the first half
 //and negative in the second half for consistency,
-static double sawfn(gen_t g, double d)
+static double sawfn(double d)
 {
     return 1.0 - 2.0 * d;
 }
 
-static double pulsefn(gen_t g, double d)
+static double pulsefn(double d)
 {
     if (d < 0.5) return 1.0;
     else return -1.0;
 }
 
-static double sinfn(gen_t g, double d)
+static double sinfn(double d)
 {
     double res;
     res = sin(d * 2.0 * M_PI);
     return res;
 }
 
-static double trifn(gen_t g, double d)
+static double trifn(double d)
 {
     if (d < 0.25) return d * 4.0;
     if (d < 0.75) return 2.0 - 4.0 * d;
@@ -59,7 +59,7 @@ static double osc_tick(gen_t g, gen_data_ptr gd, double *value)
     phase += double_clip(value[0], 0.0, nyquist) * inv_samprate;
     if (phase > 1.0) phase -= 1.0;
     p = (osc_data_ptr) g->data;
-    res = p->oscfn(g, phase);
+    res = p->oscfn(phase);
     *((double *) gd->data) = phase;
     return res;
 }

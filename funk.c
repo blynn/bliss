@@ -443,7 +443,7 @@ gen_info_ptr funk_info_n(int n)
     static char s[80];
 
     res->init = funk_init;
-    res->id = malloc(5 * sizeof(char));
+    res->id = malloc(6 * sizeof(char));
     strcpy(res->id, "funk0");
     res->id[4] += n;
     res->name = "Function";
@@ -452,11 +452,10 @@ gen_info_ptr funk_info_n(int n)
     res->note_free = funk_note_free;
     res->tick = funk_tick;
     res->port_count = n;
-    port_list = malloc(sizeof(char) * (n+1));
+    port_list = malloc(sizeof(char *) * (n+1));
     for(i=0; i<n; i++) {
 	sprintf(s, "x%d", i);
-	port_list[i] = malloc(sizeof(char) * strlen(s));
-	strcpy(port_list[i], s);
+	port_list[i] = strclone(s);
     }
     port_list[i] = NULL;
     res->port_name = port_list;

@@ -112,23 +112,39 @@ int global_contains(widget_ptr r, int x, int y)
     return -1;
 }
 
-void widget_raised_border(widget_ptr rect)
+void widget_raised_border_box(widget_ptr w, int x0, int y0, int x1, int y1)
+{
+
+    widget_box(w, x0 + 1, y0 + 1, x1 - 1, y0 + 1, c_background);
+    widget_box(w, x0 + 1, y0 + 1, x0 + 1, y1 - 1, c_background);
+
+    widget_box(w, x0, y0, x1, y0, c_highlight);
+    widget_box(w, x0, y0, x0, y1, c_highlight);
+
+    widget_box(w, x0 + 1, y1 - 1, x1 - 1, y1 - 1, c_shadow);
+    widget_box(w, x1 - 1, y0 + 1, x1 - 1, y1 - 1, c_shadow);
+
+    widget_box(w, x0, y1, x1, y1, c_darkshadow);
+    widget_box(w, x1, y0, x1, y1, c_darkshadow);
+}
+
+void widget_raised_border(widget_ptr w)
 {
     int x0, y0;
-    x0 = rect->w - 1;
-    y0 = rect->h - 1;
+    x0 = w->w - 1;
+    y0 = w->h - 1;
 
-    widget_box(rect, 1, 1, x0 - 1, 1, c_background);
-    widget_box(rect, 1, 1, 1, y0 - 1, c_background);
+    widget_box(w, 1, 1, x0 - 1, 1, c_background);
+    widget_box(w, 1, 1, 1, y0 - 1, c_background);
 
-    widget_box(rect, 0, 0, x0, 0, c_highlight);
-    widget_box(rect, 0, 0, 0, y0, c_highlight);
+    widget_box(w, 0, 0, x0, 0, c_highlight);
+    widget_box(w, 0, 0, 0, y0, c_highlight);
 
-    widget_box(rect, 1, y0 - 1, x0 - 1, y0 - 1, c_shadow);
-    widget_box(rect, x0 - 1, 1, x0 - 1, y0 - 1, c_shadow);
+    widget_box(w, 1, y0 - 1, x0 - 1, y0 - 1, c_shadow);
+    widget_box(w, x0 - 1, 1, x0 - 1, y0 - 1, c_shadow);
 
-    widget_box(rect, 0, y0, x0, y0, c_darkshadow);
-    widget_box(rect, x0, 0, x0, y0, c_darkshadow);
+    widget_box(w, 0, y0, x0, y0, c_darkshadow);
+    widget_box(w, x0, 0, x0, y0, c_darkshadow);
 }
 
 void widget_raised_background(widget_ptr rect)

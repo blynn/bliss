@@ -27,7 +27,10 @@ void colour_init(SDL_PixelFormat *format)
     put_colour(c_canvas, 64, 64, 64);
     put_colour(c_menubg, 80, 100, 150);
     put_colour(c_textboxbg, 255, 255, 255);
+    put_colour(c_output, 64, 127, 64);
     put_colour(c_unit, 0, 127, 127);
+    put_colour(c_voice, 0, 0, 127);
+    put_colour(c_ins, 64, 64, 127);
     put_colour(c_darkunit, 64, 96, 64);
     put_colour(c_porttext, 176, 176, 176);
     put_colour(c_edge, 255, 255, 255);

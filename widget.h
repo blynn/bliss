@@ -63,6 +63,7 @@ void widget_box_rect(widget_ptr r, int c);
 void widget_rectangle(widget_ptr r, int x0, int y0, int x1, int y1, int c);
 void widget_rectangle_rect(widget_ptr r, int c);
 void widget_string(widget_ptr r, int x, int y, char *s, int c);
+void widget_raised_border_box(widget_ptr w, int x0, int y0, int x1, int y1);
 void widget_raised_border(widget_ptr rect);
 void widget_lowered_border(widget_ptr rect);
 void widget_raised_background(widget_ptr rect);

@@ -43,31 +43,37 @@ static double ticker()
     return voice_tick(simple);
 }
 
+extern struct gen_info_s out_info;
+extern struct gen_info_s dummy_info;
 extern struct gen_info_s osc_info;
 extern struct gen_info_s butterlpf_info;
 extern struct gen_info_s adsr_info;
 extern struct gen_info_s delay_info;
 extern gen_info_ptr funk_info_n(int n);
 
-void simple_init(voice_t ins)
+void simple_init(voice_t voice)
 {
     node_ptr nosc1, nosc2;
     node_ptr nf;
     node_ptr nadsr;
-    voice_init(ins, "Simple");
+    node_ptr nfreq;
+    voice_init(voice, "Simple");
 
-    nosc1 = voice_add_gen(ins, &osc_info, "osc0");
-    nosc2 = voice_add_gen(ins, &osc_info, "osc1");
-    nadsr = voice_add_gen(ins, &adsr_info, "adsr");
-    nf = voice_add_gen(ins, funk_info_n(1), "f");
+    voice->out = node_from_gen_info(voice->graph, &out_info, "out");
+    nfreq = node_from_gen_info(voice->graph, &dummy_info, "freq");
+
+    nosc1 = node_from_gen_info(voice->graph, &osc_info, "osc0");
+    nosc2 = node_from_gen_info(voice->graph, &osc_info, "osc1");
+    nadsr = node_from_gen_info(voice->graph, &adsr_info, "adsr");
+    nf = node_from_gen_info(voice->graph, funk_info_n(1), "f");
     set_funk_program(nf, "x1 * 2.0");
-    voice_connect(ins, ins->freq, nosc1, 0);
-    voice_connect(ins, ins->freq, nf, 0);
+    voice_connect(voice, nfreq, nosc1, 0);
+    voice_connect(voice, nfreq, nf, 0);
     set_param_by_id(nosc1, "waveform", 2.0);
-    voice_connect(ins, nf, nosc2, 0);
-    voice_connect(ins, nosc1, nadsr, 0);
-    voice_connect(ins, nosc2, nadsr, 0);
-    voice_connect(ins, nadsr, ins->out, 0);
+    voice_connect(voice, nf, nosc2, 0);
+    voice_connect(voice, nosc1, nadsr, 0);
+    voice_connect(voice, nosc2, nadsr, 0);
+    voice_connect(voice, nadsr, voice->out, 0);
 }
 
 int main(int argc, char **argv)
