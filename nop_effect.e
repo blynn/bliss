@@ -8,17 +8,9 @@ feature
     do
     end
 
-    next_sample : DOUBLE is
-    local
-	it : ITERATOR_ON_LINKED_LIST[SAMPLER]
+    work : DOUBLE is
     do
-	!!it.make(in_connection)
-	from
-	until it.is_off
-	loop
-	    Result := Result + it.item.next_sample
-	    it.next
-	end
+	Result := mix_input
     end
 
     init is

@@ -1,7 +1,6 @@
 deferred class MACHINE
 inherit
     COLOR_TABLE;
-    SAMPLER;
     SONG_TABLE;
     NOTE_UTIL
 feature
@@ -11,6 +10,10 @@ feature
 
     boom is
     deferred
+    end
+
+    init_inmachine(m : MACHINE) is
+    do --deferred
     end
 
     name : STRING
@@ -128,6 +131,81 @@ feature
 	setup_pattern.instant_execute
     end
 
+    old_history : ARRAY[DOUBLE]
+    old_history_size : INTEGER
+    old_history_current : INTEGER
+
+    old_process_history_size_request(m : MACHINE; n : INTEGER) is
+    do
+io.put_string("ph " + m.name + " " + n.to_string + "%N")
+	if n > history_size then
+	    history_size := n
+io.put_string("hs " + history_size.to_string + "%N")
+	    !!history.make(0, n-1)
+	end
+    end
+
+    mix_input : DOUBLE
+    last_frame : DOUBLE
+
+    visited : BOOLEAN
+    clear_visited is
+    do
+	visited := False
+    end
+
+    compute_next_frame is
+    local
+	it : ITERATOR[EDGE]
+    do
+	if not visited then
+	    mix_input := 0
+	    it := in_connection.get_new_iterator
+	    from it.start
+	    until it.is_off
+	    loop
+		it.item.src.compute_next_frame
+		mix_input := mix_input + it.item.amp * it.item.src.last_frame
+		it.next
+	    end
+	    last_frame := work
+	    visited := True
+	end
+    end
+
+    old_add_history(d : DOUBLE) is
+    require
+	history_size > 0
+    do
+	history.put(d, history_current)
+	history_current := history_current + 1
+	if history_current = history_size then
+	    history_current := 0
+	end
+    end
+
+    old_last_frame : DOUBLE is
+    require
+	history_size > 0
+    local
+	i : INTEGER
+    do
+	i := history_current - 1
+	if i < 0 then
+	    i := history_size - 1
+	end
+	Result := history @ i
+    end
+
+    work : DOUBLE is
+    deferred
+    end
+
+    old_request_history_size(m : MACHINE; n : INTEGER) is
+    do
+	m.process_history_size_request(Current, n)
+    end
+
 feature {MACHINE_TABLE}
     make_instance(s : STRING) : like Current is
     do
@@ -137,6 +215,7 @@ feature {MACHINE_TABLE}
 	Result.init_pattern_table
 	Result.init_picture
 	Result.init
+	--Result.request_history_size(Result, 1)
     end
 
 feature {MACHINE}

@@ -4,7 +4,7 @@ creation register
 feature
     id : STRING is "BLDrum"
 
-    next_sample : DOUBLE is
+    work : DOUBLE is
     local
 	it : ITERATOR[SAMPLER]
     do

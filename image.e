@@ -59,6 +59,7 @@ feature
     blit(x, y : INTEGER) is
     require
 	is_connected
+	ptr.is_not_null
     do
 	ext_blit_img(ptr, x, y)
     end
@@ -66,6 +67,8 @@ feature
     blit_to(img : IMAGE; x, y : INTEGER) is
     require
 	is_connected
+	img.is_connected
+	ptr.is_not_null
     do
 	ext_blit_img_to(ptr, img.ptr, x, y)
     end
@@ -124,7 +127,6 @@ feature
 	end
     end
 
-feature {IMAGE}
     ptr : POINTER
 
 feature {NONE}

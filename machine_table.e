@@ -10,5 +10,6 @@ feature
 	!MASTER!m.register(Result)
 	!NOP_EFFECT!m.register(Result)
 	!BLTRACKER!m.register(Result)
+	!BLDELAY!m.register(Result)
     end
 end

@@ -8,4 +8,8 @@ feature
     do
 	Result := blue
     end
+
+    --init_inmachine(m : MACHINE) is
+    --do
+    --end
 end

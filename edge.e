@@ -1,5 +1,4 @@
 class EDGE
-inherit SAMPLER
 creation make
 feature
     src, dst : MACHINE
@@ -13,11 +12,12 @@ feature
     do
 	src := m1
 	dst := m2
+	m2.init_inmachine(m1)
     end
 
     next_sample : DOUBLE is
     do
-	Result := amp * src.next_sample
+	Result := amp * src.next_frame
     end
 
     x, y : INTEGER

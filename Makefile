@@ -10,25 +10,25 @@ EXTCLIBS=speed.o external.o SDL_gfxPrimitives.o SDL_rotozoom.o
 
 .PHONY : target clean
 
-target : main
+target : bliss
 
 speed.o : speed.c
 external.o : external.c
 SDL_gfxPrimitives.o : SDL_gfxPrimitives.c
 SDL_rotozoom.o : SDL_rotozoom.c
 
-main.make : *.e buzz/*.e
-	compile_to_c -boost -O2 -o main main $(EXTCLIBS) $(LIBS)
+bliss.make : *.e buzz/*.e
+	compile_to_c -boost -O2 -o bliss bliss $(EXTCLIBS) $(LIBS)
 
-main : main.make $(EXTCLIBS)
-	. main.make
+bliss : bliss.make $(EXTCLIBS)
+	. bliss.make
 
 noboost : *.e $(EXTCLIBS)
-	compile_to_c -O2 -o slow main $(EXTCLIBS) $(LIBS)
-	. main.make
+	compile_to_c -O2 -o slow bliss $(EXTCLIBS) $(LIBS)
+	. bliss.make
 
 nose: *.e
-	compile_to_c -boost -O2 -o main main.e $(EXTCLIBS) \
+	compile_to_c -boost -O2 -o bliss bliss.e $(EXTCLIBS) \
 $(NOSE_SDL_LIBS)
 
 projname := $(shell awk '/BLISS_VERSION/ { print $$3 }' version.h )
@@ -41,5 +41,5 @@ dist: $(ALLFILES) clean nose
 	-rm -rf $(projname)
 
 clean :
-	clean main
+	clean bliss
 	-rm *.o

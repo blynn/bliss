@@ -2,7 +2,8 @@ class BUZZ_LOADER
 inherit NOTE_UTIL
 creation make
 feature
-    in : INPUT_STREAM
+    --in : INPUT_STREAM
+    in : PORTABLE_FILE_READ
 
     make is
     do
@@ -11,7 +12,7 @@ feature
 
     load(f : STRING) : BUZZ_SONG is
     local
-	sfr : STD_FILE_READ
+	sfr : PORTABLE_FILE_READ
     do
 	!!sfr.connect_to(f)
 	if sfr.is_connected then

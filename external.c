@@ -19,6 +19,7 @@ static int glob_bpp;
 static TTF_Font *font;
 static SDL_Color white = { 0xFF, 0xFF, 0xFF, 0 };
 
+/*
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     static int rmask = 0xff000000;
     static int gmask = 0x00ff0000;
@@ -30,6 +31,7 @@ static SDL_Color white = { 0xFF, 0xFF, 0xFF, 0 };
     static int bmask = 0x00ff0000;
     static int amask = 0xff000000;
 #endif
+*/
 
 static int fillcount;
 
@@ -150,6 +152,7 @@ void init(void)
 	atexit(TTF_Quit);
 
 	font = TTF_OpenFont("/usr/share/fonts/truetype/Arial.ttf", 12);
+	//font = TTF_OpenFont("C:\\WINDOWS\\Fonts\\ARIAL.TTF", 12);
 	if (!font) {
 		fprintf(stderr, "init: TTF_OpenFont failed: %s\n", SDL_GetError());
 		exit(-1);
@@ -404,12 +407,12 @@ void ext_blit_surface(SDL_Surface *surf, int x, int y)
 void *ext_new_surface(int w, int h)
 {
     SDL_Surface *res;
-    //SDL_PixelFormat *fmt = screen->format;
+    SDL_PixelFormat *fmt = screen->format;
 
-    //res = SDL_CreateRGBSurface(SDL_HWSURFACE, w, h, fmt->BitsPerPixel, fmt->Rmask, fmt->Gmask,
-	    //fmt->Bmask, fmt->Amask);
-    res = SDL_CreateRGBSurface(SDL_HWSURFACE, w, h, glob_bpp, rmask, gmask,
-	    bmask, amask);
+    res = SDL_CreateRGBSurface(SDL_HWSURFACE, w, h, fmt->BitsPerPixel, fmt->Rmask, fmt->Gmask,
+	    fmt->Bmask, fmt->Amask);
+    //res = SDL_CreateRGBSurface(SDL_HWSURFACE, w, h, glob_bpp, rmask, gmask,
+	    //bmask, amask);
     return res;
 }
 
@@ -443,19 +446,24 @@ int get_last_mouse_y()
 void ext_blit_img_to(SDL_Surface *src, SDL_Surface *dst, int x, int y)
 {
     SDL_Rect rect;
+    int status;
 
     assert(src);
     assert(dst);
 
     rect.x = x;
     rect.y = y;
-    SDL_BlitSurface(src, NULL, dst, &rect);
+    status = SDL_BlitSurface(src, NULL, dst, &rect);
+    if (status) {
+	fprintf(stderr, "blit error: %d\n", status);
+    }
 }
 
 void ext_blit_img(SDL_Surface *image, int x, int y)
 {
     assert(image);
 
+    //boxColor(screen, x, y, x + image->w - 1, y + image->h - 1, 255 * 256 + 255);
     ext_blit_img_to(image, screen, x, y);
 }
 
@@ -525,6 +533,9 @@ SDL_Surface *draw_arrow_kludge()
 
     res = ext_new_surface(21, 21);
 
+
+    filledCircleRGBA(res, 10, 10, 10, 255, 255, 255, 255);
+    filledCircleRGBA(res, 10, 10, 8, 0, 128, 0, 255);
     x[0] = 19;
     y[0] = 10;
     x[1] = 4;
@@ -551,4 +562,24 @@ double ext_int_to_float(int i)
     f = *((float *) (&i));
 
     return f;
+}
+
+FILE *wrap_fopen(char *f, char *m)
+{
+    return fopen(f, m);
+}
+
+void wrap_fclose(FILE *fp)
+{
+    fclose(fp);
+}
+
+int wrap_feof(FILE *fp)
+{
+    return feof(fp);
+}
+
+char wrap_fgetc(FILE *fp)
+{
+    return fgetc(fp);
 }

@@ -41,7 +41,7 @@ feature
 	inspect e.i1
 	when 1 then
 	    if e.x < tablex and then e.y > tabley then
-		r := rowstep * ((e.y - tabley) // celly)
+		r := rowstep * (originr + ((e.y - tabley) // celly))
 		if r > song.end_beat then
 		    r := song.end_beat
 		end

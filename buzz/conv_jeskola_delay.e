@@ -3,7 +3,7 @@ inherit CONV
 creation register
 feature
     buzz_dll : STRING is "Jeskola Delay"
-    bliss_id : STRING is "NOP"
+    bliss_id : STRING is "BLDelay"
     global_parm_count : INTEGER is 1
     track_parm_count : INTEGER is 5
 

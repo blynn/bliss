@@ -267,20 +267,22 @@ feature
 	dy := y2 - y1
 	dx := x2 - x1
 	if dx = 0 then
-	    angle := 90
+	    if dy < 0 then
+		angle := 90
+	    else
+		angle := -90
+	    end
 	else
 	    angle := (dy / dx).atan
 	    angle := angle * 180 / 3.14159265358979323846
-	end
-	angle := -angle --computer screen: y increases downwards
-	if dx < 0 then
-	    angle := angle + 180
+	    if dx < 0 then
+		angle := angle + 180
+	    end
+	    angle := -angle --computer screen: y increases downwards
 	end
 	x1 := (x1 + x2) // 2
 	y1 := (y1 + y2) // 2
 	e.put_xy(x1, y1)
-	filledcirclecolor(x1, y1, 10, white)
-	filledcirclecolor(x1, y1, 8, green)
 	!!img.make
 	img.rotozoom(arrow_image, angle, 1.0)
 	x2 := x1 - img.width // 2

@@ -102,3 +102,21 @@ Sat Mar  9 11:35:16 PST 2002
     Added import buzz file window at last. Window managing code needed now.
 
     [bliss-0.1.tgz]
+
+Sat Mar  9 20:53:31 PST 2002
+    Added BLDelay, simplified code for simple machines.
+
+Mon Mar 11 02:20:16 PST 2002
+    Been reading up on DSP.
+
+    BLBass2 can do LPF now, but not sure if it's correct. The sample code
+    at <http://www.harmony-central.com/Computer/Programming/resonant-lp-filter.c>
+    Why doesn't it use history of previous inputs?
+
+    Resonance kind of works. Need to find out how envelope works.
+
+Mon Mar 11 19:08:48 PST 2002
+    Made drawing edges more efficient. Fixed edge drawing bug in MACHINE_WINDOW
+    (vertical problems).
+
+    Tweaked SDL calls so it works on rooster.

@@ -2,28 +2,19 @@ class MASTER
 inherit MACHINE
 creation register
 feature
+    init is
+    do
+    end
+
     id : STRING is "Master"
 
     boom is
     do
     end
 
-    input_list : LINKED_LIST[SAMPLER] is
+    work : DOUBLE is
     do
-	Result := in_connection
-    end
-
-    next_sample : DOUBLE is
-    local
-	it : ITERATOR_ON_LINKED_LIST[SAMPLER]
-    do
-	!!it.make(input_list)
-	from
-	until it.is_off
-	loop
-	    Result := Result + it.item.next_sample
-	    it.next
-	end
+	Result := mix_input
     end
 
     process_command(s : STRING) is
@@ -32,10 +23,6 @@ feature
 
     is_sink : BOOLEAN is True
     is_source : BOOLEAN is False
-
-    init is
-    do
-    end
 
     bgcolor : COLOR is
     do

@@ -30,7 +30,7 @@ feature
 
     precision : INTEGER is 1024
 
-    next_sample : DOUBLE is
+    work : DOUBLE is
     local
 	i : INTEGER
     do

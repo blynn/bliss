@@ -113,9 +113,37 @@ feature
     local
 	edge : EDGE
     do
-	!!edge.make(src, dst)
-	connection_list.add_last(edge)
-	dst.add_inedge(edge)
+	if src = dst then
+	    io.put_string("cycle detected%N")
+	elseif exists_edge(src, dst) then
+	    io.put_string("duplicate edge detected%N")
+	else
+	    !!edge.make(src, dst)
+	    dst.add_inedge(edge)
+	    if is_cyclic then
+		dst.remove_inedge(edge)
+		io.put_string("cycle detected%N")
+	    else
+		connection_list.add_last(edge)
+	    end
+	    toposort
+	end
+    end
+
+    exists_edge(src, dst : MACHINE) : BOOLEAN is
+    local
+	it : ITERATOR[EDGE]
+    do
+	it := dst.in_connection.get_new_iterator
+	from it.start
+	until it.is_off or else Result = True
+	loop
+	    if it.item.src = src then
+		Result := True
+	    else
+		it.next
+	    end
+	end
     end
 
     delete_edge(e : EDGE) is
@@ -125,6 +153,7 @@ feature
 	i := connection_list.fast_index_of(e)
 	connection_list.remove(i)
 	e.dst.remove_inedge(e)
+	toposort
     end
 
     move_to(m : MACHINE; new_x, new_y : INTEGER) is
@@ -291,7 +320,22 @@ feature
 		    boom
 		end
 		increment_sample_count
-		Result := master.next_sample
+		unvisit_all_machines
+		master.compute_next_frame
+		Result := master.last_frame
+	    end
+	end
+	
+	unvisit_all_machines is
+	local
+	    it : ITERATOR[MACHINE]
+	do
+	    it := machine_list.get_new_iterator
+	    from it.start
+	    until it.is_off
+	    loop
+		it.item.clear_visited
+		it.next
 	    end
 	end
 
@@ -341,5 +385,38 @@ feature {NONE}
 	machine_table.put(Result, name)
 	machine_zorder.add_last(Result)
 	machine_list.add_last(Result)
+    end
+
+    machine_topo_order : LINKED_LIST[MACHINE]
+
+    toposort is
+    local
+	sl : LINKED_LIST[MACHINE]
+	m : MACHINE
+	it : ITERATOR[EDGE]
+    do
+	!!sl.make
+	sl.add_last(master)
+	!!machine_topo_order.make
+	from
+	until sl.is_empty
+	loop
+	    m := sl.last
+	    sl.remove_last
+	    machine_topo_order.add_first(m)
+	    it := m.in_connection.get_new_iterator
+	    from it.start
+	    until it.is_off
+	    loop
+		if not machine_topo_order.fast_has(it.item.src) then
+		    sl.add_last(it.item.src)
+		end
+		it.next
+	    end
+	end
+    end
+
+    is_cyclic : BOOLEAN is
+    do
     end
 end

@@ -43,6 +43,7 @@ extern "C" {
 
 /* ---- Prototypes */
 
+    /*
 #ifdef WIN32
 #ifdef BUILD_DLL
 #define DLLINTERFACE __declspec(dllexport)
@@ -52,6 +53,8 @@ extern "C" {
 #else
 #define DLLINTERFACE
 #endif
+    */
+#define DLLINTERFACE
 
 /* 
  

@@ -27,6 +27,12 @@ feature
 		until t = bp.track_count
 		loop
 		    s := bp.data.item(t, r)
+		    if s.item(1).code /= 255 then
+			p.put("c" + hex255table.item(s.item(1).code), r, 1)
+		    end
+		    if s.item(2).code /= 255 then
+			p.put("r" + hex255table.item(s.item(2).code), r, 2)
+		    end
 		    if s.item(6).code /= 0 then
 			p.put(to_note(s.item(6)), r, 6)
 		    end

@@ -1,4 +1,4 @@
-class MAIN
+class BLISS
 inherit
     SONG_TABLE;
     SDL_CONSTANT;
@@ -21,6 +21,21 @@ feature
     load_buzz_dialog is
     do
 	modal := import_buzz_window
+    end
+
+    comp_test is
+    local
+	a, b : COMPLEX
+    do
+	a.put(5, 2)
+	b.put(3, 3)
+	io.put_string((a-b).to_string + "%N")
+	io.put_string((a*b).to_string + "%N")
+	io.put_string((a/b).to_string + "%N")
+	io.put_string((b*(a/b)).to_string + "%N")
+	io.put_string(b.theta.to_string + "%N")
+	io.put_string(b.div_double(3.).r.to_string + "%N")
+	io.put_string(b.theta.to_string + "%N")
     end
 
     make is

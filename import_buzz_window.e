@@ -4,7 +4,7 @@ inherit
     SONG_TABLE
 creation make
 feature
-    manager : MAIN
+    manager : BLISS
 
     filename : STRING
 
@@ -20,7 +20,7 @@ feature
 	filename.add_last(c)
     end
 
-    make(wm : MAIN) is
+    make(wm : BLISS) is
     do
 	manager := wm
 	put_geometry(20, 20, 600, 50)
