@@ -556,6 +556,11 @@ void ext_box(SDL_Surface *img, int x, int y, int x2, int y2, int c)
     boxColor(img, x, y, x2, y2, c);
 }
 
+void ext_set_colorkey(SDL_Surface *img, int c)
+{
+    SDL_SetColorKey(img, SDL_SRCCOLORKEY, c);
+}
+
 double ext_int_to_float(int i)
 {
     float f;

@@ -285,6 +285,7 @@ feature
 	e.put_xy(x1, y1)
 	!!img.make
 	img.rotozoom(arrow_image, angle, 1.0)
+	img.set_colorkey(0)
 	x2 := x1 - img.width // 2
 	y2 := y1 - img.height // 2
 	blit(img, x2, y2)

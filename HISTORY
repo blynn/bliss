@@ -111,7 +111,7 @@ Mon Mar 11 02:20:16 PST 2002
 
     BLBass2 can do LPF now, but not sure if it's correct. The sample code
     at <http://www.harmony-central.com/Computer/Programming/resonant-lp-filter.c>
-    Why doesn't it use history of previous inputs?
+    seems incorrect: why doesn't it use history of previous inputs?
 
     Resonance kind of works. Need to find out how envelope works.
 
@@ -120,3 +120,11 @@ Mon Mar 11 19:08:48 PST 2002
     (vertical problems).
 
     Tweaked SDL calls so it works on rooster.
+
+Wed Mar 13 23:58:25 PST 2002
+    Added BIQUAD class to clean up BLBASS2. The code I got from the web seems
+    wrong too, I corrected it to what I think it should be.
+
+    Connection circles are drawn correctly again.
+
+    Added master waveform clipping to SONG

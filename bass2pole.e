@@ -1,4 +1,4 @@
-class BLBASS2
+class BASS2POLE
 inherit GENERATOR
 creation register
 feature
@@ -11,7 +11,7 @@ feature
     do
     end
 
-    id : STRING is "BLBass2"
+    id : STRING is "BL2PoleBass"
 
     max_resonance : INTEGER is 1000
     recipq : DOUBLE
@@ -21,10 +21,24 @@ feature
 	i <= max_resonance
     do
 	recipq := 1. - (i / 256)
-	--recipq := 1 / (((i + 1) / 128) * max_resonance)
     end
 
-    bq : BIQUAD
+    pole_count : INTEGER is 2
+
+    bq_array : ARRAY[BIQUAD]
+
+    pole_sum : ARRAY[DOUBLE] is
+    local
+	i : INTEGER
+    once
+	!!Result.make(1, pole_count)
+	from i := 1
+	until i > pole_count
+	loop
+	    Result.put(2. * ((2 * i - 1) * pi / (4 * pole_count)).cos, i)
+	    i := i + 1
+	end
+    end
 
     fs : DOUBLE is 44100.0
 
@@ -36,27 +50,50 @@ feature
 
     compute_taps is
     local
+	i : INTEGER
+    do
+	from i := 1
+	until i > pole_count
+	loop
+	    compute_tap(i)
+	    i := i + 1
+	end
+    end
+
+    compute_tap(i : INTEGER) is
+    local
 	b1 : DOUBLE
 	b2 : DOUBLE
 	bd : DOUBLE
+	bq : BIQUAD
     do
 	b2 :=   1. / (pi * cutoff).tan
-	b1 := recipq * b2
+	b1 := pole_sum.item(i) * recipq * b2
 	b2 := b2 * b2
 
-	bd := 1. / (b2 + b1 + 1.)
+	bd := b2 + b1 + 1.
 
-	bq.put_outcoeff(-(2. - 2. * b2) * bd, 1)
-	bq.put_outcoeff(-(b2 - b1 + 1.) * bd, 2)
+	bq := bq_array @ i
+	bq.clear_history
+	bq.put_outcoeff(-(2. - 2. * b2) / bd, 1)
+	bq.put_outcoeff(-(b2 - b1 + 1.) / bd, 2)
 
-	bq.put_incoeff(1. * bd, 0)
-	bq.put_incoeff(2. * bd, 1)
-	bq.put_incoeff(1. * bd, 2)
+	bq.put_incoeff(1. / bd, 0)
+	bq.put_incoeff(2. / bd, 1)
+	bq.put_incoeff(1. / bd, 2)
     end
 
     lpfilter(input : DOUBLE) : DOUBLE is
+    local
+	i : INTEGER
     do
-	Result := bq.filter(input)
+	Result := input
+	from i := 1
+	until i > pole_count
+	loop
+	    Result := bq_array.item(i).filter(Result)
+	    i := i + 1
+	end
     end
 
     resolution : INTEGER is 1024
@@ -226,9 +263,15 @@ io.put_string("command = " + s + "%N")
     end
 
     init is
+    local
+	bq : BIQUAD
     do
 	wave_table := saw_table
+	!!bq_array.make(1, 2)
 	!!bq.make
+	bq_array.put(bq, 1)
+	!!bq.make
+	bq_array.put(bq, 2)
 	put_cutoff(128)
 	put_resonance(0)
 	compute_taps

@@ -119,6 +119,11 @@ feature
 	end
     end
 
+    set_colorkey(i : INTEGER) is
+    do
+	ext_set_colorkey(ptr, i)
+    end
+
     new_arrow is
     do
 	ptr := draw_arrow_kludge
@@ -173,6 +178,10 @@ feature {NONE}
     end
 
     ext_new_surface(w, h : INTEGER) : POINTER is
+    external "C"
+    end
+
+    ext_set_colorkey(p : POINTER; i : INTEGER) is
     external "C"
     end
 

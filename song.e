@@ -323,6 +323,11 @@ feature
 		unvisit_all_machines
 		master.compute_next_frame
 		Result := master.last_frame
+		if Result > 1.0 then
+		    Result := 1.0
+		elseif Result < -1.0 then
+		    Result := -1.0
+		end
 	    end
 	end
 	

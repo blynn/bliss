@@ -12,115 +12,441 @@ http://SmallEiffel.loria.fr
 #ifdef __cplusplus
 extern "C" {
 #endif
-gc142*store142=NULL;
-int store_left142=0;
-fsoc*store_chunk142=NULL;
-gc142*gc_free142=NULL;
-gc149*store149=NULL;
-int store_left149=0;
-fsoc*store_chunk149=NULL;
-gc149*gc_free149=NULL;
-gc33*store33=NULL;
-int store_left33=0;
-fsoc*store_chunk33=NULL;
-gc33*gc_free33=NULL;
-na_env na_env191={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark191};
-gc134*store134=NULL;
-int store_left134=0;
-fsoc*store_chunk134=NULL;
-gc134*gc_free134=NULL;
-gc182*store182=NULL;
-int store_left182=0;
-fsoc*store_chunk182=NULL;
-gc182*gc_free182=NULL;
-gc184*store184=NULL;
-int store_left184=0;
-fsoc*store_chunk184=NULL;
-gc184*gc_free184=NULL;
-gc51*store51=NULL;
-int store_left51=0;
-fsoc*store_chunk51=NULL;
-gc51*gc_free51=NULL;
+gc175*store175=NULL;
+int store_left175=0;
+fsoc*store_chunk175=NULL;
+gc175*gc_free175=NULL;
+na_env na_env152={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark152};
 gc172*store172=NULL;
 int store_left172=0;
 fsoc*store_chunk172=NULL;
 gc172*gc_free172=NULL;
+gc189*store189=NULL;
+int store_left189=0;
+fsoc*store_chunk189=NULL;
+gc189*gc_free189=NULL;
+gc134*store134=NULL;
+int store_left134=0;
+fsoc*store_chunk134=NULL;
+gc134*gc_free134=NULL;
+gc174*store174=NULL;
+int store_left174=0;
+fsoc*store_chunk174=NULL;
+gc174*gc_free174=NULL;
+gc146*store146=NULL;
+int store_left146=0;
+fsoc*store_chunk146=NULL;
+gc146*gc_free146=NULL;
+na_env na_env227={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark227};
+na_env na_env164={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark164};
+gc138*store138=NULL;
+int store_left138=0;
+fsoc*store_chunk138=NULL;
+gc138*gc_free138=NULL;
+na_env na_env142={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark142};
+gc131*store131=NULL;
+int store_left131=0;
+fsoc*store_chunk131=NULL;
+gc131*gc_free131=NULL;
+gc114*store114=NULL;
+int store_left114=0;
+fsoc*store_chunk114=NULL;
+gc114*gc_free114=NULL;
+gc71*store71=NULL;
+int store_left71=0;
+fsoc*store_chunk71=NULL;
+gc71*gc_free71=NULL;
+gc212*store212=NULL;
+int store_left212=0;
+fsoc*store_chunk212=NULL;
+gc212*gc_free212=NULL;
+gc171*store171=NULL;
+int store_left171=0;
+fsoc*store_chunk171=NULL;
+gc171*gc_free171=NULL;
+na_env na_env229={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark229};
+gc140*store140=NULL;
+int store_left140=0;
+fsoc*store_chunk140=NULL;
+gc140*gc_free140=NULL;
+gc27*store27=NULL;
+int store_left27=0;
+fsoc*store_chunk27=NULL;
+gc27*gc_free27=NULL;
+gc44*store44=NULL;
+int store_left44=0;
+fsoc*store_chunk44=NULL;
+gc44*gc_free44=NULL;
+gc59*store59=NULL;
+int store_left59=0;
+fsoc*store_chunk59=NULL;
+gc59*gc_free59=NULL;
+gc61*store61=NULL;
+int store_left61=0;
+fsoc*store_chunk61=NULL;
+gc61*gc_free61=NULL;
+gc125*store125=NULL;
+int store_left125=0;
+fsoc*store_chunk125=NULL;
+gc125*gc_free125=NULL;
+gc163*store163=NULL;
+int store_left163=0;
+fsoc*store_chunk163=NULL;
+gc163*gc_free163=NULL;
+gc178*store178=NULL;
+int store_left178=0;
+fsoc*store_chunk178=NULL;
+gc178*gc_free178=NULL;
+gc99*store99=NULL;
+int store_left99=0;
+fsoc*store_chunk99=NULL;
+gc99*gc_free99=NULL;
+gc81*store81=NULL;
+int store_left81=0;
+fsoc*store_chunk81=NULL;
+gc81*gc_free81=NULL;
+gc137*store137=NULL;
+int store_left137=0;
+fsoc*store_chunk137=NULL;
+gc137*gc_free137=NULL;
+gc93*store93=NULL;
+int store_left93=0;
+fsoc*store_chunk93=NULL;
+gc93*gc_free93=NULL;
+gc170*store170=NULL;
+int store_left170=0;
+fsoc*store_chunk170=NULL;
+gc170*gc_free170=NULL;
+gc180*store180=NULL;
+int store_left180=0;
+fsoc*store_chunk180=NULL;
+gc180*gc_free180=NULL;
+gc166*store166=NULL;
+int store_left166=0;
+fsoc*store_chunk166=NULL;
+gc166*gc_free166=NULL;
+gc49*store49=NULL;
+int store_left49=0;
+fsoc*store_chunk49=NULL;
+gc49*gc_free49=NULL;
+gc185*store185=NULL;
+int store_left185=0;
+fsoc*store_chunk185=NULL;
+gc185*gc_free185=NULL;
+gc72*store72=NULL;
+int store_left72=0;
+fsoc*store_chunk72=NULL;
+gc72*gc_free72=NULL;
+na_env na_env182={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark182};
+gc213*store213=NULL;
+int store_left213=0;
+fsoc*store_chunk213=NULL;
+gc213*gc_free213=NULL;
+gc50*store50=NULL;
+int store_left50=0;
+fsoc*store_chunk50=NULL;
+gc50*gc_free50=NULL;
+na_env na_env119={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark119};
+gc82*store82=NULL;
+int store_left82=0;
+fsoc*store_chunk82=NULL;
+gc82*gc_free82=NULL;
+na_env na_env155={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark155};
+na_env na_env58={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark58};
+gc66*store66=NULL;
+int store_left66=0;
+fsoc*store_chunk66=NULL;
+gc66*gc_free66=NULL;
+gc149*store149=NULL;
+int store_left149=0;
+fsoc*store_chunk149=NULL;
+gc149*gc_free149=NULL;
+gc73*store73=NULL;
+int store_left73=0;
+fsoc*store_chunk73=NULL;
+gc73*gc_free73=NULL;
+na_env na_env204={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark204};
+gc122*store122=NULL;
+int store_left122=0;
+fsoc*store_chunk122=NULL;
+gc122*gc_free122=NULL;
+gc129*store129=NULL;
+int store_left129=0;
+fsoc*store_chunk129=NULL;
+gc129*gc_free129=NULL;
+gc176*store176=NULL;
+int store_left176=0;
+fsoc*store_chunk176=NULL;
+gc176*gc_free176=NULL;
+gc162*store162=NULL;
+int store_left162=0;
+fsoc*store_chunk162=NULL;
+gc162*gc_free162=NULL;
+gc124*store124=NULL;
+int store_left124=0;
+fsoc*store_chunk124=NULL;
+gc124*gc_free124=NULL;
+gc77*store77=NULL;
+int store_left77=0;
+fsoc*store_chunk77=NULL;
+gc77*gc_free77=NULL;
+gc64*store64=NULL;
+int store_left64=0;
+fsoc*store_chunk64=NULL;
+gc64*gc_free64=NULL;
+na_env na_env100={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark100};
+na_env na_env145={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark145};
+gc153*store153=NULL;
+int store_left153=0;
+fsoc*store_chunk153=NULL;
+gc153*gc_free153=NULL;
+na_env na_env194={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark194};
+na_env na_env187={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark187};
+na_env na_env79={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark79};
+gc169*store169=NULL;
+int store_left169=0;
+fsoc*store_chunk169=NULL;
+gc169*gc_free169=NULL;
+gc197*store197=NULL;
+int store_left197=0;
+fsoc*store_chunk197=NULL;
+gc197*gc_free197=NULL;
+gc42*store42=NULL;
+int store_left42=0;
+fsoc*store_chunk42=NULL;
+gc42*gc_free42=NULL;
+gc111*store111=NULL;
+int store_left111=0;
+fsoc*store_chunk111=NULL;
+gc111*gc_free111=NULL;
+gc69*store69=NULL;
+int store_left69=0;
+fsoc*store_chunk69=NULL;
+gc69*gc_free69=NULL;
+gc211*store211=NULL;
+int store_left211=0;
+fsoc*store_chunk211=NULL;
+gc211*gc_free211=NULL;
+gc55*store55=NULL;
+int store_left55=0;
+fsoc*store_chunk55=NULL;
+gc55*gc_free55=NULL;
+gc109*store109=NULL;
+int store_left109=0;
+fsoc*store_chunk109=NULL;
+gc109*gc_free109=NULL;
+gc57*store57=NULL;
+int store_left57=0;
+fsoc*store_chunk57=NULL;
+gc57*gc_free57=NULL;
+gc65*store65=NULL;
+int store_left65=0;
+fsoc*store_chunk65=NULL;
+gc65*gc_free65=NULL;
+gc179*store179=NULL;
+int store_left179=0;
+fsoc*store_chunk179=NULL;
+gc179*gc_free179=NULL;
+gc210*store210=NULL;
+int store_left210=0;
+fsoc*store_chunk210=NULL;
+gc210*gc_free210=NULL;
+gc139*store139=NULL;
+int store_left139=0;
+fsoc*store_chunk139=NULL;
+gc139*gc_free139=NULL;
+gc67*store67=NULL;
+int store_left67=0;
+fsoc*store_chunk67=NULL;
+gc67*gc_free67=NULL;
+na_env na_env190={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark190};
+gc7*store7=NULL;
+int store_left7=0;
+fsoc*store_chunk7=NULL;
+gc7*gc_free7=NULL;
+gc168*store168=NULL;
+int store_left168=0;
+fsoc*store_chunk168=NULL;
+gc168*gc_free168=NULL;
+gc54*store54=NULL;
+int store_left54=0;
+fsoc*store_chunk54=NULL;
+gc54*gc_free54=NULL;
+gc56*store56=NULL;
+int store_left56=0;
+fsoc*store_chunk56=NULL;
+gc56*gc_free56=NULL;
+gc130*store130=NULL;
+int store_left130=0;
+fsoc*store_chunk130=NULL;
+gc130*gc_free130=NULL;
+gc83*store83=NULL;
+int store_left83=0;
+fsoc*store_chunk83=NULL;
+gc83*gc_free83=NULL;
+gc200*store200=NULL;
+int store_left200=0;
+fsoc*store_chunk200=NULL;
+gc200*gc_free200=NULL;
+gc158*store158=NULL;
+int store_left158=0;
+fsoc*store_chunk158=NULL;
+gc158*gc_free158=NULL;
+na_env na_env9={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark9};
+gc201*store201=NULL;
+int store_left201=0;
+fsoc*store_chunk201=NULL;
+gc201*gc_free201=NULL;
+gc209*store209=NULL;
+int store_left209=0;
+fsoc*store_chunk209=NULL;
+gc209*gc_free209=NULL;
+gc95*store95=NULL;
+int store_left95=0;
+fsoc*store_chunk95=NULL;
+gc95*gc_free95=NULL;
+gc46*store46=NULL;
+int store_left46=0;
+fsoc*store_chunk46=NULL;
+gc46*gc_free46=NULL;
+gc78*store78=NULL;
+int store_left78=0;
+fsoc*store_chunk78=NULL;
+gc78*gc_free78=NULL;
+na_env na_env63={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark63};
+gc17*store17=NULL;
+int store_left17=0;
+fsoc*store_chunk17=NULL;
+gc17*gc_free17=NULL;
+gc203*store203=NULL;
+int store_left203=0;
+fsoc*store_chunk203=NULL;
+gc203*gc_free203=NULL;
+gc94*store94=NULL;
+int store_left94=0;
+fsoc*store_chunk94=NULL;
+gc94*gc_free94=NULL;
+gc76*store76=NULL;
+int store_left76=0;
+fsoc*store_chunk76=NULL;
+gc76*gc_free76=NULL;
+gc173*store173=NULL;
+int store_left173=0;
+fsoc*store_chunk173=NULL;
+gc173*gc_free173=NULL;
+gc23*store23=NULL;
+int store_left23=0;
+fsoc*store_chunk23=NULL;
+gc23*gc_free23=NULL;
+gc143*store143=NULL;
+int store_left143=0;
+fsoc*store_chunk143=NULL;
+gc143*gc_free143=NULL;
+gc150*store150=NULL;
+int store_left150=0;
+fsoc*store_chunk150=NULL;
+gc150*gc_free150=NULL;
+gc33*store33=NULL;
+int store_left33=0;
+fsoc*store_chunk33=NULL;
+gc33*gc_free33=NULL;
+na_env na_env202={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark202};
+gc135*store135=NULL;
+int store_left135=0;
+fsoc*store_chunk135=NULL;
+gc135*gc_free135=NULL;
+gc193*store193=NULL;
+int store_left193=0;
+fsoc*store_chunk193=NULL;
+gc193*gc_free193=NULL;
+gc195*store195=NULL;
+int store_left195=0;
+fsoc*store_chunk195=NULL;
+gc195*gc_free195=NULL;
+gc51*store51=NULL;
+int store_left51=0;
+fsoc*store_chunk51=NULL;
+gc51*gc_free51=NULL;
+gc183*store183=NULL;
+int store_left183=0;
+fsoc*store_chunk183=NULL;
+gc183*gc_free183=NULL;
 gc60*store60=NULL;
 int store_left60=0;
 fsoc*store_chunk60=NULL;
 gc60*gc_free60=NULL;
 na_env na_env47={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark47};
-gc195*store195=NULL;
-int store_left195=0;
-fsoc*store_chunk195=NULL;
-gc195*gc_free195=NULL;
-na_env na_env156={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark156};
-gc135*store135=NULL;
-int store_left135=0;
-fsoc*store_chunk135=NULL;
-gc135*gc_free135=NULL;
-na_env na_env147={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark147};
-gc197*store197=NULL;
-int store_left197=0;
-fsoc*store_chunk197=NULL;
-gc197*gc_free197=NULL;
-gc91*store91=NULL;
-int store_left91=0;
-fsoc*store_chunk91=NULL;
-gc91*gc_free91=NULL;
-gc112*store112=NULL;
-int store_left112=0;
-fsoc*store_chunk112=NULL;
-gc112*gc_free112=NULL;
+gc206*store206=NULL;
+int store_left206=0;
+fsoc*store_chunk206=NULL;
+gc206*gc_free206=NULL;
+na_env na_env157={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark157};
+gc136*store136=NULL;
+int store_left136=0;
+fsoc*store_chunk136=NULL;
+gc136*gc_free136=NULL;
+na_env na_env148={0,NULL,NULL,NULL,(void(*)(T0*))gc_mark148};
+gc208*store208=NULL;
+int store_left208=0;
+fsoc*store_chunk208=NULL;
+gc208*gc_free208=NULL;
+gc92*store92=NULL;
+int store_left92=0;
+fsoc*store_chunk92=NULL;
+gc92*gc_free92=NULL;
+gc113*store113=NULL;
+int store_left113=0;
+fsoc*store_chunk113=NULL;
+gc113*gc_free113=NULL;
 gc40*store40=NULL;
 int store_left40=0;
 fsoc*store_chunk40=NULL;
 gc40*gc_free40=NULL;
-gc126*store126=NULL;
-int store_left126=0;
-fsoc*store_chunk126=NULL;
-gc126*gc_free126=NULL;
-gc106*store106=NULL;
-int store_left106=0;
-fsoc*store_chunk106=NULL;
-gc106*gc_free106=NULL;
-gc79*store79=NULL;
-int store_left79=0;
-fsoc*store_chunk79=NULL;
-gc79*gc_free79=NULL;
+gc127*store127=NULL;
+int store_left127=0;
+fsoc*store_chunk127=NULL;
+gc127*gc_free127=NULL;
+gc107*store107=NULL;
+int store_left107=0;
+fsoc*store_chunk107=NULL;
+gc107*gc_free107=NULL;
+gc80*store80=NULL;
+int store_left80=0;
+fsoc*store_chunk80=NULL;
+gc80*gc_free80=NULL;
 gc62*store62=NULL;
 int store_left62=0;
 fsoc*store_chunk62=NULL;
 gc62*gc_free62=NULL;
-gc117*store117=NULL;
-int store_left117=0;
-fsoc*store_chunk117=NULL;
-gc117*gc_free117=NULL;
-gc166*store166=NULL;
-int store_left166=0;
-fsoc*store_chunk166=NULL;
-gc166*gc_free166=NULL;
+gc118*store118=NULL;
+int store_left118=0;
+fsoc*store_chunk118=NULL;
+gc118*gc_free118=NULL;
 gc177*store177=NULL;
 int store_left177=0;
 fsoc*store_chunk177=NULL;
 gc177*gc_free177=NULL;
-gc74*store74=NULL;
-int store_left74=0;
-fsoc*store_chunk74=NULL;
-gc74*gc_free74=NULL;
+gc188*store188=NULL;
+int store_left188=0;
+fsoc*store_chunk188=NULL;
+gc188*gc_free188=NULL;
+gc75*store75=NULL;
+int store_left75=0;
+fsoc*store_chunk75=NULL;
+gc75*gc_free75=NULL;
 
 
-void gc_sweep84(fsoc*c){
-gc84*o1,*o2,*flt,flh;
-o1=((gc84*)(&(c->first_object)));
+void gc_sweep85(fsoc*c){
+gc85*o1,*o2,*flt,flh;
+o1=((gc85*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store84;o1++){
+for(;o1<store85;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free84;
-gc_free84=o1;
+o1->header.next=gc_free85;
+gc_free85=o1;
 }
 }
 }
@@ -144,83 +470,83 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free84;
-gc_free84=flh.header.next;
+flt->header.next=gc_free85;
+gc_free85=flh.header.next;
 }
 }
 }
 
 
-void gc_mark84(T84*o){
-((gc84*)o)->header.flag=FSOH_MARKED;
+void gc_mark85(T85*o){
+((gc85*)o)->header.flag=FSOH_MARKED;
 }
 
 
-void gc_align_mark84(fsoc*c,gc84*p){
-gc84*b=((gc84*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store84)))return;
+void gc_align_mark85(fsoc*c,gc85*p){
+gc85*b=((gc85*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store85)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T84*o=(&(p->object));
-((gc84*)o)->header.flag=FSOH_MARKED;
+T85*o=(&(p->object));
+((gc85*)o)->header.flag=FSOH_MARKED;
 }
 }
 }
-fsoc H84={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark84,
-(void(*)(mch*))gc_sweep84},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc84))-1)};
+fsoc H85={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark85,
+(void(*)(mch*))gc_sweep85},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc85))-1)};
 
 
-T84*new84(void){
-gc84*n;
+T85*new85(void){
+gc85*n;
 fsoc*c;
-if(store_left84>1){
-store_left84--;
-n=store84++;
+if(store_left85>1){
+store_left85--;
+n=store85++;
 }
-else if(gc_free84!=NULL){
-n=gc_free84;
-gc_free84=n->header.next;
+else if(gc_free85!=NULL){
+n=gc_free85;
+gc_free85=n->header.next;
 }
-else if(store_left84==1){
-store_left84=0;
-store_chunk84->header.state_type=FSO_USED_CHUNK;
-n=store84++;
+else if(store_left85==1){
+store_left85=0;
+store_chunk85->header.state_type=FSO_USED_CHUNK;
+n=store85++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free84!=NULL){
-n=gc_free84;
-gc_free84=n->header.next;
+if(gc_free85!=NULL){
+n=gc_free85;
+gc_free85=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk84=c;
-*store_chunk84=H84;
-store84=((gc84*)(&(store_chunk84->first_object)));
-store_left84=H84.count_minus_one;
-n=store84++;
+store_chunk85=c;
+*store_chunk85=H85;
+store85=((gc85*)(&(store_chunk85->first_object)));
+store_left85=H85.count_minus_one;
+n=store85++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M84;
-return((T84*)n);
+n->object=M85;
+return((T85*)n);
 }
 
 
-void gc_sweep95(fsoc*c){
-gc95*o1,*o2,*flt,flh;
-o1=((gc95*)(&(c->first_object)));
+void gc_sweep96(fsoc*c){
+gc96*o1,*o2,*flt,flh;
+o1=((gc96*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store95;o1++){
+for(;o1<store96;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free95;
-gc_free95=o1;
+o1->header.next=gc_free96;
+gc_free96=o1;
 }
 }
 }
@@ -244,73 +570,373 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free95;
-gc_free95=flh.header.next;
+flt->header.next=gc_free96;
+gc_free96=flh.header.next;
 }
 }
 }
 
 
-void gc_mark95(T95*o){
-((gc95*)o)->header.flag=FSOH_MARKED;
+void gc_mark96(T96*o){
+((gc96*)o)->header.flag=FSOH_MARKED;
 }
 
 
-void gc_align_mark95(fsoc*c,gc95*p){
-gc95*b=((gc95*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store95)))return;
+void gc_align_mark96(fsoc*c,gc96*p){
+gc96*b=((gc96*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store96)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T95*o=(&(p->object));
-((gc95*)o)->header.flag=FSOH_MARKED;
+T96*o=(&(p->object));
+((gc96*)o)->header.flag=FSOH_MARKED;
 }
 }
 }
-fsoc H95={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark95,
-(void(*)(mch*))gc_sweep95},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc95))-1)};
+fsoc H96={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark96,
+(void(*)(mch*))gc_sweep96},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc96))-1)};
 
 
-T95*new95(void){
-gc95*n;
+T96*new96(void){
+gc96*n;
 fsoc*c;
-if(store_left95>1){
-store_left95--;
-n=store95++;
+if(store_left96>1){
+store_left96--;
+n=store96++;
 }
-else if(gc_free95!=NULL){
-n=gc_free95;
-gc_free95=n->header.next;
+else if(gc_free96!=NULL){
+n=gc_free96;
+gc_free96=n->header.next;
 }
-else if(store_left95==1){
-store_left95=0;
-store_chunk95->header.state_type=FSO_USED_CHUNK;
-n=store95++;
+else if(store_left96==1){
+store_left96=0;
+store_chunk96->header.state_type=FSO_USED_CHUNK;
+n=store96++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free95!=NULL){
-n=gc_free95;
-gc_free95=n->header.next;
+if(gc_free96!=NULL){
+n=gc_free96;
+gc_free96=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk95=c;
-*store_chunk95=H95;
-store95=((gc95*)(&(store_chunk95->first_object)));
-store_left95=H95.count_minus_one;
-n=store95++;
+store_chunk96=c;
+*store_chunk96=H96;
+store96=((gc96*)(&(store_chunk96->first_object)));
+store_left96=H96.count_minus_one;
+n=store96++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M95;
-return((T95*)n);
+n->object=M96;
+return((T96*)n);
 }
 
 
-void gc_mark159(T159 o){
+void gc_sweep167(fsoc*c){
+gc167*o1,*o2,*flt,flh;
+o1=((gc167*)(&(c->first_object)));
+if(c->header.state_type==FSO_STORE_CHUNK){
+for(;o1<store167;o1++){
+if((o1->header.flag)==FSOH_MARKED){
+o1->header.flag=FSOH_UNMARKED;
+}
+else{
+o1->header.next=gc_free167;
+gc_free167=o1;
+}
+}
+}
+else{
+int dead=1;
+flh.header.next=NULL;
+flt=&flh;
+o2=o1+c->count_minus_one;
+for(;o1<=o2;o2--){
+if((o2->header.flag)==FSOH_MARKED){
+o2->header.flag=FSOH_UNMARKED;
+dead=0;}
+else{
+flt->header.next=o2;
+flt=o2;
+}
+}
+if (dead){
+c->next=fsocfl;
+fsocfl=c;
+c->header.state_type=FSO_FREE_CHUNK;
+}
+else if(flh.header.next!=NULL){
+flt->header.next=gc_free167;
+gc_free167=flh.header.next;
+}
+}
+}
+
+
+void gc_mark167(T167*o){
+((gc167*)o)->header.flag=FSOH_MARKED;
+}
+
+
+void gc_align_mark167(fsoc*c,gc167*p){
+gc167*b=((gc167*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store167)))return;
+if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
+if(((char*)p)<((char*)b))return;
+if(((((char*)p)-((char*)b))%sizeof(*p))==0){
+if(p->header.flag==FSOH_UNMARKED){
+T167*o=(&(p->object));
+((gc167*)o)->header.flag=FSOH_MARKED;
+}
+}
+}
+fsoc H167={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark167,
+(void(*)(mch*))gc_sweep167},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc167))-1)};
+
+
+T167*new167(void){
+gc167*n;
+fsoc*c;
+if(store_left167>1){
+store_left167--;
+n=store167++;
+}
+else if(gc_free167!=NULL){
+n=gc_free167;
+gc_free167=n->header.next;
+}
+else if(store_left167==1){
+store_left167=0;
+store_chunk167->header.state_type=FSO_USED_CHUNK;
+n=store167++;
+}
+else{
+c=gc_fsoc_get1();
+if(gc_free167!=NULL){
+n=gc_free167;
+gc_free167=n->header.next;
+}
+else{
+if(c==NULL)c=gc_fsoc_get2();
+store_chunk167=c;
+*store_chunk167=H167;
+store167=((gc167*)(&(store_chunk167->first_object)));
+store_left167=H167.count_minus_one;
+n=store167++;
+}
+}
+n->header.flag=FSOH_UNMARKED;
+n->object=M167;
+return((T167*)n);
+}
+
+
+void gc_sweep161(fsoc*c){
+gc161*o1,*o2,*flt,flh;
+o1=((gc161*)(&(c->first_object)));
+if(c->header.state_type==FSO_STORE_CHUNK){
+for(;o1<store161;o1++){
+if((o1->header.flag)==FSOH_MARKED){
+o1->header.flag=FSOH_UNMARKED;
+}
+else{
+o1->header.next=gc_free161;
+gc_free161=o1;
+}
+}
+}
+else{
+int dead=1;
+flh.header.next=NULL;
+flt=&flh;
+o2=o1+c->count_minus_one;
+for(;o1<=o2;o2--){
+if((o2->header.flag)==FSOH_MARKED){
+o2->header.flag=FSOH_UNMARKED;
+dead=0;}
+else{
+flt->header.next=o2;
+flt=o2;
+}
+}
+if (dead){
+c->next=fsocfl;
+fsocfl=c;
+c->header.state_type=FSO_FREE_CHUNK;
+}
+else if(flh.header.next!=NULL){
+flt->header.next=gc_free161;
+gc_free161=flh.header.next;
+}
+}
+}
+
+
+void gc_mark161(T161*o){
+((gc161*)o)->header.flag=FSOH_MARKED;
+}
+
+
+void gc_align_mark161(fsoc*c,gc161*p){
+gc161*b=((gc161*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store161)))return;
+if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
+if(((char*)p)<((char*)b))return;
+if(((((char*)p)-((char*)b))%sizeof(*p))==0){
+if(p->header.flag==FSOH_UNMARKED){
+T161*o=(&(p->object));
+((gc161*)o)->header.flag=FSOH_MARKED;
+}
+}
+}
+fsoc H161={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark161,
+(void(*)(mch*))gc_sweep161},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc161))-1)};
+
+
+T161*new161(void){
+gc161*n;
+fsoc*c;
+if(store_left161>1){
+store_left161--;
+n=store161++;
+}
+else if(gc_free161!=NULL){
+n=gc_free161;
+gc_free161=n->header.next;
+}
+else if(store_left161==1){
+store_left161=0;
+store_chunk161->header.state_type=FSO_USED_CHUNK;
+n=store161++;
+}
+else{
+c=gc_fsoc_get1();
+if(gc_free161!=NULL){
+n=gc_free161;
+gc_free161=n->header.next;
+}
+else{
+if(c==NULL)c=gc_fsoc_get2();
+store_chunk161=c;
+*store_chunk161=H161;
+store161=((gc161*)(&(store_chunk161->first_object)));
+store_left161=H161.count_minus_one;
+n=store161++;
+}
+}
+n->header.flag=FSOH_UNMARKED;
+n->object=M161;
+return((T161*)n);
+}
+
+
+void gc_sweep165(fsoc*c){
+gc165*o1,*o2,*flt,flh;
+o1=((gc165*)(&(c->first_object)));
+if(c->header.state_type==FSO_STORE_CHUNK){
+for(;o1<store165;o1++){
+if((o1->header.flag)==FSOH_MARKED){
+o1->header.flag=FSOH_UNMARKED;
+}
+else{
+o1->header.next=gc_free165;
+gc_free165=o1;
+}
+}
+}
+else{
+int dead=1;
+flh.header.next=NULL;
+flt=&flh;
+o2=o1+c->count_minus_one;
+for(;o1<=o2;o2--){
+if((o2->header.flag)==FSOH_MARKED){
+o2->header.flag=FSOH_UNMARKED;
+dead=0;}
+else{
+flt->header.next=o2;
+flt=o2;
+}
+}
+if (dead){
+c->next=fsocfl;
+fsocfl=c;
+c->header.state_type=FSO_FREE_CHUNK;
+}
+else if(flh.header.next!=NULL){
+flt->header.next=gc_free165;
+gc_free165=flh.header.next;
+}
+}
+}
+
+
+void gc_mark165(T165*o){
+((gc165*)o)->header.flag=FSOH_MARKED;
+}
+
+
+void gc_align_mark165(fsoc*c,gc165*p){
+gc165*b=((gc165*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store165)))return;
+if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
+if(((char*)p)<((char*)b))return;
+if(((((char*)p)-((char*)b))%sizeof(*p))==0){
+if(p->header.flag==FSOH_UNMARKED){
+T165*o=(&(p->object));
+((gc165*)o)->header.flag=FSOH_MARKED;
+}
+}
+}
+fsoc H165={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark165,
+(void(*)(mch*))gc_sweep165},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc165))-1)};
+
+
+T165*new165(void){
+gc165*n;
+fsoc*c;
+if(store_left165>1){
+store_left165--;
+n=store165++;
+}
+else if(gc_free165!=NULL){
+n=gc_free165;
+gc_free165=n->header.next;
+}
+else if(store_left165==1){
+store_left165=0;
+store_chunk165->header.state_type=FSO_USED_CHUNK;
+n=store165++;
+}
+else{
+c=gc_fsoc_get1();
+if(gc_free165!=NULL){
+n=gc_free165;
+gc_free165=n->header.next;
+}
+else{
+if(c==NULL)c=gc_fsoc_get2();
+store_chunk165=c;
+*store_chunk165=H165;
+store165=((gc165*)(&(store_chunk165->first_object)));
+store_left165=H165.count_minus_one;
+n=store165++;
+}
+}
+n->header.flag=FSOH_UNMARKED;
+n->object=M165;
+return((T165*)n);
+}
+
+
+void gc_mark160(T160 o){
 rsoh*h=((rsoh*)o)-1;
 if((h->header.magic_flag)==RSOH_UNMARKED){
 h->header.magic_flag=RSOH_MARKED;
@@ -318,46 +944,46 @@ h->header.magic_flag=RSOH_MARKED;
 T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
 for(;((void*)p)>=((void*)o);p--){
 e=*p;
-if(NULL!=e)gc_mark134((T134*)(e));
+if(NULL!=e)gc_mark135((T135*)(e));
 
 }
 }
 }}
 
 
-T159 new159(int size){
+T160 new160(int size){
 size=(size*sizeof(T0*))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env159.store_left)){
-rsoh*r=na_env159.store;
-na_env159.store_left-=size;
-if(na_env159.store_left>sizeof(rsoh)){
+if (size<=(na_env160.store_left)){
+rsoh*r=na_env160.store;
+na_env160.store_left-=size;
+if(na_env160.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env159.store=((rsoh*)(((char*)(na_env159.store))+size));
+na_env160.store=((rsoh*)(((char*)(na_env160.store))+size));
 }
 else {
-r->header.size=size+na_env159.store_left;
-na_env159.store_left=0;
+r->header.size=size+na_env160.store_left;
+na_env160.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T159)(r+1));
+return((T160)(r+1));
 }
-return((T159)new_na(&na_env159,size));
+return((T160)new_na(&na_env160,size));
 }
 
 
-void gc_sweep207(fsoc*c){
-gc207*o1,*o2,*flt,flh;
-o1=((gc207*)(&(c->first_object)));
+void gc_sweep218(fsoc*c){
+gc218*o1,*o2,*flt,flh;
+o1=((gc218*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store207;o1++){
+for(;o1<store218;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free207;
-gc_free207=o1;
+o1->header.next=gc_free218;
+gc_free218=o1;
 }
 }
 }
@@ -381,86 +1007,86 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free207;
-gc_free207=flh.header.next;
+flt->header.next=gc_free218;
+gc_free218=flh.header.next;
 }
 }
 }
 
 
-void gc_mark207(T207*o){
-if(((gc207*)o)->header.flag==FSOH_UNMARKED){
-((gc207*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_dictionary/*4*/)gc_mark189((T189*)(o->_dictionary/*4*/));
+void gc_mark218(T218*o){
+if(((gc218*)o)->header.flag==FSOH_UNMARKED){
+((gc218*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_dictionary/*4*/)gc_mark200((T200*)(o->_dictionary/*4*/));
 }}
 
 
-void gc_align_mark207(fsoc*c,gc207*p){
-gc207*b=((gc207*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store207)))return;
+void gc_align_mark218(fsoc*c,gc218*p){
+gc218*b=((gc218*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store218)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T207*o=(&(p->object));
-((gc207*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_dictionary/*4*/)gc_mark189((T189*)(o->_dictionary/*4*/));
+T218*o=(&(p->object));
+((gc218*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_dictionary/*4*/)gc_mark200((T200*)(o->_dictionary/*4*/));
 }
 }
 }
-fsoc H207={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark207,
-(void(*)(mch*))gc_sweep207},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc207))-1)};
+fsoc H218={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark218,
+(void(*)(mch*))gc_sweep218},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc218))-1)};
 
 
-T207*new207(void){
-gc207*n;
+T218*new218(void){
+gc218*n;
 fsoc*c;
-if(store_left207>1){
-store_left207--;
-n=store207++;
+if(store_left218>1){
+store_left218--;
+n=store218++;
 }
-else if(gc_free207!=NULL){
-n=gc_free207;
-gc_free207=n->header.next;
+else if(gc_free218!=NULL){
+n=gc_free218;
+gc_free218=n->header.next;
 }
-else if(store_left207==1){
-store_left207=0;
-store_chunk207->header.state_type=FSO_USED_CHUNK;
-n=store207++;
+else if(store_left218==1){
+store_left218=0;
+store_chunk218->header.state_type=FSO_USED_CHUNK;
+n=store218++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free207!=NULL){
-n=gc_free207;
-gc_free207=n->header.next;
+if(gc_free218!=NULL){
+n=gc_free218;
+gc_free218=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk207=c;
-*store_chunk207=H207;
-store207=((gc207*)(&(store_chunk207->first_object)));
-store_left207=H207.count_minus_one;
-n=store207++;
+store_chunk218=c;
+*store_chunk218=H218;
+store218=((gc218*)(&(store_chunk218->first_object)));
+store_left218=H218.count_minus_one;
+n=store218++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M207;
-return((T207*)n);
+n->object=M218;
+return((T218*)n);
 }
 
 
-void gc_sweep73(fsoc*c){
-gc73*o1,*o2,*flt,flh;
-o1=((gc73*)(&(c->first_object)));
+void gc_sweep74(fsoc*c){
+gc74*o1,*o2,*flt,flh;
+o1=((gc74*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store73;o1++){
+for(;o1<store74;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free73;
-gc_free73=o1;
+o1->header.next=gc_free74;
+gc_free74=o1;
 }
 }
 }
@@ -484,21 +1110,18 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free73;
-gc_free73=flh.header.next;
+flt->header.next=gc_free74;
+gc_free74=flh.header.next;
 }
 }
 }
 
 
-void gc_mark73(T73*o){
-if(((gc73*)o)->header.flag==FSOH_UNMARKED){
-((gc73*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_wave_table/*123*/)Xgc_mark117((T0*)(o->_wave_table/*123*/));
-if(NULL!=o->_historyout/*97*/)gc_mark194((T194*)(o->_historyout/*97*/));
-if(NULL!=o->_historyin/*93*/)gc_mark194((T194*)(o->_historyin/*93*/));
-if(NULL!=o->_coeffout/*81*/)gc_mark194((T194*)(o->_coeffout/*81*/));
-if(NULL!=o->_coeffin/*77*/)gc_mark194((T194*)(o->_coeffin/*77*/));
+void gc_mark74(T74*o){
+if(((gc74*)o)->header.flag==FSOH_UNMARKED){
+((gc74*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_wave_table/*103*/)Xgc_mark118((T0*)(o->_wave_table/*103*/));
+if(NULL!=o->_bq/*69*/)gc_mark205((T205*)(o->_bq/*69*/));
 if(NULL!=o->_image/*40*/)gc_mark49((T49*)(o->_image/*40*/));
 if(NULL!=o->_setup_pattern/*20*/)gc_mark51((T51*)(o->_setup_pattern/*20*/));
 if(NULL!=o->_pattern_list/*16*/)gc_mark59((T59*)(o->_pattern_list/*16*/));
@@ -508,20 +1131,17 @@ if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }}
 
 
-void gc_align_mark73(fsoc*c,gc73*p){
-gc73*b=((gc73*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store73)))return;
+void gc_align_mark74(fsoc*c,gc74*p){
+gc74*b=((gc74*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store74)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T73*o=(&(p->object));
-((gc73*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_wave_table/*123*/)Xgc_mark117((T0*)(o->_wave_table/*123*/));
-if(NULL!=o->_historyout/*97*/)gc_mark194((T194*)(o->_historyout/*97*/));
-if(NULL!=o->_historyin/*93*/)gc_mark194((T194*)(o->_historyin/*93*/));
-if(NULL!=o->_coeffout/*81*/)gc_mark194((T194*)(o->_coeffout/*81*/));
-if(NULL!=o->_coeffin/*77*/)gc_mark194((T194*)(o->_coeffin/*77*/));
+T74*o=(&(p->object));
+((gc74*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_wave_table/*103*/)Xgc_mark118((T0*)(o->_wave_table/*103*/));
+if(NULL!=o->_bq/*69*/)gc_mark205((T205*)(o->_bq/*69*/));
 if(NULL!=o->_image/*40*/)gc_mark49((T49*)(o->_image/*40*/));
 if(NULL!=o->_setup_pattern/*20*/)gc_mark51((T51*)(o->_setup_pattern/*20*/));
 if(NULL!=o->_pattern_list/*16*/)gc_mark59((T59*)(o->_pattern_list/*16*/));
@@ -531,59 +1151,59 @@ if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }
 }
 }
-fsoc H73={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark73,
-(void(*)(mch*))gc_sweep73},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc73))-1)};
+fsoc H74={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark74,
+(void(*)(mch*))gc_sweep74},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc74))-1)};
 
 
-T73*new73(void){
-gc73*n;
+T74*new74(void){
+gc74*n;
 fsoc*c;
-if(store_left73>1){
-store_left73--;
-n=store73++;
+if(store_left74>1){
+store_left74--;
+n=store74++;
 }
-else if(gc_free73!=NULL){
-n=gc_free73;
-gc_free73=n->header.next;
+else if(gc_free74!=NULL){
+n=gc_free74;
+gc_free74=n->header.next;
 }
-else if(store_left73==1){
-store_left73=0;
-store_chunk73->header.state_type=FSO_USED_CHUNK;
-n=store73++;
+else if(store_left74==1){
+store_left74=0;
+store_chunk74->header.state_type=FSO_USED_CHUNK;
+n=store74++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free73!=NULL){
-n=gc_free73;
-gc_free73=n->header.next;
+if(gc_free74!=NULL){
+n=gc_free74;
+gc_free74=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk73=c;
-*store_chunk73=H73;
-store73=((gc73*)(&(store_chunk73->first_object)));
-store_left73=H73.count_minus_one;
-n=store73++;
+store_chunk74=c;
+*store_chunk74=H74;
+store74=((gc74*)(&(store_chunk74->first_object)));
+store_left74=H74.count_minus_one;
+n=store74++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M73;
-return((T73*)n);
+n->object=M74;
+return((T74*)n);
 }
 
 
-void gc_sweep173(fsoc*c){
-gc173*o1,*o2,*flt,flh;
-o1=((gc173*)(&(c->first_object)));
+void gc_sweep205(fsoc*c){
+gc205*o1,*o2,*flt,flh;
+o1=((gc205*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store173;o1++){
+for(;o1<store205;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free173;
-gc_free173=o1;
+o1->header.next=gc_free205;
+gc_free205=o1;
 }
 }
 }
@@ -607,86 +1227,191 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free173;
-gc_free173=flh.header.next;
+flt->header.next=gc_free205;
+gc_free205=flh.header.next;
 }
 }
 }
 
 
-void gc_mark173(T173*o){
-if(((gc173*)o)->header.flag==FSOH_UNMARKED){
-((gc173*)o)->header.flag=FSOH_MARKED;
+void gc_mark205(T205*o){
+if(((gc205*)o)->header.flag==FSOH_UNMARKED){
+((gc205*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_outcoeff/*8*/)Xgc_mark118((T0*)(o->_outcoeff/*8*/));
+if(NULL!=o->_incoeff/*4*/)Xgc_mark118((T0*)(o->_incoeff/*4*/));
+}}
+
+
+void gc_align_mark205(fsoc*c,gc205*p){
+gc205*b=((gc205*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store205)))return;
+if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
+if(((char*)p)<((char*)b))return;
+if(((((char*)p)-((char*)b))%sizeof(*p))==0){
+if(p->header.flag==FSOH_UNMARKED){
+T205*o=(&(p->object));
+((gc205*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_outcoeff/*8*/)Xgc_mark118((T0*)(o->_outcoeff/*8*/));
+if(NULL!=o->_incoeff/*4*/)Xgc_mark118((T0*)(o->_incoeff/*4*/));
+}
+}
+}
+fsoc H205={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark205,
+(void(*)(mch*))gc_sweep205},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc205))-1)};
+
+
+T205*new205(void){
+gc205*n;
+fsoc*c;
+if(store_left205>1){
+store_left205--;
+n=store205++;
+}
+else if(gc_free205!=NULL){
+n=gc_free205;
+gc_free205=n->header.next;
+}
+else if(store_left205==1){
+store_left205=0;
+store_chunk205->header.state_type=FSO_USED_CHUNK;
+n=store205++;
+}
+else{
+c=gc_fsoc_get1();
+if(gc_free205!=NULL){
+n=gc_free205;
+gc_free205=n->header.next;
+}
+else{
+if(c==NULL)c=gc_fsoc_get2();
+store_chunk205=c;
+*store_chunk205=H205;
+store205=((gc205*)(&(store_chunk205->first_object)));
+store_left205=H205.count_minus_one;
+n=store205++;
+}
+}
+n->header.flag=FSOH_UNMARKED;
+n->object=M205;
+return((T205*)n);
+}
+
+
+void gc_sweep184(fsoc*c){
+gc184*o1,*o2,*flt,flh;
+o1=((gc184*)(&(c->first_object)));
+if(c->header.state_type==FSO_STORE_CHUNK){
+for(;o1<store184;o1++){
+if((o1->header.flag)==FSOH_MARKED){
+o1->header.flag=FSOH_UNMARKED;
+}
+else{
+o1->header.next=gc_free184;
+gc_free184=o1;
+}
+}
+}
+else{
+int dead=1;
+flh.header.next=NULL;
+flt=&flh;
+o2=o1+c->count_minus_one;
+for(;o1<=o2;o2--){
+if((o2->header.flag)==FSOH_MARKED){
+o2->header.flag=FSOH_UNMARKED;
+dead=0;}
+else{
+flt->header.next=o2;
+flt=o2;
+}
+}
+if (dead){
+c->next=fsocfl;
+fsocfl=c;
+c->header.state_type=FSO_FREE_CHUNK;
+}
+else if(flh.header.next!=NULL){
+flt->header.next=gc_free184;
+gc_free184=flh.header.next;
+}
+}
+}
+
+
+void gc_mark184(T184*o){
+if(((gc184*)o)->header.flag==FSOH_UNMARKED){
+((gc184*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }}
 
 
-void gc_align_mark173(fsoc*c,gc173*p){
-gc173*b=((gc173*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store173)))return;
+void gc_align_mark184(fsoc*c,gc184*p){
+gc184*b=((gc184*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store184)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T173*o=(&(p->object));
-((gc173*)o)->header.flag=FSOH_MARKED;
+T184*o=(&(p->object));
+((gc184*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }
 }
 }
-fsoc H173={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark173,
-(void(*)(mch*))gc_sweep173},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc173))-1)};
+fsoc H184={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark184,
+(void(*)(mch*))gc_sweep184},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc184))-1)};
 
 
-T173*new173(void){
-gc173*n;
+T184*new184(void){
+gc184*n;
 fsoc*c;
-if(store_left173>1){
-store_left173--;
-n=store173++;
+if(store_left184>1){
+store_left184--;
+n=store184++;
 }
-else if(gc_free173!=NULL){
-n=gc_free173;
-gc_free173=n->header.next;
+else if(gc_free184!=NULL){
+n=gc_free184;
+gc_free184=n->header.next;
 }
-else if(store_left173==1){
-store_left173=0;
-store_chunk173->header.state_type=FSO_USED_CHUNK;
-n=store173++;
+else if(store_left184==1){
+store_left184=0;
+store_chunk184->header.state_type=FSO_USED_CHUNK;
+n=store184++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free173!=NULL){
-n=gc_free173;
-gc_free173=n->header.next;
+if(gc_free184!=NULL){
+n=gc_free184;
+gc_free184=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk173=c;
-*store_chunk173=H173;
-store173=((gc173*)(&(store_chunk173->first_object)));
-store_left173=H173.count_minus_one;
-n=store173++;
+store_chunk184=c;
+*store_chunk184=H184;
+store184=((gc184*)(&(store_chunk184->first_object)));
+store_left184=H184.count_minus_one;
+n=store184++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M173;
-return((T173*)n);
+n->object=M184;
+return((T184*)n);
 }
 
 
-void gc_sweep164(fsoc*c){
-gc164*o1,*o2,*flt,flh;
-o1=((gc164*)(&(c->first_object)));
+void gc_sweep175(fsoc*c){
+gc175*o1,*o2,*flt,flh;
+o1=((gc175*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store164;o1++){
+for(;o1<store175;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free164;
-gc_free164=o1;
+o1->header.next=gc_free175;
+gc_free175=o1;
 }
 }
 }
@@ -710,73 +1435,73 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free164;
-gc_free164=flh.header.next;
+flt->header.next=gc_free175;
+gc_free175=flh.header.next;
 }
 }
 }
 
 
-void gc_mark164(T164*o){
-((gc164*)o)->header.flag=FSOH_MARKED;
+void gc_mark175(T175*o){
+((gc175*)o)->header.flag=FSOH_MARKED;
 }
 
 
-void gc_align_mark164(fsoc*c,gc164*p){
-gc164*b=((gc164*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store164)))return;
+void gc_align_mark175(fsoc*c,gc175*p){
+gc175*b=((gc175*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store175)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T164*o=(&(p->object));
-((gc164*)o)->header.flag=FSOH_MARKED;
+T175*o=(&(p->object));
+((gc175*)o)->header.flag=FSOH_MARKED;
 }
 }
 }
-fsoc H164={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark164,
-(void(*)(mch*))gc_sweep164},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc164))-1)};
+fsoc H175={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark175,
+(void(*)(mch*))gc_sweep175},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc175))-1)};
 
 
-T164*new164(void){
-gc164*n;
+T175*new175(void){
+gc175*n;
 fsoc*c;
-if(store_left164>1){
-store_left164--;
-n=store164++;
+if(store_left175>1){
+store_left175--;
+n=store175++;
 }
-else if(gc_free164!=NULL){
-n=gc_free164;
-gc_free164=n->header.next;
+else if(gc_free175!=NULL){
+n=gc_free175;
+gc_free175=n->header.next;
 }
-else if(store_left164==1){
-store_left164=0;
-store_chunk164->header.state_type=FSO_USED_CHUNK;
-n=store164++;
+else if(store_left175==1){
+store_left175=0;
+store_chunk175->header.state_type=FSO_USED_CHUNK;
+n=store175++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free164!=NULL){
-n=gc_free164;
-gc_free164=n->header.next;
+if(gc_free175!=NULL){
+n=gc_free175;
+gc_free175=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk164=c;
-*store_chunk164=H164;
-store164=((gc164*)(&(store_chunk164->first_object)));
-store_left164=H164.count_minus_one;
-n=store164++;
+store_chunk175=c;
+*store_chunk175=H175;
+store175=((gc175*)(&(store_chunk175->first_object)));
+store_left175=H175.count_minus_one;
+n=store175++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M164;
-return((T164*)n);
+n->object=M175;
+return((T175*)n);
 }
 
 
-void gc_mark151(T151 o){
+void gc_mark152(T152 o){
 rsoh*h=((rsoh*)o)-1;
 if((h->header.magic_flag)==RSOH_UNMARKED){
 h->header.magic_flag=RSOH_MARKED;
@@ -784,46 +1509,46 @@ h->header.magic_flag=RSOH_MARKED;
 T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
 for(;((void*)p)>=((void*)o);p--){
 e=*p;
-if(NULL!=e)gc_mark148((T148*)(e));
+if(NULL!=e)gc_mark149((T149*)(e));
 
 }
 }
 }}
 
 
-T151 new151(int size){
+T152 new152(int size){
 size=(size*sizeof(T0*))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env151.store_left)){
-rsoh*r=na_env151.store;
-na_env151.store_left-=size;
-if(na_env151.store_left>sizeof(rsoh)){
+if (size<=(na_env152.store_left)){
+rsoh*r=na_env152.store;
+na_env152.store_left-=size;
+if(na_env152.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env151.store=((rsoh*)(((char*)(na_env151.store))+size));
+na_env152.store=((rsoh*)(((char*)(na_env152.store))+size));
 }
 else {
-r->header.size=size+na_env151.store_left;
-na_env151.store_left=0;
+r->header.size=size+na_env152.store_left;
+na_env152.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T151)(r+1));
+return((T152)(r+1));
 }
-return((T151)new_na(&na_env151,size));
+return((T152)new_na(&na_env152,size));
 }
 
 
-void gc_sweep178(fsoc*c){
-gc178*o1,*o2,*flt,flh;
-o1=((gc178*)(&(c->first_object)));
+void gc_sweep172(fsoc*c){
+gc172*o1,*o2,*flt,flh;
+o1=((gc172*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store178;o1++){
+for(;o1<store172;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free178;
-gc_free178=o1;
+o1->header.next=gc_free172;
+gc_free172=o1;
 }
 }
 }
@@ -847,92 +1572,192 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free178;
-gc_free178=flh.header.next;
+flt->header.next=gc_free172;
+gc_free172=flh.header.next;
 }
 }
 }
 
 
-void gc_mark178(T178*o){
+void gc_mark172(T172*o){
+((gc172*)o)->header.flag=FSOH_MARKED;
+}
+
+
+void gc_align_mark172(fsoc*c,gc172*p){
+gc172*b=((gc172*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store172)))return;
+if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
+if(((char*)p)<((char*)b))return;
+if(((((char*)p)-((char*)b))%sizeof(*p))==0){
+if(p->header.flag==FSOH_UNMARKED){
+T172*o=(&(p->object));
+((gc172*)o)->header.flag=FSOH_MARKED;
+}
+}
+}
+fsoc H172={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark172,
+(void(*)(mch*))gc_sweep172},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc172))-1)};
+
+
+T172*new172(void){
+gc172*n;
+fsoc*c;
+if(store_left172>1){
+store_left172--;
+n=store172++;
+}
+else if(gc_free172!=NULL){
+n=gc_free172;
+gc_free172=n->header.next;
+}
+else if(store_left172==1){
+store_left172=0;
+store_chunk172->header.state_type=FSO_USED_CHUNK;
+n=store172++;
+}
+else{
+c=gc_fsoc_get1();
+if(gc_free172!=NULL){
+n=gc_free172;
+gc_free172=n->header.next;
+}
+else{
+if(c==NULL)c=gc_fsoc_get2();
+store_chunk172=c;
+*store_chunk172=H172;
+store172=((gc172*)(&(store_chunk172->first_object)));
+store_left172=H172.count_minus_one;
+n=store172++;
+}
+}
+n->header.flag=FSOH_UNMARKED;
+n->object=M172;
+return((T172*)n);
+}
+
+
+void gc_sweep189(fsoc*c){
+gc189*o1,*o2,*flt,flh;
+o1=((gc189*)(&(c->first_object)));
+if(c->header.state_type==FSO_STORE_CHUNK){
+for(;o1<store189;o1++){
+if((o1->header.flag)==FSOH_MARKED){
+o1->header.flag=FSOH_UNMARKED;
+}
+else{
+o1->header.next=gc_free189;
+gc_free189=o1;
+}
+}
+}
+else{
+int dead=1;
+flh.header.next=NULL;
+flt=&flh;
+o2=o1+c->count_minus_one;
+for(;o1<=o2;o2--){
+if((o2->header.flag)==FSOH_MARKED){
+o2->header.flag=FSOH_UNMARKED;
+dead=0;}
+else{
+flt->header.next=o2;
+flt=o2;
+}
+}
+if (dead){
+c->next=fsocfl;
+fsocfl=c;
+c->header.state_type=FSO_FREE_CHUNK;
+}
+else if(flh.header.next!=NULL){
+flt->header.next=gc_free189;
+gc_free189=flh.header.next;
+}
+}
+}
+
+
+void gc_mark189(T189*o){
 begin:
-if(((gc178*)o)->header.flag==FSOH_UNMARKED){
-((gc178*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_item/*4*/)gc_mark173((T173*)(o->_item/*4*/));
+if(((gc189*)o)->header.flag==FSOH_UNMARKED){
+((gc189*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_item/*4*/)gc_mark184((T184*)(o->_item/*4*/));
 o=(void*)o->_next;
 if((o!=NULL))goto begin;
 }}
 
 
-void gc_align_mark178(fsoc*c,gc178*p){
-gc178*b=((gc178*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store178)))return;
+void gc_align_mark189(fsoc*c,gc189*p){
+gc189*b=((gc189*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store189)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T178*o=(&(p->object));
+T189*o=(&(p->object));
 begin:
-((gc178*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_item/*4*/)gc_mark173((T173*)(o->_item/*4*/));
+((gc189*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_item/*4*/)gc_mark184((T184*)(o->_item/*4*/));
 o=(void*)o->_next;
-if((o!=NULL)&&(((gc178*)o)->header.flag==FSOH_UNMARKED))goto begin;
+if((o!=NULL)&&(((gc189*)o)->header.flag==FSOH_UNMARKED))goto begin;
 }
 }
 }
-fsoc H178={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark178,
-(void(*)(mch*))gc_sweep178},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc178))-1)};
+fsoc H189={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark189,
+(void(*)(mch*))gc_sweep189},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc189))-1)};
 
 
-T178*new178(void){
-gc178*n;
+T189*new189(void){
+gc189*n;
 fsoc*c;
-if(store_left178>1){
-store_left178--;
-n=store178++;
+if(store_left189>1){
+store_left189--;
+n=store189++;
 }
-else if(gc_free178!=NULL){
-n=gc_free178;
-gc_free178=n->header.next;
+else if(gc_free189!=NULL){
+n=gc_free189;
+gc_free189=n->header.next;
 }
-else if(store_left178==1){
-store_left178=0;
-store_chunk178->header.state_type=FSO_USED_CHUNK;
-n=store178++;
+else if(store_left189==1){
+store_left189=0;
+store_chunk189->header.state_type=FSO_USED_CHUNK;
+n=store189++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free178!=NULL){
-n=gc_free178;
-gc_free178=n->header.next;
+if(gc_free189!=NULL){
+n=gc_free189;
+gc_free189=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk178=c;
-*store_chunk178=H178;
-store178=((gc178*)(&(store_chunk178->first_object)));
-store_left178=H178.count_minus_one;
-n=store178++;
+store_chunk189=c;
+*store_chunk189=H189;
+store189=((gc189*)(&(store_chunk189->first_object)));
+store_left189=H189.count_minus_one;
+n=store189++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M178;
-return((T178*)n);
+n->object=M189;
+return((T189*)n);
 }
 
 
-void gc_sweep133(fsoc*c){
-gc133*o1,*o2,*flt,flh;
-o1=((gc133*)(&(c->first_object)));
+void gc_sweep134(fsoc*c){
+gc134*o1,*o2,*flt,flh;
+o1=((gc134*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store133;o1++){
+for(;o1<store134;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free133;
-gc_free133=o1;
+o1->header.next=gc_free134;
+gc_free134=o1;
 }
 }
 }
@@ -956,86 +1781,86 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free133;
-gc_free133=flh.header.next;
+flt->header.next=gc_free134;
+gc_free134=flh.header.next;
 }
 }
 }
 
 
-void gc_mark133(T133*o){
-if(((gc133*)o)->header.flag==FSOH_UNMARKED){
-((gc133*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark156((o->_storage/*4*/));
+void gc_mark134(T134*o){
+if(((gc134*)o)->header.flag==FSOH_UNMARKED){
+((gc134*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_storage/*4*/)gc_mark157((o->_storage/*4*/));
 }}
 
 
-void gc_align_mark133(fsoc*c,gc133*p){
-gc133*b=((gc133*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store133)))return;
+void gc_align_mark134(fsoc*c,gc134*p){
+gc134*b=((gc134*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store134)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T133*o=(&(p->object));
-((gc133*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark156((o->_storage/*4*/));
+T134*o=(&(p->object));
+((gc134*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_storage/*4*/)gc_mark157((o->_storage/*4*/));
 }
 }
 }
-fsoc H133={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark133,
-(void(*)(mch*))gc_sweep133},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc133))-1)};
+fsoc H134={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark134,
+(void(*)(mch*))gc_sweep134},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc134))-1)};
 
 
-T133*new133(void){
-gc133*n;
+T134*new134(void){
+gc134*n;
 fsoc*c;
-if(store_left133>1){
-store_left133--;
-n=store133++;
+if(store_left134>1){
+store_left134--;
+n=store134++;
 }
-else if(gc_free133!=NULL){
-n=gc_free133;
-gc_free133=n->header.next;
+else if(gc_free134!=NULL){
+n=gc_free134;
+gc_free134=n->header.next;
 }
-else if(store_left133==1){
-store_left133=0;
-store_chunk133->header.state_type=FSO_USED_CHUNK;
-n=store133++;
+else if(store_left134==1){
+store_left134=0;
+store_chunk134->header.state_type=FSO_USED_CHUNK;
+n=store134++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free133!=NULL){
-n=gc_free133;
-gc_free133=n->header.next;
+if(gc_free134!=NULL){
+n=gc_free134;
+gc_free134=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk133=c;
-*store_chunk133=H133;
-store133=((gc133*)(&(store_chunk133->first_object)));
-store_left133=H133.count_minus_one;
-n=store133++;
+store_chunk134=c;
+*store_chunk134=H134;
+store134=((gc134*)(&(store_chunk134->first_object)));
+store_left134=H134.count_minus_one;
+n=store134++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M133;
-return((T133*)n);
+n->object=M134;
+return((T134*)n);
 }
 
 
-void gc_sweep160(fsoc*c){
-gc160*o1,*o2,*flt,flh;
-o1=((gc160*)(&(c->first_object)));
+void gc_sweep174(fsoc*c){
+gc174*o1,*o2,*flt,flh;
+o1=((gc174*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store160;o1++){
+for(;o1<store174;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free160;
-gc_free160=o1;
+o1->header.next=gc_free174;
+gc_free174=o1;
 }
 }
 }
@@ -1059,83 +1884,83 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free160;
-gc_free160=flh.header.next;
+flt->header.next=gc_free174;
+gc_free174=flh.header.next;
 }
 }
 }
 
 
-void gc_mark160(T160*o){
-((gc160*)o)->header.flag=FSOH_MARKED;
+void gc_mark174(T174*o){
+((gc174*)o)->header.flag=FSOH_MARKED;
 }
 
 
-void gc_align_mark160(fsoc*c,gc160*p){
-gc160*b=((gc160*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store160)))return;
+void gc_align_mark174(fsoc*c,gc174*p){
+gc174*b=((gc174*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store174)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T160*o=(&(p->object));
-((gc160*)o)->header.flag=FSOH_MARKED;
+T174*o=(&(p->object));
+((gc174*)o)->header.flag=FSOH_MARKED;
 }
 }
 }
-fsoc H160={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark160,
-(void(*)(mch*))gc_sweep160},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc160))-1)};
+fsoc H174={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark174,
+(void(*)(mch*))gc_sweep174},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc174))-1)};
 
 
-T160*new160(void){
-gc160*n;
+T174*new174(void){
+gc174*n;
 fsoc*c;
-if(store_left160>1){
-store_left160--;
-n=store160++;
+if(store_left174>1){
+store_left174--;
+n=store174++;
 }
-else if(gc_free160!=NULL){
-n=gc_free160;
-gc_free160=n->header.next;
+else if(gc_free174!=NULL){
+n=gc_free174;
+gc_free174=n->header.next;
 }
-else if(store_left160==1){
-store_left160=0;
-store_chunk160->header.state_type=FSO_USED_CHUNK;
-n=store160++;
+else if(store_left174==1){
+store_left174=0;
+store_chunk174->header.state_type=FSO_USED_CHUNK;
+n=store174++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free160!=NULL){
-n=gc_free160;
-gc_free160=n->header.next;
+if(gc_free174!=NULL){
+n=gc_free174;
+gc_free174=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk160=c;
-*store_chunk160=H160;
-store160=((gc160*)(&(store_chunk160->first_object)));
-store_left160=H160.count_minus_one;
-n=store160++;
+store_chunk174=c;
+*store_chunk174=H174;
+store174=((gc174*)(&(store_chunk174->first_object)));
+store_left174=H174.count_minus_one;
+n=store174++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M160;
-return((T160*)n);
+n->object=M174;
+return((T174*)n);
 }
 
 
-void gc_sweep145(fsoc*c){
-gc145*o1,*o2,*flt,flh;
-o1=((gc145*)(&(c->first_object)));
+void gc_sweep146(fsoc*c){
+gc146*o1,*o2,*flt,flh;
+o1=((gc146*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store145;o1++){
+for(;o1<store146;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free145;
-gc_free145=o1;
+o1->header.next=gc_free146;
+gc_free146=o1;
 }
 }
 }
@@ -1159,76 +1984,76 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free145;
-gc_free145=flh.header.next;
+flt->header.next=gc_free146;
+gc_free146=flh.header.next;
 }
 }
 }
 
 
-void gc_mark145(T145*o){
-if(((gc145*)o)->header.flag==FSOH_UNMARKED){
-((gc145*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark147((o->_storage/*4*/));
+void gc_mark146(T146*o){
+if(((gc146*)o)->header.flag==FSOH_UNMARKED){
+((gc146*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_storage/*4*/)gc_mark148((o->_storage/*4*/));
 }}
 
 
-void gc_align_mark145(fsoc*c,gc145*p){
-gc145*b=((gc145*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store145)))return;
+void gc_align_mark146(fsoc*c,gc146*p){
+gc146*b=((gc146*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store146)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T145*o=(&(p->object));
-((gc145*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark147((o->_storage/*4*/));
+T146*o=(&(p->object));
+((gc146*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_storage/*4*/)gc_mark148((o->_storage/*4*/));
 }
 }
 }
-fsoc H145={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark145,
-(void(*)(mch*))gc_sweep145},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc145))-1)};
+fsoc H146={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark146,
+(void(*)(mch*))gc_sweep146},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc146))-1)};
 
 
-T145*new145(void){
-gc145*n;
+T146*new146(void){
+gc146*n;
 fsoc*c;
-if(store_left145>1){
-store_left145--;
-n=store145++;
+if(store_left146>1){
+store_left146--;
+n=store146++;
 }
-else if(gc_free145!=NULL){
-n=gc_free145;
-gc_free145=n->header.next;
+else if(gc_free146!=NULL){
+n=gc_free146;
+gc_free146=n->header.next;
 }
-else if(store_left145==1){
-store_left145=0;
-store_chunk145->header.state_type=FSO_USED_CHUNK;
-n=store145++;
+else if(store_left146==1){
+store_left146=0;
+store_chunk146->header.state_type=FSO_USED_CHUNK;
+n=store146++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free145!=NULL){
-n=gc_free145;
-gc_free145=n->header.next;
+if(gc_free146!=NULL){
+n=gc_free146;
+gc_free146=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk145=c;
-*store_chunk145=H145;
-store145=((gc145*)(&(store_chunk145->first_object)));
-store_left145=H145.count_minus_one;
-n=store145++;
+store_chunk146=c;
+*store_chunk146=H146;
+store146=((gc146*)(&(store_chunk146->first_object)));
+store_left146=H146.count_minus_one;
+n=store146++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M145;
-return((T145*)n);
+n->object=M146;
+return((T146*)n);
 }
 
 
-void gc_mark216(T216 o){
+void gc_mark227(T227 o){
 rsoh*h=((rsoh*)o)-1;
 if((h->header.magic_flag)==RSOH_UNMARKED){
 h->header.magic_flag=RSOH_MARKED;
@@ -1236,36 +2061,36 @@ h->header.magic_flag=RSOH_MARKED;
 T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
 for(;((void*)p)>=((void*)o);p--){
 e=*p;
-if(NULL!=e)Xgc_mark215((T0*)(e));
+if(NULL!=e)Xgc_mark226((T0*)(e));
 
 }
 }
 }}
 
 
-T216 new216(int size){
+T227 new227(int size){
 size=(size*sizeof(T0*))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env216.store_left)){
-rsoh*r=na_env216.store;
-na_env216.store_left-=size;
-if(na_env216.store_left>sizeof(rsoh)){
+if (size<=(na_env227.store_left)){
+rsoh*r=na_env227.store;
+na_env227.store_left-=size;
+if(na_env227.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env216.store=((rsoh*)(((char*)(na_env216.store))+size));
+na_env227.store=((rsoh*)(((char*)(na_env227.store))+size));
 }
 else {
-r->header.size=size+na_env216.store_left;
-na_env216.store_left=0;
+r->header.size=size+na_env227.store_left;
+na_env227.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T216)(r+1));
+return((T227)(r+1));
 }
-return((T216)new_na(&na_env216,size));
+return((T227)new_na(&na_env227,size));
 }
 
 
-void gc_mark163(T163 o){
+void gc_mark164(T164 o){
 rsoh*h=((rsoh*)o)-1;
 if((h->header.magic_flag)==RSOH_UNMARKED){
 h->header.magic_flag=RSOH_MARKED;
@@ -1273,46 +2098,46 @@ h->header.magic_flag=RSOH_MARKED;
 T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
 for(;((void*)p)>=((void*)o);p--){
 e=*p;
-if(NULL!=e)gc_mark162((T162*)(e));
+if(NULL!=e)gc_mark163((T163*)(e));
 
 }
 }
 }}
 
 
-T163 new163(int size){
+T164 new164(int size){
 size=(size*sizeof(T0*))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env163.store_left)){
-rsoh*r=na_env163.store;
-na_env163.store_left-=size;
-if(na_env163.store_left>sizeof(rsoh)){
+if (size<=(na_env164.store_left)){
+rsoh*r=na_env164.store;
+na_env164.store_left-=size;
+if(na_env164.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env163.store=((rsoh*)(((char*)(na_env163.store))+size));
+na_env164.store=((rsoh*)(((char*)(na_env164.store))+size));
 }
 else {
-r->header.size=size+na_env163.store_left;
-na_env163.store_left=0;
+r->header.size=size+na_env164.store_left;
+na_env164.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T163)(r+1));
+return((T164)(r+1));
 }
-return((T163)new_na(&na_env163,size));
+return((T164)new_na(&na_env164,size));
 }
 
 
-void gc_sweep137(fsoc*c){
-gc137*o1,*o2,*flt,flh;
-o1=((gc137*)(&(c->first_object)));
+void gc_sweep138(fsoc*c){
+gc138*o1,*o2,*flt,flh;
+o1=((gc138*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store137;o1++){
+for(;o1<store138;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free137;
-gc_free137=o1;
+o1->header.next=gc_free138;
+gc_free138=o1;
 }
 }
 }
@@ -1336,76 +2161,76 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free137;
-gc_free137=flh.header.next;
+flt->header.next=gc_free138;
+gc_free138=flh.header.next;
 }
 }
 }
 
 
-void gc_mark137(T137*o){
-if(((gc137*)o)->header.flag==FSOH_UNMARKED){
-((gc137*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_data/*16*/)gc_mark186((T186*)(o->_data/*16*/));
+void gc_mark138(T138*o){
+if(((gc138*)o)->header.flag==FSOH_UNMARKED){
+((gc138*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_data/*16*/)gc_mark197((T197*)(o->_data/*16*/));
 }}
 
 
-void gc_align_mark137(fsoc*c,gc137*p){
-gc137*b=((gc137*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store137)))return;
+void gc_align_mark138(fsoc*c,gc138*p){
+gc138*b=((gc138*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store138)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T137*o=(&(p->object));
-((gc137*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_data/*16*/)gc_mark186((T186*)(o->_data/*16*/));
+T138*o=(&(p->object));
+((gc138*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_data/*16*/)gc_mark197((T197*)(o->_data/*16*/));
 }
 }
 }
-fsoc H137={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark137,
-(void(*)(mch*))gc_sweep137},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc137))-1)};
+fsoc H138={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark138,
+(void(*)(mch*))gc_sweep138},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc138))-1)};
 
 
-T137*new137(void){
-gc137*n;
+T138*new138(void){
+gc138*n;
 fsoc*c;
-if(store_left137>1){
-store_left137--;
-n=store137++;
+if(store_left138>1){
+store_left138--;
+n=store138++;
 }
-else if(gc_free137!=NULL){
-n=gc_free137;
-gc_free137=n->header.next;
+else if(gc_free138!=NULL){
+n=gc_free138;
+gc_free138=n->header.next;
 }
-else if(store_left137==1){
-store_left137=0;
-store_chunk137->header.state_type=FSO_USED_CHUNK;
-n=store137++;
+else if(store_left138==1){
+store_left138=0;
+store_chunk138->header.state_type=FSO_USED_CHUNK;
+n=store138++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free137!=NULL){
-n=gc_free137;
-gc_free137=n->header.next;
+if(gc_free138!=NULL){
+n=gc_free138;
+gc_free138=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk137=c;
-*store_chunk137=H137;
-store137=((gc137*)(&(store_chunk137->first_object)));
-store_left137=H137.count_minus_one;
-n=store137++;
+store_chunk138=c;
+*store_chunk138=H138;
+store138=((gc138*)(&(store_chunk138->first_object)));
+store_left138=H138.count_minus_one;
+n=store138++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M137;
-return((T137*)n);
+n->object=M138;
+return((T138*)n);
 }
 
 
-void gc_mark141(T141 o){
+void gc_mark142(T142 o){
 rsoh*h=((rsoh*)o)-1;
 if((h->header.magic_flag)==RSOH_UNMARKED){
 h->header.magic_flag=RSOH_MARKED;
@@ -1413,46 +2238,46 @@ h->header.magic_flag=RSOH_MARKED;
 T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
 for(;((void*)p)>=((void*)o);p--){
 e=*p;
-if(NULL!=e)gc_mark137((T137*)(e));
+if(NULL!=e)gc_mark138((T138*)(e));
 
 }
 }
 }}
 
 
-T141 new141(int size){
+T142 new142(int size){
 size=(size*sizeof(T0*))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env141.store_left)){
-rsoh*r=na_env141.store;
-na_env141.store_left-=size;
-if(na_env141.store_left>sizeof(rsoh)){
+if (size<=(na_env142.store_left)){
+rsoh*r=na_env142.store;
+na_env142.store_left-=size;
+if(na_env142.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env141.store=((rsoh*)(((char*)(na_env141.store))+size));
+na_env142.store=((rsoh*)(((char*)(na_env142.store))+size));
 }
 else {
-r->header.size=size+na_env141.store_left;
-na_env141.store_left=0;
+r->header.size=size+na_env142.store_left;
+na_env142.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T141)(r+1));
+return((T142)(r+1));
 }
-return((T141)new_na(&na_env141,size));
+return((T142)new_na(&na_env142,size));
 }
 
 
-void gc_sweep130(fsoc*c){
-gc130*o1,*o2,*flt,flh;
-o1=((gc130*)(&(c->first_object)));
+void gc_sweep131(fsoc*c){
+gc131*o1,*o2,*flt,flh;
+o1=((gc131*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store130;o1++){
+for(;o1<store131;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free130;
-gc_free130=o1;
+o1->header.next=gc_free131;
+gc_free131=o1;
 }
 }
 }
@@ -1476,83 +2301,83 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free130;
-gc_free130=flh.header.next;
+flt->header.next=gc_free131;
+gc_free131=flh.header.next;
 }
 }
 }
 
 
-void gc_mark130(T130*o){
-((gc130*)o)->header.flag=FSOH_MARKED;
+void gc_mark131(T131*o){
+((gc131*)o)->header.flag=FSOH_MARKED;
 }
 
 
-void gc_align_mark130(fsoc*c,gc130*p){
-gc130*b=((gc130*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store130)))return;
+void gc_align_mark131(fsoc*c,gc131*p){
+gc131*b=((gc131*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store131)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T130*o=(&(p->object));
-((gc130*)o)->header.flag=FSOH_MARKED;
+T131*o=(&(p->object));
+((gc131*)o)->header.flag=FSOH_MARKED;
 }
 }
 }
-fsoc H130={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark130,
-(void(*)(mch*))gc_sweep130},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc130))-1)};
+fsoc H131={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark131,
+(void(*)(mch*))gc_sweep131},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc131))-1)};
 
 
-T130*new130(void){
-gc130*n;
+T131*new131(void){
+gc131*n;
 fsoc*c;
-if(store_left130>1){
-store_left130--;
-n=store130++;
+if(store_left131>1){
+store_left131--;
+n=store131++;
 }
-else if(gc_free130!=NULL){
-n=gc_free130;
-gc_free130=n->header.next;
+else if(gc_free131!=NULL){
+n=gc_free131;
+gc_free131=n->header.next;
 }
-else if(store_left130==1){
-store_left130=0;
-store_chunk130->header.state_type=FSO_USED_CHUNK;
-n=store130++;
+else if(store_left131==1){
+store_left131=0;
+store_chunk131->header.state_type=FSO_USED_CHUNK;
+n=store131++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free130!=NULL){
-n=gc_free130;
-gc_free130=n->header.next;
+if(gc_free131!=NULL){
+n=gc_free131;
+gc_free131=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk130=c;
-*store_chunk130=H130;
-store130=((gc130*)(&(store_chunk130->first_object)));
-store_left130=H130.count_minus_one;
-n=store130++;
+store_chunk131=c;
+*store_chunk131=H131;
+store131=((gc131*)(&(store_chunk131->first_object)));
+store_left131=H131.count_minus_one;
+n=store131++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M130;
-return((T130*)n);
+n->object=M131;
+return((T131*)n);
 }
 
 
-void gc_sweep113(fsoc*c){
-gc113*o1,*o2,*flt,flh;
-o1=((gc113*)(&(c->first_object)));
+void gc_sweep114(fsoc*c){
+gc114*o1,*o2,*flt,flh;
+o1=((gc114*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store113;o1++){
+for(;o1<store114;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free113;
-gc_free113=o1;
+o1->header.next=gc_free114;
+gc_free114=o1;
 }
 }
 }
@@ -1576,88 +2401,88 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free113;
-gc_free113=flh.header.next;
+flt->header.next=gc_free114;
+gc_free114=flh.header.next;
 }
 }
 }
 
 
-void gc_mark113(T113*o){
-if(((gc113*)o)->header.flag==FSOH_UNMARKED){
-((gc113*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_current_link/*8*/)gc_mark81((T81*)(o->_current_link/*8*/));
-if(NULL!=o->_linked_list/*4*/)gc_mark80((T80*)(o->_linked_list/*4*/));
+void gc_mark114(T114*o){
+if(((gc114*)o)->header.flag==FSOH_UNMARKED){
+((gc114*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_current_link/*8*/)gc_mark82((T82*)(o->_current_link/*8*/));
+if(NULL!=o->_linked_list/*4*/)gc_mark81((T81*)(o->_linked_list/*4*/));
 }}
 
 
-void gc_align_mark113(fsoc*c,gc113*p){
-gc113*b=((gc113*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store113)))return;
+void gc_align_mark114(fsoc*c,gc114*p){
+gc114*b=((gc114*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store114)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T113*o=(&(p->object));
-((gc113*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_current_link/*8*/)gc_mark81((T81*)(o->_current_link/*8*/));
-if(NULL!=o->_linked_list/*4*/)gc_mark80((T80*)(o->_linked_list/*4*/));
+T114*o=(&(p->object));
+((gc114*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_current_link/*8*/)gc_mark82((T82*)(o->_current_link/*8*/));
+if(NULL!=o->_linked_list/*4*/)gc_mark81((T81*)(o->_linked_list/*4*/));
 }
 }
 }
-fsoc H113={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark113,
-(void(*)(mch*))gc_sweep113},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc113))-1)};
+fsoc H114={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark114,
+(void(*)(mch*))gc_sweep114},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc114))-1)};
 
 
-T113*new113(void){
-gc113*n;
+T114*new114(void){
+gc114*n;
 fsoc*c;
-if(store_left113>1){
-store_left113--;
-n=store113++;
+if(store_left114>1){
+store_left114--;
+n=store114++;
 }
-else if(gc_free113!=NULL){
-n=gc_free113;
-gc_free113=n->header.next;
+else if(gc_free114!=NULL){
+n=gc_free114;
+gc_free114=n->header.next;
 }
-else if(store_left113==1){
-store_left113=0;
-store_chunk113->header.state_type=FSO_USED_CHUNK;
-n=store113++;
+else if(store_left114==1){
+store_left114=0;
+store_chunk114->header.state_type=FSO_USED_CHUNK;
+n=store114++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free113!=NULL){
-n=gc_free113;
-gc_free113=n->header.next;
+if(gc_free114!=NULL){
+n=gc_free114;
+gc_free114=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk113=c;
-*store_chunk113=H113;
-store113=((gc113*)(&(store_chunk113->first_object)));
-store_left113=H113.count_minus_one;
-n=store113++;
+store_chunk114=c;
+*store_chunk114=H114;
+store114=((gc114*)(&(store_chunk114->first_object)));
+store_left114=H114.count_minus_one;
+n=store114++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M113;
-return((T113*)n);
+n->object=M114;
+return((T114*)n);
 }
 
 
-void gc_sweep69(fsoc*c){
-gc69*o1,*o2,*flt,flh;
-o1=((gc69*)(&(c->first_object)));
+void gc_sweep71(fsoc*c){
+gc71*o1,*o2,*flt,flh;
+o1=((gc71*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store69;o1++){
+for(;o1<store71;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free69;
-gc_free69=o1;
+o1->header.next=gc_free71;
+gc_free71=o1;
 }
 }
 }
@@ -1681,17 +2506,17 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free69;
-gc_free69=flh.header.next;
+flt->header.next=gc_free71;
+gc_free71=flh.header.next;
 }
 }
 }
 
 
-void gc_mark69(T69*o){
-if(((gc69*)o)->header.flag==FSOH_UNMARKED){
-((gc69*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_track_array/*61*/)gc_mark193((o->_track_array/*61*/));
+void gc_mark71(T71*o){
+if(((gc71*)o)->header.flag==FSOH_UNMARKED){
+((gc71*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_track_array/*61*/)gc_mark204((o->_track_array/*61*/));
 if(NULL!=o->_image/*40*/)gc_mark49((T49*)(o->_image/*40*/));
 if(NULL!=o->_setup_pattern/*20*/)gc_mark51((T51*)(o->_setup_pattern/*20*/));
 if(NULL!=o->_pattern_list/*16*/)gc_mark59((T59*)(o->_pattern_list/*16*/));
@@ -1701,16 +2526,16 @@ if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }}
 
 
-void gc_align_mark69(fsoc*c,gc69*p){
-gc69*b=((gc69*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store69)))return;
+void gc_align_mark71(fsoc*c,gc71*p){
+gc71*b=((gc71*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store71)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T69*o=(&(p->object));
-((gc69*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_track_array/*61*/)gc_mark193((o->_track_array/*61*/));
+T71*o=(&(p->object));
+((gc71*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_track_array/*61*/)gc_mark204((o->_track_array/*61*/));
 if(NULL!=o->_image/*40*/)gc_mark49((T49*)(o->_image/*40*/));
 if(NULL!=o->_setup_pattern/*20*/)gc_mark51((T51*)(o->_setup_pattern/*20*/));
 if(NULL!=o->_pattern_list/*16*/)gc_mark59((T59*)(o->_pattern_list/*16*/));
@@ -1720,59 +2545,59 @@ if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }
 }
 }
-fsoc H69={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark69,
-(void(*)(mch*))gc_sweep69},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc69))-1)};
+fsoc H71={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark71,
+(void(*)(mch*))gc_sweep71},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc71))-1)};
 
 
-T69*new69(void){
-gc69*n;
+T71*new71(void){
+gc71*n;
 fsoc*c;
-if(store_left69>1){
-store_left69--;
-n=store69++;
+if(store_left71>1){
+store_left71--;
+n=store71++;
 }
-else if(gc_free69!=NULL){
-n=gc_free69;
-gc_free69=n->header.next;
+else if(gc_free71!=NULL){
+n=gc_free71;
+gc_free71=n->header.next;
 }
-else if(store_left69==1){
-store_left69=0;
-store_chunk69->header.state_type=FSO_USED_CHUNK;
-n=store69++;
+else if(store_left71==1){
+store_left71=0;
+store_chunk71->header.state_type=FSO_USED_CHUNK;
+n=store71++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free69!=NULL){
-n=gc_free69;
-gc_free69=n->header.next;
+if(gc_free71!=NULL){
+n=gc_free71;
+gc_free71=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk69=c;
-*store_chunk69=H69;
-store69=((gc69*)(&(store_chunk69->first_object)));
-store_left69=H69.count_minus_one;
-n=store69++;
+store_chunk71=c;
+*store_chunk71=H71;
+store71=((gc71*)(&(store_chunk71->first_object)));
+store_left71=H71.count_minus_one;
+n=store71++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M69;
-return((T69*)n);
+n->object=M71;
+return((T71*)n);
 }
 
 
-void gc_sweep201(fsoc*c){
-gc201*o1,*o2,*flt,flh;
-o1=((gc201*)(&(c->first_object)));
+void gc_sweep212(fsoc*c){
+gc212*o1,*o2,*flt,flh;
+o1=((gc212*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store201;o1++){
+for(;o1<store212;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free201;
-gc_free201=o1;
+o1->header.next=gc_free212;
+gc_free212=o1;
 }
 }
 }
@@ -1796,76 +2621,176 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free201;
-gc_free201=flh.header.next;
+flt->header.next=gc_free212;
+gc_free212=flh.header.next;
 }
 }
 }
 
 
-void gc_mark201(T201*o){
-if(((gc201*)o)->header.flag==FSOH_UNMARKED){
-((gc201*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_sr/*20*/)gc_mark202((T202*)(o->_sr/*20*/));
+void gc_mark212(T212*o){
+if(((gc212*)o)->header.flag==FSOH_UNMARKED){
+((gc212*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_sr/*20*/)gc_mark213((T213*)(o->_sr/*20*/));
 }}
 
 
-void gc_align_mark201(fsoc*c,gc201*p){
-gc201*b=((gc201*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store201)))return;
+void gc_align_mark212(fsoc*c,gc212*p){
+gc212*b=((gc212*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store212)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T201*o=(&(p->object));
-((gc201*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_sr/*20*/)gc_mark202((T202*)(o->_sr/*20*/));
+T212*o=(&(p->object));
+((gc212*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_sr/*20*/)gc_mark213((T213*)(o->_sr/*20*/));
 }
 }
 }
-fsoc H201={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark201,
-(void(*)(mch*))gc_sweep201},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc201))-1)};
+fsoc H212={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark212,
+(void(*)(mch*))gc_sweep212},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc212))-1)};
 
 
-T201*new201(void){
-gc201*n;
+T212*new212(void){
+gc212*n;
 fsoc*c;
-if(store_left201>1){
-store_left201--;
-n=store201++;
+if(store_left212>1){
+store_left212--;
+n=store212++;
 }
-else if(gc_free201!=NULL){
-n=gc_free201;
-gc_free201=n->header.next;
+else if(gc_free212!=NULL){
+n=gc_free212;
+gc_free212=n->header.next;
 }
-else if(store_left201==1){
-store_left201=0;
-store_chunk201->header.state_type=FSO_USED_CHUNK;
-n=store201++;
+else if(store_left212==1){
+store_left212=0;
+store_chunk212->header.state_type=FSO_USED_CHUNK;
+n=store212++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free201!=NULL){
-n=gc_free201;
-gc_free201=n->header.next;
+if(gc_free212!=NULL){
+n=gc_free212;
+gc_free212=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk201=c;
-*store_chunk201=H201;
-store201=((gc201*)(&(store_chunk201->first_object)));
-store_left201=H201.count_minus_one;
-n=store201++;
+store_chunk212=c;
+*store_chunk212=H212;
+store212=((gc212*)(&(store_chunk212->first_object)));
+store_left212=H212.count_minus_one;
+n=store212++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M201;
-return((T201*)n);
+n->object=M212;
+return((T212*)n);
 }
 
 
-void gc_mark218(T218 o){
+void gc_sweep171(fsoc*c){
+gc171*o1,*o2,*flt,flh;
+o1=((gc171*)(&(c->first_object)));
+if(c->header.state_type==FSO_STORE_CHUNK){
+for(;o1<store171;o1++){
+if((o1->header.flag)==FSOH_MARKED){
+o1->header.flag=FSOH_UNMARKED;
+}
+else{
+o1->header.next=gc_free171;
+gc_free171=o1;
+}
+}
+}
+else{
+int dead=1;
+flh.header.next=NULL;
+flt=&flh;
+o2=o1+c->count_minus_one;
+for(;o1<=o2;o2--){
+if((o2->header.flag)==FSOH_MARKED){
+o2->header.flag=FSOH_UNMARKED;
+dead=0;}
+else{
+flt->header.next=o2;
+flt=o2;
+}
+}
+if (dead){
+c->next=fsocfl;
+fsocfl=c;
+c->header.state_type=FSO_FREE_CHUNK;
+}
+else if(flh.header.next!=NULL){
+flt->header.next=gc_free171;
+gc_free171=flh.header.next;
+}
+}
+}
+
+
+void gc_mark171(T171*o){
+((gc171*)o)->header.flag=FSOH_MARKED;
+}
+
+
+void gc_align_mark171(fsoc*c,gc171*p){
+gc171*b=((gc171*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store171)))return;
+if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
+if(((char*)p)<((char*)b))return;
+if(((((char*)p)-((char*)b))%sizeof(*p))==0){
+if(p->header.flag==FSOH_UNMARKED){
+T171*o=(&(p->object));
+((gc171*)o)->header.flag=FSOH_MARKED;
+}
+}
+}
+fsoc H171={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark171,
+(void(*)(mch*))gc_sweep171},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc171))-1)};
+
+
+T171*new171(void){
+gc171*n;
+fsoc*c;
+if(store_left171>1){
+store_left171--;
+n=store171++;
+}
+else if(gc_free171!=NULL){
+n=gc_free171;
+gc_free171=n->header.next;
+}
+else if(store_left171==1){
+store_left171=0;
+store_chunk171->header.state_type=FSO_USED_CHUNK;
+n=store171++;
+}
+else{
+c=gc_fsoc_get1();
+if(gc_free171!=NULL){
+n=gc_free171;
+gc_free171=n->header.next;
+}
+else{
+if(c==NULL)c=gc_fsoc_get2();
+store_chunk171=c;
+*store_chunk171=H171;
+store171=((gc171*)(&(store_chunk171->first_object)));
+store_left171=H171.count_minus_one;
+n=store171++;
+}
+}
+n->header.flag=FSOH_UNMARKED;
+n->object=M171;
+return((T171*)n);
+}
+
+
+void gc_mark229(T229 o){
 rsoh*h=((rsoh*)o)-1;
 if((h->header.magic_flag)==RSOH_UNMARKED){
 h->header.magic_flag=RSOH_MARKED;
@@ -1873,46 +2798,46 @@ h->header.magic_flag=RSOH_MARKED;
 T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
 for(;((void*)p)>=((void*)o);p--){
 e=*p;
-if(NULL!=e)gc_mark190((T190*)(e));
+if(NULL!=e)gc_mark201((T201*)(e));
 
 }
 }
 }}
 
 
-T218 new218(int size){
+T229 new229(int size){
 size=(size*sizeof(T0*))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env218.store_left)){
-rsoh*r=na_env218.store;
-na_env218.store_left-=size;
-if(na_env218.store_left>sizeof(rsoh)){
+if (size<=(na_env229.store_left)){
+rsoh*r=na_env229.store;
+na_env229.store_left-=size;
+if(na_env229.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env218.store=((rsoh*)(((char*)(na_env218.store))+size));
+na_env229.store=((rsoh*)(((char*)(na_env229.store))+size));
 }
 else {
-r->header.size=size+na_env218.store_left;
-na_env218.store_left=0;
+r->header.size=size+na_env229.store_left;
+na_env229.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T218)(r+1));
+return((T229)(r+1));
 }
-return((T218)new_na(&na_env218,size));
+return((T229)new_na(&na_env229,size));
 }
 
 
-void gc_sweep139(fsoc*c){
-gc139*o1,*o2,*flt,flh;
-o1=((gc139*)(&(c->first_object)));
+void gc_sweep140(fsoc*c){
+gc140*o1,*o2,*flt,flh;
+o1=((gc140*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store139;o1++){
+for(;o1<store140;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free139;
-gc_free139=o1;
+o1->header.next=gc_free140;
+gc_free140=o1;
 }
 }
 }
@@ -1936,72 +2861,72 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free139;
-gc_free139=flh.header.next;
+flt->header.next=gc_free140;
+gc_free140=flh.header.next;
 }
 }
 }
 
 
-void gc_mark139(T139*o){
-if(((gc139*)o)->header.flag==FSOH_UNMARKED){
-((gc139*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark141((o->_storage/*4*/));
+void gc_mark140(T140*o){
+if(((gc140*)o)->header.flag==FSOH_UNMARKED){
+((gc140*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_storage/*4*/)gc_mark142((o->_storage/*4*/));
 }}
 
 
-void gc_align_mark139(fsoc*c,gc139*p){
-gc139*b=((gc139*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store139)))return;
+void gc_align_mark140(fsoc*c,gc140*p){
+gc140*b=((gc140*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store140)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T139*o=(&(p->object));
-((gc139*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark141((o->_storage/*4*/));
+T140*o=(&(p->object));
+((gc140*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_storage/*4*/)gc_mark142((o->_storage/*4*/));
 }
 }
 }
-fsoc H139={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark139,
-(void(*)(mch*))gc_sweep139},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc139))-1)};
+fsoc H140={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark140,
+(void(*)(mch*))gc_sweep140},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc140))-1)};
 
 
-T139*new139(void){
-gc139*n;
+T140*new140(void){
+gc140*n;
 fsoc*c;
-if(store_left139>1){
-store_left139--;
-n=store139++;
+if(store_left140>1){
+store_left140--;
+n=store140++;
 }
-else if(gc_free139!=NULL){
-n=gc_free139;
-gc_free139=n->header.next;
+else if(gc_free140!=NULL){
+n=gc_free140;
+gc_free140=n->header.next;
 }
-else if(store_left139==1){
-store_left139=0;
-store_chunk139->header.state_type=FSO_USED_CHUNK;
-n=store139++;
+else if(store_left140==1){
+store_left140=0;
+store_chunk140->header.state_type=FSO_USED_CHUNK;
+n=store140++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free139!=NULL){
-n=gc_free139;
-gc_free139=n->header.next;
+if(gc_free140!=NULL){
+n=gc_free140;
+gc_free140=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk139=c;
-*store_chunk139=H139;
-store139=((gc139*)(&(store_chunk139->first_object)));
-store_left139=H139.count_minus_one;
-n=store139++;
+store_chunk140=c;
+*store_chunk140=H140;
+store140=((gc140*)(&(store_chunk140->first_object)));
+store_left140=H140.count_minus_one;
+n=store140++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M139;
-return((T139*)n);
+n->object=M140;
+return((T140*)n);
 }
 
 
@@ -2422,17 +3347,17 @@ return((T61*)n);
 }
 
 
-void gc_sweep124(fsoc*c){
-gc124*o1,*o2,*flt,flh;
-o1=((gc124*)(&(c->first_object)));
+void gc_sweep125(fsoc*c){
+gc125*o1,*o2,*flt,flh;
+o1=((gc125*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store124;o1++){
+for(;o1<store125;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free124;
-gc_free124=o1;
+o1->header.next=gc_free125;
+gc_free125=o1;
 }
 }
 }
@@ -2456,92 +3381,92 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free124;
-gc_free124=flh.header.next;
+flt->header.next=gc_free125;
+gc_free125=flh.header.next;
 }
 }
 }
 
 
-void gc_mark124(T124*o){
+void gc_mark125(T125*o){
 begin:
-if(((gc124*)o)->header.flag==FSOH_UNMARKED){
-((gc124*)o)->header.flag=FSOH_MARKED;
+if(((gc125*)o)->header.flag==FSOH_UNMARKED){
+((gc125*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_item/*4*/)gc_mark7((T7*)(o->_item/*4*/));
 o=(void*)o->_next;
 if((o!=NULL))goto begin;
 }}
 
 
-void gc_align_mark124(fsoc*c,gc124*p){
-gc124*b=((gc124*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store124)))return;
+void gc_align_mark125(fsoc*c,gc125*p){
+gc125*b=((gc125*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store125)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T124*o=(&(p->object));
+T125*o=(&(p->object));
 begin:
-((gc124*)o)->header.flag=FSOH_MARKED;
+((gc125*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_item/*4*/)gc_mark7((T7*)(o->_item/*4*/));
 o=(void*)o->_next;
-if((o!=NULL)&&(((gc124*)o)->header.flag==FSOH_UNMARKED))goto begin;
+if((o!=NULL)&&(((gc125*)o)->header.flag==FSOH_UNMARKED))goto begin;
 }
 }
 }
-fsoc H124={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark124,
-(void(*)(mch*))gc_sweep124},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc124))-1)};
+fsoc H125={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark125,
+(void(*)(mch*))gc_sweep125},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc125))-1)};
 
 
-T124*new124(void){
-gc124*n;
+T125*new125(void){
+gc125*n;
 fsoc*c;
-if(store_left124>1){
-store_left124--;
-n=store124++;
+if(store_left125>1){
+store_left125--;
+n=store125++;
 }
-else if(gc_free124!=NULL){
-n=gc_free124;
-gc_free124=n->header.next;
+else if(gc_free125!=NULL){
+n=gc_free125;
+gc_free125=n->header.next;
 }
-else if(store_left124==1){
-store_left124=0;
-store_chunk124->header.state_type=FSO_USED_CHUNK;
-n=store124++;
+else if(store_left125==1){
+store_left125=0;
+store_chunk125->header.state_type=FSO_USED_CHUNK;
+n=store125++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free124!=NULL){
-n=gc_free124;
-gc_free124=n->header.next;
+if(gc_free125!=NULL){
+n=gc_free125;
+gc_free125=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk124=c;
-*store_chunk124=H124;
-store124=((gc124*)(&(store_chunk124->first_object)));
-store_left124=H124.count_minus_one;
-n=store124++;
+store_chunk125=c;
+*store_chunk125=H125;
+store125=((gc125*)(&(store_chunk125->first_object)));
+store_left125=H125.count_minus_one;
+n=store125++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M124;
-return((T124*)n);
+n->object=M125;
+return((T125*)n);
 }
 
 
-void gc_sweep162(fsoc*c){
-gc162*o1,*o2,*flt,flh;
-o1=((gc162*)(&(c->first_object)));
+void gc_sweep163(fsoc*c){
+gc163*o1,*o2,*flt,flh;
+o1=((gc163*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store162;o1++){
+for(;o1<store163;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free162;
-gc_free162=o1;
+o1->header.next=gc_free163;
+gc_free163=o1;
 }
 }
 }
@@ -2565,94 +3490,94 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free162;
-gc_free162=flh.header.next;
+flt->header.next=gc_free163;
+gc_free163=flh.header.next;
 }
 }
 }
 
 
-void gc_mark162(T162*o){
+void gc_mark163(T163*o){
 begin:
-if(((gc162*)o)->header.flag==FSOH_UNMARKED){
-((gc162*)o)->header.flag=FSOH_MARKED;
+if(((gc163*)o)->header.flag==FSOH_UNMARKED){
+((gc163*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_key/*8*/)gc_mark7((T7*)(o->_key/*8*/));
-if(NULL!=o->_item/*4*/)Xgc_mark132((T0*)(o->_item/*4*/));
+if(NULL!=o->_item/*4*/)Xgc_mark133((T0*)(o->_item/*4*/));
 o=(void*)o->_next;
 if((o!=NULL))goto begin;
 }}
 
 
-void gc_align_mark162(fsoc*c,gc162*p){
-gc162*b=((gc162*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store162)))return;
+void gc_align_mark163(fsoc*c,gc163*p){
+gc163*b=((gc163*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store163)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T162*o=(&(p->object));
+T163*o=(&(p->object));
 begin:
-((gc162*)o)->header.flag=FSOH_MARKED;
+((gc163*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_key/*8*/)gc_mark7((T7*)(o->_key/*8*/));
-if(NULL!=o->_item/*4*/)Xgc_mark132((T0*)(o->_item/*4*/));
+if(NULL!=o->_item/*4*/)Xgc_mark133((T0*)(o->_item/*4*/));
 o=(void*)o->_next;
-if((o!=NULL)&&(((gc162*)o)->header.flag==FSOH_UNMARKED))goto begin;
+if((o!=NULL)&&(((gc163*)o)->header.flag==FSOH_UNMARKED))goto begin;
 }
 }
 }
-fsoc H162={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark162,
-(void(*)(mch*))gc_sweep162},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc162))-1)};
+fsoc H163={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark163,
+(void(*)(mch*))gc_sweep163},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc163))-1)};
 
 
-T162*new162(void){
-gc162*n;
+T163*new163(void){
+gc163*n;
 fsoc*c;
-if(store_left162>1){
-store_left162--;
-n=store162++;
+if(store_left163>1){
+store_left163--;
+n=store163++;
 }
-else if(gc_free162!=NULL){
-n=gc_free162;
-gc_free162=n->header.next;
+else if(gc_free163!=NULL){
+n=gc_free163;
+gc_free163=n->header.next;
 }
-else if(store_left162==1){
-store_left162=0;
-store_chunk162->header.state_type=FSO_USED_CHUNK;
-n=store162++;
+else if(store_left163==1){
+store_left163=0;
+store_chunk163->header.state_type=FSO_USED_CHUNK;
+n=store163++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free162!=NULL){
-n=gc_free162;
-gc_free162=n->header.next;
+if(gc_free163!=NULL){
+n=gc_free163;
+gc_free163=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk162=c;
-*store_chunk162=H162;
-store162=((gc162*)(&(store_chunk162->first_object)));
-store_left162=H162.count_minus_one;
-n=store162++;
+store_chunk163=c;
+*store_chunk163=H163;
+store163=((gc163*)(&(store_chunk163->first_object)));
+store_left163=H163.count_minus_one;
+n=store163++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M162;
-return((T162*)n);
+n->object=M163;
+return((T163*)n);
 }
 
 
-void gc_sweep167(fsoc*c){
-gc167*o1,*o2,*flt,flh;
-o1=((gc167*)(&(c->first_object)));
+void gc_sweep178(fsoc*c){
+gc178*o1,*o2,*flt,flh;
+o1=((gc178*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store167;o1++){
+for(;o1<store178;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free167;
-gc_free167=o1;
+o1->header.next=gc_free178;
+gc_free178=o1;
 }
 }
 }
@@ -2676,83 +3601,83 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free167;
-gc_free167=flh.header.next;
+flt->header.next=gc_free178;
+gc_free178=flh.header.next;
 }
 }
 }
 
 
-void gc_mark167(T167*o){
-((gc167*)o)->header.flag=FSOH_MARKED;
+void gc_mark178(T178*o){
+((gc178*)o)->header.flag=FSOH_MARKED;
 }
 
 
-void gc_align_mark167(fsoc*c,gc167*p){
-gc167*b=((gc167*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store167)))return;
+void gc_align_mark178(fsoc*c,gc178*p){
+gc178*b=((gc178*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store178)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T167*o=(&(p->object));
-((gc167*)o)->header.flag=FSOH_MARKED;
+T178*o=(&(p->object));
+((gc178*)o)->header.flag=FSOH_MARKED;
 }
 }
 }
-fsoc H167={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark167,
-(void(*)(mch*))gc_sweep167},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc167))-1)};
+fsoc H178={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark178,
+(void(*)(mch*))gc_sweep178},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc178))-1)};
 
 
-T167*new167(void){
-gc167*n;
+T178*new178(void){
+gc178*n;
 fsoc*c;
-if(store_left167>1){
-store_left167--;
-n=store167++;
+if(store_left178>1){
+store_left178--;
+n=store178++;
 }
-else if(gc_free167!=NULL){
-n=gc_free167;
-gc_free167=n->header.next;
+else if(gc_free178!=NULL){
+n=gc_free178;
+gc_free178=n->header.next;
 }
-else if(store_left167==1){
-store_left167=0;
-store_chunk167->header.state_type=FSO_USED_CHUNK;
-n=store167++;
+else if(store_left178==1){
+store_left178=0;
+store_chunk178->header.state_type=FSO_USED_CHUNK;
+n=store178++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free167!=NULL){
-n=gc_free167;
-gc_free167=n->header.next;
+if(gc_free178!=NULL){
+n=gc_free178;
+gc_free178=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk167=c;
-*store_chunk167=H167;
-store167=((gc167*)(&(store_chunk167->first_object)));
-store_left167=H167.count_minus_one;
-n=store167++;
+store_chunk178=c;
+*store_chunk178=H178;
+store178=((gc178*)(&(store_chunk178->first_object)));
+store_left178=H178.count_minus_one;
+n=store178++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M167;
-return((T167*)n);
+n->object=M178;
+return((T178*)n);
 }
 
 
-void gc_sweep98(fsoc*c){
-gc98*o1,*o2,*flt,flh;
-o1=((gc98*)(&(c->first_object)));
+void gc_sweep99(fsoc*c){
+gc99*o1,*o2,*flt,flh;
+o1=((gc99*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store98;o1++){
+for(;o1<store99;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free98;
-gc_free98=o1;
+o1->header.next=gc_free99;
+gc_free99=o1;
 }
 }
 }
@@ -2776,92 +3701,92 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free98;
-gc_free98=flh.header.next;
+flt->header.next=gc_free99;
+gc_free99=flh.header.next;
 }
 }
 }
 
 
-void gc_mark98(T98*o){
+void gc_mark99(T99*o){
 begin:
-if(((gc98*)o)->header.flag==FSOH_UNMARKED){
-((gc98*)o)->header.flag=FSOH_MARKED;
+if(((gc99*)o)->header.flag==FSOH_UNMARKED){
+((gc99*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_item/*4*/)gc_mark7((T7*)(o->_item/*4*/));
 o=(void*)o->_next;
 if((o!=NULL))goto begin;
 }}
 
 
-void gc_align_mark98(fsoc*c,gc98*p){
-gc98*b=((gc98*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store98)))return;
+void gc_align_mark99(fsoc*c,gc99*p){
+gc99*b=((gc99*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store99)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T98*o=(&(p->object));
+T99*o=(&(p->object));
 begin:
-((gc98*)o)->header.flag=FSOH_MARKED;
+((gc99*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_item/*4*/)gc_mark7((T7*)(o->_item/*4*/));
 o=(void*)o->_next;
-if((o!=NULL)&&(((gc98*)o)->header.flag==FSOH_UNMARKED))goto begin;
+if((o!=NULL)&&(((gc99*)o)->header.flag==FSOH_UNMARKED))goto begin;
 }
 }
 }
-fsoc H98={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark98,
-(void(*)(mch*))gc_sweep98},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc98))-1)};
+fsoc H99={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark99,
+(void(*)(mch*))gc_sweep99},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc99))-1)};
 
 
-T98*new98(void){
-gc98*n;
+T99*new99(void){
+gc99*n;
 fsoc*c;
-if(store_left98>1){
-store_left98--;
-n=store98++;
+if(store_left99>1){
+store_left99--;
+n=store99++;
 }
-else if(gc_free98!=NULL){
-n=gc_free98;
-gc_free98=n->header.next;
+else if(gc_free99!=NULL){
+n=gc_free99;
+gc_free99=n->header.next;
 }
-else if(store_left98==1){
-store_left98=0;
-store_chunk98->header.state_type=FSO_USED_CHUNK;
-n=store98++;
+else if(store_left99==1){
+store_left99=0;
+store_chunk99->header.state_type=FSO_USED_CHUNK;
+n=store99++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free98!=NULL){
-n=gc_free98;
-gc_free98=n->header.next;
+if(gc_free99!=NULL){
+n=gc_free99;
+gc_free99=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk98=c;
-*store_chunk98=H98;
-store98=((gc98*)(&(store_chunk98->first_object)));
-store_left98=H98.count_minus_one;
-n=store98++;
+store_chunk99=c;
+*store_chunk99=H99;
+store99=((gc99*)(&(store_chunk99->first_object)));
+store_left99=H99.count_minus_one;
+n=store99++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M98;
-return((T98*)n);
+n->object=M99;
+return((T99*)n);
 }
 
 
-void gc_sweep80(fsoc*c){
-gc80*o1,*o2,*flt,flh;
-o1=((gc80*)(&(c->first_object)));
+void gc_sweep81(fsoc*c){
+gc81*o1,*o2,*flt,flh;
+o1=((gc81*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store80;o1++){
+for(;o1<store81;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free80;
-gc_free80=o1;
+o1->header.next=gc_free81;
+gc_free81=o1;
 }
 }
 }
@@ -2885,90 +3810,90 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free80;
-gc_free80=flh.header.next;
+flt->header.next=gc_free81;
+gc_free81=flh.header.next;
 }
 }
 }
 
 
-void gc_mark80(T80*o){
-if(((gc80*)o)->header.flag==FSOH_UNMARKED){
-((gc80*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_mem_lnk/*20*/)gc_mark81((T81*)(o->_mem_lnk/*20*/));
-if(NULL!=o->_last_link/*12*/)gc_mark81((T81*)(o->_last_link/*12*/));
-if(NULL!=o->_first_link/*8*/)gc_mark81((T81*)(o->_first_link/*8*/));
+void gc_mark81(T81*o){
+if(((gc81*)o)->header.flag==FSOH_UNMARKED){
+((gc81*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_mem_lnk/*20*/)gc_mark82((T82*)(o->_mem_lnk/*20*/));
+if(NULL!=o->_last_link/*12*/)gc_mark82((T82*)(o->_last_link/*12*/));
+if(NULL!=o->_first_link/*8*/)gc_mark82((T82*)(o->_first_link/*8*/));
 }}
 
 
-void gc_align_mark80(fsoc*c,gc80*p){
-gc80*b=((gc80*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store80)))return;
+void gc_align_mark81(fsoc*c,gc81*p){
+gc81*b=((gc81*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store81)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T80*o=(&(p->object));
-((gc80*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_mem_lnk/*20*/)gc_mark81((T81*)(o->_mem_lnk/*20*/));
-if(NULL!=o->_last_link/*12*/)gc_mark81((T81*)(o->_last_link/*12*/));
-if(NULL!=o->_first_link/*8*/)gc_mark81((T81*)(o->_first_link/*8*/));
+T81*o=(&(p->object));
+((gc81*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_mem_lnk/*20*/)gc_mark82((T82*)(o->_mem_lnk/*20*/));
+if(NULL!=o->_last_link/*12*/)gc_mark82((T82*)(o->_last_link/*12*/));
+if(NULL!=o->_first_link/*8*/)gc_mark82((T82*)(o->_first_link/*8*/));
 }
 }
 }
-fsoc H80={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark80,
-(void(*)(mch*))gc_sweep80},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc80))-1)};
+fsoc H81={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark81,
+(void(*)(mch*))gc_sweep81},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc81))-1)};
 
 
-T80*new80(void){
-gc80*n;
+T81*new81(void){
+gc81*n;
 fsoc*c;
-if(store_left80>1){
-store_left80--;
-n=store80++;
+if(store_left81>1){
+store_left81--;
+n=store81++;
 }
-else if(gc_free80!=NULL){
-n=gc_free80;
-gc_free80=n->header.next;
+else if(gc_free81!=NULL){
+n=gc_free81;
+gc_free81=n->header.next;
 }
-else if(store_left80==1){
-store_left80=0;
-store_chunk80->header.state_type=FSO_USED_CHUNK;
-n=store80++;
+else if(store_left81==1){
+store_left81=0;
+store_chunk81->header.state_type=FSO_USED_CHUNK;
+n=store81++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free80!=NULL){
-n=gc_free80;
-gc_free80=n->header.next;
+if(gc_free81!=NULL){
+n=gc_free81;
+gc_free81=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk80=c;
-*store_chunk80=H80;
-store80=((gc80*)(&(store_chunk80->first_object)));
-store_left80=H80.count_minus_one;
-n=store80++;
+store_chunk81=c;
+*store_chunk81=H81;
+store81=((gc81*)(&(store_chunk81->first_object)));
+store_left81=H81.count_minus_one;
+n=store81++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M80;
-return((T80*)n);
+n->object=M81;
+return((T81*)n);
 }
 
 
-void gc_sweep136(fsoc*c){
-gc136*o1,*o2,*flt,flh;
-o1=((gc136*)(&(c->first_object)));
+void gc_sweep137(fsoc*c){
+gc137*o1,*o2,*flt,flh;
+o1=((gc137*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store136;o1++){
+for(;o1<store137;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free136;
-gc_free136=o1;
+o1->header.next=gc_free137;
+gc_free137=o1;
 }
 }
 }
@@ -2992,90 +3917,90 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free136;
-gc_free136=flh.header.next;
+flt->header.next=gc_free137;
+gc_free137=flh.header.next;
 }
 }
 }
 
 
-void gc_mark136(T136*o){
-if(((gc136*)o)->header.flag==FSOH_UNMARKED){
-((gc136*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_pattern/*32*/)gc_mark149((T149*)(o->_pattern/*32*/));
+void gc_mark137(T137*o){
+if(((gc137*)o)->header.flag==FSOH_UNMARKED){
+((gc137*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_pattern/*32*/)gc_mark150((T150*)(o->_pattern/*32*/));
 if(NULL!=o->_dll/*12*/)gc_mark7((T7*)(o->_dll/*12*/));
 if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }}
 
 
-void gc_align_mark136(fsoc*c,gc136*p){
-gc136*b=((gc136*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store136)))return;
+void gc_align_mark137(fsoc*c,gc137*p){
+gc137*b=((gc137*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store137)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T136*o=(&(p->object));
-((gc136*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_pattern/*32*/)gc_mark149((T149*)(o->_pattern/*32*/));
+T137*o=(&(p->object));
+((gc137*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_pattern/*32*/)gc_mark150((T150*)(o->_pattern/*32*/));
 if(NULL!=o->_dll/*12*/)gc_mark7((T7*)(o->_dll/*12*/));
 if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }
 }
 }
-fsoc H136={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark136,
-(void(*)(mch*))gc_sweep136},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc136))-1)};
+fsoc H137={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark137,
+(void(*)(mch*))gc_sweep137},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc137))-1)};
 
 
-T136*new136(void){
-gc136*n;
+T137*new137(void){
+gc137*n;
 fsoc*c;
-if(store_left136>1){
-store_left136--;
-n=store136++;
+if(store_left137>1){
+store_left137--;
+n=store137++;
 }
-else if(gc_free136!=NULL){
-n=gc_free136;
-gc_free136=n->header.next;
+else if(gc_free137!=NULL){
+n=gc_free137;
+gc_free137=n->header.next;
 }
-else if(store_left136==1){
-store_left136=0;
-store_chunk136->header.state_type=FSO_USED_CHUNK;
-n=store136++;
+else if(store_left137==1){
+store_left137=0;
+store_chunk137->header.state_type=FSO_USED_CHUNK;
+n=store137++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free136!=NULL){
-n=gc_free136;
-gc_free136=n->header.next;
+if(gc_free137!=NULL){
+n=gc_free137;
+gc_free137=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk136=c;
-*store_chunk136=H136;
-store136=((gc136*)(&(store_chunk136->first_object)));
-store_left136=H136.count_minus_one;
-n=store136++;
+store_chunk137=c;
+*store_chunk137=H137;
+store137=((gc137*)(&(store_chunk137->first_object)));
+store_left137=H137.count_minus_one;
+n=store137++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M136;
-return((T136*)n);
+n->object=M137;
+return((T137*)n);
 }
 
 
-void gc_sweep92(fsoc*c){
-gc92*o1,*o2,*flt,flh;
-o1=((gc92*)(&(c->first_object)));
+void gc_sweep93(fsoc*c){
+gc93*o1,*o2,*flt,flh;
+o1=((gc93*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store92;o1++){
+for(;o1<store93;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free92;
-gc_free92=o1;
+o1->header.next=gc_free93;
+gc_free93=o1;
 }
 }
 }
@@ -3099,88 +4024,88 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free92;
-gc_free92=flh.header.next;
+flt->header.next=gc_free93;
+gc_free93=flh.header.next;
 }
 }
 }
 
 
-void gc_mark92(T92*o){
-if(((gc92*)o)->header.flag==FSOH_UNMARKED){
-((gc92*)o)->header.flag=FSOH_MARKED;
+void gc_mark93(T93*o){
+if(((gc93*)o)->header.flag==FSOH_UNMARKED){
+((gc93*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_filename/*24*/)gc_mark7((T7*)(o->_filename/*24*/));
 if(NULL!=o->_manager/*20*/)gc_mark17((T17*)(o->_manager/*20*/));
 }}
 
 
-void gc_align_mark92(fsoc*c,gc92*p){
-gc92*b=((gc92*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store92)))return;
+void gc_align_mark93(fsoc*c,gc93*p){
+gc93*b=((gc93*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store93)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T92*o=(&(p->object));
-((gc92*)o)->header.flag=FSOH_MARKED;
+T93*o=(&(p->object));
+((gc93*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_filename/*24*/)gc_mark7((T7*)(o->_filename/*24*/));
 if(NULL!=o->_manager/*20*/)gc_mark17((T17*)(o->_manager/*20*/));
 }
 }
 }
-fsoc H92={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark92,
-(void(*)(mch*))gc_sweep92},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc92))-1)};
+fsoc H93={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark93,
+(void(*)(mch*))gc_sweep93},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc93))-1)};
 
 
-T92*new92(void){
-gc92*n;
+T93*new93(void){
+gc93*n;
 fsoc*c;
-if(store_left92>1){
-store_left92--;
-n=store92++;
+if(store_left93>1){
+store_left93--;
+n=store93++;
 }
-else if(gc_free92!=NULL){
-n=gc_free92;
-gc_free92=n->header.next;
+else if(gc_free93!=NULL){
+n=gc_free93;
+gc_free93=n->header.next;
 }
-else if(store_left92==1){
-store_left92=0;
-store_chunk92->header.state_type=FSO_USED_CHUNK;
-n=store92++;
+else if(store_left93==1){
+store_left93=0;
+store_chunk93->header.state_type=FSO_USED_CHUNK;
+n=store93++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free92!=NULL){
-n=gc_free92;
-gc_free92=n->header.next;
+if(gc_free93!=NULL){
+n=gc_free93;
+gc_free93=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk92=c;
-*store_chunk92=H92;
-store92=((gc92*)(&(store_chunk92->first_object)));
-store_left92=H92.count_minus_one;
-n=store92++;
+store_chunk93=c;
+*store_chunk93=H93;
+store93=((gc93*)(&(store_chunk93->first_object)));
+store_left93=H93.count_minus_one;
+n=store93++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M92;
-return((T92*)n);
+n->object=M93;
+return((T93*)n);
 }
 
 
-void gc_sweep169(fsoc*c){
-gc169*o1,*o2,*flt,flh;
-o1=((gc169*)(&(c->first_object)));
+void gc_sweep170(fsoc*c){
+gc170*o1,*o2,*flt,flh;
+o1=((gc170*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store169;o1++){
+for(;o1<store170;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free169;
-gc_free169=o1;
+o1->header.next=gc_free170;
+gc_free170=o1;
 }
 }
 }
@@ -3204,72 +4129,272 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free169;
-gc_free169=flh.header.next;
+flt->header.next=gc_free170;
+gc_free170=flh.header.next;
 }
 }
 }
 
 
-void gc_mark169(T169*o){
-if(((gc169*)o)->header.flag==FSOH_UNMARKED){
-((gc169*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark171((o->_storage/*4*/));
-}}
+void gc_mark170(T170*o){
+((gc170*)o)->header.flag=FSOH_MARKED;
+}
 
 
-void gc_align_mark169(fsoc*c,gc169*p){
-gc169*b=((gc169*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store169)))return;
+void gc_align_mark170(fsoc*c,gc170*p){
+gc170*b=((gc170*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store170)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T169*o=(&(p->object));
-((gc169*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark171((o->_storage/*4*/));
+T170*o=(&(p->object));
+((gc170*)o)->header.flag=FSOH_MARKED;
 }
 }
 }
-fsoc H169={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark169,
-(void(*)(mch*))gc_sweep169},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc169))-1)};
+fsoc H170={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark170,
+(void(*)(mch*))gc_sweep170},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc170))-1)};
 
 
-T169*new169(void){
-gc169*n;
+T170*new170(void){
+gc170*n;
 fsoc*c;
-if(store_left169>1){
-store_left169--;
-n=store169++;
+if(store_left170>1){
+store_left170--;
+n=store170++;
 }
-else if(gc_free169!=NULL){
-n=gc_free169;
-gc_free169=n->header.next;
+else if(gc_free170!=NULL){
+n=gc_free170;
+gc_free170=n->header.next;
 }
-else if(store_left169==1){
-store_left169=0;
-store_chunk169->header.state_type=FSO_USED_CHUNK;
-n=store169++;
+else if(store_left170==1){
+store_left170=0;
+store_chunk170->header.state_type=FSO_USED_CHUNK;
+n=store170++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free169!=NULL){
-n=gc_free169;
-gc_free169=n->header.next;
+if(gc_free170!=NULL){
+n=gc_free170;
+gc_free170=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk169=c;
-*store_chunk169=H169;
-store169=((gc169*)(&(store_chunk169->first_object)));
-store_left169=H169.count_minus_one;
-n=store169++;
+store_chunk170=c;
+*store_chunk170=H170;
+store170=((gc170*)(&(store_chunk170->first_object)));
+store_left170=H170.count_minus_one;
+n=store170++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M169;
-return((T169*)n);
+n->object=M170;
+return((T170*)n);
+}
+
+
+void gc_sweep180(fsoc*c){
+gc180*o1,*o2,*flt,flh;
+o1=((gc180*)(&(c->first_object)));
+if(c->header.state_type==FSO_STORE_CHUNK){
+for(;o1<store180;o1++){
+if((o1->header.flag)==FSOH_MARKED){
+o1->header.flag=FSOH_UNMARKED;
+}
+else{
+o1->header.next=gc_free180;
+gc_free180=o1;
+}
+}
+}
+else{
+int dead=1;
+flh.header.next=NULL;
+flt=&flh;
+o2=o1+c->count_minus_one;
+for(;o1<=o2;o2--){
+if((o2->header.flag)==FSOH_MARKED){
+o2->header.flag=FSOH_UNMARKED;
+dead=0;}
+else{
+flt->header.next=o2;
+flt=o2;
+}
+}
+if (dead){
+c->next=fsocfl;
+fsocfl=c;
+c->header.state_type=FSO_FREE_CHUNK;
+}
+else if(flh.header.next!=NULL){
+flt->header.next=gc_free180;
+gc_free180=flh.header.next;
+}
+}
+}
+
+
+void gc_mark180(T180*o){
+if(((gc180*)o)->header.flag==FSOH_UNMARKED){
+((gc180*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_storage/*4*/)gc_mark182((o->_storage/*4*/));
+}}
+
+
+void gc_align_mark180(fsoc*c,gc180*p){
+gc180*b=((gc180*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store180)))return;
+if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
+if(((char*)p)<((char*)b))return;
+if(((((char*)p)-((char*)b))%sizeof(*p))==0){
+if(p->header.flag==FSOH_UNMARKED){
+T180*o=(&(p->object));
+((gc180*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_storage/*4*/)gc_mark182((o->_storage/*4*/));
+}
+}
+}
+fsoc H180={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark180,
+(void(*)(mch*))gc_sweep180},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc180))-1)};
+
+
+T180*new180(void){
+gc180*n;
+fsoc*c;
+if(store_left180>1){
+store_left180--;
+n=store180++;
+}
+else if(gc_free180!=NULL){
+n=gc_free180;
+gc_free180=n->header.next;
+}
+else if(store_left180==1){
+store_left180=0;
+store_chunk180->header.state_type=FSO_USED_CHUNK;
+n=store180++;
+}
+else{
+c=gc_fsoc_get1();
+if(gc_free180!=NULL){
+n=gc_free180;
+gc_free180=n->header.next;
+}
+else{
+if(c==NULL)c=gc_fsoc_get2();
+store_chunk180=c;
+*store_chunk180=H180;
+store180=((gc180*)(&(store_chunk180->first_object)));
+store_left180=H180.count_minus_one;
+n=store180++;
+}
+}
+n->header.flag=FSOH_UNMARKED;
+n->object=M180;
+return((T180*)n);
+}
+
+
+void gc_sweep166(fsoc*c){
+gc166*o1,*o2,*flt,flh;
+o1=((gc166*)(&(c->first_object)));
+if(c->header.state_type==FSO_STORE_CHUNK){
+for(;o1<store166;o1++){
+if((o1->header.flag)==FSOH_MARKED){
+o1->header.flag=FSOH_UNMARKED;
+}
+else{
+o1->header.next=gc_free166;
+gc_free166=o1;
+}
+}
+}
+else{
+int dead=1;
+flh.header.next=NULL;
+flt=&flh;
+o2=o1+c->count_minus_one;
+for(;o1<=o2;o2--){
+if((o2->header.flag)==FSOH_MARKED){
+o2->header.flag=FSOH_UNMARKED;
+dead=0;}
+else{
+flt->header.next=o2;
+flt=o2;
+}
+}
+if (dead){
+c->next=fsocfl;
+fsocfl=c;
+c->header.state_type=FSO_FREE_CHUNK;
+}
+else if(flh.header.next!=NULL){
+flt->header.next=gc_free166;
+gc_free166=flh.header.next;
+}
+}
+}
+
+
+void gc_mark166(T166*o){
+((gc166*)o)->header.flag=FSOH_MARKED;
+}
+
+
+void gc_align_mark166(fsoc*c,gc166*p){
+gc166*b=((gc166*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store166)))return;
+if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
+if(((char*)p)<((char*)b))return;
+if(((((char*)p)-((char*)b))%sizeof(*p))==0){
+if(p->header.flag==FSOH_UNMARKED){
+T166*o=(&(p->object));
+((gc166*)o)->header.flag=FSOH_MARKED;
+}
+}
+}
+fsoc H166={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark166,
+(void(*)(mch*))gc_sweep166},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc166))-1)};
+
+
+T166*new166(void){
+gc166*n;
+fsoc*c;
+if(store_left166>1){
+store_left166--;
+n=store166++;
+}
+else if(gc_free166!=NULL){
+n=gc_free166;
+gc_free166=n->header.next;
+}
+else if(store_left166==1){
+store_left166=0;
+store_chunk166->header.state_type=FSO_USED_CHUNK;
+n=store166++;
+}
+else{
+c=gc_fsoc_get1();
+if(gc_free166!=NULL){
+n=gc_free166;
+gc_free166=n->header.next;
+}
+else{
+if(c==NULL)c=gc_fsoc_get2();
+store_chunk166=c;
+*store_chunk166=H166;
+store166=((gc166*)(&(store_chunk166->first_object)));
+store_left166=H166.count_minus_one;
+n=store166++;
+}
+}
+n->header.flag=FSOH_UNMARKED;
+n->object=M166;
+return((T166*)n);
 }
 
 
@@ -3373,17 +4498,17 @@ return((T49*)n);
 }
 
 
-void gc_sweep174(fsoc*c){
-gc174*o1,*o2,*flt,flh;
-o1=((gc174*)(&(c->first_object)));
+void gc_sweep185(fsoc*c){
+gc185*o1,*o2,*flt,flh;
+o1=((gc185*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store174;o1++){
+for(;o1<store185;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free174;
-gc_free174=o1;
+o1->header.next=gc_free185;
+gc_free185=o1;
 }
 }
 }
@@ -3407,86 +4532,86 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free174;
-gc_free174=flh.header.next;
+flt->header.next=gc_free185;
+gc_free185=flh.header.next;
 }
 }
 }
 
 
-void gc_mark174(T174*o){
-if(((gc174*)o)->header.flag==FSOH_UNMARKED){
-((gc174*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark176((o->_storage/*4*/));
+void gc_mark185(T185*o){
+if(((gc185*)o)->header.flag==FSOH_UNMARKED){
+((gc185*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_storage/*4*/)gc_mark187((o->_storage/*4*/));
 }}
 
 
-void gc_align_mark174(fsoc*c,gc174*p){
-gc174*b=((gc174*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store174)))return;
+void gc_align_mark185(fsoc*c,gc185*p){
+gc185*b=((gc185*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store185)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T174*o=(&(p->object));
-((gc174*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark176((o->_storage/*4*/));
+T185*o=(&(p->object));
+((gc185*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_storage/*4*/)gc_mark187((o->_storage/*4*/));
 }
 }
 }
-fsoc H174={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark174,
-(void(*)(mch*))gc_sweep174},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc174))-1)};
+fsoc H185={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark185,
+(void(*)(mch*))gc_sweep185},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc185))-1)};
 
 
-T174*new174(void){
-gc174*n;
+T185*new185(void){
+gc185*n;
 fsoc*c;
-if(store_left174>1){
-store_left174--;
-n=store174++;
+if(store_left185>1){
+store_left185--;
+n=store185++;
 }
-else if(gc_free174!=NULL){
-n=gc_free174;
-gc_free174=n->header.next;
+else if(gc_free185!=NULL){
+n=gc_free185;
+gc_free185=n->header.next;
 }
-else if(store_left174==1){
-store_left174=0;
-store_chunk174->header.state_type=FSO_USED_CHUNK;
-n=store174++;
+else if(store_left185==1){
+store_left185=0;
+store_chunk185->header.state_type=FSO_USED_CHUNK;
+n=store185++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free174!=NULL){
-n=gc_free174;
-gc_free174=n->header.next;
+if(gc_free185!=NULL){
+n=gc_free185;
+gc_free185=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk174=c;
-*store_chunk174=H174;
-store174=((gc174*)(&(store_chunk174->first_object)));
-store_left174=H174.count_minus_one;
-n=store174++;
+store_chunk185=c;
+*store_chunk185=H185;
+store185=((gc185*)(&(store_chunk185->first_object)));
+store_left185=H185.count_minus_one;
+n=store185++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M174;
-return((T174*)n);
+n->object=M185;
+return((T185*)n);
 }
 
 
-void gc_sweep71(fsoc*c){
-gc71*o1,*o2,*flt,flh;
-o1=((gc71*)(&(c->first_object)));
+void gc_sweep72(fsoc*c){
+gc72*o1,*o2,*flt,flh;
+o1=((gc72*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store71;o1++){
+for(;o1<store72;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free71;
-gc_free71=o1;
+o1->header.next=gc_free72;
+gc_free72=o1;
 }
 }
 }
@@ -3510,16 +4635,16 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free71;
-gc_free71=flh.header.next;
+flt->header.next=gc_free72;
+gc_free72=flh.header.next;
 }
 }
 }
 
 
-void gc_mark71(T71*o){
-if(((gc71*)o)->header.flag==FSOH_UNMARKED){
-((gc71*)o)->header.flag=FSOH_MARKED;
+void gc_mark72(T72*o){
+if(((gc72*)o)->header.flag==FSOH_UNMARKED){
+((gc72*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_image/*40*/)gc_mark49((T49*)(o->_image/*40*/));
 if(NULL!=o->_setup_pattern/*20*/)gc_mark51((T51*)(o->_setup_pattern/*20*/));
 if(NULL!=o->_pattern_list/*16*/)gc_mark59((T59*)(o->_pattern_list/*16*/));
@@ -3529,15 +4654,15 @@ if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }}
 
 
-void gc_align_mark71(fsoc*c,gc71*p){
-gc71*b=((gc71*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store71)))return;
+void gc_align_mark72(fsoc*c,gc72*p){
+gc72*b=((gc72*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store72)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T71*o=(&(p->object));
-((gc71*)o)->header.flag=FSOH_MARKED;
+T72*o=(&(p->object));
+((gc72*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_image/*40*/)gc_mark49((T49*)(o->_image/*40*/));
 if(NULL!=o->_setup_pattern/*20*/)gc_mark51((T51*)(o->_setup_pattern/*20*/));
 if(NULL!=o->_pattern_list/*16*/)gc_mark59((T59*)(o->_pattern_list/*16*/));
@@ -3547,49 +4672,49 @@ if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }
 }
 }
-fsoc H71={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark71,
-(void(*)(mch*))gc_sweep71},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc71))-1)};
+fsoc H72={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark72,
+(void(*)(mch*))gc_sweep72},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc72))-1)};
 
 
-T71*new71(void){
-gc71*n;
+T72*new72(void){
+gc72*n;
 fsoc*c;
-if(store_left71>1){
-store_left71--;
-n=store71++;
+if(store_left72>1){
+store_left72--;
+n=store72++;
 }
-else if(gc_free71!=NULL){
-n=gc_free71;
-gc_free71=n->header.next;
+else if(gc_free72!=NULL){
+n=gc_free72;
+gc_free72=n->header.next;
 }
-else if(store_left71==1){
-store_left71=0;
-store_chunk71->header.state_type=FSO_USED_CHUNK;
-n=store71++;
+else if(store_left72==1){
+store_left72=0;
+store_chunk72->header.state_type=FSO_USED_CHUNK;
+n=store72++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free71!=NULL){
-n=gc_free71;
-gc_free71=n->header.next;
+if(gc_free72!=NULL){
+n=gc_free72;
+gc_free72=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk71=c;
-*store_chunk71=H71;
-store71=((gc71*)(&(store_chunk71->first_object)));
-store_left71=H71.count_minus_one;
-n=store71++;
+store_chunk72=c;
+*store_chunk72=H72;
+store72=((gc72*)(&(store_chunk72->first_object)));
+store_left72=H72.count_minus_one;
+n=store72++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M71;
-return((T71*)n);
+n->object=M72;
+return((T72*)n);
 }
 
 
-void gc_mark171(T171 o){
+void gc_mark182(T182 o){
 rsoh*h=((rsoh*)o)-1;
 if((h->header.magic_flag)==RSOH_UNMARKED){
 h->header.magic_flag=RSOH_MARKED;
@@ -3597,46 +4722,46 @@ h->header.magic_flag=RSOH_MARKED;
 T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
 for(;((void*)p)>=((void*)o);p--){
 e=*p;
-if(NULL!=e)gc_mark135((T135*)(e));
+if(NULL!=e)gc_mark136((T136*)(e));
 
 }
 }
 }}
 
 
-T171 new171(int size){
+T182 new182(int size){
 size=(size*sizeof(T0*))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env171.store_left)){
-rsoh*r=na_env171.store;
-na_env171.store_left-=size;
-if(na_env171.store_left>sizeof(rsoh)){
+if (size<=(na_env182.store_left)){
+rsoh*r=na_env182.store;
+na_env182.store_left-=size;
+if(na_env182.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env171.store=((rsoh*)(((char*)(na_env171.store))+size));
+na_env182.store=((rsoh*)(((char*)(na_env182.store))+size));
 }
 else {
-r->header.size=size+na_env171.store_left;
-na_env171.store_left=0;
+r->header.size=size+na_env182.store_left;
+na_env182.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T171)(r+1));
+return((T182)(r+1));
 }
-return((T171)new_na(&na_env171,size));
+return((T182)new_na(&na_env182,size));
 }
 
 
-void gc_sweep202(fsoc*c){
-gc202*o1,*o2,*flt,flh;
-o1=((gc202*)(&(c->first_object)));
+void gc_sweep213(fsoc*c){
+gc213*o1,*o2,*flt,flh;
+o1=((gc213*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store202;o1++){
+for(;o1<store213;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free202;
-gc_free202=o1;
+o1->header.next=gc_free213;
+gc_free213=o1;
 }
 }
 }
@@ -3660,72 +4785,72 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free202;
-gc_free202=flh.header.next;
+flt->header.next=gc_free213;
+gc_free213=flh.header.next;
 }
 }
 }
 
 
-void gc_mark202(T202*o){
-if(((gc202*)o)->header.flag==FSOH_UNMARKED){
-((gc202*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_iv/*8*/)gc_mark145((T145*)(o->_iv/*8*/));
+void gc_mark213(T213*o){
+if(((gc213*)o)->header.flag==FSOH_UNMARKED){
+((gc213*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_iv/*8*/)gc_mark146((T146*)(o->_iv/*8*/));
 }}
 
 
-void gc_align_mark202(fsoc*c,gc202*p){
-gc202*b=((gc202*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store202)))return;
+void gc_align_mark213(fsoc*c,gc213*p){
+gc213*b=((gc213*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store213)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T202*o=(&(p->object));
-((gc202*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_iv/*8*/)gc_mark145((T145*)(o->_iv/*8*/));
+T213*o=(&(p->object));
+((gc213*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_iv/*8*/)gc_mark146((T146*)(o->_iv/*8*/));
 }
 }
 }
-fsoc H202={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark202,
-(void(*)(mch*))gc_sweep202},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc202))-1)};
+fsoc H213={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark213,
+(void(*)(mch*))gc_sweep213},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc213))-1)};
 
 
-T202*new202(void){
-gc202*n;
+T213*new213(void){
+gc213*n;
 fsoc*c;
-if(store_left202>1){
-store_left202--;
-n=store202++;
+if(store_left213>1){
+store_left213--;
+n=store213++;
 }
-else if(gc_free202!=NULL){
-n=gc_free202;
-gc_free202=n->header.next;
+else if(gc_free213!=NULL){
+n=gc_free213;
+gc_free213=n->header.next;
 }
-else if(store_left202==1){
-store_left202=0;
-store_chunk202->header.state_type=FSO_USED_CHUNK;
-n=store202++;
+else if(store_left213==1){
+store_left213=0;
+store_chunk213->header.state_type=FSO_USED_CHUNK;
+n=store213++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free202!=NULL){
-n=gc_free202;
-gc_free202=n->header.next;
+if(gc_free213!=NULL){
+n=gc_free213;
+gc_free213=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk202=c;
-*store_chunk202=H202;
-store202=((gc202*)(&(store_chunk202->first_object)));
-store_left202=H202.count_minus_one;
-n=store202++;
+store_chunk213=c;
+*store_chunk213=H213;
+store213=((gc213*)(&(store_chunk213->first_object)));
+store_left213=H213.count_minus_one;
+n=store213++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M202;
-return((T202*)n);
+n->object=M213;
+return((T213*)n);
 }
 
 
@@ -3829,44 +4954,44 @@ return((T50*)n);
 }
 
 
-void gc_mark118(T118 o){
+void gc_mark119(T119 o){
 (((rsoh*)o)-1)->header.magic_flag=RSOH_MARKED;
 }
 
 
-T118 new118(int size){
+T119 new119(int size){
 size=(size*sizeof(T5))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env118.store_left)){
-rsoh*r=na_env118.store;
-na_env118.store_left-=size;
-if(na_env118.store_left>sizeof(rsoh)){
+if (size<=(na_env119.store_left)){
+rsoh*r=na_env119.store;
+na_env119.store_left-=size;
+if(na_env119.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env118.store=((rsoh*)(((char*)(na_env118.store))+size));
+na_env119.store=((rsoh*)(((char*)(na_env119.store))+size));
 }
 else {
-r->header.size=size+na_env118.store_left;
-na_env118.store_left=0;
+r->header.size=size+na_env119.store_left;
+na_env119.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T118)(r+1));
+return((T119)(r+1));
 }
-return((T118)new_na(&na_env118,size));
+return((T119)new_na(&na_env119,size));
 }
 
 
-void gc_sweep81(fsoc*c){
-gc81*o1,*o2,*flt,flh;
-o1=((gc81*)(&(c->first_object)));
+void gc_sweep82(fsoc*c){
+gc82*o1,*o2,*flt,flh;
+o1=((gc82*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store81;o1++){
+for(;o1<store82;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free81;
-gc_free81=o1;
+o1->header.next=gc_free82;
+gc_free82=o1;
 }
 }
 }
@@ -3890,82 +5015,82 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free81;
-gc_free81=flh.header.next;
+flt->header.next=gc_free82;
+gc_free82=flh.header.next;
 }
 }
 }
 
 
-void gc_mark81(T81*o){
+void gc_mark82(T82*o){
 begin:
-if(((gc81*)o)->header.flag==FSOH_UNMARKED){
-((gc81*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_item/*4*/)gc_mark79((T79*)(o->_item/*4*/));
+if(((gc82*)o)->header.flag==FSOH_UNMARKED){
+((gc82*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_item/*4*/)gc_mark80((T80*)(o->_item/*4*/));
 o=(void*)o->_next;
 if((o!=NULL))goto begin;
 }}
 
 
-void gc_align_mark81(fsoc*c,gc81*p){
-gc81*b=((gc81*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store81)))return;
+void gc_align_mark82(fsoc*c,gc82*p){
+gc82*b=((gc82*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store82)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T81*o=(&(p->object));
+T82*o=(&(p->object));
 begin:
-((gc81*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_item/*4*/)gc_mark79((T79*)(o->_item/*4*/));
+((gc82*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_item/*4*/)gc_mark80((T80*)(o->_item/*4*/));
 o=(void*)o->_next;
-if((o!=NULL)&&(((gc81*)o)->header.flag==FSOH_UNMARKED))goto begin;
+if((o!=NULL)&&(((gc82*)o)->header.flag==FSOH_UNMARKED))goto begin;
 }
 }
 }
-fsoc H81={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark81,
-(void(*)(mch*))gc_sweep81},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc81))-1)};
+fsoc H82={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark82,
+(void(*)(mch*))gc_sweep82},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc82))-1)};
 
 
-T81*new81(void){
-gc81*n;
+T82*new82(void){
+gc82*n;
 fsoc*c;
-if(store_left81>1){
-store_left81--;
-n=store81++;
+if(store_left82>1){
+store_left82--;
+n=store82++;
 }
-else if(gc_free81!=NULL){
-n=gc_free81;
-gc_free81=n->header.next;
+else if(gc_free82!=NULL){
+n=gc_free82;
+gc_free82=n->header.next;
 }
-else if(store_left81==1){
-store_left81=0;
-store_chunk81->header.state_type=FSO_USED_CHUNK;
-n=store81++;
+else if(store_left82==1){
+store_left82=0;
+store_chunk82->header.state_type=FSO_USED_CHUNK;
+n=store82++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free81!=NULL){
-n=gc_free81;
-gc_free81=n->header.next;
+if(gc_free82!=NULL){
+n=gc_free82;
+gc_free82=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk81=c;
-*store_chunk81=H81;
-store81=((gc81*)(&(store_chunk81->first_object)));
-store_left81=H81.count_minus_one;
-n=store81++;
+store_chunk82=c;
+*store_chunk82=H82;
+store82=((gc82*)(&(store_chunk82->first_object)));
+store_left82=H82.count_minus_one;
+n=store82++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M81;
-return((T81*)n);
+n->object=M82;
+return((T82*)n);
 }
 
 
-void gc_mark154(T154 o){
+void gc_mark155(T155 o){
 rsoh*h=((rsoh*)o)-1;
 if((h->header.magic_flag)==RSOH_UNMARKED){
 h->header.magic_flag=RSOH_MARKED;
@@ -3973,32 +5098,32 @@ h->header.magic_flag=RSOH_MARKED;
 T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
 for(;((void*)p)>=((void*)o);p--){
 e=*p;
-if(NULL!=e)gc_mark136((T136*)(e));
+if(NULL!=e)gc_mark137((T137*)(e));
 
 }
 }
 }}
 
 
-T154 new154(int size){
+T155 new155(int size){
 size=(size*sizeof(T0*))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env154.store_left)){
-rsoh*r=na_env154.store;
-na_env154.store_left-=size;
-if(na_env154.store_left>sizeof(rsoh)){
+if (size<=(na_env155.store_left)){
+rsoh*r=na_env155.store;
+na_env155.store_left-=size;
+if(na_env155.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env154.store=((rsoh*)(((char*)(na_env154.store))+size));
+na_env155.store=((rsoh*)(((char*)(na_env155.store))+size));
 }
 else {
-r->header.size=size+na_env154.store_left;
-na_env154.store_left=0;
+r->header.size=size+na_env155.store_left;
+na_env155.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T154)(r+1));
+return((T155)(r+1));
 }
-return((T154)new_na(&na_env154,size));
+return((T155)new_na(&na_env155,size));
 }
 
 
@@ -4148,17 +5273,17 @@ return((T66*)n);
 }
 
 
-void gc_sweep148(fsoc*c){
-gc148*o1,*o2,*flt,flh;
-o1=((gc148*)(&(c->first_object)));
+void gc_sweep149(fsoc*c){
+gc149*o1,*o2,*flt,flh;
+o1=((gc149*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store148;o1++){
+for(;o1<store149;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free148;
-gc_free148=o1;
+o1->header.next=gc_free149;
+gc_free149=o1;
 }
 }
 }
@@ -4182,90 +5307,90 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free148;
-gc_free148=flh.header.next;
+flt->header.next=gc_free149;
+gc_free149=flh.header.next;
 }
 }
 }
 
 
-void gc_mark148(T148*o){
-if(((gc148*)o)->header.flag==FSOH_UNMARKED){
-((gc148*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_data/*12*/)gc_mark182((T182*)(o->_data/*12*/));
-if(NULL!=o->_global_data/*8*/)gc_mark184((T184*)(o->_global_data/*8*/));
+void gc_mark149(T149*o){
+if(((gc149*)o)->header.flag==FSOH_UNMARKED){
+((gc149*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_data/*12*/)gc_mark193((T193*)(o->_data/*12*/));
+if(NULL!=o->_global_data/*8*/)gc_mark195((T195*)(o->_global_data/*8*/));
 if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }}
 
 
-void gc_align_mark148(fsoc*c,gc148*p){
-gc148*b=((gc148*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store148)))return;
+void gc_align_mark149(fsoc*c,gc149*p){
+gc149*b=((gc149*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store149)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T148*o=(&(p->object));
-((gc148*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_data/*12*/)gc_mark182((T182*)(o->_data/*12*/));
-if(NULL!=o->_global_data/*8*/)gc_mark184((T184*)(o->_global_data/*8*/));
+T149*o=(&(p->object));
+((gc149*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_data/*12*/)gc_mark193((T193*)(o->_data/*12*/));
+if(NULL!=o->_global_data/*8*/)gc_mark195((T195*)(o->_global_data/*8*/));
 if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }
 }
 }
-fsoc H148={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark148,
-(void(*)(mch*))gc_sweep148},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc148))-1)};
+fsoc H149={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark149,
+(void(*)(mch*))gc_sweep149},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc149))-1)};
 
 
-T148*new148(void){
-gc148*n;
+T149*new149(void){
+gc149*n;
 fsoc*c;
-if(store_left148>1){
-store_left148--;
-n=store148++;
+if(store_left149>1){
+store_left149--;
+n=store149++;
 }
-else if(gc_free148!=NULL){
-n=gc_free148;
-gc_free148=n->header.next;
+else if(gc_free149!=NULL){
+n=gc_free149;
+gc_free149=n->header.next;
 }
-else if(store_left148==1){
-store_left148=0;
-store_chunk148->header.state_type=FSO_USED_CHUNK;
-n=store148++;
+else if(store_left149==1){
+store_left149=0;
+store_chunk149->header.state_type=FSO_USED_CHUNK;
+n=store149++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free148!=NULL){
-n=gc_free148;
-gc_free148=n->header.next;
+if(gc_free149!=NULL){
+n=gc_free149;
+gc_free149=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk148=c;
-*store_chunk148=H148;
-store148=((gc148*)(&(store_chunk148->first_object)));
-store_left148=H148.count_minus_one;
-n=store148++;
+store_chunk149=c;
+*store_chunk149=H149;
+store149=((gc149*)(&(store_chunk149->first_object)));
+store_left149=H149.count_minus_one;
+n=store149++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M148;
-return((T148*)n);
+n->object=M149;
+return((T149*)n);
 }
 
 
-void gc_sweep72(fsoc*c){
-gc72*o1,*o2,*flt,flh;
-o1=((gc72*)(&(c->first_object)));
+void gc_sweep73(fsoc*c){
+gc73*o1,*o2,*flt,flh;
+o1=((gc73*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store72;o1++){
+for(;o1<store73;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free72;
-gc_free72=o1;
+o1->header.next=gc_free73;
+gc_free73=o1;
 }
 }
 }
@@ -4289,16 +5414,16 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free72;
-gc_free72=flh.header.next;
+flt->header.next=gc_free73;
+gc_free73=flh.header.next;
 }
 }
 }
 
 
-void gc_mark72(T72*o){
-if(((gc72*)o)->header.flag==FSOH_UNMARKED){
-((gc72*)o)->header.flag=FSOH_MARKED;
+void gc_mark73(T73*o){
+if(((gc73*)o)->header.flag==FSOH_UNMARKED){
+((gc73*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_image/*40*/)gc_mark49((T49*)(o->_image/*40*/));
 if(NULL!=o->_setup_pattern/*20*/)gc_mark51((T51*)(o->_setup_pattern/*20*/));
 if(NULL!=o->_pattern_list/*16*/)gc_mark59((T59*)(o->_pattern_list/*16*/));
@@ -4308,15 +5433,15 @@ if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }}
 
 
-void gc_align_mark72(fsoc*c,gc72*p){
-gc72*b=((gc72*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store72)))return;
+void gc_align_mark73(fsoc*c,gc73*p){
+gc73*b=((gc73*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store73)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T72*o=(&(p->object));
-((gc72*)o)->header.flag=FSOH_MARKED;
+T73*o=(&(p->object));
+((gc73*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_image/*40*/)gc_mark49((T49*)(o->_image/*40*/));
 if(NULL!=o->_setup_pattern/*20*/)gc_mark51((T51*)(o->_setup_pattern/*20*/));
 if(NULL!=o->_pattern_list/*16*/)gc_mark59((T59*)(o->_pattern_list/*16*/));
@@ -4326,49 +5451,49 @@ if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
 }
 }
 }
-fsoc H72={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark72,
-(void(*)(mch*))gc_sweep72},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc72))-1)};
+fsoc H73={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark73,
+(void(*)(mch*))gc_sweep73},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc73))-1)};
 
 
-T72*new72(void){
-gc72*n;
+T73*new73(void){
+gc73*n;
 fsoc*c;
-if(store_left72>1){
-store_left72--;
-n=store72++;
+if(store_left73>1){
+store_left73--;
+n=store73++;
 }
-else if(gc_free72!=NULL){
-n=gc_free72;
-gc_free72=n->header.next;
+else if(gc_free73!=NULL){
+n=gc_free73;
+gc_free73=n->header.next;
 }
-else if(store_left72==1){
-store_left72=0;
-store_chunk72->header.state_type=FSO_USED_CHUNK;
-n=store72++;
+else if(store_left73==1){
+store_left73=0;
+store_chunk73->header.state_type=FSO_USED_CHUNK;
+n=store73++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free72!=NULL){
-n=gc_free72;
-gc_free72=n->header.next;
+if(gc_free73!=NULL){
+n=gc_free73;
+gc_free73=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk72=c;
-*store_chunk72=H72;
-store72=((gc72*)(&(store_chunk72->first_object)));
-store_left72=H72.count_minus_one;
-n=store72++;
+store_chunk73=c;
+*store_chunk73=H73;
+store73=((gc73*)(&(store_chunk73->first_object)));
+store_left73=H73.count_minus_one;
+n=store73++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M72;
-return((T72*)n);
+n->object=M73;
+return((T73*)n);
 }
 
 
-void gc_mark193(T193 o){
+void gc_mark204(T204 o){
 rsoh*h=((rsoh*)o)-1;
 if((h->header.magic_flag)==RSOH_UNMARKED){
 h->header.magic_flag=RSOH_MARKED;
@@ -4376,46 +5501,46 @@ h->header.magic_flag=RSOH_MARKED;
 T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
 for(;((void*)p)>=((void*)o);p--){
 e=*p;
-if(NULL!=e)gc_mark192((T192*)(e));
+if(NULL!=e)gc_mark203((T203*)(e));
 
 }
 }
 }}
 
 
-T193 new193(int size){
+T204 new204(int size){
 size=(size*sizeof(T0*))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env193.store_left)){
-rsoh*r=na_env193.store;
-na_env193.store_left-=size;
-if(na_env193.store_left>sizeof(rsoh)){
+if (size<=(na_env204.store_left)){
+rsoh*r=na_env204.store;
+na_env204.store_left-=size;
+if(na_env204.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env193.store=((rsoh*)(((char*)(na_env193.store))+size));
+na_env204.store=((rsoh*)(((char*)(na_env204.store))+size));
 }
 else {
-r->header.size=size+na_env193.store_left;
-na_env193.store_left=0;
+r->header.size=size+na_env204.store_left;
+na_env204.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T193)(r+1));
+return((T204)(r+1));
 }
-return((T193)new_na(&na_env193,size));
+return((T204)new_na(&na_env204,size));
 }
 
 
-void gc_sweep121(fsoc*c){
-gc121*o1,*o2,*flt,flh;
-o1=((gc121*)(&(c->first_object)));
+void gc_sweep122(fsoc*c){
+gc122*o1,*o2,*flt,flh;
+o1=((gc122*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store121;o1++){
+for(;o1<store122;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free121;
-gc_free121=o1;
+o1->header.next=gc_free122;
+gc_free122=o1;
 }
 }
 }
@@ -4439,88 +5564,88 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free121;
-gc_free121=flh.header.next;
+flt->header.next=gc_free122;
+gc_free122=flh.header.next;
 }
 }
 }
 
 
-void gc_mark121(T121*o){
-if(((gc121*)o)->header.flag==FSOH_UNMARKED){
-((gc121*)o)->header.flag=FSOH_MARKED;
+void gc_mark122(T122*o){
+if(((gc122*)o)->header.flag==FSOH_UNMARKED){
+((gc122*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_current_link/*8*/)gc_mark66((T66*)(o->_current_link/*8*/));
 if(NULL!=o->_linked_list/*4*/)gc_mark65((T65*)(o->_linked_list/*4*/));
 }}
 
 
-void gc_align_mark121(fsoc*c,gc121*p){
-gc121*b=((gc121*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store121)))return;
+void gc_align_mark122(fsoc*c,gc122*p){
+gc122*b=((gc122*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store122)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T121*o=(&(p->object));
-((gc121*)o)->header.flag=FSOH_MARKED;
+T122*o=(&(p->object));
+((gc122*)o)->header.flag=FSOH_MARKED;
 if(NULL!=o->_current_link/*8*/)gc_mark66((T66*)(o->_current_link/*8*/));
 if(NULL!=o->_linked_list/*4*/)gc_mark65((T65*)(o->_linked_list/*4*/));
 }
 }
 }
-fsoc H121={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark121,
-(void(*)(mch*))gc_sweep121},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc121))-1)};
+fsoc H122={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark122,
+(void(*)(mch*))gc_sweep122},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc122))-1)};
 
 
-T121*new121(void){
-gc121*n;
+T122*new122(void){
+gc122*n;
 fsoc*c;
-if(store_left121>1){
-store_left121--;
-n=store121++;
+if(store_left122>1){
+store_left122--;
+n=store122++;
 }
-else if(gc_free121!=NULL){
-n=gc_free121;
-gc_free121=n->header.next;
+else if(gc_free122!=NULL){
+n=gc_free122;
+gc_free122=n->header.next;
 }
-else if(store_left121==1){
-store_left121=0;
-store_chunk121->header.state_type=FSO_USED_CHUNK;
-n=store121++;
+else if(store_left122==1){
+store_left122=0;
+store_chunk122->header.state_type=FSO_USED_CHUNK;
+n=store122++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free121!=NULL){
-n=gc_free121;
-gc_free121=n->header.next;
+if(gc_free122!=NULL){
+n=gc_free122;
+gc_free122=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk121=c;
-*store_chunk121=H121;
-store121=((gc121*)(&(store_chunk121->first_object)));
-store_left121=H121.count_minus_one;
-n=store121++;
+store_chunk122=c;
+*store_chunk122=H122;
+store122=((gc122*)(&(store_chunk122->first_object)));
+store_left122=H122.count_minus_one;
+n=store122++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M121;
-return((T121*)n);
+n->object=M122;
+return((T122*)n);
 }
 
 
-void gc_sweep128(fsoc*c){
-gc128*o1,*o2,*flt,flh;
-o1=((gc128*)(&(c->first_object)));
+void gc_sweep129(fsoc*c){
+gc129*o1,*o2,*flt,flh;
+o1=((gc129*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store128;o1++){
+for(;o1<store129;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free128;
-gc_free128=o1;
+o1->header.next=gc_free129;
+gc_free129=o1;
 }
 }
 }
@@ -4544,96 +5669,96 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free128;
-gc_free128=flh.header.next;
+flt->header.next=gc_free129;
+gc_free129=flh.header.next;
 }
 }
 }
 
 
-void gc_mark128(T128*o){
-if(((gc128*)o)->header.flag==FSOH_UNMARKED){
-((gc128*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_sequence/*52*/)gc_mark157((T157*)(o->_sequence/*52*/));
-if(NULL!=o->_connection/*44*/)gc_mark169((T169*)(o->_connection/*44*/));
-if(NULL!=o->_machine/*36*/)gc_mark152((T152*)(o->_machine/*36*/));
-if(NULL!=o->_wavetable/*28*/)gc_mark142((T142*)(o->_wavetable/*28*/));
-if(NULL!=o->_dir_table/*20*/)gc_mark177((T177*)(o->_dir_table/*20*/));
-if(NULL!=o->_dir/*16*/)gc_mark174((T174*)(o->_dir/*16*/));
+void gc_mark129(T129*o){
+if(((gc129*)o)->header.flag==FSOH_UNMARKED){
+((gc129*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_sequence/*52*/)gc_mark158((T158*)(o->_sequence/*52*/));
+if(NULL!=o->_connection/*44*/)gc_mark180((T180*)(o->_connection/*44*/));
+if(NULL!=o->_machine/*36*/)gc_mark153((T153*)(o->_machine/*36*/));
+if(NULL!=o->_wavetable/*28*/)gc_mark143((T143*)(o->_wavetable/*28*/));
+if(NULL!=o->_dir_table/*20*/)gc_mark188((T188*)(o->_dir_table/*20*/));
+if(NULL!=o->_dir/*16*/)gc_mark185((T185*)(o->_dir/*16*/));
 }}
 
 
-void gc_align_mark128(fsoc*c,gc128*p){
-gc128*b=((gc128*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store128)))return;
+void gc_align_mark129(fsoc*c,gc129*p){
+gc129*b=((gc129*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store129)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T128*o=(&(p->object));
-((gc128*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_sequence/*52*/)gc_mark157((T157*)(o->_sequence/*52*/));
-if(NULL!=o->_connection/*44*/)gc_mark169((T169*)(o->_connection/*44*/));
-if(NULL!=o->_machine/*36*/)gc_mark152((T152*)(o->_machine/*36*/));
-if(NULL!=o->_wavetable/*28*/)gc_mark142((T142*)(o->_wavetable/*28*/));
-if(NULL!=o->_dir_table/*20*/)gc_mark177((T177*)(o->_dir_table/*20*/));
-if(NULL!=o->_dir/*16*/)gc_mark174((T174*)(o->_dir/*16*/));
+T129*o=(&(p->object));
+((gc129*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_sequence/*52*/)gc_mark158((T158*)(o->_sequence/*52*/));
+if(NULL!=o->_connection/*44*/)gc_mark180((T180*)(o->_connection/*44*/));
+if(NULL!=o->_machine/*36*/)gc_mark153((T153*)(o->_machine/*36*/));
+if(NULL!=o->_wavetable/*28*/)gc_mark143((T143*)(o->_wavetable/*28*/));
+if(NULL!=o->_dir_table/*20*/)gc_mark188((T188*)(o->_dir_table/*20*/));
+if(NULL!=o->_dir/*16*/)gc_mark185((T185*)(o->_dir/*16*/));
 }
 }
 }
-fsoc H128={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark128,
-(void(*)(mch*))gc_sweep128},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc128))-1)};
+fsoc H129={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark129,
+(void(*)(mch*))gc_sweep129},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc129))-1)};
 
 
-T128*new128(void){
-gc128*n;
+T129*new129(void){
+gc129*n;
 fsoc*c;
-if(store_left128>1){
-store_left128--;
-n=store128++;
+if(store_left129>1){
+store_left129--;
+n=store129++;
 }
-else if(gc_free128!=NULL){
-n=gc_free128;
-gc_free128=n->header.next;
+else if(gc_free129!=NULL){
+n=gc_free129;
+gc_free129=n->header.next;
 }
-else if(store_left128==1){
-store_left128=0;
-store_chunk128->header.state_type=FSO_USED_CHUNK;
-n=store128++;
+else if(store_left129==1){
+store_left129=0;
+store_chunk129->header.state_type=FSO_USED_CHUNK;
+n=store129++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free128!=NULL){
-n=gc_free128;
-gc_free128=n->header.next;
+if(gc_free129!=NULL){
+n=gc_free129;
+gc_free129=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk128=c;
-*store_chunk128=H128;
-store128=((gc128*)(&(store_chunk128->first_object)));
-store_left128=H128.count_minus_one;
-n=store128++;
+store_chunk129=c;
+*store_chunk129=H129;
+store129=((gc129*)(&(store_chunk129->first_object)));
+store_left129=H129.count_minus_one;
+n=store129++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M128;
-return((T128*)n);
+n->object=M129;
+return((T129*)n);
 }
 
 
-void gc_sweep165(fsoc*c){
-gc165*o1,*o2,*flt,flh;
-o1=((gc165*)(&(c->first_object)));
+void gc_sweep176(fsoc*c){
+gc176*o1,*o2,*flt,flh;
+o1=((gc176*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store165;o1++){
+for(;o1<store176;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free165;
-gc_free165=o1;
+o1->header.next=gc_free176;
+gc_free176=o1;
 }
 }
 }
@@ -4657,83 +5782,83 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free165;
-gc_free165=flh.header.next;
+flt->header.next=gc_free176;
+gc_free176=flh.header.next;
 }
 }
 }
 
 
-void gc_mark165(T165*o){
-((gc165*)o)->header.flag=FSOH_MARKED;
+void gc_mark176(T176*o){
+((gc176*)o)->header.flag=FSOH_MARKED;
 }
 
 
-void gc_align_mark165(fsoc*c,gc165*p){
-gc165*b=((gc165*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store165)))return;
+void gc_align_mark176(fsoc*c,gc176*p){
+gc176*b=((gc176*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store176)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T165*o=(&(p->object));
-((gc165*)o)->header.flag=FSOH_MARKED;
+T176*o=(&(p->object));
+((gc176*)o)->header.flag=FSOH_MARKED;
 }
 }
 }
-fsoc H165={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark165,
-(void(*)(mch*))gc_sweep165},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc165))-1)};
+fsoc H176={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark176,
+(void(*)(mch*))gc_sweep176},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc176))-1)};
 
 
-T165*new165(void){
-gc165*n;
+T176*new176(void){
+gc176*n;
 fsoc*c;
-if(store_left165>1){
-store_left165--;
-n=store165++;
+if(store_left176>1){
+store_left176--;
+n=store176++;
 }
-else if(gc_free165!=NULL){
-n=gc_free165;
-gc_free165=n->header.next;
+else if(gc_free176!=NULL){
+n=gc_free176;
+gc_free176=n->header.next;
 }
-else if(store_left165==1){
-store_left165=0;
-store_chunk165->header.state_type=FSO_USED_CHUNK;
-n=store165++;
+else if(store_left176==1){
+store_left176=0;
+store_chunk176->header.state_type=FSO_USED_CHUNK;
+n=store176++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free165!=NULL){
-n=gc_free165;
-gc_free165=n->header.next;
+if(gc_free176!=NULL){
+n=gc_free176;
+gc_free176=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk165=c;
-*store_chunk165=H165;
-store165=((gc165*)(&(store_chunk165->first_object)));
-store_left165=H165.count_minus_one;
-n=store165++;
+store_chunk176=c;
+*store_chunk176=H176;
+store176=((gc176*)(&(store_chunk176->first_object)));
+store_left176=H176.count_minus_one;
+n=store176++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M165;
-return((T165*)n);
+n->object=M176;
+return((T176*)n);
 }
 
 
-void gc_sweep161(fsoc*c){
-gc161*o1,*o2,*flt,flh;
-o1=((gc161*)(&(c->first_object)));
+void gc_sweep162(fsoc*c){
+gc162*o1,*o2,*flt,flh;
+o1=((gc162*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store161;o1++){
+for(;o1<store162;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free161;
-gc_free161=o1;
+o1->header.next=gc_free162;
+gc_free162=o1;
 }
 }
 }
@@ -4757,88 +5882,88 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free161;
-gc_free161=flh.header.next;
+flt->header.next=gc_free162;
+gc_free162=flh.header.next;
 }
 }
 }
 
 
-void gc_mark161(T161*o){
-if(((gc161*)o)->header.flag==FSOH_UNMARKED){
-((gc161*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_cache_node/*20*/)gc_mark162((T162*)(o->_cache_node/*20*/));
-if(NULL!=o->_buckets/*4*/)gc_mark163((o->_buckets/*4*/));
+void gc_mark162(T162*o){
+if(((gc162*)o)->header.flag==FSOH_UNMARKED){
+((gc162*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_cache_node/*20*/)gc_mark163((T163*)(o->_cache_node/*20*/));
+if(NULL!=o->_buckets/*4*/)gc_mark164((o->_buckets/*4*/));
 }}
 
 
-void gc_align_mark161(fsoc*c,gc161*p){
-gc161*b=((gc161*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store161)))return;
+void gc_align_mark162(fsoc*c,gc162*p){
+gc162*b=((gc162*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store162)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T161*o=(&(p->object));
-((gc161*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_cache_node/*20*/)gc_mark162((T162*)(o->_cache_node/*20*/));
-if(NULL!=o->_buckets/*4*/)gc_mark163((o->_buckets/*4*/));
+T162*o=(&(p->object));
+((gc162*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_cache_node/*20*/)gc_mark163((T163*)(o->_cache_node/*20*/));
+if(NULL!=o->_buckets/*4*/)gc_mark164((o->_buckets/*4*/));
 }
 }
 }
-fsoc H161={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark161,
-(void(*)(mch*))gc_sweep161},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc161))-1)};
+fsoc H162={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark162,
+(void(*)(mch*))gc_sweep162},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc162))-1)};
 
 
-T161*new161(void){
-gc161*n;
+T162*new162(void){
+gc162*n;
 fsoc*c;
-if(store_left161>1){
-store_left161--;
-n=store161++;
+if(store_left162>1){
+store_left162--;
+n=store162++;
 }
-else if(gc_free161!=NULL){
-n=gc_free161;
-gc_free161=n->header.next;
+else if(gc_free162!=NULL){
+n=gc_free162;
+gc_free162=n->header.next;
 }
-else if(store_left161==1){
-store_left161=0;
-store_chunk161->header.state_type=FSO_USED_CHUNK;
-n=store161++;
+else if(store_left162==1){
+store_left162=0;
+store_chunk162->header.state_type=FSO_USED_CHUNK;
+n=store162++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free161!=NULL){
-n=gc_free161;
-gc_free161=n->header.next;
+if(gc_free162!=NULL){
+n=gc_free162;
+gc_free162=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk161=c;
-*store_chunk161=H161;
-store161=((gc161*)(&(store_chunk161->first_object)));
-store_left161=H161.count_minus_one;
-n=store161++;
+store_chunk162=c;
+*store_chunk162=H162;
+store162=((gc162*)(&(store_chunk162->first_object)));
+store_left162=H162.count_minus_one;
+n=store162++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M161;
-return((T161*)n);
+n->object=M162;
+return((T162*)n);
 }
 
 
-void gc_sweep123(fsoc*c){
-gc123*o1,*o2,*flt,flh;
-o1=((gc123*)(&(c->first_object)));
+void gc_sweep124(fsoc*c){
+gc124*o1,*o2,*flt,flh;
+o1=((gc124*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store123;o1++){
+for(;o1<store124;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free123;
-gc_free123=o1;
+o1->header.next=gc_free124;
+gc_free124=o1;
 }
 }
 }
@@ -4862,90 +5987,90 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free123;
-gc_free123=flh.header.next;
+flt->header.next=gc_free124;
+gc_free124=flh.header.next;
 }
 }
 }
 
 
-void gc_mark123(T123*o){
-if(((gc123*)o)->header.flag==FSOH_UNMARKED){
-((gc123*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_mem_lnk/*20*/)gc_mark124((T124*)(o->_mem_lnk/*20*/));
-if(NULL!=o->_last_link/*12*/)gc_mark124((T124*)(o->_last_link/*12*/));
-if(NULL!=o->_first_link/*8*/)gc_mark124((T124*)(o->_first_link/*8*/));
+void gc_mark124(T124*o){
+if(((gc124*)o)->header.flag==FSOH_UNMARKED){
+((gc124*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_mem_lnk/*20*/)gc_mark125((T125*)(o->_mem_lnk/*20*/));
+if(NULL!=o->_last_link/*12*/)gc_mark125((T125*)(o->_last_link/*12*/));
+if(NULL!=o->_first_link/*8*/)gc_mark125((T125*)(o->_first_link/*8*/));
 }}
 
 
-void gc_align_mark123(fsoc*c,gc123*p){
-gc123*b=((gc123*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store123)))return;
+void gc_align_mark124(fsoc*c,gc124*p){
+gc124*b=((gc124*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store124)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T123*o=(&(p->object));
-((gc123*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_mem_lnk/*20*/)gc_mark124((T124*)(o->_mem_lnk/*20*/));
-if(NULL!=o->_last_link/*12*/)gc_mark124((T124*)(o->_last_link/*12*/));
-if(NULL!=o->_first_link/*8*/)gc_mark124((T124*)(o->_first_link/*8*/));
+T124*o=(&(p->object));
+((gc124*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_mem_lnk/*20*/)gc_mark125((T125*)(o->_mem_lnk/*20*/));
+if(NULL!=o->_last_link/*12*/)gc_mark125((T125*)(o->_last_link/*12*/));
+if(NULL!=o->_first_link/*8*/)gc_mark125((T125*)(o->_first_link/*8*/));
 }
 }
 }
-fsoc H123={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark123,
-(void(*)(mch*))gc_sweep123},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc123))-1)};
+fsoc H124={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark124,
+(void(*)(mch*))gc_sweep124},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc124))-1)};
 
 
-T123*new123(void){
-gc123*n;
+T124*new124(void){
+gc124*n;
 fsoc*c;
-if(store_left123>1){
-store_left123--;
-n=store123++;
+if(store_left124>1){
+store_left124--;
+n=store124++;
 }
-else if(gc_free123!=NULL){
-n=gc_free123;
-gc_free123=n->header.next;
+else if(gc_free124!=NULL){
+n=gc_free124;
+gc_free124=n->header.next;
 }
-else if(store_left123==1){
-store_left123=0;
-store_chunk123->header.state_type=FSO_USED_CHUNK;
-n=store123++;
+else if(store_left124==1){
+store_left124=0;
+store_chunk124->header.state_type=FSO_USED_CHUNK;
+n=store124++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free123!=NULL){
-n=gc_free123;
-gc_free123=n->header.next;
+if(gc_free124!=NULL){
+n=gc_free124;
+gc_free124=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk123=c;
-*store_chunk123=H123;
-store123=((gc123*)(&(store_chunk123->first_object)));
-store_left123=H123.count_minus_one;
-n=store123++;
+store_chunk124=c;
+*store_chunk124=H124;
+store124=((gc124*)(&(store_chunk124->first_object)));
+store_left124=H124.count_minus_one;
+n=store124++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M123;
-return((T123*)n);
+n->object=M124;
+return((T124*)n);
 }
 
 
-void gc_sweep76(fsoc*c){
-gc76*o1,*o2,*flt,flh;
-o1=((gc76*)(&(c->first_object)));
+void gc_sweep77(fsoc*c){
+gc77*o1,*o2,*flt,flh;
+o1=((gc77*)(&(c->first_object)));
 if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store76;o1++){
+for(;o1<store77;o1++){
 if((o1->header.flag)==FSOH_MARKED){
 o1->header.flag=FSOH_UNMARKED;
 }
 else{
-o1->header.next=gc_free76;
-gc_free76=o1;
+o1->header.next=gc_free77;
+gc_free77=o1;
 }
 }
 }
@@ -4969,74 +6094,74 @@ fsocfl=c;
 c->header.state_type=FSO_FREE_CHUNK;
 }
 else if(flh.header.next!=NULL){
-flt->header.next=gc_free76;
-gc_free76=flh.header.next;
+flt->header.next=gc_free77;
+gc_free77=flh.header.next;
 }
 }
 }
 
 
-void gc_mark76(T76*o){
-if(((gc76*)o)->header.flag==FSOH_UNMARKED){
-((gc76*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_cache_node/*20*/)gc_mark77((T77*)(o->_cache_node/*20*/));
-if(NULL!=o->_buckets/*4*/)gc_mark78((o->_buckets/*4*/));
+void gc_mark77(T77*o){
+if(((gc77*)o)->header.flag==FSOH_UNMARKED){
+((gc77*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_cache_node/*20*/)gc_mark78((T78*)(o->_cache_node/*20*/));
+if(NULL!=o->_buckets/*4*/)gc_mark79((o->_buckets/*4*/));
 }}
 
 
-void gc_align_mark76(fsoc*c,gc76*p){
-gc76*b=((gc76*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store76)))return;
+void gc_align_mark77(fsoc*c,gc77*p){
+gc77*b=((gc77*)(&(c->first_object)));
+if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store77)))return;
 if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
 if(((char*)p)<((char*)b))return;
 if(((((char*)p)-((char*)b))%sizeof(*p))==0){
 if(p->header.flag==FSOH_UNMARKED){
-T76*o=(&(p->object));
-((gc76*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_cache_node/*20*/)gc_mark77((T77*)(o->_cache_node/*20*/));
-if(NULL!=o->_buckets/*4*/)gc_mark78((o->_buckets/*4*/));
+T77*o=(&(p->object));
+((gc77*)o)->header.flag=FSOH_MARKED;
+if(NULL!=o->_cache_node/*20*/)gc_mark78((T78*)(o->_cache_node/*20*/));
+if(NULL!=o->_buckets/*4*/)gc_mark79((o->_buckets/*4*/));
 }
 }
 }
-fsoc H76={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark76,
-(void(*)(mch*))gc_sweep76},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc76))-1)};
+fsoc H77={{FSOC_SIZE,FSO_STORE_CHUNK,
+(void(*)(mch*,void*))gc_align_mark77,
+(void(*)(mch*))gc_sweep77},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc77))-1)};
 
 
-T76*new76(void){
-gc76*n;
+T77*new77(void){
+gc77*n;
 fsoc*c;
-if(store_left76>1){
-store_left76--;
-n=store76++;
+if(store_left77>1){
+store_left77--;
+n=store77++;
 }
-else if(gc_free76!=NULL){
-n=gc_free76;
-gc_free76=n->header.next;
+else if(gc_free77!=NULL){
+n=gc_free77;
+gc_free77=n->header.next;
 }
-else if(store_left76==1){
-store_left76=0;
-store_chunk76->header.state_type=FSO_USED_CHUNK;
-n=store76++;
+else if(store_left77==1){
+store_left77=0;
+store_chunk77->header.state_type=FSO_USED_CHUNK;
+n=store77++;
 }
 else{
 c=gc_fsoc_get1();
-if(gc_free76!=NULL){
-n=gc_free76;
-gc_free76=n->header.next;
+if(gc_free77!=NULL){
+n=gc_free77;
+gc_free77=n->header.next;
 }
 else{
 if(c==NULL)c=gc_fsoc_get2();
-store_chunk76=c;
-*store_chunk76=H76;
-store76=((gc76*)(&(store_chunk76->first_object)));
-store_left76=H76.count_minus_one;
-n=store76++;
+store_chunk77=c;
+*store_chunk77=H77;
+store77=((gc77*)(&(store_chunk77->first_object)));
+store_left77=H77.count_minus_one;
+n=store77++;
 }
 }
 n->header.flag=FSOH_UNMARKED;
-n->object=M76;
-return((T76*)n);
+n->object=M77;
+return((T77*)n);
 }
 
 
@@ -5145,7 +6270,7 @@ return((T64*)n);
 }
 
 
-void gc_mark99(T99 o){
+void gc_mark100(T100 o){
 rsoh*h=((rsoh*)o)-1;
 if((h->header.magic_flag)==RSOH_UNMARKED){
 h->header.magic_flag=RSOH_MARKED;
@@ -5153,2987 +6278,31 @@ h->header.magic_flag=RSOH_MARKED;
 T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
 for(;((void*)p)>=((void*)o);p--){
 e=*p;
-if(NULL!=e)gc_mark98((T98*)(e));
+if(NULL!=e)gc_mark99((T99*)(e));
 
 }
 }
 }}
 
 
-T99 new99(int size){
+T100 new100(int size){
 size=(size*sizeof(T0*))+sizeof(rsoh);
 if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env99.store_left)){
-rsoh*r=na_env99.store;
-na_env99.store_left-=size;
-if(na_env99.store_left>sizeof(rsoh)){
+if (size<=(na_env100.store_left)){
+rsoh*r=na_env100.store;
+na_env100.store_left-=size;
+if(na_env100.store_left>sizeof(rsoh)){
 r->header.size=size;
-na_env99.store=((rsoh*)(((char*)(na_env99.store))+size));
+na_env100.store=((rsoh*)(((char*)(na_env100.store))+size));
 }
 else {
-r->header.size=size+na_env99.store_left;
-na_env99.store_left=0;
+r->header.size=size+na_env100.store_left;
+na_env100.store_left=0;
 }
 (r->header.magic_flag)=RSOH_UNMARKED;
 ((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T99)(r+1));
+return((T100)(r+1));
 }
-return((T99)new_na(&na_env99,size));
-}
-
-
-void gc_mark144(T144 o){
-rsoh*h=((rsoh*)o)-1;
-if((h->header.magic_flag)==RSOH_UNMARKED){
-h->header.magic_flag=RSOH_MARKED;
-{T0* e;
-T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
-for(;((void*)p)>=((void*)o);p--){
-e=*p;
-if(NULL!=e)gc_mark138((T138*)(e));
-
-}
-}
-}}
-
-
-T144 new144(int size){
-size=(size*sizeof(T0*))+sizeof(rsoh);
-if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env144.store_left)){
-rsoh*r=na_env144.store;
-na_env144.store_left-=size;
-if(na_env144.store_left>sizeof(rsoh)){
-r->header.size=size;
-na_env144.store=((rsoh*)(((char*)(na_env144.store))+size));
-}
-else {
-r->header.size=size+na_env144.store_left;
-na_env144.store_left=0;
-}
-(r->header.magic_flag)=RSOH_UNMARKED;
-((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T144)(r+1));
-}
-return((T144)new_na(&na_env144,size));
-}
-
-
-void gc_sweep152(fsoc*c){
-gc152*o1,*o2,*flt,flh;
-o1=((gc152*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store152;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free152;
-gc_free152=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free152;
-gc_free152=flh.header.next;
-}
-}
-}
-
-
-void gc_mark152(T152*o){
-if(((gc152*)o)->header.flag==FSOH_UNMARKED){
-((gc152*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark154((o->_storage/*4*/));
-}}
-
-
-void gc_align_mark152(fsoc*c,gc152*p){
-gc152*b=((gc152*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store152)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T152*o=(&(p->object));
-((gc152*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark154((o->_storage/*4*/));
-}
-}
-}
-fsoc H152={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark152,
-(void(*)(mch*))gc_sweep152},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc152))-1)};
-
-
-T152*new152(void){
-gc152*n;
-fsoc*c;
-if(store_left152>1){
-store_left152--;
-n=store152++;
-}
-else if(gc_free152!=NULL){
-n=gc_free152;
-gc_free152=n->header.next;
-}
-else if(store_left152==1){
-store_left152=0;
-store_chunk152->header.state_type=FSO_USED_CHUNK;
-n=store152++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free152!=NULL){
-n=gc_free152;
-gc_free152=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk152=c;
-*store_chunk152=H152;
-store152=((gc152*)(&(store_chunk152->first_object)));
-store_left152=H152.count_minus_one;
-n=store152++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M152;
-return((T152*)n);
-}
-
-
-void gc_mark183(T183 o){
-rsoh*h=((rsoh*)o)-1;
-if((h->header.magic_flag)==RSOH_UNMARKED){
-h->header.magic_flag=RSOH_MARKED;
-{T0* e;
-T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
-for(;((void*)p)>=((void*)o);p--){
-e=*p;
-if(NULL!=e)gc_mark7((T7*)(e));
-
-}
-}
-}}
-
-
-T183 new183(int size){
-size=(size*sizeof(T0*))+sizeof(rsoh);
-if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env183.store_left)){
-rsoh*r=na_env183.store;
-na_env183.store_left-=size;
-if(na_env183.store_left>sizeof(rsoh)){
-r->header.size=size;
-na_env183.store=((rsoh*)(((char*)(na_env183.store))+size));
-}
-else {
-r->header.size=size+na_env183.store_left;
-na_env183.store_left=0;
-}
-(r->header.magic_flag)=RSOH_UNMARKED;
-((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T183)(r+1));
-}
-return((T183)new_na(&na_env183,size));
-}
-
-
-void gc_mark176(T176 o){
-rsoh*h=((rsoh*)o)-1;
-if((h->header.magic_flag)==RSOH_UNMARKED){
-h->header.magic_flag=RSOH_MARKED;
-{T0* e;
-T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
-for(;((void*)p)>=((void*)o);p--){
-e=*p;
-if(NULL!=e)gc_mark173((T173*)(e));
-
-}
-}
-}}
-
-
-T176 new176(int size){
-size=(size*sizeof(T0*))+sizeof(rsoh);
-if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env176.store_left)){
-rsoh*r=na_env176.store;
-na_env176.store_left-=size;
-if(na_env176.store_left>sizeof(rsoh)){
-r->header.size=size;
-na_env176.store=((rsoh*)(((char*)(na_env176.store))+size));
-}
-else {
-r->header.size=size+na_env176.store_left;
-na_env176.store_left=0;
-}
-(r->header.magic_flag)=RSOH_UNMARKED;
-((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T176)(r+1));
-}
-return((T176)new_na(&na_env176,size));
-}
-
-
-void gc_mark78(T78 o){
-rsoh*h=((rsoh*)o)-1;
-if((h->header.magic_flag)==RSOH_UNMARKED){
-h->header.magic_flag=RSOH_MARKED;
-{T0* e;
-T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
-for(;((void*)p)>=((void*)o);p--){
-e=*p;
-if(NULL!=e)gc_mark77((T77*)(e));
-
-}
-}
-}}
-
-
-T78 new78(int size){
-size=(size*sizeof(T0*))+sizeof(rsoh);
-if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env78.store_left)){
-rsoh*r=na_env78.store;
-na_env78.store_left-=size;
-if(na_env78.store_left>sizeof(rsoh)){
-r->header.size=size;
-na_env78.store=((rsoh*)(((char*)(na_env78.store))+size));
-}
-else {
-r->header.size=size+na_env78.store_left;
-na_env78.store_left=0;
-}
-(r->header.magic_flag)=RSOH_UNMARKED;
-((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T78)(r+1));
-}
-return((T78)new_na(&na_env78,size));
-}
-
-
-void gc_sweep186(fsoc*c){
-gc186*o1,*o2,*flt,flh;
-o1=((gc186*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store186;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free186;
-gc_free186=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free186;
-gc_free186=flh.header.next;
-}
-}
-}
-
-
-void gc_mark186(T186*o){
-if(((gc186*)o)->header.flag==FSOH_UNMARKED){
-((gc186*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark9((o->_storage/*4*/));
-}}
-
-
-void gc_align_mark186(fsoc*c,gc186*p){
-gc186*b=((gc186*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store186)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T186*o=(&(p->object));
-((gc186*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark9((o->_storage/*4*/));
-}
-}
-}
-fsoc H186={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark186,
-(void(*)(mch*))gc_sweep186},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc186))-1)};
-
-
-T186*new186(void){
-gc186*n;
-fsoc*c;
-if(store_left186>1){
-store_left186--;
-n=store186++;
-}
-else if(gc_free186!=NULL){
-n=gc_free186;
-gc_free186=n->header.next;
-}
-else if(store_left186==1){
-store_left186=0;
-store_chunk186->header.state_type=FSO_USED_CHUNK;
-n=store186++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free186!=NULL){
-n=gc_free186;
-gc_free186=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk186=c;
-*store_chunk186=H186;
-store186=((gc186*)(&(store_chunk186->first_object)));
-store_left186=H186.count_minus_one;
-n=store186++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M186;
-return((T186*)n);
-}
-
-
-void gc_sweep42(fsoc*c){
-gc42*o1,*o2,*flt,flh;
-o1=((gc42*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store42;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free42;
-gc_free42=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free42;
-gc_free42=flh.header.next;
-}
-}
-}
-
-
-void gc_mark42(T42*o){
-begin:
-if(((gc42*)o)->header.flag==FSOH_UNMARKED){
-((gc42*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_item/*4*/)Xgc_mark35((T0*)(o->_item/*4*/));
-o=(void*)o->_next;
-if((o!=NULL))goto begin;
-}}
-
-
-void gc_align_mark42(fsoc*c,gc42*p){
-gc42*b=((gc42*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store42)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T42*o=(&(p->object));
-begin:
-((gc42*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_item/*4*/)Xgc_mark35((T0*)(o->_item/*4*/));
-o=(void*)o->_next;
-if((o!=NULL)&&(((gc42*)o)->header.flag==FSOH_UNMARKED))goto begin;
-}
-}
-}
-fsoc H42={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark42,
-(void(*)(mch*))gc_sweep42},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc42))-1)};
-
-
-T42*new42(void){
-gc42*n;
-fsoc*c;
-if(store_left42>1){
-store_left42--;
-n=store42++;
-}
-else if(gc_free42!=NULL){
-n=gc_free42;
-gc_free42=n->header.next;
-}
-else if(store_left42==1){
-store_left42=0;
-store_chunk42->header.state_type=FSO_USED_CHUNK;
-n=store42++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free42!=NULL){
-n=gc_free42;
-gc_free42=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk42=c;
-*store_chunk42=H42;
-store42=((gc42*)(&(store_chunk42->first_object)));
-store_left42=H42.count_minus_one;
-n=store42++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M42;
-return((T42*)n);
-}
-
-
-void gc_sweep110(fsoc*c){
-gc110*o1,*o2,*flt,flh;
-o1=((gc110*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store110;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free110;
-gc_free110=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free110;
-gc_free110=flh.header.next;
-}
-}
-}
-
-
-void gc_mark110(T110*o){
-if(((gc110*)o)->header.flag==FSOH_UNMARKED){
-((gc110*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_dictionary/*4*/)Xgc_mark111((T0*)(o->_dictionary/*4*/));
-}}
-
-
-void gc_align_mark110(fsoc*c,gc110*p){
-gc110*b=((gc110*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store110)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T110*o=(&(p->object));
-((gc110*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_dictionary/*4*/)Xgc_mark111((T0*)(o->_dictionary/*4*/));
-}
-}
-}
-fsoc H110={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark110,
-(void(*)(mch*))gc_sweep110},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc110))-1)};
-
-
-T110*new110(void){
-gc110*n;
-fsoc*c;
-if(store_left110>1){
-store_left110--;
-n=store110++;
-}
-else if(gc_free110!=NULL){
-n=gc_free110;
-gc_free110=n->header.next;
-}
-else if(store_left110==1){
-store_left110=0;
-store_chunk110->header.state_type=FSO_USED_CHUNK;
-n=store110++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free110!=NULL){
-n=gc_free110;
-gc_free110=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk110=c;
-*store_chunk110=H110;
-store110=((gc110*)(&(store_chunk110->first_object)));
-store_left110=H110.count_minus_one;
-n=store110++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M110;
-return((T110*)n);
-}
-
-
-void gc_sweep67(fsoc*c){
-gc67*o1,*o2,*flt,flh;
-o1=((gc67*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store67;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free67;
-gc_free67=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free67;
-gc_free67=flh.header.next;
-}
-}
-}
-
-
-void gc_mark67(T67*o){
-if(((gc67*)o)->header.flag==FSOH_UNMARKED){
-((gc67*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_buffer/*61*/)Xgc_mark117((T0*)(o->_buffer/*61*/));
-if(NULL!=o->_image/*40*/)gc_mark49((T49*)(o->_image/*40*/));
-if(NULL!=o->_setup_pattern/*20*/)gc_mark51((T51*)(o->_setup_pattern/*20*/));
-if(NULL!=o->_pattern_list/*16*/)gc_mark59((T59*)(o->_pattern_list/*16*/));
-if(NULL!=o->_pattern_table/*12*/)gc_mark61((T61*)(o->_pattern_table/*12*/));
-if(NULL!=o->_in_connection/*8*/)gc_mark65((T65*)(o->_in_connection/*8*/));
-if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
-}}
-
-
-void gc_align_mark67(fsoc*c,gc67*p){
-gc67*b=((gc67*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store67)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T67*o=(&(p->object));
-((gc67*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_buffer/*61*/)Xgc_mark117((T0*)(o->_buffer/*61*/));
-if(NULL!=o->_image/*40*/)gc_mark49((T49*)(o->_image/*40*/));
-if(NULL!=o->_setup_pattern/*20*/)gc_mark51((T51*)(o->_setup_pattern/*20*/));
-if(NULL!=o->_pattern_list/*16*/)gc_mark59((T59*)(o->_pattern_list/*16*/));
-if(NULL!=o->_pattern_table/*12*/)gc_mark61((T61*)(o->_pattern_table/*12*/));
-if(NULL!=o->_in_connection/*8*/)gc_mark65((T65*)(o->_in_connection/*8*/));
-if(NULL!=o->_name/*4*/)gc_mark7((T7*)(o->_name/*4*/));
-}
-}
-}
-fsoc H67={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark67,
-(void(*)(mch*))gc_sweep67},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc67))-1)};
-
-
-T67*new67(void){
-gc67*n;
-fsoc*c;
-if(store_left67>1){
-store_left67--;
-n=store67++;
-}
-else if(gc_free67!=NULL){
-n=gc_free67;
-gc_free67=n->header.next;
-}
-else if(store_left67==1){
-store_left67=0;
-store_chunk67->header.state_type=FSO_USED_CHUNK;
-n=store67++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free67!=NULL){
-n=gc_free67;
-gc_free67=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk67=c;
-*store_chunk67=H67;
-store67=((gc67*)(&(store_chunk67->first_object)));
-store_left67=H67.count_minus_one;
-n=store67++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M67;
-return((T67*)n);
-}
-
-
-void gc_sweep200(fsoc*c){
-gc200*o1,*o2,*flt,flh;
-o1=((gc200*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store200;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free200;
-gc_free200=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free200;
-gc_free200=flh.header.next;
-}
-}
-}
-
-
-void gc_mark200(T200*o){
-((gc200*)o)->header.flag=FSOH_MARKED;
-}
-
-
-void gc_align_mark200(fsoc*c,gc200*p){
-gc200*b=((gc200*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store200)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T200*o=(&(p->object));
-((gc200*)o)->header.flag=FSOH_MARKED;
-}
-}
-}
-fsoc H200={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark200,
-(void(*)(mch*))gc_sweep200},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc200))-1)};
-
-
-T200*new200(void){
-gc200*n;
-fsoc*c;
-if(store_left200>1){
-store_left200--;
-n=store200++;
-}
-else if(gc_free200!=NULL){
-n=gc_free200;
-gc_free200=n->header.next;
-}
-else if(store_left200==1){
-store_left200=0;
-store_chunk200->header.state_type=FSO_USED_CHUNK;
-n=store200++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free200!=NULL){
-n=gc_free200;
-gc_free200=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk200=c;
-*store_chunk200=H200;
-store200=((gc200*)(&(store_chunk200->first_object)));
-store_left200=H200.count_minus_one;
-n=store200++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M200;
-return((T200*)n);
-}
-
-
-void gc_sweep55(fsoc*c){
-gc55*o1,*o2,*flt,flh;
-o1=((gc55*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store55;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free55;
-gc_free55=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free55;
-gc_free55=flh.header.next;
-}
-}
-}
-
-
-void gc_mark55(T55*o){
-if(((gc55*)o)->header.flag==FSOH_UNMARKED){
-((gc55*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_cache_node/*20*/)gc_mark57((T57*)(o->_cache_node/*20*/));
-if(NULL!=o->_buckets/*4*/)gc_mark58((o->_buckets/*4*/));
-}}
-
-
-void gc_align_mark55(fsoc*c,gc55*p){
-gc55*b=((gc55*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store55)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T55*o=(&(p->object));
-((gc55*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_cache_node/*20*/)gc_mark57((T57*)(o->_cache_node/*20*/));
-if(NULL!=o->_buckets/*4*/)gc_mark58((o->_buckets/*4*/));
-}
-}
-}
-fsoc H55={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark55,
-(void(*)(mch*))gc_sweep55},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc55))-1)};
-
-
-T55*new55(void){
-gc55*n;
-fsoc*c;
-if(store_left55>1){
-store_left55--;
-n=store55++;
-}
-else if(gc_free55!=NULL){
-n=gc_free55;
-gc_free55=n->header.next;
-}
-else if(store_left55==1){
-store_left55=0;
-store_chunk55->header.state_type=FSO_USED_CHUNK;
-n=store55++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free55!=NULL){
-n=gc_free55;
-gc_free55=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk55=c;
-*store_chunk55=H55;
-store55=((gc55*)(&(store_chunk55->first_object)));
-store_left55=H55.count_minus_one;
-n=store55++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M55;
-return((T55*)n);
-}
-
-
-void gc_sweep108(fsoc*c){
-gc108*o1,*o2,*flt,flh;
-o1=((gc108*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store108;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free108;
-gc_free108=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free108;
-gc_free108=flh.header.next;
-}
-}
-}
-
-
-void gc_mark108(T108*o){
-begin:
-if(((gc108*)o)->header.flag==FSOH_UNMARKED){
-((gc108*)o)->header.flag=FSOH_MARKED;
-o=(void*)o->_next;
-if((o!=NULL))goto begin;
-}}
-
-
-void gc_align_mark108(fsoc*c,gc108*p){
-gc108*b=((gc108*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store108)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T108*o=(&(p->object));
-begin:
-((gc108*)o)->header.flag=FSOH_MARKED;
-o=(void*)o->_next;
-if((o!=NULL)&&(((gc108*)o)->header.flag==FSOH_UNMARKED))goto begin;
-}
-}
-}
-fsoc H108={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark108,
-(void(*)(mch*))gc_sweep108},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc108))-1)};
-
-
-T108*new108(void){
-gc108*n;
-fsoc*c;
-if(store_left108>1){
-store_left108--;
-n=store108++;
-}
-else if(gc_free108!=NULL){
-n=gc_free108;
-gc_free108=n->header.next;
-}
-else if(store_left108==1){
-store_left108=0;
-store_chunk108->header.state_type=FSO_USED_CHUNK;
-n=store108++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free108!=NULL){
-n=gc_free108;
-gc_free108=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk108=c;
-*store_chunk108=H108;
-store108=((gc108*)(&(store_chunk108->first_object)));
-store_left108=H108.count_minus_one;
-n=store108++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M108;
-return((T108*)n);
-}
-
-
-void gc_sweep57(fsoc*c){
-gc57*o1,*o2,*flt,flh;
-o1=((gc57*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store57;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free57;
-gc_free57=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free57;
-gc_free57=flh.header.next;
-}
-}
-}
-
-
-void gc_mark57(T57*o){
-begin:
-if(((gc57*)o)->header.flag==FSOH_UNMARKED){
-((gc57*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_item/*4*/)gc_mark56((T56*)(o->_item/*4*/));
-o=(void*)o->_next;
-if((o!=NULL))goto begin;
-}}
-
-
-void gc_align_mark57(fsoc*c,gc57*p){
-gc57*b=((gc57*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store57)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T57*o=(&(p->object));
-begin:
-((gc57*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_item/*4*/)gc_mark56((T56*)(o->_item/*4*/));
-o=(void*)o->_next;
-if((o!=NULL)&&(((gc57*)o)->header.flag==FSOH_UNMARKED))goto begin;
-}
-}
-}
-fsoc H57={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark57,
-(void(*)(mch*))gc_sweep57},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc57))-1)};
-
-
-T57*new57(void){
-gc57*n;
-fsoc*c;
-if(store_left57>1){
-store_left57--;
-n=store57++;
-}
-else if(gc_free57!=NULL){
-n=gc_free57;
-gc_free57=n->header.next;
-}
-else if(store_left57==1){
-store_left57=0;
-store_chunk57->header.state_type=FSO_USED_CHUNK;
-n=store57++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free57!=NULL){
-n=gc_free57;
-gc_free57=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk57=c;
-*store_chunk57=H57;
-store57=((gc57*)(&(store_chunk57->first_object)));
-store_left57=H57.count_minus_one;
-n=store57++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M57;
-return((T57*)n);
-}
-
-
-void gc_sweep65(fsoc*c){
-gc65*o1,*o2,*flt,flh;
-o1=((gc65*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store65;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free65;
-gc_free65=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free65;
-gc_free65=flh.header.next;
-}
-}
-}
-
-
-void gc_mark65(T65*o){
-if(((gc65*)o)->header.flag==FSOH_UNMARKED){
-((gc65*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_mem_lnk/*20*/)gc_mark66((T66*)(o->_mem_lnk/*20*/));
-if(NULL!=o->_last_link/*12*/)gc_mark66((T66*)(o->_last_link/*12*/));
-if(NULL!=o->_first_link/*8*/)gc_mark66((T66*)(o->_first_link/*8*/));
-}}
-
-
-void gc_align_mark65(fsoc*c,gc65*p){
-gc65*b=((gc65*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store65)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T65*o=(&(p->object));
-((gc65*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_mem_lnk/*20*/)gc_mark66((T66*)(o->_mem_lnk/*20*/));
-if(NULL!=o->_last_link/*12*/)gc_mark66((T66*)(o->_last_link/*12*/));
-if(NULL!=o->_first_link/*8*/)gc_mark66((T66*)(o->_first_link/*8*/));
-}
-}
-}
-fsoc H65={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark65,
-(void(*)(mch*))gc_sweep65},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc65))-1)};
-
-
-T65*new65(void){
-gc65*n;
-fsoc*c;
-if(store_left65>1){
-store_left65--;
-n=store65++;
-}
-else if(gc_free65!=NULL){
-n=gc_free65;
-gc_free65=n->header.next;
-}
-else if(store_left65==1){
-store_left65=0;
-store_chunk65->header.state_type=FSO_USED_CHUNK;
-n=store65++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free65!=NULL){
-n=gc_free65;
-gc_free65=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk65=c;
-*store_chunk65=H65;
-store65=((gc65*)(&(store_chunk65->first_object)));
-store_left65=H65.count_minus_one;
-n=store65++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M65;
-return((T65*)n);
-}
-
-
-void gc_sweep168(fsoc*c){
-gc168*o1,*o2,*flt,flh;
-o1=((gc168*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store168;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free168;
-gc_free168=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free168;
-gc_free168=flh.header.next;
-}
-}
-}
-
-
-void gc_mark168(T168*o){
-((gc168*)o)->header.flag=FSOH_MARKED;
-}
-
-
-void gc_align_mark168(fsoc*c,gc168*p){
-gc168*b=((gc168*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store168)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T168*o=(&(p->object));
-((gc168*)o)->header.flag=FSOH_MARKED;
-}
-}
-}
-fsoc H168={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark168,
-(void(*)(mch*))gc_sweep168},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc168))-1)};
-
-
-T168*new168(void){
-gc168*n;
-fsoc*c;
-if(store_left168>1){
-store_left168--;
-n=store168++;
-}
-else if(gc_free168!=NULL){
-n=gc_free168;
-gc_free168=n->header.next;
-}
-else if(store_left168==1){
-store_left168=0;
-store_chunk168->header.state_type=FSO_USED_CHUNK;
-n=store168++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free168!=NULL){
-n=gc_free168;
-gc_free168=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk168=c;
-*store_chunk168=H168;
-store168=((gc168*)(&(store_chunk168->first_object)));
-store_left168=H168.count_minus_one;
-n=store168++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M168;
-return((T168*)n);
-}
-
-
-void gc_sweep199(fsoc*c){
-gc199*o1,*o2,*flt,flh;
-o1=((gc199*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store199;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free199;
-gc_free199=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free199;
-gc_free199=flh.header.next;
-}
-}
-}
-
-
-void gc_mark199(T199*o){
-if(((gc199*)o)->header.flag==FSOH_UNMARKED){
-((gc199*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_modulator/*8*/)Xgc_mark188((T0*)(o->_modulator/*8*/));
-if(NULL!=o->_input/*4*/)gc_mark197((T197*)(o->_input/*4*/));
-}}
-
-
-void gc_align_mark199(fsoc*c,gc199*p){
-gc199*b=((gc199*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store199)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T199*o=(&(p->object));
-((gc199*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_modulator/*8*/)Xgc_mark188((T0*)(o->_modulator/*8*/));
-if(NULL!=o->_input/*4*/)gc_mark197((T197*)(o->_input/*4*/));
-}
-}
-}
-fsoc H199={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark199,
-(void(*)(mch*))gc_sweep199},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc199))-1)};
-
-
-T199*new199(void){
-gc199*n;
-fsoc*c;
-if(store_left199>1){
-store_left199--;
-n=store199++;
-}
-else if(gc_free199!=NULL){
-n=gc_free199;
-gc_free199=n->header.next;
-}
-else if(store_left199==1){
-store_left199=0;
-store_chunk199->header.state_type=FSO_USED_CHUNK;
-n=store199++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free199!=NULL){
-n=gc_free199;
-gc_free199=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk199=c;
-*store_chunk199=H199;
-store199=((gc199*)(&(store_chunk199->first_object)));
-store_left199=H199.count_minus_one;
-n=store199++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M199;
-return((T199*)n);
-}
-
-
-void gc_sweep138(fsoc*c){
-gc138*o1,*o2,*flt,flh;
-o1=((gc138*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store138;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free138;
-gc_free138=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free138;
-gc_free138=flh.header.next;
-}
-}
-}
-
-
-void gc_mark138(T138*o){
-if(((gc138*)o)->header.flag==FSOH_UNMARKED){
-((gc138*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_level_table/*24*/)gc_mark139((T139*)(o->_level_table/*24*/));
-if(NULL!=o->_name/*20*/)gc_mark7((T7*)(o->_name/*20*/));
-if(NULL!=o->_filename/*16*/)gc_mark7((T7*)(o->_filename/*16*/));
-}}
-
-
-void gc_align_mark138(fsoc*c,gc138*p){
-gc138*b=((gc138*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store138)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T138*o=(&(p->object));
-((gc138*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_level_table/*24*/)gc_mark139((T139*)(o->_level_table/*24*/));
-if(NULL!=o->_name/*20*/)gc_mark7((T7*)(o->_name/*20*/));
-if(NULL!=o->_filename/*16*/)gc_mark7((T7*)(o->_filename/*16*/));
-}
-}
-}
-fsoc H138={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark138,
-(void(*)(mch*))gc_sweep138},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc138))-1)};
-
-
-T138*new138(void){
-gc138*n;
-fsoc*c;
-if(store_left138>1){
-store_left138--;
-n=store138++;
-}
-else if(gc_free138!=NULL){
-n=gc_free138;
-gc_free138=n->header.next;
-}
-else if(store_left138==1){
-store_left138=0;
-store_chunk138->header.state_type=FSO_USED_CHUNK;
-n=store138++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free138!=NULL){
-n=gc_free138;
-gc_free138=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk138=c;
-*store_chunk138=H138;
-store138=((gc138*)(&(store_chunk138->first_object)));
-store_left138=H138.count_minus_one;
-n=store138++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M138;
-return((T138*)n);
-}
-
-
-void gc_mark179(T179 o){
-rsoh*h=((rsoh*)o)-1;
-if((h->header.magic_flag)==RSOH_UNMARKED){
-h->header.magic_flag=RSOH_MARKED;
-{T0* e;
-T0**p=((void*)(o+((((h->header.size)-sizeof(rsoh))/sizeof(e))-1)));
-for(;((void*)p)>=((void*)o);p--){
-e=*p;
-if(NULL!=e)gc_mark178((T178*)(e));
-
-}
-}
-}}
-
-
-T179 new179(int size){
-size=(size*sizeof(T0*))+sizeof(rsoh);
-if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env179.store_left)){
-rsoh*r=na_env179.store;
-na_env179.store_left-=size;
-if(na_env179.store_left>sizeof(rsoh)){
-r->header.size=size;
-na_env179.store=((rsoh*)(((char*)(na_env179.store))+size));
-}
-else {
-r->header.size=size+na_env179.store_left;
-na_env179.store_left=0;
-}
-(r->header.magic_flag)=RSOH_UNMARKED;
-((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T179)(r+1));
-}
-return((T179)new_na(&na_env179,size));
-}
-
-
-void gc_sweep7(fsoc*c){
-gc7*o1,*o2,*flt,flh;
-o1=((gc7*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store7;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free7;
-gc_free7=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free7;
-gc_free7=flh.header.next;
-}
-}
-}
-
-
-void gc_mark7(T7*o){
-if(((gc7*)o)->header.flag==FSOH_UNMARKED){
-((gc7*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark9((o->_storage/*4*/));
-}}
-
-
-void gc_align_mark7(fsoc*c,gc7*p){
-gc7*b=((gc7*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store7)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T7*o=(&(p->object));
-((gc7*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark9((o->_storage/*4*/));
-}
-}
-}
-fsoc H7={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark7,
-(void(*)(mch*))gc_sweep7},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc7))-1)};
-
-
-T7*new7(void){
-gc7*n;
-fsoc*c;
-if(store_left7>1){
-store_left7--;
-n=store7++;
-}
-else if(gc_free7!=NULL){
-n=gc_free7;
-gc_free7=n->header.next;
-}
-else if(store_left7==1){
-store_left7=0;
-store_chunk7->header.state_type=FSO_USED_CHUNK;
-n=store7++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free7!=NULL){
-n=gc_free7;
-gc_free7=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk7=c;
-*store_chunk7=H7;
-store7=((gc7*)(&(store_chunk7->first_object)));
-store_left7=H7.count_minus_one;
-n=store7++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M7;
-return((T7*)n);
-}
-
-
-void gc_sweep54(fsoc*c){
-gc54*o1,*o2,*flt,flh;
-o1=((gc54*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store54;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free54;
-gc_free54=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free54;
-gc_free54=flh.header.next;
-}
-}
-}
-
-
-void gc_mark54(T54*o){
-if(((gc54*)o)->header.flag==FSOH_UNMARKED){
-((gc54*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_table/*4*/)gc_mark55((T55*)(o->_table/*4*/));
-}}
-
-
-void gc_align_mark54(fsoc*c,gc54*p){
-gc54*b=((gc54*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store54)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T54*o=(&(p->object));
-((gc54*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_table/*4*/)gc_mark55((T55*)(o->_table/*4*/));
-}
-}
-}
-fsoc H54={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark54,
-(void(*)(mch*))gc_sweep54},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc54))-1)};
-
-
-T54*new54(void){
-gc54*n;
-fsoc*c;
-if(store_left54>1){
-store_left54--;
-n=store54++;
-}
-else if(gc_free54!=NULL){
-n=gc_free54;
-gc_free54=n->header.next;
-}
-else if(store_left54==1){
-store_left54=0;
-store_chunk54->header.state_type=FSO_USED_CHUNK;
-n=store54++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free54!=NULL){
-n=gc_free54;
-gc_free54=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk54=c;
-*store_chunk54=H54;
-store54=((gc54*)(&(store_chunk54->first_object)));
-store_left54=H54.count_minus_one;
-n=store54++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M54;
-return((T54*)n);
-}
-
-
-void gc_sweep56(fsoc*c){
-gc56*o1,*o2,*flt,flh;
-o1=((gc56*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store56;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free56;
-gc_free56=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free56;
-gc_free56=flh.header.next;
-}
-}
-}
-
-
-void gc_mark56(T56*o){
-if(((gc56*)o)->header.flag==FSOH_UNMARKED){
-((gc56*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_cache_node/*20*/)gc_mark98((T98*)(o->_cache_node/*20*/));
-if(NULL!=o->_buckets/*4*/)gc_mark99((o->_buckets/*4*/));
-}}
-
-
-void gc_align_mark56(fsoc*c,gc56*p){
-gc56*b=((gc56*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store56)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T56*o=(&(p->object));
-((gc56*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_cache_node/*20*/)gc_mark98((T98*)(o->_cache_node/*20*/));
-if(NULL!=o->_buckets/*4*/)gc_mark99((o->_buckets/*4*/));
-}
-}
-}
-fsoc H56={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark56,
-(void(*)(mch*))gc_sweep56},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc56))-1)};
-
-
-T56*new56(void){
-gc56*n;
-fsoc*c;
-if(store_left56>1){
-store_left56--;
-n=store56++;
-}
-else if(gc_free56!=NULL){
-n=gc_free56;
-gc_free56=n->header.next;
-}
-else if(store_left56==1){
-store_left56=0;
-store_chunk56->header.state_type=FSO_USED_CHUNK;
-n=store56++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free56!=NULL){
-n=gc_free56;
-gc_free56=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk56=c;
-*store_chunk56=H56;
-store56=((gc56*)(&(store_chunk56->first_object)));
-store_left56=H56.count_minus_one;
-n=store56++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M56;
-return((T56*)n);
-}
-
-
-void gc_sweep129(fsoc*c){
-gc129*o1,*o2,*flt,flh;
-o1=((gc129*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store129;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free129;
-gc_free129=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free129;
-gc_free129=flh.header.next;
-}
-}
-}
-
-
-void gc_mark129(T129*o){
-if(((gc129*)o)->header.flag==FSOH_UNMARKED){
-((gc129*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_last_string/*16*/)gc_mark7((T7*)(o->_last_string/*16*/));
-if(NULL!=o->_buzz/*8*/)gc_mark128((T128*)(o->_buzz/*8*/));
-if(NULL!=o->_in/*4*/)gc_mark172((T172*)(o->_in/*4*/));
-}}
-
-
-void gc_align_mark129(fsoc*c,gc129*p){
-gc129*b=((gc129*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store129)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T129*o=(&(p->object));
-((gc129*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_last_string/*16*/)gc_mark7((T7*)(o->_last_string/*16*/));
-if(NULL!=o->_buzz/*8*/)gc_mark128((T128*)(o->_buzz/*8*/));
-if(NULL!=o->_in/*4*/)gc_mark172((T172*)(o->_in/*4*/));
-}
-}
-}
-fsoc H129={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark129,
-(void(*)(mch*))gc_sweep129},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc129))-1)};
-
-
-T129*new129(void){
-gc129*n;
-fsoc*c;
-if(store_left129>1){
-store_left129--;
-n=store129++;
-}
-else if(gc_free129!=NULL){
-n=gc_free129;
-gc_free129=n->header.next;
-}
-else if(store_left129==1){
-store_left129=0;
-store_chunk129->header.state_type=FSO_USED_CHUNK;
-n=store129++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free129!=NULL){
-n=gc_free129;
-gc_free129=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk129=c;
-*store_chunk129=H129;
-store129=((gc129*)(&(store_chunk129->first_object)));
-store_left129=H129.count_minus_one;
-n=store129++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M129;
-return((T129*)n);
-}
-
-
-void gc_sweep82(fsoc*c){
-gc82*o1,*o2,*flt,flh;
-o1=((gc82*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store82;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free82;
-gc_free82=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free82;
-gc_free82=flh.header.next;
-}
-}
-}
-
-
-void gc_mark82(T82*o){
-if(((gc82*)o)->header.flag==FSOH_UNMARKED){
-((gc82*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_os/*4*/)gc_mark84((T84*)(o->_os/*4*/));
-}}
-
-
-void gc_align_mark82(fsoc*c,gc82*p){
-gc82*b=((gc82*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store82)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T82*o=(&(p->object));
-((gc82*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_os/*4*/)gc_mark84((T84*)(o->_os/*4*/));
-}
-}
-}
-fsoc H82={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark82,
-(void(*)(mch*))gc_sweep82},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc82))-1)};
-
-
-T82*new82(void){
-gc82*n;
-fsoc*c;
-if(store_left82>1){
-store_left82--;
-n=store82++;
-}
-else if(gc_free82!=NULL){
-n=gc_free82;
-gc_free82=n->header.next;
-}
-else if(store_left82==1){
-store_left82=0;
-store_chunk82->header.state_type=FSO_USED_CHUNK;
-n=store82++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free82!=NULL){
-n=gc_free82;
-gc_free82=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk82=c;
-*store_chunk82=H82;
-store82=((gc82*)(&(store_chunk82->first_object)));
-store_left82=H82.count_minus_one;
-n=store82++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M82;
-return((T82*)n);
-}
-
-
-void gc_sweep189(fsoc*c){
-gc189*o1,*o2,*flt,flh;
-o1=((gc189*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store189;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free189;
-gc_free189=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free189;
-gc_free189=flh.header.next;
-}
-}
-}
-
-
-void gc_mark189(T189*o){
-if(((gc189*)o)->header.flag==FSOH_UNMARKED){
-((gc189*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_cache_node/*20*/)gc_mark190((T190*)(o->_cache_node/*20*/));
-if(NULL!=o->_buckets/*4*/)gc_mark191((o->_buckets/*4*/));
-}}
-
-
-void gc_align_mark189(fsoc*c,gc189*p){
-gc189*b=((gc189*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store189)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T189*o=(&(p->object));
-((gc189*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_cache_node/*20*/)gc_mark190((T190*)(o->_cache_node/*20*/));
-if(NULL!=o->_buckets/*4*/)gc_mark191((o->_buckets/*4*/));
-}
-}
-}
-fsoc H189={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark189,
-(void(*)(mch*))gc_sweep189},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc189))-1)};
-
-
-T189*new189(void){
-gc189*n;
-fsoc*c;
-if(store_left189>1){
-store_left189--;
-n=store189++;
-}
-else if(gc_free189!=NULL){
-n=gc_free189;
-gc_free189=n->header.next;
-}
-else if(store_left189==1){
-store_left189=0;
-store_chunk189->header.state_type=FSO_USED_CHUNK;
-n=store189++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free189!=NULL){
-n=gc_free189;
-gc_free189=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk189=c;
-*store_chunk189=H189;
-store189=((gc189*)(&(store_chunk189->first_object)));
-store_left189=H189.count_minus_one;
-n=store189++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M189;
-return((T189*)n);
-}
-
-
-void gc_sweep157(fsoc*c){
-gc157*o1,*o2,*flt,flh;
-o1=((gc157*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store157;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free157;
-gc_free157=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free157;
-gc_free157=flh.header.next;
-}
-}
-}
-
-
-void gc_mark157(T157*o){
-if(((gc157*)o)->header.flag==FSOH_UNMARKED){
-((gc157*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark159((o->_storage/*4*/));
-}}
-
-
-void gc_align_mark157(fsoc*c,gc157*p){
-gc157*b=((gc157*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store157)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T157*o=(&(p->object));
-((gc157*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*4*/)gc_mark159((o->_storage/*4*/));
-}
-}
-}
-fsoc H157={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark157,
-(void(*)(mch*))gc_sweep157},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc157))-1)};
-
-
-T157*new157(void){
-gc157*n;
-fsoc*c;
-if(store_left157>1){
-store_left157--;
-n=store157++;
-}
-else if(gc_free157!=NULL){
-n=gc_free157;
-gc_free157=n->header.next;
-}
-else if(store_left157==1){
-store_left157=0;
-store_chunk157->header.state_type=FSO_USED_CHUNK;
-n=store157++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free157!=NULL){
-n=gc_free157;
-gc_free157=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk157=c;
-*store_chunk157=H157;
-store157=((gc157*)(&(store_chunk157->first_object)));
-store_left157=H157.count_minus_one;
-n=store157++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M157;
-return((T157*)n);
-}
-
-
-void gc_mark9(T9 o){
-(((rsoh*)o)-1)->header.magic_flag=RSOH_MARKED;
-}
-
-
-T9 new9(int size){
-size=(size*sizeof(T3))+sizeof(rsoh);
-if((size%sizeof(double))!=0)size+=(sizeof(double)-(size%sizeof(double)));
-if (size<=(na_env9.store_left)){
-rsoh*r=na_env9.store;
-na_env9.store_left-=size;
-if(na_env9.store_left>sizeof(rsoh)){
-r->header.size=size;
-na_env9.store=((rsoh*)(((char*)(na_env9.store))+size));
-}
-else {
-r->header.size=size+na_env9.store_left;
-na_env9.store_left=0;
-}
-(r->header.magic_flag)=RSOH_UNMARKED;
-((void)memset((r+1),0,r->header.size-sizeof(rsoh)));
-return((T9)(r+1));
-}
-return((T9)new_na(&na_env9,size));
-}
-
-
-void gc_sweep190(fsoc*c){
-gc190*o1,*o2,*flt,flh;
-o1=((gc190*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store190;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free190;
-gc_free190=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free190;
-gc_free190=flh.header.next;
-}
-}
-}
-
-
-void gc_mark190(T190*o){
-begin:
-if(((gc190*)o)->header.flag==FSOH_UNMARKED){
-((gc190*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_key/*8*/)gc_mark7((T7*)(o->_key/*8*/));
-if(NULL!=o->_item/*4*/)Xgc_mark188((T0*)(o->_item/*4*/));
-o=(void*)o->_next;
-if((o!=NULL))goto begin;
-}}
-
-
-void gc_align_mark190(fsoc*c,gc190*p){
-gc190*b=((gc190*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store190)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T190*o=(&(p->object));
-begin:
-((gc190*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_key/*8*/)gc_mark7((T7*)(o->_key/*8*/));
-if(NULL!=o->_item/*4*/)Xgc_mark188((T0*)(o->_item/*4*/));
-o=(void*)o->_next;
-if((o!=NULL)&&(((gc190*)o)->header.flag==FSOH_UNMARKED))goto begin;
-}
-}
-}
-fsoc H190={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark190,
-(void(*)(mch*))gc_sweep190},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc190))-1)};
-
-
-T190*new190(void){
-gc190*n;
-fsoc*c;
-if(store_left190>1){
-store_left190--;
-n=store190++;
-}
-else if(gc_free190!=NULL){
-n=gc_free190;
-gc_free190=n->header.next;
-}
-else if(store_left190==1){
-store_left190=0;
-store_chunk190->header.state_type=FSO_USED_CHUNK;
-n=store190++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free190!=NULL){
-n=gc_free190;
-gc_free190=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk190=c;
-*store_chunk190=H190;
-store190=((gc190*)(&(store_chunk190->first_object)));
-store_left190=H190.count_minus_one;
-n=store190++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M190;
-return((T190*)n);
-}
-
-
-void gc_sweep198(fsoc*c){
-gc198*o1,*o2,*flt,flh;
-o1=((gc198*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store198;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free198;
-gc_free198=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free198;
-gc_free198=flh.header.next;
-}
-}
-}
-
-
-void gc_mark198(T198*o){
-if(((gc198*)o)->header.flag==FSOH_UNMARKED){
-((gc198*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_input2/*8*/)Xgc_mark188((T0*)(o->_input2/*8*/));
-if(NULL!=o->_input1/*4*/)Xgc_mark188((T0*)(o->_input1/*4*/));
-}}
-
-
-void gc_align_mark198(fsoc*c,gc198*p){
-gc198*b=((gc198*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store198)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T198*o=(&(p->object));
-((gc198*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_input2/*8*/)Xgc_mark188((T0*)(o->_input2/*8*/));
-if(NULL!=o->_input1/*4*/)Xgc_mark188((T0*)(o->_input1/*4*/));
-}
-}
-}
-fsoc H198={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark198,
-(void(*)(mch*))gc_sweep198},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc198))-1)};
-
-
-T198*new198(void){
-gc198*n;
-fsoc*c;
-if(store_left198>1){
-store_left198--;
-n=store198++;
-}
-else if(gc_free198!=NULL){
-n=gc_free198;
-gc_free198=n->header.next;
-}
-else if(store_left198==1){
-store_left198=0;
-store_chunk198->header.state_type=FSO_USED_CHUNK;
-n=store198++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free198!=NULL){
-n=gc_free198;
-gc_free198=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk198=c;
-*store_chunk198=H198;
-store198=((gc198*)(&(store_chunk198->first_object)));
-store_left198=H198.count_minus_one;
-n=store198++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M198;
-return((T198*)n);
-}
-
-
-void gc_sweep94(fsoc*c){
-gc94*o1,*o2,*flt,flh;
-o1=((gc94*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store94;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free94;
-gc_free94=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free94;
-gc_free94=flh.header.next;
-}
-}
-}
-
-
-void gc_mark94(T94*o){
-if(((gc94*)o)->header.flag==FSOH_UNMARKED){
-((gc94*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_selection/*22*/)Xgc_mark35((T0*)(o->_selection/*22*/));
-}}
-
-
-void gc_align_mark94(fsoc*c,gc94*p){
-gc94*b=((gc94*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store94)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T94*o=(&(p->object));
-((gc94*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_selection/*22*/)Xgc_mark35((T0*)(o->_selection/*22*/));
-}
-}
-}
-fsoc H94={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark94,
-(void(*)(mch*))gc_sweep94},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc94))-1)};
-
-
-T94*new94(void){
-gc94*n;
-fsoc*c;
-if(store_left94>1){
-store_left94--;
-n=store94++;
-}
-else if(gc_free94!=NULL){
-n=gc_free94;
-gc_free94=n->header.next;
-}
-else if(store_left94==1){
-store_left94=0;
-store_chunk94->header.state_type=FSO_USED_CHUNK;
-n=store94++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free94!=NULL){
-n=gc_free94;
-gc_free94=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk94=c;
-*store_chunk94=H94;
-store94=((gc94*)(&(store_chunk94->first_object)));
-store_left94=H94.count_minus_one;
-n=store94++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M94;
-return((T94*)n);
-}
-
-
-void gc_sweep46(fsoc*c){
-gc46*o1,*o2,*flt,flh;
-o1=((gc46*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store46;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free46;
-gc_free46=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free46;
-gc_free46=flh.header.next;
-}
-}
-}
-
-
-void gc_mark46(T46*o){
-begin:
-if(((gc46*)o)->header.flag==FSOH_UNMARKED){
-((gc46*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_key/*8*/)gc_mark7((T7*)(o->_key/*8*/));
-if(NULL!=o->_item/*4*/)Xgc_mark35((T0*)(o->_item/*4*/));
-o=(void*)o->_next;
-if((o!=NULL))goto begin;
-}}
-
-
-void gc_align_mark46(fsoc*c,gc46*p){
-gc46*b=((gc46*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store46)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T46*o=(&(p->object));
-begin:
-((gc46*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_key/*8*/)gc_mark7((T7*)(o->_key/*8*/));
-if(NULL!=o->_item/*4*/)Xgc_mark35((T0*)(o->_item/*4*/));
-o=(void*)o->_next;
-if((o!=NULL)&&(((gc46*)o)->header.flag==FSOH_UNMARKED))goto begin;
-}
-}
-}
-fsoc H46={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark46,
-(void(*)(mch*))gc_sweep46},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc46))-1)};
-
-
-T46*new46(void){
-gc46*n;
-fsoc*c;
-if(store_left46>1){
-store_left46--;
-n=store46++;
-}
-else if(gc_free46!=NULL){
-n=gc_free46;
-gc_free46=n->header.next;
-}
-else if(store_left46==1){
-store_left46=0;
-store_chunk46->header.state_type=FSO_USED_CHUNK;
-n=store46++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free46!=NULL){
-n=gc_free46;
-gc_free46=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk46=c;
-*store_chunk46=H46;
-store46=((gc46*)(&(store_chunk46->first_object)));
-store_left46=H46.count_minus_one;
-n=store46++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M46;
-return((T46*)n);
-}
-
-
-void gc_sweep194(fsoc*c){
-gc194*o1,*o2,*flt,flh;
-o1=((gc194*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store194;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free194;
-gc_free194=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free194;
-gc_free194=flh.header.next;
-}
-}
-}
-
-
-void gc_mark194(T194*o){
-if(((gc194*)o)->header.flag==FSOH_UNMARKED){
-((gc194*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*20*/)gc_mark118((o->_storage/*20*/));
-}}
-
-
-void gc_align_mark194(fsoc*c,gc194*p){
-gc194*b=((gc194*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store194)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T194*o=(&(p->object));
-((gc194*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_storage/*20*/)gc_mark118((o->_storage/*20*/));
-}
-}
-}
-fsoc H194={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark194,
-(void(*)(mch*))gc_sweep194},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc194))-1)};
-
-
-T194*new194(void){
-gc194*n;
-fsoc*c;
-if(store_left194>1){
-store_left194--;
-n=store194++;
-}
-else if(gc_free194!=NULL){
-n=gc_free194;
-gc_free194=n->header.next;
-}
-else if(store_left194==1){
-store_left194=0;
-store_chunk194->header.state_type=FSO_USED_CHUNK;
-n=store194++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free194!=NULL){
-n=gc_free194;
-gc_free194=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk194=c;
-*store_chunk194=H194;
-store194=((gc194*)(&(store_chunk194->first_object)));
-store_left194=H194.count_minus_one;
-n=store194++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M194;
-return((T194*)n);
-}
-
-
-void gc_sweep77(fsoc*c){
-gc77*o1,*o2,*flt,flh;
-o1=((gc77*)(&(c->first_object)));
-if(c->header.state_type==FSO_STORE_CHUNK){
-for(;o1<store77;o1++){
-if((o1->header.flag)==FSOH_MARKED){
-o1->header.flag=FSOH_UNMARKED;
-}
-else{
-o1->header.next=gc_free77;
-gc_free77=o1;
-}
-}
-}
-else{
-int dead=1;
-flh.header.next=NULL;
-flt=&flh;
-o2=o1+c->count_minus_one;
-for(;o1<=o2;o2--){
-if((o2->header.flag)==FSOH_MARKED){
-o2->header.flag=FSOH_UNMARKED;
-dead=0;}
-else{
-flt->header.next=o2;
-flt=o2;
-}
-}
-if (dead){
-c->next=fsocfl;
-fsocfl=c;
-c->header.state_type=FSO_FREE_CHUNK;
-}
-else if(flh.header.next!=NULL){
-flt->header.next=gc_free77;
-gc_free77=flh.header.next;
-}
-}
-}
-
-
-void gc_mark77(T77*o){
-begin:
-if(((gc77*)o)->header.flag==FSOH_UNMARKED){
-((gc77*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_item/*4*/)gc_mark75((T75*)(o->_item/*4*/));
-o=(void*)o->_next;
-if((o!=NULL))goto begin;
-}}
-
-
-void gc_align_mark77(fsoc*c,gc77*p){
-gc77*b=((gc77*)(&(c->first_object)));
-if((c->header.state_type==FSO_STORE_CHUNK)&&(((char*)p)>=((char*)store77)))return;
-if(((char*)p)>((char*)(b+(c->count_minus_one))))return;
-if(((char*)p)<((char*)b))return;
-if(((((char*)p)-((char*)b))%sizeof(*p))==0){
-if(p->header.flag==FSOH_UNMARKED){
-T77*o=(&(p->object));
-begin:
-((gc77*)o)->header.flag=FSOH_MARKED;
-if(NULL!=o->_item/*4*/)gc_mark75((T75*)(o->_item/*4*/));
-o=(void*)o->_next;
-if((o!=NULL)&&(((gc77*)o)->header.flag==FSOH_UNMARKED))goto begin;
-}
-}
-}
-fsoc H77={{FSOC_SIZE,FSO_STORE_CHUNK,
-(void(*)(mch*,void*))gc_align_mark77,
-(void(*)(mch*))gc_sweep77},NULL,(((FSOC_SIZE-sizeof(fsoc)+sizeof(double))/sizeof(gc77))-1)};
-
-
-T77*new77(void){
-gc77*n;
-fsoc*c;
-if(store_left77>1){
-store_left77--;
-n=store77++;
-}
-else if(gc_free77!=NULL){
-n=gc_free77;
-gc_free77=n->header.next;
-}
-else if(store_left77==1){
-store_left77=0;
-store_chunk77->header.state_type=FSO_USED_CHUNK;
-n=store77++;
-}
-else{
-c=gc_fsoc_get1();
-if(gc_free77!=NULL){
-n=gc_free77;
-gc_free77=n->header.next;
-}
-else{
-if(c==NULL)c=gc_fsoc_get2();
-store_chunk77=c;
-*store_chunk77=H77;
-store77=((gc77*)(&(store_chunk77->first_object)));
-store_left77=H77.count_minus_one;
-n=store77++;
-}
-}
-n->header.flag=FSOH_UNMARKED;
-n->object=M77;
-return((T77*)n);
+return((T100)new_na(&na_env100,size));
 }
 
