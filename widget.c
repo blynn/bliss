@@ -1,350 +1,234 @@
-#include <stdlib.h>
-#include "widget.h"
 #include "SDL_gfxPrimitives.h"
 
-static int default_widget_handle_event(widget_ptr w, event_ptr e)
+#include "widget.h"
+#include "colour.h"
+
+static SDL_Surface *screen;
+
+void widget_set_screen(SDL_Surface *s)
 {
-    return 0;
+    screen = s;
 }
 
-int widget_handle_event(widget_ptr w, event_ptr e)
+int widget_contains(widget_ptr r, int x, int y)
 {
-    if (w->visible) return w->handle_event(w, e);
-    return 0;
+    if (x < r->x) return 0;
+    if (y < r->y) return 0;
+    if (x >= r->x + r->w) return 0;
+    if (y >= r->y + r->h) return 0;
+    return -1;
 }
 
-void widget_notify_move(widget_ptr w)
+void widget_shift_rect(widget_ptr r, widget_ptr shift)
 {
-    widget_raise_signal(w, signal_move);
+    r->x += shift->x;
+    r->y += shift->y;
 }
 
-void widget_notify_resize(widget_ptr w)
+void widget_line(widget_ptr r, int x0, int y0, int x1, int y1, int c)
 {
-    widget_raise_signal(w, signal_resize);
+    lineColor(screen, r->x + x0, r->y + y0, r->x + x1, r->y + y1, colourgfx[c]);
 }
 
-static void widget_moved(widget_ptr w, void *data)
+void widget_box(widget_ptr r, int x0, int y0, int x1, int y1, int c)
 {
-    if (w->parent) {
-	w->x = w->localx + w->parent->x;
-	w->y = w->localy + w->parent->y;
-    } else {
-	w->x = w->localx;
-	w->y = w->localy;
-    }
+    boxColor(screen, r->x + x0, r->y + y0, r->x + x1, r->y + y1, colourgfx[c]);
 }
 
-static void default_widget_update(widget_ptr w)
+void image_box_rect(image_ptr img, int c)
 {
+    boxColor(img, 0, 0, img->w - 1, img->h - 1, colourgfx[c]);
 }
 
-void widget_update(widget_ptr w)
+void widget_box_rect(widget_ptr r, int c)
 {
-    if (w->visible) w->update(w);
+    boxColor(screen, r->x, r->y, r->x + r->w - 1, r->y + r->h - 1, colourgfx[c]);
 }
 
-void widget_clear(widget_ptr w)
+void widget_rectangle(widget_ptr r, int x0, int y0, int x1, int y1, int c)
 {
-    //TODO: clear signal handlers
+    rectangleColor(screen, r->x + x0, r->y + y0, r->x + x1, r->y + y1, colourgfx[c]);
 }
 
-void widget_show(widget_ptr w)
+void widget_rectangle_rect(widget_ptr r, int c)
 {
-    w->visible = 1;
+    rectangleColor(screen, r->x, r->y,
+	    r->x + r->w - 1, r->y + r->h - 1, colourgfx[c]);
 }
 
-void widget_hide(widget_ptr w)
+void widget_string(widget_ptr r, int x, int y, char *s, int c)
 {
-    w->visible = 0;
+    stringColor(screen, r->x + x, r->y + y, s, colourgfx[c]);
 }
 
-void widget_init(widget_ptr w)
+void image_string(image_ptr p, int x, int y, char *s, int c)
 {
-    w->has_focus = 0;
-    w->can_focus = 0;
-    w->handle_event = default_widget_handle_event;
-    w->update = default_widget_update;
-    w->parent = NULL;
-    w->localx = 0; w->localy = 0;
-    w->x = 0; w->y = 0; w->w = 0; w->h = 0;
-    darray_init(w->handler);
-    /*
-    int i;
-
-    for (i=0; i<signal_count; i++) {
-	w->handler[i].function = NULL;
-	w->handler[i].data = NULL;
-    }
-    */
-    widget_connect(w, signal_move, widget_moved, NULL);
-    widget_show(w);
+    stringColor(p, x, y, s, colourgfx[c]);
 }
 
-void widget_put_local(widget_ptr wid, int x, int y)
+void widget_raised_border(widget_ptr rect)
 {
-    wid->localx = x;
-    wid->localy = y;
-    widget_notify_move(wid);
+    int x0, y0;
+    x0 = rect->w - 1;
+    y0 = rect->h - 1;
+
+    widget_box(rect, 1, 1, x0 - 1, 1, c_background);
+    widget_box(rect, 1, 1, 1, y0 - 1, c_background);
+
+    widget_box(rect, 0, 0, x0, 0, c_highlight);
+    widget_box(rect, 0, 0, 0, y0, c_highlight);
+
+    widget_box(rect, 1, y0 - 1, x0 - 1, y0 - 1, c_shadow);
+    widget_box(rect, x0 - 1, 1, x0 - 1, y0 - 1, c_shadow);
+
+    widget_box(rect, 0, y0, x0, y0, c_darkshadow);
+    widget_box(rect, x0, 0, x0, y0, c_darkshadow);
 }
 
-void widget_put_size(widget_ptr wid, int w, int h)
+void widget_raised_background(widget_ptr rect)
 {
-    wid->w = w;
-    wid->h = h;
-    widget_notify_resize(wid);
+    widget_box_rect(rect, c_background);
+    widget_raised_border(rect);
 }
 
-void widget_fill(widget_ptr wid, int c)
+void widget_lowered_border(widget_ptr rect)
 {
-    SDL_Rect r2;
-    r2.x = wid->x;
-    r2.y = wid->y;
-    r2.w = wid->w;
-    r2.h = wid->h;
-    SDL_FillRect(screen, &r2, colour[c]);
-}
+    int x1, y1;
+    x1 = rect->w - 1;
+    y1 = rect->h - 2;
+    widget_box(rect, 2, y1, x1 - 1, y1, c_background);
+    widget_box(rect, x1 - 1, 2, x1 - 1, y1, c_background);
+    y1++;
+    widget_box(rect, 1, y1, x1 - 1, y1, c_highlight);
+    widget_box(rect, x1, 1, x1, y1, c_highlight);
 
-void widget_fillrect(widget_ptr wid, SDL_Rect *r, int c)
-{
-    if (r) {
-	SDL_Rect r2;
-	r2.x = r->x + wid->x;
-	r2.y = r->y + wid->y;
-	r2.w = r->w;
-	r2.h = r->h;
-	SDL_FillRect(screen, &r2, colour[c]);
-    } else {
-	widget_fill(wid, c);
-    }
-}
+    widget_box(rect, 0, 0, 0, y1, c_shadow);
+    widget_box(rect, 0, 0, x1, 0, c_shadow);
 
-void widget_raise_signal(widget_ptr w, int sig)
-{
-    int i;
-
-    for (i=0; i<w->handler->count; i++) {
-	struct handler_s *p = (struct handler_s *) w->handler->item[i];
-	if (p->sig == sig) {
-	    p->function(w, p->data);
-	}
-    }
-}
-
-void widget_lose_focus(widget_ptr w)
-{
-    w->has_focus = 0;
-    widget_raise_signal(w, signal_lose_focus);
-}
-
-int in_widget(widget_ptr wid, int x, int y)
-{
-    return (wid->x <= x && x < wid->x + wid->w
-		&& wid->y <= y && y < wid->y + wid->h);
-}
-
-void widget_blit(void *p, SDL_Surface *s, SDL_Rect *src, SDL_Rect *dst)
-{
-    widget_ptr wid = (widget_ptr) p;
-    SDL_Rect r;
-
-    if (dst) {
-	r.x = wid->x + dst->x;
-	r.y = wid->y + dst->y;
-    } else {
-	r.x = wid->x;
-	r.y = wid->y;
-    }
-    SDL_BlitSurface(s, src, screen, &r);
-}
-
-void widget_connect(widget_ptr w, int sig, callback_f f, void *data)
-{
-    struct handler_s *p = (struct handler_s *) malloc(sizeof(struct handler_s));
-    darray_append(w->handler, p);
-    p->sig = sig;
-    p->function = f;
-    p->data = data;
-}
-
-static int lastmousex, lastmousey;
-static int lastmod;
-
-void update_mousestate()
-{
-    SDL_GetMouseState(&lastmousex, &lastmousey);
-}
-
-void update_modstate()
-{
-    lastmod = SDL_GetModState();
-}
-
-void widget_getmousexy(widget_ptr w, int *x, int *y)
-{
-    *x = lastmousex - w->x;
-    *y = lastmousey - w->y;
-}
-
-int widget_has_mouse(widget_ptr wid)
-{
-    if (!wid->visible) return 0;
-    return in_widget(wid, lastmousex, lastmousey);
-}
-
-int widget_getmod(widget_ptr w)
-{
-    return lastmod;
-}
-
-int colourgfx(int c)
-    // SDL_gfx has its own colour format
-{
-    Uint32 i = (rgb[c].r << 24) + (rgb[c].g << 16) + (rgb[c].b << 8) + 255;
-    return i;
-}
-
-void widget_line(widget_ptr w, int x1, int y1, int x2, int y2, int c)
-{
-    Uint32 i = colourgfx(c);
-    aalineColor(screen, w->x + x1, w->y + y1, w->x + x2, w->y + y2, i);
-}
-
-void widget_circle(widget_ptr w, int x, int y, int r, int c)
-{
-    Uint32 gc = colourgfx(c);
-    circleColor(screen, w->x + x, w->y + y, r, gc);
+    widget_box(rect, 1, 1, 1, y1 - 1, c_darkshadow);
+    widget_box(rect, 1, 1, x1 - 1, 1, c_darkshadow);
 }
 
 void widget_filled_circle(widget_ptr w, int x, int y, int r, int c)
 {
-    Uint32 gc = colourgfx(c);
-    filledCircleColor(screen, w->x + x, w->y + y, r, gc);
+    filledCircleColor(screen, w->x + x, w->y + y, r, colourgfx[c]);
 }
 
-void widget_filled_polygon(widget_ptr w, int *x, int *y, int n, int c)
+void widget_blit(widget_ptr rect, int x, int y, image_ptr img)
 {
-    Uint32 gc = colourgfx(c);
-    Sint16 vx[n], vy[n];
+    SDL_Rect r;
+
+    r.x = rect->x + x;
+    r.y = rect->y + y;
+    SDL_BlitSurface(img, NULL, screen, &r);
+}
+
+void widget_translate(widget_ptr wid, int x, int y)
+{
+    wid->localx += x;
+    wid->localy += y;
+    wid->x += x;
+    wid->y += y;
+}
+
+void widget_clip(widget_ptr wid)
+{
+    rect_t r;
+    r->x = wid->x;
+    r->y = wid->y;
+    r->w = wid->w;
+    r->h = wid->h;
+    SDL_SetClipRect(screen, r);
+}
+
+void widget_unclip()
+{
+    SDL_SetClipRect(screen, NULL);
+}
+
+void widget_move_children(widget_ptr w)
+{
+    int i;
+    for (i=0; i<w->child->count; i++) {
+	widget_ptr child = (widget_ptr) w->child->item[i];
+	child->x = w->x + child->localx;
+	child->y = w->y + child->localy;
+	widget_move_children(child);
+    }
+}
+
+void widget_handle_keydown(widget_ptr w, int sym, int mod)
+{
+}
+
+void widget_handle_mousebuttondown(widget_ptr w, int button, int x, int y)
+{
+    int i;
+    for (i=0; i<w->show_list->count; i++) {
+	widget_ptr w1 = (widget_ptr) w->show_list->item[i];
+	if (widget_contains(w1, x, y)) {
+	    w1->handle_mousebuttondown(w1, button, x, y);
+	    return;
+	}
+    }
+}
+
+void widget_handle_mousebuttonup(widget_ptr w, int button, int x, int y)
+{
+}
+
+void widget_show(widget_ptr w)
+{
+    darray_append(w->parent->show_list, w);
+    w->x = w->x + w->parent->localx;
+    w->y = w->y + w->parent->localy;
+}
+
+void widget_hide(widget_ptr w)
+{
+    darray_remove(w->parent->show_list, w);
+}
+
+void default_widget_update(widget_ptr w)
+{
     int i;
 
-    for (i=0; i<n; i++) {
-	vx[i] = w->x + x[i];
-	vy[i] = w->y + y[i];
+    for (i=0; i<w->show_list->count; i++) {
+	widget_ptr p = w->show_list->item[i];
+	p->update(p);
     }
-    filledPolygonColor(screen, vx, vy, n, gc);
 }
 
-void widget_rectangle(widget_ptr w, int x1, int y1, int x2, int y2, int c)
+void widget_put_size(widget_ptr w, int x, int y)
 {
-    rectangleColor(screen, w->x + x1, w->y + y1,
-	    w->x + x2, w->y + y2, colourgfx(c));
+    w->w = x;
+    w->h = y;
 }
 
-void widget_write(widget_ptr w, int x, int y, char *s)
+void widget_init(widget_ptr w, widget_ptr parent)
 {
-    SDL_Surface *img;
-    SDL_Rect dst;
+    darray_init(w->child);
+    darray_init(w->show_list);
+    w->parent = parent;
+    darray_append(parent->child, w);
+    w->handle_mousebuttonup = widget_handle_mousebuttonup;
+    w->handle_mousebuttondown = widget_handle_mousebuttondown;
+    w->handle_keydown = widget_handle_keydown;
+    w->update = default_widget_update;
+    w->put_size = widget_put_size;
+}
 
-    dst.x = x;
-    dst.y = y;
+image_ptr image_new(int w, int h)
+{
+    return SDL_CreateRGBSurface(SDL_HWSURFACE,
+	    w, h, 32,
+	    screen->format->Rmask,
+	    screen->format->Gmask,
+	    screen->format->Bmask,
+	    screen->format->Amask);
+}
 
-    img = font_rendertext(s);
-    widget_blit(w, img, NULL, &dst);
+void image_clear(image_ptr img)
+{
     SDL_FreeSurface(img);
-}
-
-void alt_widget_write(widget_ptr w, int x, int y, char *s)
-{
-    Uint32 gc = colourgfx(c_text);
-    stringColor(screen, w->x + x, w->y + y, s, gc);
-}
-
-SDL_Surface *new_image(int w, int h)
-{
-    SDL_Surface *img;
-    SDL_PixelFormat *fmt = screen->format;
-    img = SDL_CreateRGBSurface(0, w, h,
-	    fmt->BitsPerPixel,
-	    fmt->Rmask, fmt->Gmask, fmt->Bmask, fmt->Amask);
-    return img;
-}
-
-void widget_draw_border(widget_ptr w)
-{
-    SDL_Rect r;
-
-    //draw top and left
-    r.x = 0;
-    r.y = 0;
-    r.w = w->w;
-    r.h = 1;
-    widget_fillrect(w, &r, c_light);
-    r.w = 1;
-    r.h = w->h;
-    widget_fillrect(w, &r, c_light);
-    r.x = 1;
-    r.y = 1;
-    r.h -= 2;
-    widget_fillrect(w, &r, c_lighter);
-    r.w = w->w - 2;
-    r.h = 1;
-    widget_fillrect(w, &r, c_lighter);
-    //draw right and bottom
-    r.x = 0;
-    r.y = w->h - 1;
-    r.w = w->w;
-    r.h = 1;
-    widget_fillrect(w, &r, c_darker);
-    r.x = 1;
-    r.y--;
-    r.w -= 2;
-    widget_fillrect(w, &r, c_dark);
-    r.x = w->w - 1;
-    r.y = 0;
-    r.w = 1;
-    r.h = w->h;
-    widget_fillrect(w, &r, c_darker);
-    r.x--;
-    r.y = 1;
-    r.h -= 2;
-    widget_fillrect(w, &r, c_dark);
-}
-
-void widget_draw_inverse_border(widget_ptr w)
-{
-    SDL_Rect r;
-
-    r.x = 0;
-    r.y = 0;
-    r.w = w->w;
-    r.h = 1;
-    widget_fillrect(w, &r, c_dark);
-    r.w = 1;
-    r.h = w->h;
-    widget_fillrect(w, &r, c_dark);
-    r.x = 1;
-    r.y = 1;
-    r.h -= 2;
-    widget_fillrect(w, &r, c_darker);
-    r.w = w->w - 2;
-    r.h = 1;
-    widget_fillrect(w, &r, c_darker);
-    r.x = 0;
-    r.y = w->h - 1;
-    r.w = w->w;
-    r.h = 1;
-    widget_fillrect(w, &r, c_lighter);
-    r.x = 1;
-    r.y--;
-    r.w -= 2;
-    widget_fillrect(w, &r, c_light);
-    r.x = w->w - 1;
-    r.y = 0;
-    r.w = 1;
-    r.h = w->h;
-    widget_fillrect(w, &r, c_lighter);
-    r.x--;
-    r.y = 1;
-    r.h -= 2;
-    widget_fillrect(w, &r, c_light);
 }

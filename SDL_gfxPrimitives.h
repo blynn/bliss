@@ -24,8 +24,9 @@ extern "C" {
 
 /* ----- Versioning */
 
-#define SDL_GFXPRIMITIVES_MAJOR	1
-#define SDL_GFXPRIMITIVES_MINOR	5
+#define SDL_GFXPRIMITIVES_MAJOR	2
+#define SDL_GFXPRIMITIVES_MINOR	0
+#define SDL_GFXPRIMITIVES_MICRO	11
 
 /* ----- W32 DLL interface */
 
@@ -107,12 +108,40 @@ extern "C" {
     DLLINTERFACE int filledEllipseColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rx, Sint16 ry, Uint32 color);
     DLLINTERFACE int filledEllipseRGBA(SDL_Surface * dst, Sint16 x, Sint16 y,
 				       Sint16 rx, Sint16 ry, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+#define CLOCKWISE
+
+/* Pie */
+
+    DLLINTERFACE int pieColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rad,
+			      Sint16 start, Sint16 end, Uint32 color);
+    DLLINTERFACE int pieRGBA(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rad,
+			     Sint16 start, Sint16 end, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
 /* Filled Pie */
 
     DLLINTERFACE int filledpieColor(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rad,
 				    Sint16 start, Sint16 end, Uint32 color);
     DLLINTERFACE int filledpieRGBA(SDL_Surface * dst, Sint16 x, Sint16 y, Sint16 rad,
 				   Sint16 start, Sint16 end, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+/* Trigon */
+
+    DLLINTERFACE int trigonColor(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3, Uint32 color);
+    DLLINTERFACE int trigonRGBA(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3,
+				 Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+/* AA-Trigon */
+
+    DLLINTERFACE int aatrigonColor(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3, Uint32 color);
+    DLLINTERFACE int aatrigonRGBA(SDL_Surface * dst,  Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3,
+				   Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+/* Filled Trigon */
+
+    DLLINTERFACE int filledTrigonColor(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3, int color);
+    DLLINTERFACE int filledTrigonRGBA(SDL_Surface * dst, Sint16 x1, Sint16 y1, Sint16 x2, Sint16 y2, Sint16 x3, Sint16 y3,
+				       Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 /* Polygon */
 
@@ -132,12 +161,22 @@ extern "C" {
     DLLINTERFACE int filledPolygonRGBA(SDL_Surface * dst, Sint16 * vx,
 				       Sint16 * vy, int n, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
-/* 8x8 Characters/Strings */
+/* Bezier */
+/* s = number of steps */
+
+    DLLINTERFACE int bezierColor(SDL_Surface * dst, Sint16 * vx, Sint16 * vy, int n, int s, Uint32 color);
+    DLLINTERFACE int bezierRGBA(SDL_Surface * dst, Sint16 * vx, Sint16 * vy,
+				 int n, int s, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+
+/* Characters/Strings */
 
     DLLINTERFACE int characterColor(SDL_Surface * dst, Sint16 x, Sint16 y, char c, Uint32 color);
     DLLINTERFACE int characterRGBA(SDL_Surface * dst, Sint16 x, Sint16 y, char c, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
-    DLLINTERFACE int stringColor(SDL_Surface * dst, Sint16 x, Sint16 y, char *c, Uint32 color);
-    DLLINTERFACE int stringRGBA(SDL_Surface * dst, Sint16 x, Sint16 y, char *c, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+    DLLINTERFACE int stringColor(SDL_Surface * dst, Sint16 x, Sint16 y, const char *c, Uint32 color);
+    DLLINTERFACE int stringRGBA(SDL_Surface * dst, Sint16 x, Sint16 y, const char *c, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+
+    DLLINTERFACE void gfxPrimitivesSetFont(unsigned char *fontdata, int cw, int ch);
 
 /* Ends C function definitions when using C++ */
 #ifdef __cplusplus

@@ -1,67 +1,54 @@
 #include <stdlib.h>
 #include "button.h"
 
-void button_shrinkwrap(button_ptr b)
+void button_update(button_ptr b)
 {
-    widget_ptr w = (widget_ptr) b;
-    widget_put_size(w, b->image->w + 6, b->image->h + 6);
+    widget_ptr w = b->w;
+    if (state == state_button_pushed && button_selection == b) {
+	widget_lowered_border(w);
+    } else {
+	widget_raised_border(w);
+    }
+    widget_blit(w, 2, 2, b->img);
+    /*
+    if (widget_contains(w, lastmousex, lastmousey)) {
+	widget_rectangle(w, -1, -1,  w->w, w->h, c_select);
+	widget_string(compan, 10, compan->h - 12, b->text, c_text);
+    }
+    */
 }
 
-void button_update(widget_ptr w)
+void button_handle_mousebuttondown(widget_ptr w, int button, int x, int y)
 {
     button_ptr b = (button_ptr) w;
-    SDL_Rect r;
-
-    widget_draw_border(w);
-
-    if (b->image) {
-	r.x = 3;
-	r.y = 3;
-	widget_blit(w, b->image, NULL, &r);
-    }
+    state = state_button_pushed;
+    button_selection = b;
+    w->update(w);
 }
 
-int button_handle_event(widget_ptr w, event_ptr e)
+void button_init(button_ptr b, widget_ptr parent)
 {
-    switch (e->type) {
-	case SDL_MOUSEBUTTONDOWN:
-	    if (e->button.button == SDL_BUTTON_LEFT) {
-		if (widget_has_mouse(w)) {
-		    widget_raise_signal(w, signal_activate);
-		    return 1;
-		}
-	    }
-	    break;
-	default:
-	    break;
-    }
-    return 0;
+    widget_init(b->w, parent);
+    b->w->update = (void (*)(widget_ptr)) button_update;
+    b->w->handle_mousebuttondown = button_handle_mousebuttondown;
 }
 
-void button_init(button_ptr b)
+button_ptr button_new(widget_ptr parent)
 {
-    widget_ptr w = (widget_ptr) b;
-    widget_init(w);
-    w->update = button_update;
-    w->handle_event = button_handle_event;
-    b->image = NULL;
+    button_ptr res = (button_ptr) malloc(sizeof(button_t));
+    button_init(res, parent);
+    return res;
 }
 
-button_ptr button_new()
+void button_make_text_image(button_ptr b, char *s)
 {
-    button_ptr b;
-    b = (button_ptr) malloc(sizeof(struct button_s));
-    button_init(b);
-    return b;
-}
+    int x, y;
+    x = strlen(s) * 8;
+    y = 8;
 
-void button_put_image(button_ptr b, SDL_Surface *img)
-{
-    b->image = img;
-}
-
-void button_clear(button_ptr b)
-{
-    widget_ptr w = (widget_ptr) b;
-    widget_clear(w);
+    b->w->w = x + 4;
+    b->w->h = y + 4;
+    b->img = image_new(x, y);
+    image_box_rect(b->img, c_background);
+    image_string(b->img, 0, 0, s, c_text);
 }

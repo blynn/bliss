@@ -3,6 +3,6 @@
 
 #include "window.h"
 
-window_ptr about_new();
+void about_init(window_ptr win, widget_ptr parent);
 
 #endif //ABOUT_H

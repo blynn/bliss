@@ -1,104 +1,66 @@
-SOURCEFILES := *.[ch] Makefile
-OTHERFILES := LICENSE README NEWS font.ttf bminfo.txt
-ALLFILES := $(SOURCEFILES) $(OTHERFILES)
-DYNOS := version.o util.o darray.o cell.o
-BLISSPLUGINS := sine.so decay.so
-MISCPLUGINS := nop.so atracker.so
-BUZZPLUGINS := bbass2.so bdelay.so bdistortion.so bnoise.so
-PLUGINS := $(BLISSPLUGINS) $(BUZZPLUGINS) $(MISCPLUGINS)
+VERSION := 0.1.0
+ALLFILES := *.bmp *.[ch] Makefile LICENSE README NEWS linux/*.[ch] win32/*.[ch] demo.bl
 PROJNAME := bliss
-VERSION := snapshot
+DISTNAME := $(PROJNAME)-$(VERSION)
+OS ?= linux
 
-ifdef WIN32
+ifeq ("$(OS)", "win32")
 CC := i586-mingw32msvc-gcc
-EFLAGS:=-boost -O2 -I /home/ben/cross/SDL/include/SDL
-CFLAGS:=-O2 -Wall -I /home/ben/cross/SDL/include/SDL -mwindows
-SDL_LIBS:=-L /home/ben/cross/SDL/lib -lmingw32 -lSDLmain -lSDL
-LIBS := $(SDL_LIBS) -lSDL_ttf
-PLAT:=win32
+CFLAGS=-O2 -pipe -Wall -I /home/ben/cross/SDL/include/SDL -mwindows
+SDL_LIBS=-L /home/ben/cross/SDL/lib -lmingw32 -lSDLmain -lSDL
 else
 CC := gcc
-CFLAGS:=-Wall -O2 -fomit-frame-pointer `sdl-config --cflags`
+CFLAGS := -O2 -pipe -Wall -fomit-frame-pointer `sdl-config --cflags`
 SDL_LIBS:=`sdl-config --libs`
-LIBS := $(SDL_LIBS) -lSDL_ttf 
-PLAT:=linux
 endif
+LIBS := $(SDL_LIBS)
 
-OBJS:= audio.o main.o \
-    parse.o \
-    master.o \
-    mlist.o \
-    base64.o \
-    unit.o machine.o pattern.o track.o song.o wave.o \
-    bmachine.o \
-    sidebar.o machine_area.o \
-    unit_sidebar.o unit_area.o unit_window.o \
-    cell_area.o \
-    root.o machine_window.o pattern_area.o song_area.o \
-    about.o filewin.o tbwin.o \
-    convert_buzz.o \
-    colour.o font.o \
-    widget.o label.o combobox.o textbox.o button.o \
-    container.o grid.o spreadsheet.o menu.o window.o \
-    SDL_gfxPrimitives.o pl.o
+.PHONY: target dist clean
 
-TARGET: $(PROJNAME) $(PLUGINS) dumpbuzz
+UNITS := out.o lpf.o dummy.o osc.o funk.o adsr.o delay.o seg.o
+ADTOBJS := darray.o graph.o
+OBJS := $(ADTOBJS) audio.o midi.o ins.o note.o gen.o $(UNITS)
+GFXOBJS := SDL_gfxPrimitives.o colour.o \
+	widget.o checkbox.o button.o label.o textbox.o window.o \
+	about.o file_window.o
+BINARIES := bliss #test
 
-dumpbuzz : dumpbuzz.c
-	$(CC) $(CFLAGS) -o $@ $<
+target : version.h $(BINARIES)
 
-pl.c : pl.$(PLAT).c
-	cp $^ $@
-
-$(OBJS): %.o: %.c 
+$(OBJS): %.o: %.c
 	$(CC) $(CFLAGS) -c $^
 
-buzz_machine.o: buzz_machine.c
-	$(CC) $(CFLAGS) -fPIC -c $^
+midi.c : $(OS)/midi.c
+	-rm $@
+	ln -s $^ $@
 
-machine_plugin.o: machine_plugin.c
-	$(CC) $(CFLAGS) -fPIC -c $^
+version.h : Makefile
+	echo '#define VERSION_STRING "'$(VERSION)'"' > version.h
 
-$(DYNOS): %.o: %.c 
-	$(CC) $(CFLAGS) -fPIC -c $^
+bliss : bliss.c $(GFXOBJS) $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
-$(BUZZPLUGINS): %.so: %.c $(DYNOS) buzz_machine.o machine_plugin.o
-	$(CC) $(CFLAGS) -fPIC -shared -o $@ $^
+test :test.c $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
-$(BLISSPLUGINS): %.so: %.c $(DYNOS) unit_plugin.o
-	$(CC) $(CFLAGS) -fPIC -shared -o $@ $^
-
-$(MISCPLUGINS): %.so: %.c $(DYNOS) machine_plugin.o
-	$(CC) $(CFLAGS) -fPIC -shared -o $@ $^
-
-$(PROJNAME) : $(OBJS) $(DYNOS)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-DISTNAME:=$(PROJNAME)-$(VERSION)
-
-dist: $(ALLFILES)
-	cp helmetr.ttf font.ttf
-	-rm pl.c
+dist: $(ALLFILES) clean
 	-rm -rf $(DISTNAME)
 	mkdir $(DISTNAME)
 	cp -rl --parents $(ALLFILES) $(DISTNAME)
 	tar chfz $(DISTNAME).tgz $(DISTNAME)
 	-rm -rf $(DISTNAME)
 
-ifdef WIN32
-zip : $(PROJNAME) $(PLUGINS) $(OTHERFILES)
-	cp helmetr.ttf font.ttf
+ifeq ("$(OS)", "win32")
+zip : target
 	-rm -rf $(DISTNAME)
 	mkdir $(DISTNAME)
-	cp -l $(PROJNAME) $(DISTNAME)/$(PROJNAME).exe
-	cp -l $(PLUGINS) $(DISTNAME)
-	cp -l $(OTHERFILES) $(DISTNAME)
-	cp -l *.ttf $(DISTNAME)
+	cp -l demo.bl $(DISTNAME)
+	cp -l *.bmp $(DISTNAME)
+	cp -l bliss $(DISTNAME)/bliss.exe
 	cp -l /home/ben/cross/SDL/lib/SDL.dll $(DISTNAME)
-	cp -l /home/ben/cross/SDL/lib/SDL_ttf.dll $(DISTNAME)
 	zip $(DISTNAME)-win.zip $(DISTNAME)/*
 	-rm -rf $(DISTNAME)
 endif
 
 clean :
-	-rm $(PROJNAME) $(PLUGINS) *.o pl.c
+	-rm version.h midi.c $(BINARIES) *.o

@@ -5,35 +5,28 @@
 
 enum {
     c_background = 0,
-    c_textbg,
-    c_generator,
-    c_effect,
-    c_bliss,
-    c_master,
-    c_border,
-    c_menuborder,
+    c_highlight,
+    c_shadow,
+    c_darkshadow,
+    c_canvas,
     c_menubg,
-    c_menubghi,
+    c_textboxbg,
+    c_emphasis,
+    c_select,
     c_text,
-    c_liveedge,
+    c_invtext,
+    c_porttext,
+    c_unit,
+    c_darkunit,
     c_edge,
-    c_arrow,
-    c_edgedisc,
-    c_cursor,
-    c_titlebar,
-    c_gridline,
-    c_machine_cursor,
-    c_mabg,
-    c_light,
-    c_lighter,
-    c_dark,
-    c_darker,
+    c_darkedge,
     c_max
 };
 
-extern int colour[c_max];
+extern int coloursdl[c_max];
+extern int colourgfx[c_max];
 extern SDL_Color rgb[c_max];
 
-void init_colour(SDL_PixelFormat *format);
+void colour_init(SDL_PixelFormat *format);
 
 #endif //COLOUR_H

@@ -1,123 +1,56 @@
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <SDL.h>
-#include "song.h"
 
-static SDL_AudioSpec wanted;
+#include "darray.h"
+#include "audio.h"
+#include "note.h"
 
-static song_ptr song;
-static int is_playing;
+static double (*audio_tick)();
 
-static Uint8 *buf; //circular buffer
-static int buf_size;
-static int buf_start;
-static int buf_empty;
-static int buf_end;
-
-static void oldc_fill_audio(void *udata, Uint8 *stream, int len)
+static void convert_write(Uint8 *ptr, double x)
 {
-    int count;
-    //TODO: handle odd len
-    if (len % 4) {
-	printf("len = %d\n", len);
-    }
-    for (count=0; count<len;) {
-	int i, n;
-	double l, r;
-	if (is_playing) {
-	    n = song->machine->count;
-	    for (i=0; i<n; i++) ((machine_ptr) song->machine->item[i])->visited = 0;
-	    song_next_sample(song, &l, &r);
-
-	    n = l * 32700;
-	    if (n > 32767) n = 32767;
-	    else if (n < -32767) n = -32767;
-	    stream[count] = (Uint8) (n & 255); //lower 16 bits
-	    count++;
-	    n = n >> 8;
-	    stream[count] = (Uint8) (n & 255); //upper 16 bits
-	    count++;
-	    n = r * 32700;
-	    if (n > 32767) n = 32767;
-	    else if (n < -32767) n = -32767;
-	    stream[count] = (Uint8) (n & 255); //lower 16 bits
-	    count++;
-	    n = n >> 8;
-	    stream[count] = (Uint8) (n & 255); //upper 16 bits
-	    count++;
-	}
-    }
+    int n;
+    n = x * 4096;
+    //if (n > 32767) n = 32767;
+    //else if (n < -32767) n = -32767;
+    *ptr = (Uint8) (n & 255); //lower 16 bits
+    n = n >> 8;
+    ptr[1] = (Uint8) (n & 255); //upper 16 bits
 }
 
 static void c_fill_audio(void *udata, Uint8 *stream, int len)
 {
-    int i;
+    Uint8 *ptr = stream;
+    Uint8 *target = stream + len;
 
-    if (buf_start == buf_end && buf_empty) {
-	//printf("buffer underrun\n");
-	return;
-    }
-    for (i=0; i<len;) {
-	stream[i] = buf[buf_start];
-	buf_start++;
-	i++;
-	stream[i] = buf[buf_start];
-	buf_start++;
-	i++;
-	if (buf_start >= buf_size) buf_start = 0;
-	if (buf_start == buf_end) {
-	    //printf("buffer underrun\n");
-	    buf_empty = -1;
-	    return;
-	}
-    }
-}
-
-static void append_buf(double x)
-{
-    int n;
-    n = x * 32700;
-    if (n > 32767) n = 32767;
-    else if (n < -32767) n = -32767;
-    buf[buf_end] = (Uint8) (n & 255); //lower 16 bits
-    buf_end++;
-    n = n >> 8;
-    buf[buf_end] = (Uint8) (n & 255); //upper 16 bits
-    buf_end++;
-    if (buf_end >= buf_size) buf_end = 0;
-    buf_empty = 0;
-}
-
-static int buffer_ready(void)
-{
-    return (buf_end != buf_start || buf_empty);
-}
-
-void audio_buffer()
-{
-    while (buffer_ready()) {
-	int i, n;
+    while (ptr != target) {
 	double l, r;
-	if (is_playing) {
-	    n = song->machine->count;
-	    for (i=0; i<n; i++) ((machine_ptr) song->machine->item[i])->visited = 0;
-	    song_next_sample(song, &l, &r);
-	    append_buf(l);
-	    append_buf(r);
-	} else {
-	    append_buf(0);
-	    append_buf(0);
-	}
+	l = audio_tick();
+	r = l;
+
+	convert_write(ptr, l);
+	ptr += 2;
+	convert_write(ptr, r);
+	ptr += 2;
     }
+}
+
+void audio_set_ticker(double (*tickfn)())
+{
+    audio_tick = tickfn;
 }
 
 void audio_init()
 {
+    SDL_AudioSpec wanted;
+
     /* Set the audio format */
     wanted.freq = samprate;
     wanted.format = AUDIO_S16;
     wanted.channels = 2;    /* 1 = mono, 2 = stereo */
-    wanted.samples = 1024;  /* Good low-latency value for callback */
+    wanted.samples = 512;  /* Good low-latency value for callback */
     wanted.callback = c_fill_audio;
     wanted.userdata = NULL;
 
@@ -126,30 +59,4 @@ void audio_init()
 	fprintf(stderr, "Couldn't open audio: %s\n", SDL_GetError());
 	exit(-1);
     }
-
-    //start with buffer full of zeroes
-    buf_size = samprate / 2; //half a sec
-    buf = (Uint8 *) malloc(sizeof(Uint8) * buf_size);
-    memset(buf, 0, buf_size);
-    buf_start = 0;
-    buf_end = 0;
-    buf_empty = 0;
-
-    is_playing = 0;
-    song = NULL;
-}
-
-void audio_pause()
-{
-    is_playing = 0;
-}
-
-void audio_play()
-{
-    is_playing = 1;
-}
-
-void audio_put_song(song_ptr s)
-{
-    song = s;
 }

@@ -1,8 +1,9 @@
 #include <SDL.h>
 #include "colour.h"
 
-int colour[c_max];
+int coloursdl[c_max];
 SDL_Color rgb[c_max];
+int colourgfx[c_max];
 
 static void put_colour(int i, int r, int g, int b)
 {
@@ -11,36 +12,29 @@ static void put_colour(int i, int r, int g, int b)
     rgb[i].b = b;
 }
 
-void init_colour(SDL_PixelFormat *format)
+void colour_init(SDL_PixelFormat *format)
 {
     int i;
 
-    put_colour(c_background, 96, 96, 96);
-    put_colour(c_textbg, 32, 32, 32);
-    put_colour(c_menuborder, 127, 127, 191);
-    put_colour(c_menubg, 0, 0, 127);
-    put_colour(c_menubghi, 63, 127, 127);
-    put_colour(c_generator, 0, 0, 127);
-    put_colour(c_bliss, 127, 0, 127);
-    put_colour(c_master, 0, 127, 0);
-    put_colour(c_effect, 127, 0, 0);
-    put_colour(c_border, 255, 255, 255);
-    put_colour(c_text, 255, 255, 255);
-    put_colour(c_liveedge, 255, 0, 0);
+    put_colour(c_background, 207, 207, 207);
+    put_colour(c_highlight, 255, 255, 255);
+    put_colour(c_shadow, 143, 143, 143);
+    put_colour(c_darkshadow, 0, 0, 0);
+    put_colour(c_text, 0, 0, 0);
+    put_colour(c_invtext, 255, 255, 255);
+    put_colour(c_emphasis, 0, 255, 255);
+    put_colour(c_select, 0, 255, 0);
+    put_colour(c_canvas, 64, 64, 64);
+    put_colour(c_menubg, 80, 100, 150);
+    put_colour(c_textboxbg, 255, 255, 255);
+    put_colour(c_unit, 0, 127, 127);
+    put_colour(c_darkunit, 64, 96, 64);
+    put_colour(c_porttext, 176, 176, 176);
     put_colour(c_edge, 255, 255, 255);
-    put_colour(c_arrow, 255, 191, 191);
-    put_colour(c_edgedisc, 191, 0, 0);
-    put_colour(c_cursor, 127, 127, 255);
-    put_colour(c_titlebar, 0, 127, 127);
-    put_colour(c_gridline, 127, 127, 127);
-    put_colour(c_machine_cursor, 64, 255, 64);
-    put_colour(c_mabg, 0, 0, 0);
-    put_colour(c_dark, 63, 63, 63);
-    put_colour(c_darker, 0, 0, 0);
-    put_colour(c_light, 160, 160, 160);
-    put_colour(c_lighter, 255, 255, 255);
+    put_colour(c_darkedge, 176, 176, 176);
 
     for (i=0; i<c_max; i++) {
-	colour[i] = SDL_MapRGB(format, rgb[i].r, rgb[i].g, rgb[i].b);
+	coloursdl[i] = SDL_MapRGB(format, rgb[i].r, rgb[i].g, rgb[i].b);
+	colourgfx[i] = (rgb[i].r << 24) + (rgb[i].g << 16) + (rgb[i].b << 8) + 255;
     }
 }

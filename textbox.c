@@ -1,192 +1,155 @@
-#include <stdlib.h>
 #include <string.h>
+
 #include "textbox.h"
-#include "util.h"
 
-enum {
-    init_textmax = 128,
-};
-
-void textbox_update(widget_ptr w)
+void textbox_put_string(textbox_t tb, char *s)
 {
-    textbox_ptr b = (textbox_ptr) w;
-    SDL_Rect rect;
-    widget_draw_inverse_border(w);
-    rect.x = 2;
-    rect.y = 2;
-    rect.w = w->w - 4;
-    rect.h = w->h - 4;
-    widget_fillrect(w, &rect, c_textbg);
-    if (b->image) {
-	widget_blit(w, b->image, NULL, &rect);
-    }
-    rect.x = 3;
-    rect.y = 3;
-    if (w->has_focus || b->appear_active) {
-	rect.x += b->cursorx;
-	rect.y = 0;
-	rect.w = 1;
-	rect.h = w->h;
-	widget_fillrect(w, &rect, c_text);
+    //TODO: replace with dynamic version
+    tb->s[128] = 0;
+    strncpy(tb->s, s, 128);
+    tb->cursor = tb->len = strlen(s);
+    strcpy(tb->savedcopy, tb->s);
+}
+
+void textbox_update(textbox_t tb)
+{
+    widget_box_rect(tb->w, c_textboxbg);
+    
+    widget_lowered_border(tb->w);
+
+    widget_string(tb->w, 4, 4, tb->s, c_text);
+
+    if (state == state_textbox && textbox_selection == tb) {
+	//draw cursor
+	int x;
+	x = tb->cursor * 8 + 2;
+	widget_box(tb->w, x, 1, x + 1, 12, c_text);
     }
 }
 
-static void updatecursor(textbox_ptr b)
+void textbox_insert(textbox_t tb, char ch)
 {
-    if (b->image) {
-	char *s = (char *) alloca(b->cursor + 2);
-	int y;
-	strncpy(s, b->text, b->cursor);
-	s[b->cursor] = 0;
-	font_size_text(s, &b->cursorx, &y);
-    } else {
-	b->cursorx = 0;
+    memmove(&tb->s[tb->cursor + 1], &tb->s[tb->cursor], tb->len - tb->cursor + 1);
+    tb->s[tb->cursor] = ch;
+    tb->cursor++;
+    tb->len++;
+}
+
+void textbox_delete(textbox_t tb)
+{
+    if (tb->cursor >= tb->len) return;
+    memmove(&tb->s[tb->cursor], &tb->s[tb->cursor + 1], tb->len - tb->cursor);
+    tb->len--;
+}
+
+static char shift_key(unsigned char ch)
+{
+    static char shifttable[256];
+    static int first = 1;
+
+    void add_shiftstring(char *s1, char *s2)
+    {
+	int i;
+
+	for (i=0; i<strlen(s1); i++) {
+	    shifttable[(int) s1[i]] = s2[i];
+	}
     }
-}
 
-static void updateimg(textbox_ptr b)
-{
-    if (b->image) {
-	SDL_FreeSurface(b->image);
-	b->image = NULL;
+    if (first) {
+	int c;
+
+	for (c=0; c<256; c++) shifttable[c] = c;
+
+	for (c='a'; c<='z'; c++) shifttable[c] = c - 32;
+
+	add_shiftstring("1234567890-=", "!@#$%^&*()_+");
+	add_shiftstring("[]\\;',./`", "{}|:\"<>?~");
     }
-    if (b->textlen) {
-	b->image = font_rendertext(b->text);
-    }
-    updatecursor(b);
+
+    return shifttable[ch];
 }
 
-void textbox_left(textbox_ptr b)
+void textbox_ok(textbox_t tb)
 {
-    if (b->cursor > 0) b->cursor--;
-    updatecursor(b);
+    state = state_normal;
+    textbox_selection = NULL;
+    strcpy(tb->savedcopy, tb->s);
+    textbox_update(tb);
+    tb->ok_cb(tb->ok_cb_data);
 }
 
-void textbox_right(textbox_ptr b)
+void textbox_cancel(textbox_t tb)
 {
-    if (b->cursor < b->textlen) b->cursor++;
-    updatecursor(b);
+    state = state_normal;
+    textbox_selection = NULL;
+    textbox_put_string(tb, tb->savedcopy);
+    textbox_update(tb);
+    tb->cancel_cb(tb->cancel_cb_data);
 }
 
-void textbox_insert_ch(textbox_ptr b, char c)
+void textbox_handlembdown(textbox_t tb, int button, int x, int y)
 {
-    if (b->textlen + 1 >= b->textmax) {
-	b->textmax += init_textmax;
-	b->text = (char *) realloc(b->text, b->textmax);
-    }
-    memmove(&b->text[b->cursor + 1], &b->text[b->cursor],
-	    b->textlen - b->cursor + 1); // + 1 for the NULL at the end
-    b->text[b->cursor] = c;
-    b->cursor++;
-    b->textlen++;
-    updateimg(b);
+    state = state_textbox;
+    textbox_selection = tb;
+    tb->cursor = x / 8;
+    if (tb->cursor > tb->len) tb->cursor = tb->len;
+    textbox_update(tb);
 }
 
-void textbox_delete(textbox_ptr b)
+void textbox_handlekey(textbox_t tb, int key, int mod)
 {
-    if (b->cursor >= b->textlen) return;
-    memmove(&b->text[b->cursor], &b->text[b->cursor + 1],
-	    b->textlen - b->cursor);
-    b->textlen--;
-    updateimg(b);
-}
-
-void textbox_backspace(textbox_ptr b)
-{
-    if (!b->cursor) return;
-    b->cursor--;
-    textbox_delete(b);
-}
-
-int textbox_handle_key(widget_ptr w, int key)
-{
-    textbox_ptr b = (textbox_ptr) w;
-    switch(key) {
-	case SDLK_DELETE:
-	    textbox_delete(b);
-	    break;
-	case SDLK_BACKSPACE:
-	    textbox_backspace(b);
-	    break;
+    if (key >= 32 && key <= 126) {
+	if (mod & KMOD_SHIFT) textbox_insert(tb, shift_key(key));
+	else textbox_insert(tb, key);
+    } else switch(key) {
 	case SDLK_LEFT:
-	    textbox_left(b);
+	    if (tb->cursor) tb->cursor--;
 	    break;
 	case SDLK_RIGHT:
-	    textbox_right(b);
+	    if (tb->cursor < tb->len) tb->cursor++;
 	    break;
-	case SDLK_ESCAPE:
-	    widget_raise_signal(w, signal_cancel);
+	case SDLK_HOME:
+	    tb->cursor = 0;
 	    break;
-	case SDLK_RETURN:
-	    widget_raise_signal(w, signal_activate);
+	case SDLK_END:
+	    tb->cursor = tb->len;
 	    break;
-	default:
-	    if (key >= 32 && key <= 255) {
-		if (widget_getmod(w) & KMOD_SHIFT) {
-		    textbox_insert_ch(b, shift_key(key));
-		} else textbox_insert_ch(b, key);
+	case SDLK_BACKSPACE:
+	    if (tb->cursor) {
+		tb->cursor--;
+		textbox_delete(tb);
 	    }
 	    break;
+	case SDLK_DELETE:
+	    textbox_delete(tb);
+	    break;
+	case SDLK_ESCAPE:
+	    textbox_cancel(tb);
+	    return;
+	    break;
+	case SDLK_RETURN:
+	    textbox_ok(tb);
+	    return;
+	    break;
     }
-    return 1;
+    textbox_update(tb);
 }
 
-int textbox_handle_event(widget_ptr w, event_ptr e)
+void textbox_init(textbox_ptr tb, widget_ptr parent)
 {
-    if (e->type == SDL_KEYDOWN) {
-	return textbox_handle_key(w, e->key.keysym.sym);
-    } else return 0;
+    widget_init(tb->w, parent);
+    tb->w->update = (void (*)(widget_ptr)) textbox_update;
+    tb->w->handle_mousebuttondown = textbox_handlembdown;
+    tb->w->handle_keydown = textbox_handlekey;
+    textbox_put_string(tb, "");
 }
 
-void textbox_init(textbox_ptr b)
+textbox_ptr textbox_new(widget_ptr parent)
 {
-    widget_ptr w = (widget_ptr) b;
-    widget_init(w);
-    w->update = textbox_update;
-    w->handle_event = textbox_handle_event;
-    w->can_focus = 1;
-    b->image = NULL;
-    b->textmax = init_textmax;
-    b->text = (char *) malloc(b->textmax);
-    b->text[0] = 0;
-    b->textlen = 0;
-    b->cursor = 0;
-    b->appear_active = 0;
-    updateimg(b);
-}
+    textbox_ptr res;
 
-textbox_ptr textbox_new()
-{
-    textbox_ptr b;
-    b = (textbox_ptr) malloc(sizeof(struct textbox_s));
-    textbox_init(b);
-    return b;
-}
-
-void textbox_put_text(textbox_ptr b, char *s)
-{
-    if (s) {
-	b->textlen = strlen(s);
-	b->cursor = b->textlen;
-	if (b->textlen > b->textmax) {
-	    b->text = (char *) realloc(b->text, b->cursor + init_textmax);
-	}
-	strcpy(b->text, s);
-	updateimg(b);
-    } else {
-	//save some memory if possible
-	if (b->textmax > init_textmax) b->text = (char *) realloc(b->text, init_textmax);
-	b->text[0] = 0;
-	b->textlen = 0;
-	b->cursor = 0;
-	updateimg(b);
-    }
-}
-
-void textbox_clear(textbox_ptr b)
-{
-    widget_ptr w = (widget_ptr) b;
-    if (b->image) SDL_FreeSurface(b->image);
-    free(b->text);
-    widget_clear(w);
+    res = malloc(sizeof(textbox_t));
+    textbox_init(res, parent);
+    return res;
 }

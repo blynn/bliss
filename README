@@ -1,7 +1,19 @@
-README for Bliss v0.04
-Ben Lynn <blynn@stanford.edu>
+Bliss 0.1.0
+
+Ben Lynn
+
+INSTALLATION
+
+The SDL library is required.
+
+Type "make" to compile. For Windows binaries, type "make OS=win32",
+though the Makefile will most likely need to be edited first so it can
+find the location of the Windows SDL files.
+
+NOTES
+
+MIDI input under Windows isn't supported yet.
 
 LICENSE
 
-This project is released under the GNU Public License.
-See LICENSE for details.
+Released under the GPL, see the file "LICENSE" for details.

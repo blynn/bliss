@@ -4,17 +4,16 @@
 #include "widget.h"
 
 struct label_s {
-    widget_t widget;
-    SDL_Surface *image;
+    widget_t w;
+    char *text;
 };
-
-typedef struct label_s *label_ptr;
 typedef struct label_s label_t[1];
+typedef struct label_s *label_ptr;
 
-void label_init(label_ptr);
-void label_clear(label_ptr);
-label_ptr label_new();
-void label_put_text(label_ptr, char *s);
-void label_shrinkwrap(label_ptr l);
+extern label_ptr label_selection;
+
+void label_update(widget_ptr w);
+void label_init(label_ptr l, widget_ptr parent);
+label_ptr label_new(widget_ptr parent);
 
 #endif //LABEL_H

@@ -1,41 +1,51 @@
-#include <string.h>
+#include "version.h"
+#include "window.h"
 #include "label.h"
 #include "button.h"
-#include "window.h"
-#include "version.h"
 
-static void hide_cb(widget_ptr caller, void *data)
+extern void close_window();
+
+void okcb(void *data)
 {
-    window_close((window_ptr) data);
+    //window_ptr win = (window_ptr) data;
+    close_window();
 }
 
-window_ptr about_new()
+void about_init(window_ptr win, widget_ptr parent)
 {
-    char buf[128];
-    window_ptr win = window_new();
-    widget_ptr w = (widget_ptr) win;
+    widget_ptr w = win->w;
+    button_ptr b;
     label_ptr l;
-    button_ptr b = button_new();
-    SDL_Surface *img;
 
-    widget_put_size(w, 150, 100);
-    img = font_rendertext("Ok");
-    button_put_image(b, img);
-    button_shrinkwrap(b);
-    window_put_widget(win, (widget_ptr) b, 70, 56);
-    widget_connect((widget_ptr) b, signal_activate, hide_cb, win);
+    window_init(win, parent);
+    w->localx = 50;
+    w->localy = 50;
+    w->put_size(w, 120, 90);
+    win->title = "About";
 
-    l = label_new();
-    strcpy(buf, "Bliss v");
-    strcat(buf, bliss_version_string());
-    label_put_text(l, buf);
-    window_put_widget(win, (widget_ptr) l, 40, 10);
+    b = button_new(win->body);
+    w = b->w;
+    w->localx = 45;
+    w->localy = 55;
+    w->w = 16 + 4;
+    w->h = 8 + 4;
+    b->text = "Ok";
+    b->img = image_new(16, 8);
+    image_box_rect(b->img, c_background);
+    image_string(b->img, 0, 0, b->text, c_text);
+    b->callback = okcb;
+    b->data = (void *) win;
+    widget_show(b->w);
 
-    l = label_new();
-    label_put_text(l, "by Ben Lynn");
-    window_put_widget(win, (widget_ptr) l, 35, 30);
+    l = label_new(win->body);
+    l->text = "Bliss " VERSION_STRING;
+    l->w->localx = 5;
+    l->w->localy = 10;
+    widget_show(l->w);
 
-    window_put_title(win, "About");
-
-    return win;
+    l = label_new(win->body);
+    l->text = "by Ben Lynn";
+    l->w->localx = 5;
+    l->w->localy = 30;
+    widget_show(l->w);
 }

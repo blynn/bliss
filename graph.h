@@ -1,36 +1,31 @@
-//2D graph layout
-
-#ifndef GRAPH_H
-#define GRAPH_H
+//generic graph data structure
+#ifndef NODE_H
+#define NODE_H
 
 #include "darray.h"
 
-struct graph_s {
-    darray_t vertex;
-    darray_t edge;
-    darray_t zorder;
-};
-typedef struct graph_s *graph_ptr;
-typedef struct graph_s graph_t[1];
-
-struct vertex_s {
+struct node_s {
     darray_t in;
     darray_t out;
-    int x, y;
     void *data;
 };
-typedef struct vertex_s *vertex_ptr;
-typedef struct vertex_s vertex_t[1];
+
+typedef struct node_s node_t[1];
+typedef struct node_s *node_ptr;
 
 struct edge_s {
-    vertex_ptr src, dst;
-    int x, y;
+    node_ptr src, dst;
     void *data;
 };
-typedef struct edge_s *edge_ptr;
+
 typedef struct edge_s edge_t[1];
+typedef struct edge_s *edge_ptr;
 
-void graph_init(graph_ptr g);
-void graph_clear(graph_ptr g);
+void node_init(node_t n);
+node_ptr node_new();
+void node_clear(node_ptr n);
+void node_delete(node_ptr n);
+edge_ptr edge_new(node_ptr src, node_ptr dst);
+void edge_delete(edge_ptr e);
 
-#endif //GRAPH_H
+#endif //NODE_H

@@ -1,0 +1,242 @@
+bliss 0.1.0
+unit out out 540 158
+unit freq dummy 5 158
+unit adsr0 adsr 360 87
+set adsr0 attack 0.100000
+set adsr0 decay 0.100000
+set adsr0 sustain 0.300000
+set adsr0 release 0.700000
+unit osc0 osc 122 57
+set osc0 shape 1.000000
+unit lpf0 lpf 204 226
+set lpf0 cutoff 0.030000
+connect freq osc0 0
+connect adsr0 out 0
+connect lpf0 adsr0 0
+connect osc0 lpf0 0
+track {
+  723 noteon 52 63
+  178 noteoff 52
+  36 noteon 57 47
+  112 noteoff 57
+  52 noteon 59 42
+  53 noteoff 59
+  116 noteon 52 59
+  124 noteoff 52
+  95 noteon 59 58
+  125 noteoff 59
+  47 noteon 60 49
+  107 noteoff 60
+  83 noteon 52 60
+  112 noteoff 52
+  74 noteon 62 66
+  109 noteoff 62
+  130 noteon 52 66
+  111 noteoff 52
+  88 noteon 57 59
+  143 noteoff 57
+  33 noteon 59 55
+  43 noteoff 59
+  155 noteon 52 66
+  132 noteoff 52
+  84 noteon 59 60
+  113 noteoff 59
+  68 noteon 60 54
+  54 noteoff 60
+  108 noteon 52 58
+  144 noteoff 52
+  58 noteon 64 64
+  105 noteoff 64
+  108 noteon 52 58
+  125 noteoff 52
+  73 noteon 57 54
+  161 noteoff 57
+  18 noteon 59 49
+  54 noteoff 59
+  112 noteon 52 50
+  166 noteoff 52
+  48 noteon 59 40
+  143 noteoff 59
+  0 noteon 60 37
+  59 noteoff 60
+  158 noteon 52 49
+  132 noteoff 52
+  64 noteon 62 59
+  108 noteoff 62
+  97 noteon 52 60
+  173 noteoff 52
+  21 noteon 57 49
+  151 noteoff 57
+  13 noteon 59 47
+  73 noteoff 59
+  124 noteon 52 53
+  130 noteoff 52
+  69 noteon 59 58
+  161 noteoff 59
+  3 noteon 60 52
+  47 noteoff 60
+  95 noteon 52 55
+  161 noteoff 52
+  37 noteon 64 68
+  109 noteoff 64
+  123 noteon 53 44
+  107 noteoff 53
+  97 noteon 57 39
+  155 noteoff 57
+  9 noteon 59 48
+  45 noteoff 59
+  167 noteon 53 45
+  127 noteoff 53
+  56 noteon 59 42
+  139 noteoff 59
+  18 noteon 60 51
+  41 noteoff 60
+  159 noteon 53 42
+  87 noteoff 53
+  92 noteon 62 60
+  89 noteoff 62
+  135 noteon 53 59
+  124 noteoff 53
+  69 noteon 57 45
+  150 noteon 59 55
+  0 noteoff 57
+  61 noteoff 59
+  123 noteon 53 56
+  113 noteoff 53
+  81 noteon 59 52
+  130 noteoff 59
+  6 noteon 60 57
+  49 noteoff 60
+  165 noteon 53 59
+  113 noteoff 53
+  56 noteon 65 66
+  65 noteoff 65
+  155 noteon 53 57
+  154 noteoff 53
+  40 noteon 57 48
+  161 noteoff 57
+  0 noteon 59 52
+  44 noteoff 59
+  124 noteon 53 43
+  71 noteoff 53
+  130 noteon 59 52
+  64 noteoff 59
+  87 noteon 60 44
+  52 noteoff 60
+  162 noteon 53 57
+  117 noteoff 53
+  57 noteon 62 59
+  90 noteoff 62
+  141 noteon 53 64
+  127 noteoff 53
+  43 noteon 57 52
+  177 noteoff 57
+  3 noteon 59 48
+  57 noteoff 59
+  139 noteon 53 57
+  132 noteoff 53
+  73 noteon 59 57
+  163 noteoff 59
+  14 noteon 60 42
+  41 noteoff 60
+  90 noteon 53 51
+  95 noteoff 53
+  121 noteon 65 55
+  54 noteoff 65
+  150 noteon 50 49
+  124 noteoff 50
+  63 noteon 55 48
+  161 noteoff 55
+  19 noteon 57 43
+  49 noteoff 57
+  153 noteon 50 47
+  109 noteoff 50
+  88 noteon 57 55
+  163 noteon 59 48
+  3 noteoff 57
+  138 noteoff 59
+  37 noteon 50 45
+  128 noteoff 50
+  80 noteon 60 62
+  120 noteoff 60
+  94 noteon 50 58
+  161 noteoff 50
+  22 noteon 57 53
+  148 noteoff 57
+  3 noteon 59 54
+  58 noteoff 59
+  164 noteon 50 54
+  110 noteoff 50
+  111 noteon 60 53
+  155 noteoff 60
+  17 noteon 62 43
+  115 noteoff 62
+  68 noteon 50 54
+  127 noteoff 50
+  56 noteon 55 55
+  76 noteoff 55
+  130 noteon 50 48
+  125 noteoff 50
+  68 noteon 55 42
+  76 noteoff 55
+  88 noteon 57 48
+  56 noteoff 57
+  134 noteon 50 48
+  130 noteoff 50
+  69 noteon 57 56
+  169 noteon 59 50
+  2 noteoff 57
+  89 noteoff 59
+  89 noteon 50 47
+  131 noteoff 50
+  71 noteon 60 66
+  112 noteoff 60
+  125 noteon 50 58
+  146 noteoff 50
+  26 noteon 57 56
+  49 noteoff 57
+  120 noteon 59 57
+  53 noteoff 59
+  175 noteon 50 46
+  54 noteoff 50
+  127 noteon 60 64
+  152 noteoff 60
+  18 noteon 62 52
+  130 noteoff 62
+  21 noteon 50 58
+  123 noteoff 50
+  73 noteon 55 55
+  97 noteoff 55
+  86 noteon 52 65
+  162 noteoff 52
+  54 noteon 57 44
+  43 noteoff 57
+  140 noteon 59 46
+  42 noteoff 59
+  147 noteon 52 57
+  128 noteoff 52
+  105 noteon 59 67
+  111 noteoff 59
+  18 noteon 60 53
+  147 noteoff 60
+  91 noteon 52 50
+  128 noteoff 52
+  89 noteon 62 59
+  129 noteoff 62
+  57 noteon 52 62
+  146 noteoff 52
+  53 noteon 57 58
+  171 noteoff 57
+  10 noteon 59 55
+  111 noteoff 59
+  76 noteon 52 56
+  128 noteoff 52
+  71 noteon 59 48
+  151 noteon 60 48
+  12 noteoff 59
+  35 noteoff 60
+  313 noteon 52 41
+  52 noteoff 52
+  111 noteon 64 57
+  69 noteoff 64
+}

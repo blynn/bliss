@@ -1,351 +1,168 @@
-Sat Apr 19 12:11:56 PDT 2003
-    It's been a while, I can't remember what I was doing.
-
-Wed Apr  9 11:29:48 PDT 2003
-    Still working on menu generation code. Kludge: two lists hold list of
-    created menus, menuitems to free later. Should be a new struct type instead?
-
-Tue Apr  8 02:41:40 PDT 2003
-    Started cleaning machine_area.c context menu code.
-    
-Mon Apr  7 13:16:01 PDT 2003
-    Second test bmachine, Sine + Decay works.
-    
-    Started work on bmachine_cell_init().
-
-Sun Apr  6 12:12:43 PDT 2003
-    sine.c: fixed malloc bug: forgot to multiply by port_count.
-
-    Now disallows self-loops.
-
-    bugfix: renaming was acting funny because I changed the signal
-    system (old signal handlers remain)
-
-    ...
-
-    Test bmachine ("Block/Bliss Machine") with sine plugin works.
-
-Sat Apr  5 22:43:03 PST 2003
-    Started work on "unit window". Will factor out common code with
-    machine_area later.
-
-    Fixed problem with zorder (was searching the wrong way).
+Thu Jul  1 10:27:25 PDT 2004
 
-Fri Apr  4 19:51:13 PST 2003
-    bugfixes:
+Fixed a couple of bugs: ins->maxport wasn't being initialized correctly,
+and note->gendata was requesting too much memory.
 
-    bbass2.c: can play multiple notes
-    pattern_area.c: forward pattern button was signal_connected twice
-    atracker.c: handles different wave sampling rates
-    util.c: hex_to_int forgot to add 10 to letters
+[bliss-0.1.0.tgz]
 
-    ...
-    
-    Started making machines more like LADSPA plugins:
-    instead of input and output ports only, there are arbitrary
-    control/data ports.
+Wed Jun 30 14:06:55 PDT 2004
 
-Fri Apr  4 09:53:30 PST 2003
-    Added 3D borders.
+Can record to a single track.
 
-    Added sidebar.
+...
 
-    [bliss-0.03.tgz]
+Can "render" single track as WAV. (Writes to "bliss.wav" for now.)
 
-Thu Apr  3 10:25:41 PST 2003
-    Better Buzz machine loading, plugged some memory leaks.
+Wed Jun 30 01:13:00 PDT 2004
 
-    ...
+Save and load works, though error checking is desperately needed.
 
-    Converted widget_moved() stuff into signals.
-    Changed signal handling code: now all attached signals are called.
+...
 
-Thu Apr  3 00:04:27 PST 2003
-    Modified dumpbuzz.c in preparation for better Buzz parameter loading.
+Hacked together a routine that lets the user play notes using the keyboard.
 
-    Machine dump looks like this now:
+Tue Jun 29 22:48:00 PDT 2004
 
-begin machine
-	dll MASTER.dll
-	type 0
-	begin gparam
-		type 3
-		id Volume
-		desc Master Volume
-		min 0
-		max 0x4000
-		no 0xFFFF
-		flags 2
-		default 0x2000
-	end gparam
-	begin gparam
-		type 3
-		id bpm
-		desc Beats Per Minute
-		min 0x10
-		max 0x200
-		no 0xFFFF
-		flags 2
-		default 126
-	end gparam
-	begin gparam
-		type 2
-		id tpb
-		desc Ticks Per Beat
-		min 1
-		max 0x20
-		no 0xFF
-		flags 2
-		default 4
-	end gparam
-end machine
+Implemented "New" on menu.
 
-    Moved parsing code to parse.c
+Mon Jun 28 17:47:53 PDT 2004
 
-Mon Mar 31 10:09:40 PST 2003
-    Disassembly is a little cumbersome.
-    For now, will just settle with being able to read parameter information.
+Started cleaning up widget code. "About..." window implemented.
 
-    ...
+Fri Jun 25 10:07:35 PDT 2004
 
-    With the help of dumpbuzz.c, added conversion info for many buzz
-    machines.
-    Will rewrite so that it has proper pattern/init_state information.
+Added selectable edges. Can delete edges.
 
-    Added envelope parsing code.
+I don't like the command panel buttons changing depending on what's been
+selected. Node/edge-specific commands should be on the panel with the settings.
 
-    Note value = 0xFF means note off. This was crashing convert_buzz.c.
+Thu Jun 24 08:18:59 PDT 2004
 
-    Jeskola Reverb 2.dll contains a naming bug.
+Can set parameters.
 
-Mon Mar 31 01:48:58 PST 2003
-    Been looking into loading native Buzz DLL's.
+Thinking of changing command panel buttons depending on what's selected.
+e.g. new units can be placed when nothing is selected, otherwise there are
+commands like "delete" and "reset".
 
-    Wrote dumpbuzz.c which can get Buzz parameter information out of a
-    Buzz DLL.
+Funny bug: I named a function "connect", forgetting that it's also the name
+of a system call. SDL_Init calls it during video initialization.
 
-Sun Mar 30 12:20:20 PST 2003
-    Listboxes work.
+I've noticed my program is too slow for smooth audio under 2.4 kernels,
 
-    Yet another kludge: appear_active flag in textbox.c
-    Will clean GUI code when program has more functionality.
+Wed Jun 23 12:12:51 PDT 2004
 
-    Converted Jeskola Distortion.
+ADSR envelope. Intend to have a more generic envelope generator, one that's
+specified by a list of points. Decided not to implement a trigger built-in
+generator yet, because it can be emulated with ADSR. (Set A,D,R = 0, S = 1.)
 
-    Converted Jeskola Noise Generator.
+Delay is troublesome. I tried coding "for all units, for all notes, calculate",
+rather than "for all notes, for all units, calculate", but it's much slower.
+It's also a hassle to mix and match units which calculate outputs differently.
 
-    Need to convert Buzz's amplitude scale properly before it'll sound
-    the same.
+...
 
-    Made a master a built-in machine, not a plugin, to avoid problems
-    involving shared libraries.
+GUI is taking a lot of CPU. Speeded things up immensely by only updating when
+necessary. Code is a lot messier though.
 
-    ...
+Wed Jun 23 08:48:49 PDT 2004
 
-    Changed the "sine" plugin so it can do an arbitrary number of notes.
+Added struct widget_s to help simplify the code.
 
-    [bliss-0.02.tgz]
+A bug that took a while to find: I had "void *"s where I should
+have had "void **"s. No warnings if I switch them up.
 
-Sat Mar 29 22:40:57 PST 2003
-    Added int *buzz_state to struct machine_s to make it easier for me.
+Tue Jun 22 10:00:51 PDT 2004
 
-    Can click to move playline.
+Trying to get the fine details of each widget right,
+e.g. highlights and shadows, menu and button behaviour.
 
-    Added song_end
+Mon Jun 21 09:56:42 PDT 2004
 
-    Decided against changing song file format, will require machines to
-    have unique names.
+Hacked up a textbox widget. Enough code to use GUI to build instruments
+that were constructed in my original "test" program.
 
-Sat Mar 29 10:10:31 PST 2003
-    Improved GUI focus code.
+Mon Jun 21 00:40:33 PDT 2004
 
-    Added status bar.
+GUI coming along. Can drag machines, make connections.
 
-    Added BPM, TPB textboxes.
+Sat Jun 19 11:55:22 PDT 2004
 
-    BPM and TPB are done correctly. (i.e. they are parameters of Master.)
+Have very basic parser. Note when setting the program of a "funk" node,
+it doesn't check that the node is indeed holding a "funk" unit.
 
-    Changed pattern data structure to a linked list of linked lists.
+Fri Jun 18 11:51:18 PDT 2004
 
-    Implemented insert/delete for pattern, song windows.
+New design in place, back to where I was. Program is more time-consuming,
+but much more flexible, e.g. can double input frequency and send through
+another oscillator, and then combine outputs so that octaves are played
+when a note is struck.
 
-    Doesn't crash when loading nonexistent files.
+"funk" unit takes any function and applies it to inputs.
 
-Fri Mar 28 17:50:31 PST 2003
-    Converting buzz machines is troublesome enough as it is, will try and
-    make it as easy as possible.
+Next: parser for funk boxes, ADSR, GUI
 
-    Bugfix: pattern_tick() wasn't returning after a play_row_at() call,
-    causing extraneous machine_parse() and machine_tick() calls.
+Thu Jun 17 14:35:22 PDT 2004 
 
-    ...
+After some thought, decided to change design yet again. Problem with current
+approach: need an oscillator generator, and an oscillator effect, causing
+a lot of duplicate code. Also, not clear how to design a instrument that plays
+octaves from modules for instance.
 
-    Rewrote bass2 code, a bit cleaner now.
+New approach: instrument will hold note list, and notes won't be combined
+until the very end. The input frequency and amplitude can be fed anywhere.
+I just need to think about where the ADSR envelope goes, and how to decide
+when a note can be freed.
 
-    ...
+For now, instrument will have ADSR settings which control note lifespan.
 
-    Converted Jeskola Delay. Not too much trouble.
-    Original code seems a little strange e.g. "3" is
-    hardcoded twice. Why isn't initialization with default values done
-    automatically?
+Just in case, I'll retain generator parameters.
 
-    Headache: Buzz words take twice the room of bytes, have to handle them
-    somehow.
+Thu Jun 17 00:52:28 PDT 2004
 
-    Added playlines.
+For now an effect will be considered a variant of a generator.
 
-Fri Mar 28 12:16:54 PST 2003
-    Plugins: instead of machine_info struct, now provide machine_info_init
-    function. More flexible, and easier to debug.
+Wed Jun 16 12:55:21 PDT 2004
 
-    Added machine->tick(): this is called at the end of every row in a pattern.
-    Handy for porting buzz machines.
+Graph code. Simple LPF.
 
-    Changing cells so that the parsing happens during data entry, not playback.
+Changed darray.c so that remove doesn't decrement the index if the
+element is not found. Also added darray_remove_index()
 
-Sat Mar 22 19:24:08 PST 2003
-    Added screenshot function.
+Tue Jun 15 12:23:20 PDT 2004
 
-    bugfix: was using pattern->id before it was initialized
-    during machine_pattern_new_auto_id()
+It seems the instrument code should handle memory allocation of notes because
+a note off event does not necessarily mean notes are destroyed.
 
-    [bliss-0.01.tgz]
+Rudimentary envelope works. Notes fade in and out.
 
-Sat Mar 22 11:39:32 PST 2003
-    bugfix: new_pattern_name: wasn't cloning string.
+Tue Jun 15 03:17:35 PDT 2004
 
-Fri Mar 21 20:53:21 PST 2003
-    Added window widgets, very kludgy but they appear to work.
+Redesigning the project:
 
-    Added about window, filename textbox window.
+Buzz compatibility no longer a top priority.
+I want to have it so that I can play notes on my digital piano and have
+interesting noises come out. That means it's easiest to design things around
+the MIDI standard, so I'll have note on/note off events rather than note
+lengths, note velocities, and note effects.
 
-    Cleaned up mlist.c, pl.c, so that pl.c is barebones platform-dependent
-    code, while mlist is higher-level list of machine info.
+I'll separate GUI code from rest of stuff, so I won't get distracted by
+too many things at once.
 
-    New machine brings up list of available machines.
+A rough game plan:
 
-    Implemented rename. Just realized the machine names don't have to be
-    unique, which means I shouldn't have called them ID's, and additionally
-    I'll have to change the file format (edges and master selector).
+1. A MIDI-style instrument: a sine wave times volume times ADSR-style envelope.
+2. Add LPF with adjustable cutoff.
+3. Generalize a little, so can use other oscillators, trackers, etc.
+4. Add GUI.
 
-    Wavedata save/loads correctly. (Uses base64.)
+My old code was not all in vain. Hack together a Frankensteinesque
+prototype by piecing together old parts from dead projects. In almost no time
+I could play notes on my digital piano and hear sinusoids.
 
-    Added menuitem highlight.
+Time-consuming: had a global dynamic array of notes to play. Two threads were
+accessing it causing a race condition. So it was crashing randomly and it
+didn't occur to me it was a threading problem until I put in a lot of printfs
+and found it was crashing at all sorts of places. Fixed it by getting
+rid of the separate audio buffering thread.
 
-Fri Mar 21 10:58:26 PST 2003
-    Spreadsheet editing is much better.
-
-    Code cleanup: moved audio code and root window code out of main.c
-
-    Not sure how much to rely on signals, and how much to rely on builtin
-    function pointers. (e.g. for moving/resizing?) I'll experiment with
-    resize events = signal. I could change update, move, etc. as well,
-    perhaps even the event handler.
-
-    Can handle window resizes now.
-
-Thu Mar 20 19:23:00 PST 2003
-    Plays bass track of demo.
-
-    Now old problems are coming back to haunt me. The trouble with the
-    column-independent way of doing things is that it makes it tricky to do
-    several tracks. Last time I had a "t" command for track select.
-    MIDI doesn't have this problem because a particular note is either playing
-    or not playing (unlike trackers, where the same note can play against
-    itself).
-
-    This time, I'll won't have the t command. Instead, I'll use the column
-    number of the spreadsheet to determine the action.
-
-    All this parsing code is annoying. Perhaps it should be done as soon
-    as it is entered in the spreadsheet.
-
-    Rudimentary tracker works (no effects yet).
-
-    Basic textbox works.
-
-Thu Mar 20 12:36:18 PST 2003
-    Bugfix: forgot that pattern data contains 0's, which means no ASCIIZ.
-    
-Wed Mar 19 21:28:25 PST 2003
-    Save/load works.
-
-    Found bug in read_word, read_dword: problem with << on char which is
-    signed (fixed by using unsigned char).
-
-    Buzz conversion prorgessing well.
-
-Wed Mar 19 18:37:57 PST 2003
-    Fixed stupid bug in blbass2.c, sine.c: I had swapped two lines so
-    variable declarations were before statements, but then I forgot to
-    move the malloc.
-
-Wed Mar 19 14:34:03 PST 2003
-    Added New Song, Save Song, Load Song menu items, started work on
-    save/load routines. Have to think about how to handle plugin filenames.
-
-Wed Mar 19 00:19:25 PST 2003
-    Functional (but practically unusable): can edit patterns and tracks
-    such that sine wave changes frequency during playback.
-    
-    Fixed z-ordering problem (it was affecting machine orders globally;
-    need to create separate z-order list).
-
-    Added buttons, program is more usable now.
-
-    Started work on buzz conversion code.
-
-Tue Mar 18 00:57:11 PST 2003
-    Having trouble with include files depending on each other.
-    Will think about this later.
-
-    Coded grid widget, used by pattern window and song window.
-
-    Added tracks, can edit patterns/tracks, but still not quite enough
-    for a complete song.
- 
-Mon Mar 17 17:32:37 PST 2003
-    First version of pattern will use linked lists.
-
-Mon Mar 17 14:03:50 PST 2003
-    Spreadsheet coming along nicely.
-
-    Added Action menu. Draws edges, with arrow in a circle.
-
-Mon Mar 17 01:32:18 PST 2003
-    Can delete machines via popup menu accessed with RMB.
-
-    Started pattern windows.
-
-    Modified SDL_gfx header file: DLLINTERFACE has to be empty otherwise
-    it won't compile for Windows.
-
-    Wrote winpl.? so it compiles for Windows now. Binary untested.
-
-Sun Mar 16 16:54:00 PST 2003
-    Lost old NEWS file and machine.c due to LUFS bug (I think) :(
-    Could be worse: only lost about 10mins work.
-    (I had stopped working on this and only restarted a few days ago.)
-    Since last entry: added (messy) GUI code.
-
-    Copied SDL_gfx code into directory.
-
-    Can connect machines.
-
-    Old code looks crufty. fillcount variable seems unnecessary,
-    clearing buf_ready should not require an additional test.
-
-    Removed audio buffer, and it seems to work better in general,
-    though now underruns occur when the program window just loses focus
-    for example. Might introduce thread for GUI stuff, and have a separate
-    sound buffering thread.
-
-Wed Jan 22 08:25:27 PST 2003
-    Experimented with dlopen et al. Seems pretty easy to use. Makefile will
-    need changing though.
-
-Tue Jan 21 02:43:59 PST 2003
-    Slow progress. Can drag machines on screen.
-
-Thu Jan  9 03:06:03 PST 2003
-    Restarted (again) in C, because previous attempt seemed too slow.
+Got rid of the audio buffer for now.
