@@ -11,13 +11,14 @@ feature
 
     process_event(e : EVENT) is
     do
-	io.put_string("%'" + e.desc + "%'%N")
-	if e.desc.is_equal("buttondown") then
+	inspect e.type
+	when sdl_mousebuttondown then
 	    process_buttondown(e)
-	elseif e.desc.is_equal("buttonup") then
+	when sdl_mousebuttonup then
 	    process_buttonup(e)
-	elseif e.desc.is_equal("keydown") then
+	when sdl_keydown then
 	    process_key(e.i1)
+	else
 	end
     end
 

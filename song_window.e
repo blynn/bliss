@@ -27,10 +27,12 @@ feature
 
     process_event(e : EVENT) is
     do
-	if e.desc.is_equal("keydown") then
+	inspect e.type
+	when sdl_keydown then
 	    process_key(e)
-	elseif e.desc.is_equal("buttondown") then
+	when sdl_mousebuttondown then
 	    process_buttondown(e)
+	else
 	end
     end
 

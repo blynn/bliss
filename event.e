@@ -2,7 +2,7 @@ class EVENT
 creation make
 feature
 	x, y : INTEGER
-	desc : STRING
+	type : INTEGER
 	i1, i2 : INTEGER
 	kmod : INTEGER
 
@@ -20,14 +20,9 @@ feature
 		y := y0
 	end
 
-	put_desc(s : STRING) is
+	put_type(i : INTEGER) is
 	do
-		desc := s
-	end
-
-	desc_from_external(p : POINTER) is
-	do
-		!!desc.from_external_copy(p)
+		type := i
 	end
 
 	put_i1(i : INTEGER) is
@@ -52,7 +47,7 @@ feature
 		put_i1(get_current_i1)
 		put_i2(get_current_i2)
 		put_kmod(get_current_kmod)
-		desc_from_external(get_current_desc)
+		put_type(get_current_type)
 	end
 
 	get_current_x : INTEGER is
@@ -75,7 +70,7 @@ feature
 	external "C" alias "export_current_kmod"
 	end
 
-	get_current_desc : POINTER is
-	external "C" alias "export_current_desc"
+	get_current_type : INTEGER is
+	external "C" alias "export_current_type"
 	end
 end

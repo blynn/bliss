@@ -269,7 +269,7 @@ feature
 	--kmod_meta	: INTEGER is 0x0C00
 
 	is_kmod(mod, k : INTEGER) : BOOLEAN is
-	external "C" alias "int_and"
+	external "C"
 	end
 
 	audio_u8 : INTEGER is 8
@@ -289,4 +289,12 @@ feature
     ttf_style_bold : INTEGER is 1
     ttf_style_italic : INTEGER is 2
     ttf_style_underline : INTEGER is 4
+
+    sdl_noevent : INTEGER is 0
+    sdl_activeevent : INTEGER is 1
+    sdl_keydown : INTEGER is 2
+    sdl_keyup : INTEGER is 3
+    sdl_mousemotion : INTEGER is 4
+    sdl_mousebuttondown : INTEGER is 5
+    sdl_mousebuttonup : INTEGER is 6
 end

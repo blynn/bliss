@@ -204,28 +204,23 @@ static int current_y;
 static int current_i1;
 static int current_i2;
 static int current_kmod;
-static char *current_desc;
+static int current_type;
 static SDL_Event event;
-
-static char strbuttondown[] = "buttondown";
-static char strbuttonup[] = "buttonup";
-static char strkeydown[] = "keydown";
 
 int ext_poll_event(void)
 {
 	while (SDL_PollEvent(&event)){
+		current_type = event.type;
 		if (event.type == SDL_KEYDOWN) {
 			current_i1 = event.key.keysym.sym;
 			current_kmod = SDL_GetModState();
-			//TODO: current_x, current_y = mouse location
-			current_desc = strkeydown;
+			//TODO: current_x, current_y = mouse location?
 			return -1;
 		} else if (event.type == SDL_MOUSEBUTTONDOWN) {
 			current_i1 = event.button.button;
 			current_kmod = SDL_GetModState();
 			current_x = event.button.x;
 			current_y = event.button.y;
-			current_desc = strbuttondown;
 			return -1;
 			break;
 		} else if (event.type == SDL_MOUSEBUTTONUP) {
@@ -233,7 +228,6 @@ int ext_poll_event(void)
 			current_kmod = SDL_GetModState();
 			current_x = event.button.x;
 			current_y = event.button.y;
-			current_desc = strbuttonup;
 			return -1;
 			break;
 		}
@@ -266,9 +260,9 @@ int export_current_y(void)
 	return current_y;
 }
 
-char* export_current_desc(void)
+char* export_current_type(void)
 {
-	return current_desc;
+	return current_type;
 }
 
 void ext_start_drawing(void) {
@@ -322,9 +316,9 @@ int ext_fillcount(void)
 	return fillcount >> 1;
 }
 
-int int_and(int a, int b)
+int is_kmod(int a, int b)
 {
-	return a & b;
+	return (a & b) != 0;
 }
 
 int wave_size;

@@ -128,3 +128,7 @@ Wed Mar 13 23:58:25 PST 2002
     Connection circles are drawn correctly again.
 
     Added master waveform clipping to SONG
+
+Sat Mar 30 23:44:51 PST 2002
+    Replaced EVENT.desc string with EVENT.type integer (first done in Falling
+    project).

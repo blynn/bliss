@@ -162,14 +162,14 @@ feature
 
     process_last_event is
     do
-	io.put_string(last_event.desc + ": ")
+	io.put_string(last_event.type.to_string + ": ")
 	io.put_integer(last_event.i1)
 	io.put_new_line
 	if modal /= Void then
 	    modal.handle_event(last_event)
 	else
 	
-	if last_event.desc.is_equal("keydown") then
+	if last_event.type = sdl_keydown then
 if is_kmod(last_event.kmod, kmod_ctrl) then
     inspect last_event.i1
     when sdlk_s then

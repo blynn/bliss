@@ -45,7 +45,7 @@ feature
 
     process_event(e : EVENT) is
     do
-	if e.desc.is_equal("keydown") then
+	if e.type = sdl_keydown then
 	    process_key(e)
 	end
     end

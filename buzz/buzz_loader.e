@@ -2,8 +2,7 @@ class BUZZ_LOADER
 inherit NOTE_UTIL
 creation make
 feature
-    --in : INPUT_STREAM
-    in : PORTABLE_FILE_READ
+    in : BINARY_FILE_READ
 
     make is
     do
@@ -12,15 +11,15 @@ feature
 
     load(f : STRING) : BUZZ_SONG is
     local
-	sfr : PORTABLE_FILE_READ
+	bfr : BINARY_FILE_READ
     do
-	!!sfr.connect_to(f)
-	if sfr.is_connected then
-	    in := sfr
+	!!bfr.connect_to(f)
+	if bfr.is_connected then
+	    in := bfr
 	    !!buzz.make
 	    parse
 	    buzz.dump
-	    sfr.disconnect
+	    bfr.disconnect
 	    Result := buzz
 	end
     end
@@ -402,10 +401,7 @@ io.put_string("total: " + last_integer.to_string + "%N")
     last_integer : INTEGER
     last_real : REAL
 
-    last_char : CHARACTER is
-    do
-	Result := in.last_character
-    end
+    last_char : CHARACTER
 
     read_string(n : INTEGER) is
     local
@@ -424,7 +420,7 @@ io.put_string("total: " + last_integer.to_string + "%N")
     read_byte is
     do
 	get_char
-	last_integer := last_char.code
+	last_integer := last_byte
     end
 
     read_bytes(n : INTEGER) is
@@ -438,7 +434,7 @@ io.put_string("total: " + last_integer.to_string + "%N")
 	until i = n
 	loop
 	    get_char
-	    last_integer := last_integer + last_char.code * pwr256
+	    last_integer := last_integer + last_byte * pwr256
 	    pwr256 := pwr256 * 256
 	    i := i + 1
 	end
@@ -447,21 +443,21 @@ io.put_string("total: " + last_integer.to_string + "%N")
     read_dword is
     do
 	get_char
-	last_integer := last_char.code
+	last_integer := last_byte
 	get_char
-	last_integer := last_integer + last_char.code * 256
+	last_integer := last_integer + last_byte * 256
 	get_char
-	last_integer := last_integer + last_char.code * 256 * 256
+	last_integer := last_integer + last_byte * 256 * 256
 	get_char
-	last_integer := last_integer + last_char.code * 256 * 256 * 256
+	last_integer := last_integer + last_byte * 256 * 256 * 256
     end
 
     read_word is
     do
 	get_char
-	last_integer := last_char.code
+	last_integer := last_byte
 	get_char
-	last_integer := last_integer + last_char.code * 256
+	last_integer := last_integer + last_byte * 256
     end
 
     read_float is
@@ -478,16 +474,20 @@ io.put_string("total: " + last_integer.to_string + "%N")
     do
 	last_string.clear
 	from get_char
-	until last_char.code = 0
+	until last_byte = 0
 	loop
 	    last_string.add_last(last_char)
 	    get_char
 	end
     end
 
+    last_byte : INTEGER
+
     get_char is
     do
-	in.read_character
+	in.read_byte
+	last_byte := in.last_byte
+	last_char := last_byte.to_character
 	offset := offset + 1
     end
 end
