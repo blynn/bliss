@@ -32,6 +32,7 @@ void colour_init(SDL_PixelFormat *format)
     put_colour(c_porttext, 176, 176, 176);
     put_colour(c_edge, 255, 255, 255);
     put_colour(c_darkedge, 176, 176, 176);
+    put_colour(c_led, 255, 64, 64);
 
     for (i=0; i<c_max; i++) {
 	coloursdl[i] = SDL_MapRGB(format, rgb[i].r, rgb[i].g, rgb[i].b);

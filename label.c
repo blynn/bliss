@@ -13,6 +13,13 @@ void label_init(label_ptr l, widget_ptr parent)
     l->w->update = label_update;
 }
 
+void label_put_text(label_ptr l, char *s)
+{
+    l->text = s; //TODO: strclone it?
+    l->w->w = strlen(s) * 8;
+    l->w->h = 8;
+}
+
 label_ptr label_new(widget_ptr parent)
 {
     label_ptr res = (label_ptr) malloc(sizeof(label_t));

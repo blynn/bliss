@@ -40,15 +40,16 @@ static double sinfn(gen_t g, double d)
     return res;
 }
 
-double osc_tick(gen_t g, void *data, double *value)
+double osc_tick(gen_t g, gen_data_ptr gd, double *value)
 {
     double res;
     osc_data_ptr p;
     double *dp;
 
-    dp = (double *) data;
-    *dp = (*dp) + value[0] / 44100.0;
-    *dp -= floor(*dp);
+    dp = (double *) gd->data;
+    *dp = (*dp) + value[0] * inv_samprate;
+    if (*dp > 1.0) *dp -= 1.0;
+    //else if (*dp < 0.0) *dp += 1.0;
     p = (osc_data_ptr) g->data;
     res = p->oscfn(g, *dp);
     return res;
@@ -89,11 +90,12 @@ struct param_s param_shape = {
     shape_cb
 };
 
-char *osc_port_list[] = { "freq" };
-param_ptr osc_param_list[] = { &param_shape };
+static char *osc_port_list[] = { "freq" };
+static param_ptr osc_param_list[] = { &param_shape };
 
 struct gen_info_s osc_info = {
     "osc",
+    "Oscillator",
     osc_init,
     osc_clear,
     osc_note_on,

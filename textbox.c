@@ -2,6 +2,8 @@
 
 #include "textbox.h"
 
+textbox_ptr textbox_selection;
+
 void textbox_put_string(textbox_t tb, char *s)
 {
     //TODO: replace with dynamic version
@@ -76,7 +78,8 @@ void textbox_ok(textbox_t tb)
     textbox_selection = NULL;
     strcpy(tb->savedcopy, tb->s);
     textbox_update(tb);
-    tb->ok_cb(tb->ok_cb_data);
+    request_update(tb->w);
+    tb->ok_cb(tb->ok_cb_data, tb->s);
 }
 
 void textbox_cancel(textbox_t tb)
@@ -85,20 +88,12 @@ void textbox_cancel(textbox_t tb)
     textbox_selection = NULL;
     textbox_put_string(tb, tb->savedcopy);
     textbox_update(tb);
-    tb->cancel_cb(tb->cancel_cb_data);
+    //tb->cancel_cb(tb->cancel_cb_data, tb->s);
 }
 
-void textbox_handlembdown(textbox_t tb, int button, int x, int y)
+void textbox_handlekey(widget_ptr w, int key, int mod)
 {
-    state = state_textbox;
-    textbox_selection = tb;
-    tb->cursor = x / 8;
-    if (tb->cursor > tb->len) tb->cursor = tb->len;
-    textbox_update(tb);
-}
-
-void textbox_handlekey(textbox_t tb, int key, int mod)
-{
+    textbox_ptr tb = (textbox_ptr) w;
     if (key >= 32 && key <= 126) {
 	if (mod & KMOD_SHIFT) textbox_insert(tb, shift_key(key));
 	else textbox_insert(tb, key);
@@ -125,15 +120,37 @@ void textbox_handlekey(textbox_t tb, int key, int mod)
 	    textbox_delete(tb);
 	    break;
 	case SDLK_ESCAPE:
+	    widget_pop_keydowncb();
 	    textbox_cancel(tb);
 	    return;
 	    break;
 	case SDLK_RETURN:
+	    widget_pop_keydowncb();
 	    textbox_ok(tb);
 	    return;
 	    break;
     }
     textbox_update(tb);
+    request_update(tb->w);
+}
+
+//TODO: get rid of handlekey in widget.h?
+static int textbox_key_down(widget_ptr w, int sym, int mod, void *data)
+{
+    textbox_handlekey(w, sym, mod);
+    return 0;
+}
+
+void textbox_handlembdown(widget_ptr w, int button, int x, int y)
+{
+    textbox_ptr tb = (textbox_ptr) w;
+    state = state_textbox;
+    textbox_selection = tb;
+    tb->cursor = x / 8;
+    if (tb->cursor > tb->len) tb->cursor = tb->len;
+    widget_push_keydowncb(w, textbox_key_down, NULL);
+    textbox_update(tb);
+    request_update(tb->w);
 }
 
 void textbox_init(textbox_ptr tb, widget_ptr parent)
@@ -153,3 +170,19 @@ textbox_ptr textbox_new(widget_ptr parent)
     textbox_init(res, parent);
     return res;
 }
+
+void textbox_put_ok_callback(textbox_t tb,
+	void (*func)(void *data, char *), void *data)
+{
+    tb->ok_cb = func;
+    tb->ok_cb_data = data;
+}
+
+/*
+void textbox_put_cancel_callback(textbox_t tb,
+	void (*func)(void *data, char *), void *data)
+{
+    tb->cancel_cb = func;
+    tb->cancel_cb_data = data;
+}
+*/

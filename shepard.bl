@@ -1,0 +1,32 @@
+bliss 0.1.1
+voice voice0 0 127 294 258 {
+    unit out out 488 258
+    unit freq dummy 5 258
+    unit shepard0 shepard 206 291
+    unit adsr0 adsr 326 274
+    set adsr0 attack 0.100000
+    set adsr0 decay 0.500000
+    set adsr0 sustain 0.600000
+    set adsr0 release 0.100000
+    connect freq shepard0 0
+    connect shepard0 adsr0 0
+    connect adsr0 out 0
+}
+track {
+  433 noteon 60 64
+  173 noteoff 60
+  233 noteon 62 64
+  146 noteoff 62
+  253 noteon 64 64
+  171 noteoff 64
+  240 noteon 65 64
+  175 noteoff 65
+  242 noteon 67 64
+  176 noteoff 67
+  254 noteon 69 64
+  144 noteoff 69
+  271 noteon 71 64
+  144 noteoff 71
+  293 noteon 72 64
+  142 noteoff 72
+}

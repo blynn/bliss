@@ -1,25 +1,17 @@
 #ifndef NOTE_H
 #define NOTE_H
 
-struct ins_s;
-struct gen_s;
+#include "gen.h"
 
-struct note_data_s {
-    struct gen_s *g;
-    void *data;
-    double output;
-};
-
-typedef struct note_data_s note_data_t[1];
-typedef struct note_data_s *note_data_ptr;
+struct voice_s;
 
 struct note_s {
     double freq;
     double volume;
-    struct ins_s *ins;
+    struct voice_s *voice;
     int is_off;
-    int ref_count;
-    note_data_ptr *gen_data;
+    int alive;
+    gen_data_ptr *gen_data;
 };
 
 typedef struct note_s note_t[1];

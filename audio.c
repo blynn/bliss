@@ -7,9 +7,13 @@
 #include "audio.h"
 #include "note.h"
 
+static enum {
+    latency = 512
+};
+
 static double (*audio_tick)();
 
-static void convert_write(Uint8 *ptr, double x)
+static inline void convert_write(Uint8 *ptr, double x)
 {
     int n;
     n = x * 4096;
@@ -20,21 +24,28 @@ static void convert_write(Uint8 *ptr, double x)
     ptr[1] = (Uint8) (n & 255); //upper 16 bits
 }
 
-static void c_fill_audio(void *udata, Uint8 *stream, int len)
-{
-    Uint8 *ptr = stream;
-    Uint8 *target = stream + len;
+static Uint8 buffer[latency * 4];
 
-    while (ptr != target) {
+void audio_fill_buffer()
+{
+    int i;
+    Uint8 *p = buffer;
+    for (i=0; i<latency; i++) {
 	double l, r;
 	l = audio_tick();
 	r = l;
 
-	convert_write(ptr, l);
-	ptr += 2;
-	convert_write(ptr, r);
-	ptr += 2;
+	convert_write(p, l);
+	p += 2;
+	convert_write(p, r);
+	p += 2;
     }
+}
+
+static void c_fill_audio(void *udata, Uint8 *stream, int len)
+{
+    memcpy(stream, buffer, len);
+    audio_fill_buffer();
 }
 
 void audio_set_ticker(double (*tickfn)())
@@ -47,10 +58,10 @@ void audio_init()
     SDL_AudioSpec wanted;
 
     /* Set the audio format */
-    wanted.freq = samprate;
+    wanted.freq = devsamprate;
     wanted.format = AUDIO_S16;
     wanted.channels = 2;    /* 1 = mono, 2 = stereo */
-    wanted.samples = 512;  /* Good low-latency value for callback */
+    wanted.samples = latency;
     wanted.callback = c_fill_audio;
     wanted.userdata = NULL;
 

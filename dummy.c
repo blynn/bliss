@@ -12,7 +12,7 @@ void dummy_note_free(void *data)
 {
 }
 
-double dummy_tick(gen_t g, void *data, double *value)
+double dummy_tick(gen_t g, gen_data_ptr gd, double *value)
 {
     return 0;
 }
@@ -27,6 +27,7 @@ void dummy_clear(gen_ptr g)
 
 struct gen_info_s dummy_info = {
     "dummy",
+    "Dummy",
     dummy_init,
     dummy_clear,
     dummy_note_on,

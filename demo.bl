@@ -1,19 +1,26 @@
-bliss 0.1.0
-unit out out 540 158
-unit freq dummy 5 158
-unit adsr0 adsr 360 87
-set adsr0 attack 0.100000
-set adsr0 decay 0.100000
-set adsr0 sustain 0.300000
-set adsr0 release 0.700000
-unit osc0 osc 122 57
-set osc0 shape 1.000000
-unit lpf0 lpf 204 226
-set lpf0 cutoff 0.030000
-connect freq osc0 0
-connect adsr0 out 0
-connect lpf0 adsr0 0
-connect osc0 lpf0 0
+bliss 0.1.1
+voice voice0 0 127 294 258 {
+    unit freq dummy 5 158
+    unit adsr0 adsr 360 87
+    set adsr0 attack 0.100000
+    set adsr0 decay 0.100000
+    set adsr0 sustain 0.300000
+    set adsr0 release 0.700000
+    unit osc0 osc 122 57
+    set osc0 shape 1.000000
+    unit out out 485 160
+    unit lpf0 butterlpf 352 271
+    unit f0 funk2 158 253
+    setfn f0 440
+    unit f1 funk2 222 389
+    setfn f1 0.707
+    connect freq osc0 0
+    connect adsr0 out 0
+    connect lpf0 adsr0 0
+    connect osc0 lpf0 0
+    connect f0 lpf0 1
+    connect f1 lpf0 2
+}
 track {
   723 noteon 52 63
   178 noteoff 52

@@ -11,7 +11,7 @@ void out_note_free(void *data)
 {
 }
 
-double out_tick(gen_t g, void *data, double *value)
+double out_tick(gen_t g, gen_data_ptr gd, double *value)
 {
     return value[0];
 }
@@ -28,6 +28,7 @@ char *out_port_list[] = { "input" };
 
 struct gen_info_s out_info = {
     "out",
+    "Output",
     out_init,
     out_clear,
     out_note_on,

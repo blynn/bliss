@@ -13,20 +13,24 @@ struct textbox_s {
     char savedcopy[128 + 1];
     int len;
     int cursor;
-    void (*ok_cb)(void *data);
-    void (*cancel_cb)(void *data);
+    void (*ok_cb)(void *data, char *);
     void *ok_cb_data;
-    void *cancel_cb_data;
+    //void (*cancel_cb)(void *data, char *);
+    //void *cancel_cb_data;
 };
 
 extern textbox_ptr textbox_selection;
 
 void textbox_put_string(textbox_t tb, char *s);
 void textbox_update(textbox_t tb);
-void textbox_handlembdown(textbox_t tb, int button, int x, int y);
-void textbox_handlekey(textbox_t tb, int key, int mod);
+void textbox_handlembdown(widget_ptr w, int button, int x, int y);
+void textbox_handlekey(widget_ptr w, int key, int mod);
+void textbox_put_ok_callback(textbox_t tb,
+	void (*func)(void *data, char *), void *data);
+//void textbox_put_cancel_callback(textbox_t tb,
+	//void (*func)(void *data, char *), void *data);
 void textbox_ok(textbox_t tb);
-void textbox_cancel(textbox_t tb);
+//void textbox_cancel(textbox_t tb);
 void textbox_init(textbox_t tb, widget_ptr parent);
 textbox_ptr textbox_new(widget_ptr parent);
 

@@ -5,7 +5,7 @@
 
 struct checkbox_s {
     widget_t w;
-    void (*callback)(void *data);
+    void (*callback)(void *data, int state);
     char *data;
     int state;
 };

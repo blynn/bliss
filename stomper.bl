@@ -1,0 +1,184 @@
+bliss 0.1.1
+voice voice0 0 60 294 258 {
+    unit out out 497 226
+    unit freq dummy 164 60
+    unit f0 funk2 26 108
+    setfn f0 1.0
+    unit seg0 seg 20 267
+    set seg0 t0 0.000000
+    set seg0 y0 0.000000
+    set seg0 t1 0.200000
+    set seg0 y1 1.000000
+    unit f1 funk2 65 344
+    setfn f1 1000-1000*pow(x,0.063)
+    unit osc0 osc 180 347
+    set osc0 shape 0.000000
+    unit seg1 seg 119 190
+    set seg1 t0 0.000000
+    set seg1 y0 0.000000
+    set seg1 t1 0.200000
+    set seg1 y1 1.000000
+    unit seg2 seg 384 286
+    set seg2 t0 0.000000
+    set seg2 y0 10.000000
+    set seg2 t1 0.200000
+    set seg2 y1 1.000000
+    unit f2 funk2 286 190
+    setfn f2 x1*(1-pow(x,7.943))
+    connect f0 seg0 0
+    connect f0 seg1 0
+    connect seg0 f1 0
+    connect f1 osc0 0
+    connect osc0 f2 1
+    connect f2 seg2 0
+    connect seg2 out 0
+    connect seg1 f2 0
+}
+voice voice2 63 127 276 377 {
+    unit freq dummy 338 115
+    unit noise0 noise 39 185
+    unit f0 funk2 84 251
+    setfn f0 11000.0*(1+0.3*x)
+    unit osc0 osc 95 346
+    set osc0 shape 0.000000
+    unit out out 469 255
+    unit f2 funk2 95 418
+    setfn f2 1.0
+    unit seg0 seg 240 435
+    set seg0 t0 0.000000
+    set seg0 y0 1.000000
+    set seg0 t1 0.120000
+    set seg0 y1 0.000000
+    unit f1 funk2 345 307
+    setfn f1 10*x*(1-pow(1-x1,0.199))
+    connect noise0 f0 0
+    connect f0 osc0 0
+    connect f1 out 0
+    connect f2 seg0 0
+    connect osc0 f1 0
+    connect seg0 f1 1
+}
+voice voice1 61 62 275 320 {
+    unit freq dummy 474 24
+    unit osc0 osc 168 165
+    set osc0 shape 0.000000
+    unit seg2 seg 286 203
+    set seg2 t0 0.000000
+    set seg2 y0 1.000000
+    set seg2 t1 0.100000
+    set seg2 y1 0.000000
+    unit seg1 seg 120 46
+    set seg1 t0 0.000000
+    set seg1 y0 0.000000
+    set seg1 t1 0.100000
+    set seg1 y1 1.000000
+    unit f0 funk2 248 61
+    setfn f0 2000-1920*pow(x,0.043)
+    unit f1 funk2 11 217
+    setfn f1 1.0
+    unit osc1 osc 145 379
+    set osc1 shape 0.000000
+    unit seg4 seg 252 436
+    set seg4 t0 0.000000
+    set seg4 y0 1.000000
+    set seg4 t1 0.016000
+    set seg4 y1 0.000000
+    unit f3 funk2 65 441
+    setfn f3 2000-1900*pow(x,0.109)
+    unit seg3 seg 27 391
+    set seg3 t0 0.000000
+    set seg3 y0 0.000000
+    set seg3 t1 0.016000
+    set seg3 y1 1.000000
+    unit noise0 noise 135 249
+    unit clip0 clipper 478 458
+    set clip0 min -1.000000
+    set clip0 max 1.000000
+    unit out out 510 284
+    unit f4 funk2 264 324
+    setfn f4 x*(1-pow(1-x1,7.943))
+    unit f2 funk2 428 195
+    setfn f2 x*5
+    unit seg0 seg 280 262
+    set seg0 t0 0.000000
+    set seg0 y0 0.400000
+    set seg0 t1 0.200000
+    set seg0 y1 0.000000
+    connect f0 osc0 0
+    connect f1 seg1 0
+    connect seg1 f0 0
+    connect osc0 seg2 0
+    connect f2 out 0
+    connect f1 seg3 0
+    connect seg3 f3 0
+    connect f3 osc1 0
+    connect f1 seg4 0
+    connect seg4 f4 1
+    connect osc1 f4 0
+    connect f4 f2 0
+    connect seg0 f2 0
+    connect seg2 f2 0
+    connect noise0 seg0 0
+}
+track {
+  748 noteon 64 64
+  9 noteon 60 64
+  88 noteoff 60
+  14 noteoff 64
+  219 noteon 64 64
+  113 noteoff 64
+  81 noteon 60 64
+  104 noteoff 60
+  23 noteon 64 64
+  17 noteon 62 64
+  93 noteoff 64
+  22 noteoff 62
+  189 noteon 64 64
+  20 noteon 60 64
+  68 noteoff 60
+  23 noteoff 64
+  210 noteon 64 64
+  124 noteoff 64
+  191 noteon 64 64
+  30 noteon 60 64
+  72 noteoff 64
+  32 noteoff 60
+  201 noteon 62 64
+  0 noteon 64 64
+  94 noteoff 62
+  23 noteoff 64
+  77 noteon 60 64
+  115 noteoff 60
+  0 noteon 64 64
+  84 noteoff 64
+  262 noteon 60 64
+  0 noteon 64 64
+  101 noteoff 60
+  0 noteoff 64
+  196 noteon 64 64
+  105 noteoff 64
+  90 noteon 60 64
+  113 noteoff 60
+  0 noteon 62 64
+  0 noteon 64 64
+  77 noteoff 64
+  27 noteoff 62
+  214 noteon 64 64
+  20 noteon 60 64
+  71 noteoff 64
+  12 noteoff 60
+  213 noteon 64 64
+  103 noteoff 64
+  220 noteon 64 64
+  10 noteon 60 64
+  91 noteoff 60
+  12 noteoff 64
+  201 noteon 62 64
+  14 noteon 64 64
+  80 noteoff 62
+  13 noteoff 64
+  64 noteon 60 64
+  90 noteoff 60
+  35 noteon 64 64
+  100 noteoff 64
+}

@@ -40,10 +40,21 @@ void adsr_note_free(void *data)
     free(data);
 }
 
-double adsr_tick(gen_t g, void *data, double *value)
+double adsr_tick(gen_t g, gen_data_ptr gen_data, double *value)
 {
     adsr_data_ptr gd = (adsr_data_ptr) g->data;
-    adsr_note_data_ptr p = (adsr_note_data_ptr) data;
+    adsr_note_data_ptr p = (adsr_note_data_ptr) gen_data->data;
+
+    if (gen_data->note->is_off) {
+	p->release_age++;
+	if (p->release_age >= gd->rtick) {
+	    gen_data->alive = 0;
+	    return 0.0;
+	}
+	return value[0] * p->level * ((double) (gd->rtick - p->release_age)) / (double) gd->rtick;
+    }
+
+    gen_data->alive = 1;
     if (p->age < gd->attacktick) {
 	p->level = p->age / (double) gd->attacktick;
 	p->age++;
@@ -57,24 +68,9 @@ double adsr_tick(gen_t g, void *data, double *value)
     return p->level * value[0];
 }
 
-double adsr_note_off_tick(gen_ptr g, void *data, double *value, int *dead)
-{
-    adsr_note_data_ptr p = (adsr_note_data_ptr) data;
-    adsr_data_ptr gd = (adsr_data_ptr) g->data;
-
-    *dead = 0;
-    p->release_age++;
-    if (p->release_age >= gd->rtick) {
-	*dead = 1;
-	return 0.0;
-    }
-    return value[0] * p->level * ((double) (gd->rtick - p->release_age)) / (double) gd->rtick;
-}
-
 void adsr_init(gen_ptr g)
 {
     g->data = malloc(sizeof(adsr_data_t));
-    g->note_off_tick = adsr_note_off_tick;
 }
 
 void adsr_clear(gen_ptr g)
@@ -86,14 +82,14 @@ void attack_cb(gen_ptr g, double val)
 {
     adsr_data_ptr p = (adsr_data_ptr) g->data;
     p->attack = val;
-    p->attacktick = val * 44100.0;
+    p->attacktick = val * samprate;
 }
 
 void decay_cb(gen_ptr g, double val)
 {
     adsr_data_ptr p = (adsr_data_ptr) g->data;
     p->decay = val;
-    p->dtick = val * 44100.0;
+    p->dtick = val * samprate;
 }
 
 void sustain_cb(gen_ptr g, double val)
@@ -105,7 +101,7 @@ void sustain_cb(gen_ptr g, double val)
 void release_cb(gen_ptr g, double val)
 {
     adsr_data_ptr p = (adsr_data_ptr) g->data;
-    p->rtick = val * 44100.0;
+    p->rtick = val * samprate;
 }
 
 struct param_s param_a = {
@@ -137,6 +133,7 @@ param_ptr adsr_param_list[] = { &param_a, &param_d, &param_s, &param_r };
 
 struct gen_info_s adsr_info = {
     "adsr",
+    "ADSR Envelope",
     adsr_init,
     adsr_clear,
     adsr_note_on,

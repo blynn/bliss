@@ -24,9 +24,9 @@ void delay_note_free(void *data)
     free(data);
 }
 
-double delay_tick(gen_t g, void *data, double *value)
+double delay_tick(gen_t g, gen_data_ptr gd, double *value)
 {
-    history_ptr p = (history_ptr) data;
+    history_ptr p = (history_ptr) gd->data;
     if (!p->i) p->hist[44100] = value[0];
     p->hist[p->i] = value[0];
     p->i++;
@@ -51,6 +51,7 @@ param_ptr delay_param_list[] = { NULL };
 
 struct gen_info_s delay_info = {
     "delay",
+    "Delay",
     delay_init,
     delay_clear,
     delay_note_on,

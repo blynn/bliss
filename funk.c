@@ -45,15 +45,65 @@ double ftree_eval(ftree_ptr f, double *port)
     return f->eval(f, port);
 }
 
-double ft_mul(ftree_ptr f, double *port)
+double ft_sqrt(ftree_ptr f, double *port)
 {
-    double res;
+    ftree_ptr f0;
+
+    f0 = f->child->item[0];
+    return sqrt(ftree_eval(f0, port));
+}
+
+double ft_unary(ftree_ptr f, double *port)
+{
+    ftree_ptr f0;
+
+    f0 = f->child->item[0];
+    return -ftree_eval(f0, port);
+}
+
+double ft_pow(ftree_ptr f, double *port)
+{
     ftree_ptr f0, f1;
 
     f0 = f->child->item[0];
     f1 = f->child->item[1];
-    res = ftree_eval(f0, port) * ftree_eval(f1, port);
-    return res;
+    return pow(ftree_eval(f0, port), ftree_eval(f1, port));
+}
+
+double ft_add(ftree_ptr f, double *port)
+{
+    ftree_ptr f0, f1;
+
+    f0 = f->child->item[0];
+    f1 = f->child->item[1];
+    return ftree_eval(f0, port) + ftree_eval(f1, port);
+}
+
+double ft_sub(ftree_ptr f, double *port)
+{
+    ftree_ptr f0, f1;
+
+    f0 = f->child->item[0];
+    f1 = f->child->item[1];
+    return ftree_eval(f0, port) - ftree_eval(f1, port);
+}
+
+double ft_mul(ftree_ptr f, double *port)
+{
+    ftree_ptr f0, f1;
+
+    f0 = f->child->item[0];
+    f1 = f->child->item[1];
+    return ftree_eval(f0, port) * ftree_eval(f1, port);
+}
+
+double ft_div(ftree_ptr f, double *port)
+{
+    ftree_ptr f0, f1;
+
+    f0 = f->child->item[0];
+    f1 = f->child->item[1];
+    return ftree_eval(f0, port) / ftree_eval(f1, port);
 }
 
 double ft_constant(ftree_ptr f, double *port)
@@ -81,6 +131,10 @@ enum {
     t_constant,
     t_id,
     t_end,
+    t_add,
+    t_sub,
+    t_mul,
+    t_div,
 };
 
 struct {
@@ -100,6 +154,14 @@ void get_number()
     token.type = t_constant;
 
     for(;;) {
+	if (program[program_i] == '.') {
+	    if (afterdot) {
+		printf("parse error: ignoring spurious '.'\n");
+	    }
+	    afterdot = 1;
+	    program_i++;
+	}
+	if (!isdigit(program[program_i])) break;
 	if (afterdot) {
 	    d += frac * (program[program_i] - '0');
 	    frac *= 0.1;
@@ -108,11 +170,6 @@ void get_number()
 	    d += program[program_i] - '0';
 	}
 	program_i++;
-	if (program[program_i] == '.') {
-	    afterdot = 1;
-	    program_i++;
-	}
-	if (!isdigit(program[program_i])) break;
     }
 
     token.d = d;
@@ -137,7 +194,7 @@ void get_token()
 	program_i++;
     }
 
-    if (isdigit(program[program_i])) {
+    if (program[program_i] == '.' || isdigit(program[program_i])) {
 	get_number();
 	return;
     }
@@ -154,6 +211,22 @@ void get_token()
 	    return;
 	case ')':
 	    token.type = t_rparen;
+	    program_i++;
+	    return;
+	case '+':
+	    token.type = t_add;
+	    program_i++;
+	    return;
+	case '-':
+	    token.type = t_sub;
+	    program_i++;
+	    return;
+	case '*':
+	    token.type = t_mul;
+	    program_i++;
+	    return;
+	case '/':
+	    token.type = t_div;
 	    program_i++;
 	    return;
 	case ',':
@@ -173,60 +246,130 @@ ftree_ptr parse_expr();
 
 void parse_arg(ftree_ptr f)
 {
-    get_token();
     if (token.type != t_lparen) {
-	printf("expected '('\n");
+	printf("parse error: expected '('\n");
 	return;
     }
     for (;;) {
+	get_token();
 	ftree_ptr arg = parse_expr();
 	darray_append(f->child, arg);
-	get_token();
 	if (token.type == t_rparen) {
+	    get_token();
 	    break;
 	} else if (token.type != t_comma) {
-	    printf("parse error!\n");
+	    printf("parse error: bad arg list\n");
+	    break;
 	}
     }
+}
+
+ftree_ptr parse_factor()
+{
+    ftree_ptr res = NULL;
+    switch(token.type) {
+	case t_sub:
+	    //unary minus
+	    res = ftree_new();
+	    res->eval = ft_unary;
+	    get_token();
+	    darray_append(res->child, parse_factor());
+	    return res;
+	case t_constant:
+	    res = ftree_new();
+	    res->eval = ft_constant;
+	    res->d = token.d;
+	    get_token();
+	    return res;
+	case t_id:
+	    res = ftree_new();
+	    if (token.s[0] == 'x') {
+		//x is an alias for x0
+		if (!token.s[1]) {
+		    res->i = 0;
+		    res->eval = ft_port;
+		    get_token();
+		    return res;
+		} else if (isdigit(token.s[1])) {
+		    res->i = token.s[1] - '0';
+		    res->eval = ft_port;
+		    get_token();
+		    return res;
+		} else {
+		    printf("parse error: bad x\n");
+		    return res;
+		}
+	    }
+	    if (!strcmp(token.s, "sqrt")) {
+		res->eval = ft_sqrt;
+		get_token();
+		parse_arg(res);
+		return res;
+	    }
+	    if (!strcmp(token.s, "pow")) {
+		res->eval = ft_pow;
+		get_token();
+		parse_arg(res);
+		return res;
+	    }
+	case t_lparen:
+	    get_token();
+	    res = parse_expr();
+	    if (token.type != t_rparen) {
+		printf("parse error: missing ')'\n");
+		return res;
+	    }
+	    get_token();
+	    return res;
+	default:
+	    printf("parse error: factor expected\n");
+	    return res;
+    }
+}
+
+ftree_ptr parse_term()
+{
+    ftree_ptr res;
+    res = parse_factor();
+    while(token.type == t_mul || token.type == t_div) {
+	ftree_ptr arg1, arg2;
+	arg1 = res;
+	res = ftree_new();
+	if (token.type == t_mul) res->eval = ft_mul;
+	else res->eval = ft_div;
+	darray_append(res->child, arg1);
+	get_token();
+	arg2 = parse_factor();
+	darray_append(res->child, arg2);
+    }
+    return res;
 }
 
 ftree_ptr parse_expr()
 {
     ftree_ptr res;
-    res = ftree_new();
-    get_token();
-    switch(token.type) {
-	case t_constant:
-	    res->eval = ft_constant;
-	    res->d = token.d;
-	    return res;
-	case t_id:
-	    if (token.s[0] == 'x') {
-		if (isdigit(token.s[1])) {
-		    res->i = token.s[1] - '0';
-		    res->eval = ft_port;
-		    return res;
-		} else {
-		    printf("parse error!\n");
-		    return res;
-		}
-	    }
-	    if (!strcmp(token.s, "mul")) {
-		res->eval = ft_mul;
-		parse_arg(res);
-		return res;
-	    }
-	default:
-	    printf("parse error!\n");
-	    return res;
+    res = parse_term();
+    while(token.type == t_add || token.type == t_sub) {
+	ftree_ptr arg1, arg2;
+	arg1 = res;
+	res = ftree_new();
+	if (token.type == t_add) res->eval = ft_add;
+	else res->eval = ft_sub;
+	darray_append(res->child, arg1);
+	get_token();
+	arg2 = parse_term();
+	darray_append(res->child, arg2);
     }
+    return res;
 }
 
 ftree_ptr parse(char *s)
 {
     program_i = 0;
     program = s;
+    get_token();
     return parse_expr();
+    //TODO: check it's the end of the string?
 }
 
 void *funk_note_on()
@@ -241,13 +384,13 @@ void funk_note_free(void *data)
     free(data);
 }
 
-double funk_tick(gen_t g, void *data, double *value)
+double funk_tick(gen_t g, gen_data_ptr gd, double *value)
 {
     double res;
     funk_data_ptr p;
     int *ip;
 
-    ip = (int *) data;
+    ip = (int *) gd->data;
     p = (funk_data_ptr) g->data;
     res = ftree_eval(p->root, value);
     *ip = (*ip) + 1;
@@ -309,6 +452,7 @@ gen_info_ptr funk_info_n(int n)
     res->id = malloc(5 * sizeof(char));
     strcpy(res->id, "funk0");
     res->id[4] += n;
+    res->name = "Function";
     res->clear = funk_clear;
     res->note_on = funk_note_on;
     res->note_free = funk_note_free;

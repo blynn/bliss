@@ -24,8 +24,9 @@ void checkbox_handle_mousebuttondown(widget_ptr w, int checkbox, int x, int y)
     checkbox_ptr b = (checkbox_ptr) w;
 
     b->state = !b->state;
-
-    w->update(w);
+    b->callback(b->data, b->state);
+    widget_update(w);
+    request_update(w);
 }
 
 void checkbox_init(checkbox_ptr b, widget_ptr parent)

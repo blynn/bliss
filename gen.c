@@ -1,12 +1,17 @@
 #include <stdlib.h>
 #include "gen.h"
 
+#define DEFSAMPRATE 44100.0
+double samprate = DEFSAMPRATE;
+double inv_samprate = 1.0 / DEFSAMPRATE;
+double nyquist = DEFSAMPRATE / 2.0;
+double inv_nyquist = 2.0 / DEFSAMPRATE;
+
 void gen_init(gen_t g, gen_info_t gi)
 {
     int i;
     param_ptr *p;
 
-    g->note_off_tick = NULL;
     g->info = gi;
     gi->init(g);
     g->param = malloc(sizeof(double) * gi->param_count);
@@ -43,12 +48,7 @@ void gen_note_free(gen_t g, void *data)
     g->info->note_free(data);
 }
 
-double gen_tick(gen_ptr g, void *data, double *value)
+double gen_tick(gen_ptr g, gen_data_ptr gd, double *value)
 {
-    return g->info->tick(g, data, value);
-}
-
-double gen_note_off_tick(gen_t g, void *data, double *value, int *dead)
-{
-    return g->note_off_tick(g, data, value, dead);
+    return g->info->tick(g, gd, value);
 }

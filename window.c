@@ -22,15 +22,12 @@ void win_handle_mousebuttondown(widget_ptr w, int button, int x, int y)
 
     for (i=0; i<w->show_list->count; i++) {
 	widget_ptr p = w->show_list->item[i];
-	if (widget_contains(p, x, y)) {
-	    p->handle_mousebuttondown(p, button, x, y);
+	if (global_contains(p, x, y)) {
+	    p->handle_mousebuttondown(p, button,
+		    x - p->globalx, y - p->globaly);
 	    return;
 	}
     }
-}
-
-void win_handle_mousebuttonup(widget_ptr w, int button, int x, int y)
-{
 }
 
 void win_put_size(widget_ptr w, int x, int y)
@@ -46,7 +43,6 @@ void window_init(window_ptr win, widget_ptr parent)
 {
     widget_init(win->w, parent);
     win->w->handle_keydown = win_handle_keydown;
-    win->w->handle_mousebuttonup = win_handle_mousebuttonup;
     win->w->handle_mousebuttondown = win_handle_mousebuttondown;
     win->w->update = window_update;
     win->w->put_size = win_put_size;

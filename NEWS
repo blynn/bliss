@@ -1,3 +1,82 @@
+Tue Jul 20 14:21:27 PDT 2004
+
+Added "pow" function to "funk".
+Can now do a lot of Stomper Hyperion sounds.
+Made a drum demo.
+Lots of things need fixing, but it's about time for a release.
+
+[bliss-0.1.1.tgz]
+
+Mon Jul 19 23:44:30 PDT 2004
+
+Added keydown callback.
+Added one-zero, one-pole, two-pole filters.
+"funk" can do basic arithmetic operations.
+Reenabled render operation.
+
+Mon Jul 19 00:51:21 PDT 2004
+
+Improved Butterworth lowpass filter, added resonance.
+Added Butterworth highpass filter with resonance.
+
+Sun Jul 18 15:22:16 PDT 2004
+
+More cleanup and bugfixes. Added Shepard tone generator.
+
+Sat Jul 17 23:18:28 PDT 2004
+
+Some bugfixes.
+
+Thu Jul 15 19:32:07 PDT 2004
+
+Revamped GUI code. Code is neater and more efficient.
+
+Thu Jul 15 12:57:18 PDT 2004
+
+Decided to put in a more complex screen update design: will use SDL_UpdateRects
+instead of hoping the surface is double buffered.
+
+Wed Jul 14 22:56:40 PDT 2004
+
+Added audio buffer. Can load/save files again
+(takes multiple voices into account).
+
+Added "darray_forall()". Code looks neater. I use a few nested functions.
+I hope I won't have to convert it to standard C!
+
+Trying out event binding system for mouse motion.
+
+Wed Jul 14 10:34:49 PDT 2004
+
+The 4pole lpf seems unstable when the cutoff is lowered quickly to zero.
+
+Wed Jul 14 00:36:39 PDT 2004
+
+Wrote "diffy", a digital filter toy. Place zeros and poles using a mouse
+and observe the positive frequency response.
+
+Copied code from blop for a lowpass 4 pole filter.
+
+Bug: notes don't die when they should. My current code is wrong, need to
+rethink how to handle note life.
+
+Mon Jul 12 01:41:25 PDT 2004
+
+Wrote noise generator based on one in blop.
+
+Sun Jul 11 13:40:33 PDT 2004
+
+Voices work, but now the interface needs to be tidied up.
+
+Sat Jul 10 13:26:56 PDT 2004
+
+Code cleanup, some speedups. Started adding voices to instruments.
+For now, have to disable load, save, render.
+
+Sun Jul  4 11:31:56 PDT 2004
+
+Trying out new layout.
+
 Thu Jul  1 10:27:25 PDT 2004
 
 Fixed a couple of bugs: ins->maxport wasn't being initialized correctly,
@@ -9,15 +88,11 @@ Wed Jun 30 14:06:55 PDT 2004
 
 Can record to a single track.
 
-...
-
 Can "render" single track as WAV. (Writes to "bliss.wav" for now.)
 
 Wed Jun 30 01:13:00 PDT 2004
 
 Save and load works, though error checking is desperately needed.
-
-...
 
 Hacked together a routine that lets the user play notes using the keyboard.
 
@@ -58,8 +133,6 @@ generator yet, because it can be emulated with ADSR. (Set A,D,R = 0, S = 1.)
 Delay is troublesome. I tried coding "for all units, for all notes, calculate",
 rather than "for all notes, for all units, calculate", but it's much slower.
 It's also a hassle to mix and match units which calculate outputs differently.
-
-...
 
 GUI is taking a lot of CPU. Speeded things up immensely by only updating when
 necessary. Code is a lot messier though.

@@ -20,6 +20,7 @@ enum {
     c_darkunit,
     c_edge,
     c_darkedge,
+    c_led,
     c_max
 };
 
