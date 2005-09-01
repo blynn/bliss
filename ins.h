@@ -29,6 +29,6 @@ void ins_clear(ins_ptr ins);
 double ins_tick(ins_ptr ins);
 void ins_note_on(ins_ptr ins, int noteno, double volume);
 void ins_note_off(ins_ptr ins, int noteno);
-node_ptr add_voice(char *id, ins_ptr ins, int x, int y);
-node_ptr add_ins_unit(char *id, uentry_ptr u, ins_ptr ins, int x, int y);
+node_ptr ins_add_voice(ins_ptr ins, char *id, int x, int y);
+node_ptr ins_add_unit(ins_ptr ins, char *id, uentry_ptr u, int x, int y);
 #endif //INS_H

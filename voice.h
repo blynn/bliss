@@ -24,8 +24,7 @@ typedef struct voice_s voice_t[1];
 typedef struct voice_s *voice_ptr;
 
 enum {
-    node_type_normal = 0,
-    node_type_funk,
+    node_type_unit = 0,
     node_type_voice,
     node_type_ins,
 };
@@ -64,7 +63,6 @@ void voice_note_off(voice_t voice, int noteno);
 
 void set_param(node_ptr node, int n, double val);
 int no_of_param(node_ptr node, char *id);
-void set_param_by_id(node_ptr node, char *id, double val);
 void set_funk_program(node_ptr node, char *s);
 int node_type(node_ptr node);
 char *get_funk_program(node_ptr node);
@@ -76,7 +74,7 @@ static inline voice_ptr node_get_voice(node_ptr node)
     return p->voice;
 }
 
-node_ptr add_voice_unit(char *id, uentry_ptr u, voice_ptr voice, int x, int y);
+node_ptr voice_add_unit(voice_ptr voice, char *id, uentry_ptr u, int x, int y);
 void node_self_clear(node_ptr node);
 
 edge_ptr add_edge(graph_ptr g, node_ptr src, node_ptr dst, int port);

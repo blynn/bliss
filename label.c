@@ -13,6 +13,11 @@ void label_init(label_ptr l, widget_ptr parent)
     l->w->update = label_update;
 }
 
+void label_clear(label_ptr l)
+{
+    widget_clear(l->w);
+}
+
 void label_put_text(label_ptr l, char *s)
 {
     l->text = s; //TODO: strclone it?

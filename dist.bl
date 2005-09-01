@@ -4,7 +4,7 @@ voice voice0 0 127 26 59 {
     unit out out 488 258
     unit freq dummy 17 177
     unit f0 funk2 105 285
-    setfn f0 1/x
+    set f0 function "1/x"
     unit delay0 delay 277 254
     unit noise0 noise 47 61
     unit seg0 seg 154 123
@@ -14,7 +14,7 @@ voice voice0 0 127 26 59 {
     set seg0 y1 1.000000
     unit 1zero0 onezero 328 421
     unit f1 funk2 99 389
-    setfn f1 -1
+    set f1 function "-1"
     connect freq f0 0
     connect f0 delay0 1
     connect delay0 out 0
@@ -28,13 +28,13 @@ voice voice0 0 127 26 59 {
     set clip0 min -0.100000
     set clip0 max 0.100000
     unit f2 funk2 266 28
-    setfn f2 x*10.0
+    set f2 function "x*10.0"
     unit f0 funk2 31 259
-    setfn f0 0.2
+    set f0 function "0.2"
     unit out out 444 168
     unit delay0 delay 257 314
     unit f1 funk2 383 314
-    setfn f1 x*0.3
+    set f1 function "x*0.3"
     connect f0 delay0 1
     connect delay0 f1 0
     connect voice0 clip0 0

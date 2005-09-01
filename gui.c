@@ -300,14 +300,14 @@ static void file_new()
     ins = ((node_data_ptr) n0->data)->ins;
     current_ins = ins;
 
-    n1 = add_ins_unit("out", out_uentry, ins, canvas->w - 100, canvas->h / 2);
+    n1 = ins_add_unit(ins, "out", out_uentry, canvas->w - 100, canvas->h / 2);
     ins->out = n1;
 
-    n0 = add_voice("voice0", ins, 5, canvas->h / 2);
+    n0 = ins_add_voice(ins, "voice0", 5, canvas->h / 2);
     voice = node_get_voice(n0);
 
-    voice->out = add_voice_unit("out", out_uentry, voice, canvas->w - 100, canvas->h / 2);
-    add_voice_unit("freq", utable_at("dummy"), voice, 5, canvas->h / 2);
+    voice->out = voice_add_unit(voice, "out", out_uentry, canvas->w - 100, canvas->h / 2);
+    voice_add_unit(voice, "freq", utable_at("dummy"), 5, canvas->h / 2);
 
     add_edge(ins->graph, n0, n1, 0);
 
@@ -962,7 +962,9 @@ int main(int argc, char **argv)
     signal(SIGINT, interrupt);
     signal(SIGTERM, interrupt);
 
+    param_type_init();
     utable_init();
+    file_init();
 
     widget_system_init();
 

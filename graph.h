@@ -4,7 +4,6 @@
 #include "darray.h"
 
 struct graph_s;
-typedef struct graph_s graph_t[1];
 typedef struct graph_s *graph_ptr;
 
 struct node_s {
@@ -34,6 +33,7 @@ struct graph_s {
     darray_t node_list;
     darray_t edge_list;
 };
+typedef struct graph_s graph_t[1];
 
 static inline int graph_node_count(graph_ptr g)
 {

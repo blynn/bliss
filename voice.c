@@ -190,7 +190,7 @@ static void del_node_cb(node_ptr node, void *data)
     int i = p->gen_index;
 
     //TODO: if it's a voice node then isn't it automatically a unit?
-    if (p->type == node_type_funk || p->type == node_type_normal) {
+    if (p->type == node_type_unit) {
 	gen_free(p->gen);
 	if (node != last_node) {
 	    node_data_ptr lndp = last_node->data;
@@ -210,18 +210,14 @@ node_ptr node_from_gen_info(graph_ptr graph, gen_info_t gi, char *id)
 
     g = gen_new(gi);
     p = malloc(sizeof(node_data_t));
-    if (!strncmp("funk", gi->id, 4)) {
-	p->type = node_type_funk;
-    } else {
-	p->type = node_type_normal;
-    }
+    p->type = node_type_unit;
     p->id = strclone(id);
     p->gen = g;
     p->output = 0.0;
     return graph_add_node(graph, p);
 }
 
-node_ptr add_voice_unit(char *id, uentry_ptr u, voice_ptr voice, int x, int y)
+node_ptr voice_add_unit(voice_ptr voice, char *id, uentry_ptr u, int x, int y)
 {
     node_ptr node = node_from_gen_info(voice->graph, u->info, id);
     node_data_ptr p = node->data;
@@ -282,14 +278,6 @@ edge_ptr voice_connect(voice_ptr voice, node_ptr src, node_ptr dst, int dstport)
     return graph_add_edge(voice->graph, src, dst, ip);
 }
 
-void set_param(node_ptr node, int n, double val)
-{
-    gen_ptr g = ((node_data_ptr) node->data)->gen;
-
-    g->param[n] = val;
-    g->info->param[n]->callback(g, val);
-}
-
 int no_of_param(node_ptr node, char *id)
 {
     int i;
@@ -303,44 +291,12 @@ int no_of_param(node_ptr node, char *id)
     return -1;
 }
 
-void set_param_by_id(node_ptr node, char *id, double val)
-{
-    int i;
-    i = no_of_param(node, id);
-    set_param(node, i, val);
-}
-
-void funk_clear_program(gen_ptr g);
-void funk_init_program(gen_ptr g, char *s);
-char *funk_get_program(gen_ptr g);
-
 int node_type(node_ptr node)
 {
     node_data_ptr inp;
 
     inp = (node_data_ptr) node->data;
     return inp->type;
-}
-
-char *get_funk_program(node_ptr node)
-{
-    gen_ptr g;
-    node_data_ptr inp;
-
-    inp = (node_data_ptr) node->data;
-    g = inp->gen;
-    return funk_get_program(g);
-}
-
-void set_funk_program(node_ptr node, char *s)
-{
-    gen_ptr g;
-    node_data_ptr inp;
-
-    inp = (node_data_ptr) node->data;
-    g = inp->gen;
-    funk_clear_program(g);
-    funk_init_program(g, s);
 }
 
 edge_ptr add_edge(graph_ptr g, node_ptr src, node_ptr dst, int port)

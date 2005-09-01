@@ -5,7 +5,7 @@ voice voice0 0 127 294 258 {
     unit out out 488 258
     unit freq dummy 17 177
     unit f0 funk2 105 285
-    setfn f0 1/x
+    set f0 function "1/x"
     unit delay0 delay 277 254
     unit noise0 noise 47 61
     unit seg0 seg 154 123
@@ -15,7 +15,7 @@ voice voice0 0 127 294 258 {
     set seg0 y1 1.000000
     unit 1zero0 onezero 328 421
     unit f1 funk2 99 389
-    setfn f1 -1
+    set f1 function "-1"
     connect freq f0 0
     connect f0 delay0 1
     connect delay0 out 0

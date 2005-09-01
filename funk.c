@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
 #include <math.h>
 
@@ -17,12 +15,12 @@ struct ftree_s {
 typedef struct ftree_s ftree_t[1];
 typedef struct ftree_s *ftree_ptr;
 
-void ftree_init(ftree_ptr f)
+static void ftree_init(ftree_ptr f)
 {
     darray_init(f->child);
 }
 
-ftree_ptr ftree_new()
+static ftree_ptr ftree_new()
 {
     ftree_ptr res;
     res = malloc(sizeof(ftree_t));
@@ -30,9 +28,11 @@ ftree_ptr ftree_new()
     return res;
 }
 
-void ftree_clear(ftree_ptr f)
+static void ftree_clear(ftree_ptr f)
 {
     int i;
+
+    if (!f) return;
 
     for (i=0; i<f->child->count; i++) {
 	ftree_clear(f->child->item[i]);
@@ -41,12 +41,12 @@ void ftree_clear(ftree_ptr f)
     darray_clear(f->child);
 }
 
-double ftree_eval(ftree_ptr f, double *port)
+static double ftree_eval(ftree_ptr f, double *port)
 {
     return f->eval(f, port);
 }
 
-double ft_sqrt(ftree_ptr f, double *port)
+static double ft_sqrt(ftree_ptr f, double *port)
 {
     ftree_ptr f0;
 
@@ -54,7 +54,7 @@ double ft_sqrt(ftree_ptr f, double *port)
     return sqrt(ftree_eval(f0, port));
 }
 
-double ft_unary(ftree_ptr f, double *port)
+static double ft_unary(ftree_ptr f, double *port)
 {
     ftree_ptr f0;
 
@@ -62,7 +62,7 @@ double ft_unary(ftree_ptr f, double *port)
     return -ftree_eval(f0, port);
 }
 
-double ft_pow(ftree_ptr f, double *port)
+static double ft_pow(ftree_ptr f, double *port)
 {
     ftree_ptr f0, f1;
 
@@ -71,7 +71,7 @@ double ft_pow(ftree_ptr f, double *port)
     return pow(ftree_eval(f0, port), ftree_eval(f1, port));
 }
 
-double ft_add(ftree_ptr f, double *port)
+static double ft_add(ftree_ptr f, double *port)
 {
     ftree_ptr f0, f1;
 
@@ -80,7 +80,7 @@ double ft_add(ftree_ptr f, double *port)
     return ftree_eval(f0, port) + ftree_eval(f1, port);
 }
 
-double ft_sub(ftree_ptr f, double *port)
+static double ft_sub(ftree_ptr f, double *port)
 {
     ftree_ptr f0, f1;
 
@@ -89,7 +89,7 @@ double ft_sub(ftree_ptr f, double *port)
     return ftree_eval(f0, port) - ftree_eval(f1, port);
 }
 
-double ft_mul(ftree_ptr f, double *port)
+static double ft_mul(ftree_ptr f, double *port)
 {
     ftree_ptr f0, f1;
 
@@ -98,7 +98,7 @@ double ft_mul(ftree_ptr f, double *port)
     return ftree_eval(f0, port) * ftree_eval(f1, port);
 }
 
-double ft_div(ftree_ptr f, double *port)
+static double ft_div(ftree_ptr f, double *port)
 {
     ftree_ptr f0, f1;
 
@@ -107,12 +107,12 @@ double ft_div(ftree_ptr f, double *port)
     return ftree_eval(f0, port) / ftree_eval(f1, port);
 }
 
-double ft_constant(ftree_ptr f, double *port)
+static double ft_constant(ftree_ptr f, double *port)
 {
     return f->d;
 }
 
-double ft_port(ftree_ptr f, double *port)
+static double ft_port(ftree_ptr f, double *port)
 {
     return port[f->i];
 }
@@ -144,10 +144,10 @@ struct {
     double d;
 } token;
 
-char *program;
-int program_i;
+static char *program;
+static int program_i;
 
-void get_number()
+static void get_number()
 {
     double d = 0.0;
     int afterdot = 0;
@@ -176,7 +176,7 @@ void get_number()
     token.d = d;
 }
 
-void get_id()
+static void get_id()
 {
     int i = 0;
     for (;;) {
@@ -189,7 +189,7 @@ void get_id()
     token.type = t_id;
 }
 
-void get_token()
+static void get_token()
 {
     while (isspace(program[program_i])) {
 	program_i++;
@@ -243,9 +243,10 @@ void get_token()
     }
 }
 
-ftree_ptr parse_expr();
+//TODO: move stuff around to make this unnecessary?
+static ftree_ptr parse_expr();
 
-void parse_arg(ftree_ptr f)
+static void parse_arg(ftree_ptr f)
 {
     if (token.type != t_lparen) {
 	printf("parse error: expected '('\n");
@@ -265,7 +266,7 @@ void parse_arg(ftree_ptr f)
     }
 }
 
-ftree_ptr parse_factor()
+static ftree_ptr parse_factor()
 {
     ftree_ptr res = NULL;
     switch(token.type) {
@@ -328,7 +329,7 @@ ftree_ptr parse_factor()
     }
 }
 
-ftree_ptr parse_term()
+static ftree_ptr parse_term()
 {
     ftree_ptr res;
     res = parse_factor();
@@ -346,7 +347,7 @@ ftree_ptr parse_term()
     return res;
 }
 
-ftree_ptr parse_expr()
+static ftree_ptr parse_expr()
 {
     ftree_ptr res;
     res = parse_term();
@@ -364,7 +365,7 @@ ftree_ptr parse_expr()
     return res;
 }
 
-ftree_ptr parse(char *s)
+static ftree_ptr parse(char *s)
 {
     program_i = 0;
     program = s;
@@ -373,19 +374,19 @@ ftree_ptr parse(char *s)
     //TODO: check it's the end of the string?
 }
 
-void *funk_note_on()
+static void *funk_note_on()
 {
     int *ip = (int *) malloc(sizeof(int));
     *ip = 0;
     return (void *) ip;
 }
 
-void funk_note_free(void *data)
+static void funk_note_free(void *data)
 {
     free(data);
 }
 
-double funk_tick(gen_t g, gen_data_ptr gd, double *value)
+static double funk_tick(gen_t g, gen_data_ptr gd, double *value)
 {
     double res;
     funk_data_ptr p;
@@ -398,42 +399,46 @@ double funk_tick(gen_t g, gen_data_ptr gd, double *value)
     return res;
 }
 
-void funk_clear_program(gen_ptr g)
+static void funk_clear_program(gen_ptr g)
 {
-    funk_data_ptr p;
-    p = (funk_data_ptr) g->data;
+    funk_data_ptr p = (funk_data_ptr) g->data;
     free(p->program);
     ftree_clear(p->root);
     free(p->root);
 }
 
-void funk_init_program(gen_ptr g, char *s)
+static void function_cb(gen_ptr g, void *data)
 {
-    funk_data_ptr p;
-    p = (funk_data_ptr) g->data;
+    char *s = data;
+    funk_data_ptr p = (funk_data_ptr) g->data;
+    funk_clear_program(g);
+    //TODO: still need to strclone?
     p->program = strclone(s);
     p->root = parse(s);
 }
 
-char *funk_get_program(gen_ptr g)
-{
-    funk_data_ptr p;
-    p = (funk_data_ptr) g->data;
-    return p->program;
-}
-
-void funk_init(gen_ptr g)
+static void funk_init(gen_ptr g)
 {
     g->data = malloc(sizeof(funk_data_t));
-    funk_init_program(g, "0.0");
+    funk_data_ptr p = g->data;
+    p->program = NULL;
+    p->root = NULL;
+    assign_string(g, 0, "0");
 }
 
-void funk_clear(gen_ptr g)
+static void funk_clear(gen_ptr g)
 {
+    funk_clear_program(g);
     free(g->data);
 }
 
-param_ptr funk_param_list[] = { NULL };
+static struct param_s p_f = {
+    "function",
+    param_string,
+    function_cb
+};
+
+static param_ptr funk_param_list[] = { &p_f };
 
 gen_info_ptr funk_info_n(int n)
 {
@@ -459,7 +464,7 @@ gen_info_ptr funk_info_n(int n)
     }
     port_list[i] = NULL;
     res->port_name = port_list;
-    res->param_count = 0;
+    res->param_count = 1;
     res->param = funk_param_list;
     return res;
 }

@@ -67,6 +67,8 @@ static double osc_tick(gen_t g, gen_data_ptr gd, double *value)
 static void osc_init(gen_ptr g)
 {
     g->data = malloc(sizeof(osc_data_t));
+    osc_data_ptr p = (osc_data_ptr) g->data;
+    p->oscfn = sinfn;
 }
 
 static void osc_clear(gen_ptr g)
@@ -74,11 +76,11 @@ static void osc_clear(gen_ptr g)
     free(g->data);
 }
 
-static void waveform_cb(gen_ptr g, double d)
+static void waveform_cb(gen_ptr g, void *data)
 {
+    double d = to_double(data);
     int n = (int) d;
-    osc_data_ptr p;
-    p = (osc_data_ptr) g->data;
+    osc_data_ptr p = (osc_data_ptr) g->data;
 
     switch(n) {
 	case 0:
@@ -98,7 +100,7 @@ static void waveform_cb(gen_ptr g, double d)
 
 static struct param_s param_waveform = {
     "waveform",
-    0,
+    param_double,
     waveform_cb
 };
 

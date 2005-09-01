@@ -1,14 +1,63 @@
 #include <stdio.h>
 #include <string.h>
 #include "file.h"
+#include "gen.h"
 #include "version.h"
 
+typedef void (*write_fn)(FILE *, void *);
+typedef void (*read_fn)(FILE *, gen_ptr g, int i);
+
+static write_fn write_param[param_count];
+static read_fn read_param[param_count];
+
+static void write_string(FILE *fp, void *data)
+{
+    fprintf(fp, "\"%s\"", (char *) data);
+}
+
+static void write_double(FILE *fp, void *data)
+{
+    fprintf(fp, "%f", *((double *) data));
+}
+
+static void read_double(FILE *fp, gen_ptr g, int i)
+{
+    double d;
+    fscanf(fp, "%lf", &d);
+    assign_double(g, i, d);
+}
+
+static void read_string(FILE *fp, gen_ptr g, int param)
+{
+    char s[80];
+    int i = 0, c;
+    for (;fgetc(fp) != '"';);
+    for (;;) {
+	c = fgetc(fp);
+	if (c == '"') break;
+	s[i] = c;
+	i++;
+    }
+    s[i] = 0;
+    assign_string(g, param, s);
+}
+
+void file_init()
+{
+    void set_fns(int type, write_fn fw, read_fn fr) {
+	write_param[type] = fw;
+	read_param[type] = fr;
+    }
+    set_fns(param_double, write_double, read_double);
+    set_fns(param_string, write_string, read_string);
+}
+
 //TODO: put this function somewhere
-static node_ptr node_with_id(graph_ptr g, char *id)
+static node_ptr node_with_id(graph_ptr graph, char *id)
 {
     int i;
-    for (i=0; i<g->node_list->count; i++) {
-	node_ptr node = (node_ptr) g->node_list->item[i];
+    for (i=0; i<graph->node_list->count; i++) {
+	node_ptr node = (node_ptr) graph->node_list->item[i];
 	node_data_ptr p = (node_data_ptr) node->data;
 	if (!strcmp(p->id, id)) {
 	    return node;
@@ -45,19 +94,15 @@ static void write_graph(FILE *fp, graph_ptr graph)
 	    ins_ptr ins;
 	    graph_ptr graph1;
 
-	    case node_type_normal:
-	    case node_type_funk:
+	    case node_type_unit:
 		g = p->gen;
 
 		fprintf(fp, "    unit %s %s ", p->id, g->info->id);
 		fprintf(fp, "%d %d\n", node->x, node->y);
-		if (p->type == node_type_funk) {
-		    fprintf(fp, "    setfn %s %s\n", p->id, get_funk_program(node));
-		} else if (p->type == node_type_normal) {
-		    for (j=0; j<g->info->param_count; j++) {
-			fprintf(fp, "    set %s %s %f\n", p->id,
-				g->info->param[j]->id, g->param[j]);
-		    }
+		for (j=0; j<g->info->param_count; j++) {
+		    fprintf(fp, "    set %s %s ", p->id, g->info->param[j]->id);
+		    write_param[g->info->param[j]->type](fp, g->param[j]);
+		    fprintf(fp, "\n");
 		}
 		break;
 	    case node_type_voice:
@@ -127,7 +172,7 @@ static ins_ptr current_ins;
 static orch_ptr current_orch;
 static voice_ptr current_voice;
 
-static void read_graph(FILE *fp, graph_ptr g, node_ptr *kludge)
+static void read_graph(FILE *fp, graph_ptr graph, node_ptr *kludge)
 {
     char s[256];
     void read_word() {
@@ -179,9 +224,9 @@ static void read_graph(FILE *fp, graph_ptr g, node_ptr *kludge)
 	    y = atoi(s);
 
 	    if (current_type == t_ins) {
-		v = add_ins_unit(id, u, current_ins, x, y);
+		v = ins_add_unit(current_ins, id, u, x, y);
 	    } else { // current_type == t_voice
-		v = add_voice_unit(id, u, current_voice, x, y);
+		v = voice_add_unit(current_voice, id, u, x, y);
 	    }
 	    if (!strcmp(id, "out")) {
 		*kludge = v;
@@ -189,35 +234,34 @@ static void read_graph(FILE *fp, graph_ptr g, node_ptr *kludge)
 	    free(id);
 	} else if (!strcmp(s, "set")) {
 	    node_ptr v;
+	    node_data_ptr p;
+	    gen_ptr g;
 	    int param;
+
 	    read_word();
-	    v = node_with_id(g, s);
+	    v = node_with_id(graph, s);
 	    assert(v);
+	    p = v->data;
+	    assert(p->type == node_type_unit);
+	    g = p->gen;
 	    read_word();
 	    param = no_of_param(v, s);
 	    if (param < 0) {
 		printf("No such parameter: %s\n", s);
 		read_word();
 	    } else {
-		read_word();
-		set_param(v, param, atof(s));
+		read_param[g->info->param[param]->type](fp, g, param);
 	    }
-	} else if (!strcmp(s, "setfn")) {
-	    node_ptr v;
-	    read_word();
-	    v = node_with_id(g, s);
-	    read_word();
-	    set_funk_program(v, s);
 	} else if (!strcmp(s, "connect")) {
 	    node_ptr v0, v1;
 	    int port;
 	    read_word();
-	    v0 = node_with_id(g, s);
+	    v0 = node_with_id(graph, s);
 	    read_word();
-	    v1 = node_with_id(g, s);
+	    v1 = node_with_id(graph, s);
 	    read_word();
 	    port = atoi(s);
-	    add_edge(g, v0, v1, port);
+	    add_edge(graph, v0, v1, port);
 	} else if (!strcmp(s, "voice")) {
 	    char *id;
 	    int x, y;
@@ -237,7 +281,7 @@ static void read_graph(FILE *fp, graph_ptr g, node_ptr *kludge)
 	    read_word();
 	    y = atoi(s);
 
-	    v = add_voice(id, current_ins, x, y);
+	    v = ins_add_voice(current_ins, id, x, y);
 	    free(id);
 	    voice = node_get_voice(v);
 	    voice->notemin = min;
@@ -338,6 +382,7 @@ void file_load(char *filename, orch_ptr orch)
 	}
     }
 
+    printf("loading...\n");
     fp = fopen(filename, "rb");
     read_word();
     //TODO: check it's "bliss"
@@ -348,4 +393,5 @@ void file_load(char *filename, orch_ptr orch)
     current_orch = orch;
     read_graph(fp, orch->graph, NULL);
     fclose(fp);
+    printf("done\n");
 }

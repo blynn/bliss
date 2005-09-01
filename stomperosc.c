@@ -131,6 +131,7 @@ static double stomperosc_tick(gen_t g, gen_data_ptr gd, double *value)
 static void stomperosc_init(gen_ptr g)
 {
     g->data = malloc(sizeof(stomperosc_data_t));
+    assign_double(g, 1, 1.0); //set shape to 1.0
 }
 
 static void stomperosc_clear(gen_ptr g)
@@ -138,34 +139,34 @@ static void stomperosc_clear(gen_ptr g)
     free(g->data);
 }
 
-static void shape_cb(gen_ptr g, double d)
+static void shape_cb(gen_ptr g, void *data)
 {
     stomperosc_data_ptr p;
     p = (stomperosc_data_ptr) g->data;
-    p->exp = double_clip(d, 0.0, 100.0);
+    p->exp = double_clip(to_double(data), 0.0, 100.0);
     //Stomper acts strangely for square waves
     //turns 0 to 100 into the duty cycle
     //with 0-->0, 1-->0.5, 100-->1
     p->duty = pow(p->exp * 0.01, LOG2OVERLOG100);
 }
 
-static void noisefactor_cb(gen_ptr g, double d)
+static void noisefactor_cb(gen_ptr g, void *data)
 {
     stomperosc_data_ptr p;
     p = (stomperosc_data_ptr) g->data;
-    p->noisefactor = d;
+    p->noisefactor = to_double(data);
 }
 
-static void noisetype_cb(gen_ptr g, double d)
+static void noisetype_cb(gen_ptr g, void *data)
 {
     stomperosc_data_ptr p;
     p = (stomperosc_data_ptr) g->data;
-    p->noisetype = d;
+    p->noisetype = to_double(data);
 }
 
-static void waveform_cb(gen_ptr g, double d)
+static void waveform_cb(gen_ptr g, void *data)
 {
-    int n = (int) d;
+    int n = (int) to_double(data);
     stomperosc_data_ptr p;
     p = (stomperosc_data_ptr) g->data;
 
@@ -187,25 +188,25 @@ static void waveform_cb(gen_ptr g, double d)
 
 static struct param_s param_waveform = {
     "waveform",
-    0,
+    param_double,
     waveform_cb
 };
 
 static struct param_s param_shape = {
     "shape",
-    1.0,
+    param_double,
     shape_cb
 };
 
 static struct param_s param_noisefactor = {
     "noisefactor",
-    0.0,
+    param_double,
     noisefactor_cb
 };
 
 static struct param_s param_noisetype = {
     "noisetype",
-    0.0,
+    param_double,
     noisetype_cb
 };
 

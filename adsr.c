@@ -24,7 +24,7 @@ struct adsr_note_data_s {
 typedef struct adsr_note_data_s adsr_note_data_t[1];
 typedef struct adsr_note_data_s *adsr_note_data_ptr;
 
-void *adsr_note_on()
+static void *adsr_note_on()
 {
     adsr_note_data_ptr p;
     p = (adsr_note_data_ptr) malloc(sizeof(adsr_note_data_t));
@@ -35,12 +35,12 @@ void *adsr_note_on()
     return (void *) p;
 }
 
-void adsr_note_free(void *data)
+static void adsr_note_free(void *data)
 {
     free(data);
 }
 
-double adsr_tick(gen_t g, gen_data_ptr gen_data, double *value)
+static double adsr_tick(gen_t g, gen_data_ptr gen_data, double *value)
 {
     adsr_data_ptr gd = (adsr_data_ptr) g->data;
     adsr_note_data_ptr p = (adsr_note_data_ptr) gen_data->data;
@@ -68,68 +68,76 @@ double adsr_tick(gen_t g, gen_data_ptr gen_data, double *value)
     return p->level * value[0];
 }
 
-void adsr_init(gen_ptr g)
+static void adsr_init(gen_ptr g)
 {
     g->data = malloc(sizeof(adsr_data_t));
+    assign_double(g, 0, 0.1);
+    assign_double(g, 1, 0.5);
+    assign_double(g, 2, 0.6);
+    assign_double(g, 3, 0.1);
 }
 
-void adsr_clear(gen_ptr g)
+static void adsr_clear(gen_ptr g)
 {
     free(g->data);
 }
 
-void attack_cb(gen_ptr g, double val)
+static void attack_cb(gen_ptr g, void *data)
 {
+    double val = to_double(data);
     adsr_data_ptr p = (adsr_data_ptr) g->data;
     p->attack = val;
     p->attacktick = val * samprate;
 }
 
-void decay_cb(gen_ptr g, double val)
+static void decay_cb(gen_ptr g, void *data)
 {
+    double val = to_double(data);
     adsr_data_ptr p = (adsr_data_ptr) g->data;
     p->decay = val;
     p->dtick = val * samprate;
 }
 
-void sustain_cb(gen_ptr g, double val)
+static void sustain_cb(gen_ptr g, void *data)
 {
+    double val = to_double(data);
     adsr_data_ptr p = (adsr_data_ptr) g->data;
     p->sustain = val;
 }
 
-void release_cb(gen_ptr g, double val)
+static void release_cb(gen_ptr g, void *data)
 {
+    double val = to_double(data);
     adsr_data_ptr p = (adsr_data_ptr) g->data;
     p->rtick = val * samprate;
 }
 
-struct param_s param_a = {
+static struct param_s param_a = {
     "attack",
-    0.1,
+    param_double,
     attack_cb
 };
 
-struct param_s param_d = {
+static struct param_s param_d = {
     "decay",
-    0.5,
+    param_double,
     decay_cb
 };
 
-struct param_s param_s = {
+static struct param_s param_sus = {
     "sustain",
-    0.6,
+    param_double,
     sustain_cb
 };
 
-struct param_s param_r = {
+static struct param_s param_r = {
     "release",
-    0.1,
+    param_double,
     release_cb
 };
 
-char *adsr_port_list[] = { "input" };
-param_ptr adsr_param_list[] = { &param_a, &param_d, &param_s, &param_r };
+static char *adsr_port_list[] = { "input" };
+static param_ptr adsr_param_list[] = { &param_a, &param_d, &param_sus, &param_r };
 
 struct gen_info_s adsr_info = {
     "adsr",

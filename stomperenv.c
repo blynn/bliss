@@ -64,6 +64,9 @@ static double stomperenv_tick(gen_t g, gen_data_ptr gd, double *value)
 static void stomperenv_init(gen_ptr g)
 {
     g->data = malloc(sizeof(stomperenv_data_t));
+    assign_double(g, 1, 1.0);
+    assign_double(g, 2, 1.0);
+    assign_double(g, 4, 1.0);
 }
 
 static void stomperenv_clear(gen_ptr g)
@@ -71,67 +74,67 @@ static void stomperenv_clear(gen_ptr g)
     free(g->data);
 }
 
-static void t0_cb(gen_ptr g, double val)
+static void t0_cb(gen_ptr g, void *data)
 {
     stomperenv_data_ptr p = (stomperenv_data_ptr) g->data;
-    p->t0 = val * samprate;
+    p->t0 = to_double(data) * samprate;
     p->deltat = p->t1 - p->t0;
 }
 
-static void t1_cb(gen_ptr g, double val)
+static void t1_cb(gen_ptr g, void *data)
 {
     stomperenv_data_ptr p = (stomperenv_data_ptr) g->data;
-    p->t1 = val * samprate;
+    p->t1 = to_double(data) * samprate;
     p->deltat = p->t1 - p->t0;
 }
 
-static void y0_cb(gen_ptr g, double val)
+static void y0_cb(gen_ptr g, void *data)
 {
     stomperenv_data_ptr p = (stomperenv_data_ptr) g->data;
-    p->y0 = val;
+    p->y0 = to_double(data);
     p->deltay = p->y1 - p->y0;
 }
 
-static void y1_cb(gen_ptr g, double val)
+static void y1_cb(gen_ptr g, void *data)
 {
     stomperenv_data_ptr p = (stomperenv_data_ptr) g->data;
-    p->y1 = val;
+    p->y1 = to_double(data);
     p->deltay = p->y1 - p->y0;
 }
 
-static void shape_cb(gen_ptr g, double val)
+static void shape_cb(gen_ptr g, void *data)
 {
     stomperenv_data_ptr p = (stomperenv_data_ptr) g->data;
-    p->exp = val;
+    p->exp = to_double(data);
 }
 
 static struct param_s param_t0 = {
     "t0",
-    0.0,
+    param_double,
     t0_cb
 };
 
 static struct param_s param_y0 = {
     "y0",
-    1.0,
+    param_double,
     y0_cb
 };
 
 static struct param_s param_t1 = {
     "t1",
-    1.0,
+    param_double,
     t1_cb
 };
 
 static struct param_s param_y1 = {
     "y1",
-    0.0,
+    param_double,
     y1_cb
 };
 
 static struct param_s param_shape = {
     "curveshape",
-    1.0,
+    param_double,
     shape_cb
 };
 

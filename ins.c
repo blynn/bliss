@@ -71,7 +71,7 @@ void ins_clear(ins_ptr ins)
     track_clear(ins->track);
 }
 
-node_ptr add_ins_unit(char *id, uentry_ptr u, ins_ptr ins, int x, int y)
+node_ptr ins_add_unit(ins_ptr ins, char *id, uentry_ptr u, int x, int y)
 {
     node_ptr node = node_from_gen_info(ins->graph, u->info, id);
     node_data_ptr p = node->data;
@@ -89,7 +89,7 @@ node_ptr add_ins_unit(char *id, uentry_ptr u, ins_ptr ins, int x, int y)
     return node;
 }
 
-node_ptr add_voice(char *id, ins_ptr ins, int x, int y)
+node_ptr ins_add_voice(ins_ptr ins, char *id, int x, int y)
 {
     node_data_ptr p;
     voice_ptr voice;

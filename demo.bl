@@ -13,9 +13,9 @@ voice voice0 0 127 5 258 {
     unit out out 485 160
     unit lpf0 butterlpf 352 271
     unit f0 funk2 158 253
-    setfn f0 440
+    set f0 function "440"
     unit f1 funk2 222 389
-    setfn f1 0.707
+    set f1 function "0.707"
     connect freq osc0 0
     connect adsr0 out 0
     connect lpf0 adsr0 0

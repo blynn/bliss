@@ -68,7 +68,7 @@ static int node_inport_count(node_ptr node)
     int n = 0;
 
     //TODO: cumbersome. add inport count to node_data_ptr?
-    if (p->type == node_type_normal || p->type == node_type_funk) {
+    if (p->type == node_type_unit) {
 	n = p->gen->info->port_count;
     }
     return n;
@@ -344,10 +344,11 @@ static void canvas_handle_mousebuttondown(widget_ptr canvas, int button, int x, 
 		return;
 	    } else {
 		//change z-order
-		darray_remove_index(graph->node_list, i);
-		darray_append(graph->node_list, v);
-
-		canvas_select_node(canvas, v);
+		if (v != node_selection) {
+		    darray_remove_index(graph->node_list, i);
+		    darray_append(graph->node_list, v);
+		    canvas_select_node(canvas, v);
+		}
 		dragx = x;
 		dragy = y;
 		widget_bind_mouse_motion(canvas, drag_node, NULL);
@@ -394,7 +395,7 @@ static void canvas_update(widget_ptr canvas)
     widget_clip(canvas);
     widget_box_rect(canvas, c_canvas);
 
-    static void draw_edge(void *data)
+    void draw_edge(void *data)
     {
 	edge_ptr e = data;
 	int portno = *((int *) e->data);
@@ -450,7 +451,7 @@ static void canvas_update(widget_ptr canvas)
 	}
     }
 
-    static void draw_node(void *data)
+    void draw_node(void *data)
     {
 	int x0, x1, y0, y1;
 	node_ptr v = data;
@@ -578,7 +579,7 @@ static void place_ins(widget_ptr canvas, void *unused, int x, int y)
 
     v = orch_add_ins(orch, id, x, y);
     p = v->data;
-    p->ins->out = add_ins_unit("out", out_uentry, p->ins,
+    p->ins->out = ins_add_unit(p->ins, "out", out_uentry,
 	    canvas->w - 100, canvas->h / 2);
     canvas_select_node(canvas, v);
 }
@@ -602,11 +603,11 @@ static void place_voice(widget_ptr canvas, void *unused, int x, int y)
 	if (!node_with_id(graph, id)) break;
     }
 
-    v = add_voice(id, navthing, x, y);
+    v = ins_add_voice(navthing, id, x, y);
     p = v->data;
-    p->voice->out = add_voice_unit("out", out_uentry, p->voice,
+    p->voice->out = voice_add_unit(p->voice, "out", out_uentry,
 	    canvas->w - 100, canvas->h / 2);
-    add_voice_unit("freq", utable_at("dummy"), p->voice, 5, canvas->h / 2);
+    voice_add_unit(p->voice, "freq", utable_at("dummy"), 5, canvas->h / 2);
 }
 
 void canvas_place_voice_start(widget_ptr canvas)
@@ -628,9 +629,9 @@ static void place_unit(widget_ptr canvas, void *data, int x, int y)
 	if (!node_with_id(graph, id)) break;
     }
     if (navtype == nav_ins) {
-	v = add_ins_unit(id, u, navthing, x, y);
+	v = ins_add_unit(navthing, id, u, x, y);
     } else { //navtype == nav_voice
-	v = add_voice_unit(id, u, navthing, x, y);
+	v = voice_add_unit(navthing, id, u, x, y);
     }
 }
 

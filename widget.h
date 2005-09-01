@@ -17,7 +17,6 @@ typedef SDL_Rect rect_t[1];
 typedef SDL_Rect *rect_ptr;
 
 struct widget_s;
-typedef struct widget_s widget_t[1];
 typedef struct widget_s *widget_ptr;
 struct widget_s {
     int localx, localy;
@@ -30,6 +29,7 @@ struct widget_s {
     void (*update)(widget_ptr w);
     void (*put_size)(widget_ptr w, int x, int y);
 };
+typedef struct widget_s widget_t[1];
 
 typedef SDL_Surface image_t[1];
 typedef SDL_Surface *image_ptr;

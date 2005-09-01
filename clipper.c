@@ -29,6 +29,8 @@ double clipper_tick(gen_t g, gen_data_ptr gen_data, double *value)
 void clipper_init(gen_ptr g)
 {
     g->data = malloc(sizeof(clipper_data_t));
+    assign_double(g, 0, -1.0);
+    assign_double(g, 1, 1.0);
 }
 
 void clipper_clear(gen_ptr g)
@@ -36,27 +38,27 @@ void clipper_clear(gen_ptr g)
     free(g->data);
 }
 
-void min_cb(gen_ptr g, double val)
+void min_cb(gen_ptr g, void *data)
 {
     clipper_data_ptr p = (clipper_data_ptr) g->data;
-    p->min = val;
+    p->min = to_double(data);
 }
 
-void max_cb(gen_ptr g, double val)
+void max_cb(gen_ptr g, void *data)
 {
     clipper_data_ptr p = (clipper_data_ptr) g->data;
-    p->max = val;
+    p->max = to_double(data);
 }
 
 struct param_s param_min = {
     "min",
-    -1.0,
+    param_double,
     min_cb
 };
 
 struct param_s param_max = {
     "max",
-    1.0,
+    param_double,
     max_cb
 };
 

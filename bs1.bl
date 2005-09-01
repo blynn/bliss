@@ -1,0 +1,84 @@
+bliss 0.1.2
+voice voice0 0 60 294 259 {
+    unit out out 488 258
+    unit freq dummy 19 201
+    unit env0 stomperenv 33 244
+    set env0 t0 0.000000
+    set env0 y0 1.000000
+    set env0 t1 0.600000
+    set env0 y1 0.000000
+    set env0 curveshape 1.445000
+    unit env1 stomperenv 65 351
+    set env1 t0 0.000000
+    set env1 y0 2000.000000
+    set env1 t1 0.010000
+    set env1 y1 0.000000
+    set env1 curveshape 0.363000
+    unit env2 stomperenv 55 389
+    set env2 t0 0.000000
+    set env2 y0 1.000000
+    set env2 t1 0.010000
+    set env2 y1 0.000000
+    set env2 curveshape 7.943000
+    unit osc1 stomperosc 254 340
+    set osc1 waveform 0.000000
+    set osc1 shape 1.000000
+    set osc1 noisefactor 1.000000
+    set osc1 noisetype 0.000000
+    unit osc0 stomperosc 239 227
+    set osc0 waveform 0.000000
+    set osc0 shape 6.025600
+    set osc0 noisefactor 0.000000
+    set osc0 noisetype 0.000000
+    connect freq osc0 0
+    connect env0 osc0 1
+    connect osc0 out 0
+    connect osc1 out 0
+    connect env1 osc1 0
+    connect env2 osc1 1
+}
+voice voice1 61 127 293 345 {
+    unit out out 488 258
+    unit freq dummy 5 258
+    unit f0 funk2 78 153
+    set f0 function "130.81"
+    unit env0 stomperenv 48 330
+    set env0 t0 0.000000
+    set env0 y0 1.000000
+    set env0 t1 0.300000
+    set env0 y1 0.000000
+    set env0 curveshape 1.000000
+    unit lpf0 butterlpf 275 381
+    unit osc0 stomperosc 193 249
+    set osc0 waveform 1.000000
+    set osc0 shape 0.549500
+    set osc0 noisefactor 0.000000
+    set osc0 noisetype 0.000000
+    unit env2 stomperenv 63 425
+    set env2 t0 0.000000
+    set env2 y0 10.990000
+    set env2 t1 0.350000
+    set env2 y1 10.993000
+    set env2 curveshape 0.758000
+    unit clip0 clipper 352 225
+    set clip0 min -1.000000
+    set clip0 max 1.000000
+    unit f1 funk2 404 320
+    set f1 function "4*x"
+    unit env1 stomperenv 116 359
+    set env1 t0 0.000000
+    set env1 y0 9000.000000
+    set env1 t1 0.350000
+    set env1 y1 0.000000
+    set env1 curveshape 0.047000
+    connect f0 osc0 0
+    connect env0 osc0 1
+    connect osc0 lpf0 0
+    connect env1 lpf0 1
+    connect env2 lpf0 2
+    connect lpf0 clip0 0
+    connect clip0 f1 0
+    connect f1 out 0
+}
+track {
+}

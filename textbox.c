@@ -182,6 +182,11 @@ void textbox_init(textbox_ptr tb, widget_ptr parent)
     tb->active = 0;
 }
 
+void textbox_clear(textbox_ptr tb)
+{
+    widget_clear(tb->w);
+}
+
 textbox_ptr textbox_new(widget_ptr parent)
 {
     textbox_ptr res;

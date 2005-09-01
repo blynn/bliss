@@ -6,7 +6,107 @@
 #include "gen.h"
 #include "voice.h"
 
-static textbox_t auxtb;
+static node_ptr current_node;
+
+struct double_widget_s {
+    label_t l;
+    textbox_t tb;
+};
+typedef struct double_widget_s double_widget_t[1];
+typedef struct double_widget_s *double_widget_ptr;
+
+static void param_double_set(void *index, char *s)
+{
+    //TODO: pass g to this fn too?
+    gen_ptr g = ((node_data_ptr) current_node->data)->gen;
+    int i = (int) index;
+    double d;
+    sscanf(s, "%lf", &d);
+    assign_double(g, i, d);
+}
+
+static void param_string_set(void *index, char *s)
+{
+    //TODO: pass g to this fn too?
+    gen_ptr g = ((node_data_ptr) current_node->data)->gen;
+    int i = (int) index;
+    assign_string(g, i, s);
+}
+
+static int draw_double_init(void **ptr, widget_ptr w, int y0, gen_ptr g, int i)
+{
+    char s[80];
+    gen_info_ptr gi = g->info;
+    *ptr = malloc(sizeof(double_widget_t));
+    double_widget_ptr p = *ptr;
+    label_init(p->l, w);
+    textbox_init(p->tb, w);
+    p->l->w->localx = 5;
+    p->l->w->localy = y0 + 5;
+
+    label_put_text(p->l, gi->param[i]->id);
+    widget_show(p->l->w);
+
+    widget_put_geometry(p->tb->w, w->w / 2, y0, 80, 16);
+    sprintf(s, "%.3f", to_double(g->param[i]));
+    textbox_put_string(p->tb, s);
+    textbox_put_ok_callback(p->tb, param_double_set, (void *) i);
+    widget_show(p->tb->w);
+    return 20;
+}
+
+static void draw_double_clear(widget_ptr w, void *ptr)
+{
+    double_widget_ptr p = ptr;
+    label_clear(p->l);
+    textbox_clear(p->tb);
+    free(p);
+}
+
+static int draw_string_init(void **ptr, widget_ptr w, int y0, gen_ptr g, int i)
+{
+    char s[80];
+    gen_info_ptr gi = g->info;
+    *ptr = malloc(sizeof(double_widget_t));
+    double_widget_ptr p = *ptr;
+    label_init(p->l, w);
+    textbox_init(p->tb, w);
+    p->l->w->localx = 5;
+    p->l->w->localy = y0 + 5;
+
+    label_put_text(p->l, gi->param[i]->id);
+    widget_show(p->l->w);
+
+    widget_put_geometry(p->tb->w, 5, y0 + 20, w->w - 10, 16);
+    sprintf(s, "%s", ((char *) g->param[i]));
+    textbox_put_string(p->tb, s);
+    textbox_put_ok_callback(p->tb, param_string_set, (void *) i);
+    widget_show(p->tb->w);
+    return 40;
+}
+
+static void draw_string_clear(widget_ptr w, void *ptr)
+{
+    double_widget_ptr p = ptr;
+    label_clear(p->l);
+    textbox_clear(p->tb);
+    free(p);
+}
+
+static int (*draw_init[param_count])(void **ptr, widget_ptr w, int y0,
+	gen_ptr g, int i);
+static void (*draw_clear[param_count])(widget_ptr w, void *ptr);
+
+struct mem_entry_s {
+    void (*clear)(widget_ptr w, void *data);
+    void *data;
+};
+
+typedef struct mem_entry_s *mem_entry_ptr;
+typedef struct mem_entry_s mem_entry_t[1];
+
+static darray_t mempool;
+
 static textbox_ptr tbpool[10];
 static label_ptr lpool[10];
 static label_t auxid, auxname;
@@ -14,16 +114,12 @@ static button_t auxdelb, auxenterb;
 
 widget_t aux_rect;
 
-static node_ptr current_node;
-
 void aux_put_geometry(int x, int y, int w, int h)
 {
     aux_rect->w = w;
     aux_rect->localy = y;
     aux_rect->h = h;
     aux_rect->localx = x;
-
-    auxtb->w->w = aux_rect->w - 10;
 
     widget_put_location(auxdelb->w, 8 + 4 * (32 + 4 + 4),
 	    aux_rect->h - (32 + 4 + 4) - 28);
@@ -36,14 +132,6 @@ void aux_show_nothing()
     darray_remove_all(aux_rect->show_list);
     widget_update(aux_rect);
     request_update(aux_rect);
-}
-
-static void param_set(void *data, char *s)
-{
-    double d;
-    int i = (int) data;
-    sscanf(s, "%lf", &d);
-    set_param(current_node, i, d);
 }
 
 static void setnotemincb(void *data, char *s)
@@ -82,9 +170,19 @@ static void enterinscb(void *data)
 
 void aux_show_node(node_ptr node)
 {
+    int y0;
     int i, n;
     char s[80];
     gen_ptr g;
+    void clearit(void *data) {
+	mem_entry_ptr p = data;
+	p->clear(aux_rect, p->data);
+	free(p);
+    }
+
+    darray_forall(mempool, clearit);
+    darray_remove_all(mempool);
+
     current_node = node;
     node_data_ptr p = (node_data_ptr) node->data;
     label_ptr l;
@@ -95,34 +193,20 @@ void aux_show_node(node_ptr node)
     widget_string(aux_rect, 5, 5, p->id, c_text);
 
     switch (p->type) {
-	case node_type_funk:
-	    label_put_text(auxname, "Function:");
-	    widget_show(auxname->w);
-	    textbox_put_string(auxtb, get_funk_program(node));
-	    textbox_update(auxtb);
-	    widget_show(auxtb->w);
 
-	    b = auxdelb;
-	    widget_show(b->w);
-	    button_put_callback(b, delnodecb, NULL);
-	    break;
-	case node_type_normal:
+	case node_type_unit:
 	    label_put_text(auxname, p->gen->info->name);
 	    widget_show(auxname->w);
 	    g = p->gen;
 	    n = g->info->param_count;
+	    y0 = 20 + 5;
 	    for (i=0; i<n; i++) {
-		lpool[i]->w->localx = 5;
-		lpool[i]->w->localy = i * 20 + 20 + 5;
-		label_put_text(lpool[i], g->info->param[i]->id);
-		widget_show(lpool[i]->w);
-		widget_put_geometry(tbpool[i]->w,
-		    aux_rect->w / 2, i * 20 + 20,
-		    80, 16);
-		sprintf(s, "%.3f", g->param[i]);
-		textbox_put_string(tbpool[i], s);
-		textbox_put_ok_callback(tbpool[i], param_set, (void *) i);
-		widget_show(tbpool[i]->w);
+		mem_entry_ptr mep = malloc(sizeof(mem_entry_t));
+		int type = g->info->param[i]->type;
+		darray_append(mempool, mep);
+		mep->clear = draw_clear[type];
+		y0 += draw_init[type](&mep->data, aux_rect, y0, g, i);
+		//TODO: what if y0 > ymax?
 	    }
 
 	    b = auxdelb;
@@ -195,11 +279,6 @@ void aux_show_edge(edge_ptr c)
     request_update(aux_rect);
 }
 
-static void aux_parseprog(void *data, char *s)
-{
-    set_funk_program(current_node, s);
-}
-
 static void aux_rect_update(widget_ptr w)
 {
     widget_raised_background(w);
@@ -210,18 +289,19 @@ void aux_init(widget_ptr parent)
 {
     int i;
 
-    auxtb->ok_cb = aux_parseprog;
+    darray_init(mempool);
+
+    draw_init[param_double] = draw_double_init;
+    draw_clear[param_double] = draw_double_clear;
+    draw_init[param_string] = draw_string_init;
+    draw_clear[param_string] = draw_string_clear;
+
     for (i=0; i<10; i++) {
 	tbpool[i] = textbox_new(aux_rect);
 	lpool[i] = label_new(aux_rect);
     }
 
     widget_init(aux_rect, parent);
-    textbox_init(auxtb, aux_rect);
-    auxtb->w->localx = 5;
-    auxtb->w->localy = 30;
-    auxtb->w->w = aux_rect->w - 10;
-    auxtb->w->h = 16;
 
     label_init(auxid, aux_rect);
     //auxid->w->localx = 10;

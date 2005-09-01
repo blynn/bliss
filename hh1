@@ -1,0 +1,35 @@
+bliss 0.1.1
+voice voice0 0 127 294 258 {
+    unit out out 488 258
+    unit freq dummy 111 118
+    unit clip0 clipper 223 161
+    set clip0 min -1.000000
+    set clip0 max 1.000000
+    unit osc0 osc 84 257
+    set osc0 shape 0.000000
+    unit f0 funk2 33 210
+    setfn f0 11000
+    unit seg1 seg 349 305
+    set seg1 t0 0.020000
+    set seg1 y0 1.000000
+    set seg1 t1 0.120000
+    set seg1 y1 0.000000
+    unit seg0 seg 401 147
+    set seg0 t0 0.000000
+    set seg0 y0 4.000000
+    set seg0 t1 0.020000
+    set seg0 y1 1.000000
+    unit noise0 noise 1 385
+    unit f1 funk2 155 357
+    setfn f1 x*2.5
+    connect f0 osc0 0
+    connect clip0 seg0 0
+    connect clip0 seg1 0
+    connect f1 clip0 0
+    connect noise0 f1 0
+    connect seg1 out 0
+    connect seg0 out 0
+    connect osc0 clip0 0
+}
+track {
+}

@@ -1,4 +1,4 @@
-VERSION := 0.1.3
+VERSION := 0.1.4
 DEMOFILES := demo.bl shepard.bl stomper.bl pluck.bl dist.bl
 ALLFILES := *.bmp *.[ch] linux/*.[ch] win32/*.[ch] \
 	LICENSE README NEWS $(DEMOFILES) Makefile SConstruct

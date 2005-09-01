@@ -19,7 +19,7 @@ voice voice0 0 60 157 178 {
     set env1 y1 0.000000
     set env1 curveshape 7.943000
     unit f0 funk2 351 364
-    setfn f0 x*x1
+    set f0 function "x*x1"
     connect env0 osc0 0
     connect osc0 f0 0
     connect f0 out 0
@@ -45,7 +45,7 @@ voice voice1 61 62 153 223 {
     set env0 y1 80.000000
     set env0 curveshape 0.043000
     unit f0 funk2 133 234
-    setfn f0 8000.0
+    set f0 function "8000.0"
     unit osc1 stomperosc 297 270
     set osc1 waveform 0.000000
     set osc1 shape 1.000000
@@ -89,7 +89,7 @@ voice voice2 63 127 155 271 {
     unit out out 488 258
     unit freq dummy 5 258
     unit f0 funk2 74 195
-    setfn f0 011000.0
+    set f0 function "011000.0"
     unit env0 stomperenv 58 324
     set env0 t0 0.000000
     set env0 y0 1.000000

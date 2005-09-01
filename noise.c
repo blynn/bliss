@@ -9,9 +9,6 @@ static inline double randminus1to1()
     return rand() * (2.0 / (double) RAND_MAX) - 1.0;
 }
 
-typedef struct noise_data_s noise_data_t[1];
-typedef struct noise_data_s *noise_data_ptr;
-
 void *noise_note_on()
 {
     return NULL;

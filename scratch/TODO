@@ -1,0 +1,133 @@
+There are good free modular realtime softsynths out there,
+but I'm going to proceed anyway and make exactly what I want.
+
+PureData (pd) is a bit too fiddly and I don't like it's look-and-feel.
+
+Spiralsynthmodular doesn't name the ports and it's hard to work out what's going on.
+I also think it should more "Starcraft-like" in placement of
+the boxes: after selecting one, you should select where it goes on the
+canvas, otherwise it's annoying to move it around every time.
+
+I had a few other interface issues. I don't like having windows everywhere.
+
+I also like the idea of strong GUI separation.
+
+Could do a circular buffer, e.g. 128th note ends up overwriting 1st note.
+
+Or could have three inputs: freq, amp, noteoff. When a note is hit, a new
+note is created and freq and amp are set, ref_count is increased.
+Noteoff is set to 1 when the note is released, and amp set to zero. Lastly,
+ref_count is decreased so if no one else wants to keep the note alive it will
+die.
+
+Problem: maybe a control rate is a smart idea? This method seems
+awfully expensive, e.g. imagine having to calculate digital filter coefficients
+every time.
+
+
+Things to consider:
+
+slower control rate should computations become too expensive?
+pass more than just doubles around?
+params necessary? or should everything be a port
+should I just have an array of 88 notes per instrument?
+to_place mode: shouldn't be able to access menu? in fact, should only be
+	able to place/push cancel button?
+
+TODO:
+AddTimer not accurate enough?
+wavetable
+songs
+import from other programs
+rename gen to unit
+monosynths. i-synths? for any i?
+labels and things: implement function to make image out of given
+    string and set bounding box accordingly
+icon depiction on canvas
+constants
+mulitply
+change how freq works. don't like the code for it in ins.c
+more/less ports on funk
+
+Make a voice a special type of gen?
+
+have intsamprate so units like seg don't have to do double multiplication?
+compan could be much more efficient, e.g. only erase/redraw selection box and
+text, cache last mouseovered button so it know which one is pressed on mousedown
+etc.
+
+how do I get double buffered surfaces under X?
+
+use portmidi
+
+Use other buttons of mouse?
+rename button
+Record/play buttons need to be toggles?
+render stops 2s after all noteons. Better to do it after all notefrees.
+hotkeys
+clipper should have all ports?
+control points for edges
+
+"Rendering..." "Saving..." windows
+linesegs are hard to use. shouldn't kill note either. only envelopes should
+autoclip for params
+
+test: use keyboard as MIDI
+
+hover text on all buttons
+adjustable latency
+'scope
+
+need more audio locks? e.g. removing edges, nodes, adding edges.
+
+get rid of navbar? at least the up button? when nothing is selected, should
+print voice/ins(/orch) info
+
+bulletproof parsing
+push_keydown shouldn't send widget responsible?
+
+don't compute when you don't have to e.g. voices always tick
+
+create node_data.h?
+
+do builtins properly!
+
+basename maker function
+
+rename aux to sidebar?
+
+"Place voice" text doesn't appear until mouse is over canvas
+
+move non-GUI functions from gui.c to bliss.c
+
+move x,y coords of node into node_data?
+
+fix indenting in save files
+
+shouldn't be able to switch instruments while recording. or at least save
+the instrument first.
+
+different types of ins/voice?
+
+don't make orch global? or at least appear to everyone? rewrite so can
+have multiple orches open
+
+audio locking mess. When exactly do I have to lock what? I want to move
+playback code to bliss.c
+
+have bliss_init() (inits utable?
+
+void unit_set_param(node_ptr node, int n, void *data)
+{
+    gen_ptr g = ((node_data_ptr) node->data)->gen;
+
+    g->param[n] = data;
+    g->info->param[n]->callback(g, data);
+}
+
+rename param_count -> param_type_count
+
+add one level of indirection to param_string to avoid pointer passing?
+
+green play light.
+Need to update stomper_env and stomper_osc.

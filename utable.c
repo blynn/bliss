@@ -1,6 +1,4 @@
 #include "button.h"
-#include "textbox.h"
-#include "label.h"
 #include "voice.h"
 
 #include "utable.h"
@@ -46,9 +44,6 @@ extern gen_info_t delay_info;
 
 gen_info_ptr funk_info_table[8];
 extern gen_info_ptr funk_info_n(int);
-
-static textbox_ptr tbpool[10];
-static label_ptr lpool[10];
 
 static void standard_control(widget_ptr w, node_ptr node)
 {

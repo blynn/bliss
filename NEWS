@@ -1,3 +1,29 @@
+Thu Sep  1 03:55:23 PDT 2005
+
+Rearranged some lines so it compiles with gcc4. I was declaring
+typedef struct foo_s foo_t[1]; before defining struct foo_s;
+
+Mon Jun 27 10:36:05 PDT 2005
+
+Fixed stomperenv.c, stomperosc.c, clipper.c. Converted *.bl files
+to new format.
+
+Mon Jun 27 04:31:35 PDT 2005
+
+Had from_double and from_string in file.c instead of assign_double and
+assign_string, causing files to load incorrectly. Updated seg.c so it
+works with new param_s struct.
+
+Wed Apr  6 15:49:25 PDT 2005
+
+Done with generalizations. Requires a lot of callback functions but I think
+it's worth it in the long run.
+
+Wed Apr  6 04:12:38 PDT 2005
+
+Started generalizing parameters so they can more than just doubles. Also
+gets rid of the node_type_funk hack everywhere.
+
 Tue Apr  5 14:58:45 PDT 2005
 
 Modified play_thread() to allow for variations in SDL's timer functions,
