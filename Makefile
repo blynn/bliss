@@ -11,11 +11,11 @@ CC := i586-mingw32msvc-gcc
 CFLAGS=-O2 -pipe -Wall -I /home/ben/cross/SDL/include/SDL -mwindows
 SDL_LIBS=-L /home/ben/cross/SDL/lib -lmingw32 -lSDLmain -lSDL
 else
-CC := gcc-3.4
+CC := gcc
 CFLAGS := -O2 -pipe -Wall -ffast-math -fomit-frame-pointer `sdl-config --cflags`
 SDL_LIBS:=`sdl-config --libs`
 endif
-LIBS := $(SDL_LIBS)
+LIBS := $(SDL_LIBS) -lm -lpthread
 
 .PHONY: target dist clean
 

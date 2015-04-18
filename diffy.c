@@ -463,10 +463,7 @@ static void init_libs(void)
 
 int main(int argc, char **argv)
 {
-    static void interrupt(int i)
-    {
-	interrupted = 1;
-    }
+    void interrupt(int i) { interrupted = 1; }
     signal(SIGINT, interrupt);
     signal(SIGTERM, interrupt);
 
